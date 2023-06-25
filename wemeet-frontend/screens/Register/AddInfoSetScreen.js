@@ -1,5 +1,6 @@
 import { SafeAreaView, Button, View, Text } from "react-native";
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddInfoSetScreen = ({ navigation }) => {
   //취미 및 관심사 - 모달 구현
