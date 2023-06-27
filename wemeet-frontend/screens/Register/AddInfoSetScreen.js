@@ -1,6 +1,7 @@
 import { SafeAreaView, Button, View, Text } from "react-native";
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CommonActions } from "@react-navigation/native";
 
 const AddInfoSetScreen = ({ navigation }) => {
   //취미 및 관심사 - 모달 구현
@@ -17,7 +18,12 @@ const AddInfoSetScreen = ({ navigation }) => {
       <Button
         title={"다음"}
         onPress={() => {
-          navigation.replace("Main");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Main" }],
+            })
+          );
         }}
       ></Button>
     </SafeAreaView>

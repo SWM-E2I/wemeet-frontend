@@ -4,11 +4,7 @@ import React, { useEffect } from "react";
 //분기 로직 수정 필요
 const InitialScreen = ({ navigation }) => {
   useEffect(() => {
-    console.log("initial screen mount");
     navigation.replace("Terms");
-    return () => {
-      console.log("initial screen unmount");
-    };
   }, []);
   return (
     <SafeAreaView

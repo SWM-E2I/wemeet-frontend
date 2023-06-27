@@ -1,5 +1,6 @@
 import { SafeAreaView, Button, View, Text } from "react-native";
 import React, { useState } from "react";
+import { CommonActions } from "@react-navigation/native";
 
 const UnivSetScreen = ({ navigation }) => {
   //추후 대학 소속 변경은 불가능해요. 정확하게 입력해주세요.
@@ -21,7 +22,12 @@ const UnivSetScreen = ({ navigation }) => {
         title={"회원 가입 완료"}
         color={"pink"}
         onPress={() => {
-          navigation.replace("UnivAuth");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "UnivAuth" }],
+            })
+          );
         }}
       ></Button>
     </SafeAreaView>

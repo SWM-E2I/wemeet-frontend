@@ -1,32 +1,50 @@
-import { TextInput, Button, SafeAreaView, View, Text } from "react-native";
+import {
+  TextInput,
+  Button,
+  SafeAreaView,
+  View,
+  Text,
+  Alert,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setBasicInfo } from "../../redux/registerSlice.js";
 
+const MALE = "M";
+const FEMALE = "F";
+const DEFAULT_MBTI = "0000";
+
 const BasicInfoSetScreen = ({ navigation }) => {
-  const phoneNum = useSelector((state) => {
-    //폰 인증 페이지에서 넘어온 핸드폰 번호
+  const phoneNumber = useSelector((state) => {
     return state.register.basic_info.phone_number;
-  });
-  const basicInfo = useSelector((state) => {
-    //console.log용도
-    return state.register.basic_info;
   });
   const dispatch = useDispatch();
   const [nickName, setNickName] = useState("");
-  const [gender, setGender] = useState("");
-  const [mbti, setMbti] = useState("");
+  const [gender, setGender] = useState(MALE);
+  const [mbti, setMbti] = useState(DEFAULT_MBTI);
+  //다 선택해야 넘어갈 수 있게 구현
+  //클릭시 색깔 바뀌도록 (구별되도록) 구현 -> 초기값 (남성, "",)
 
   const onNext = () => {
     //' 다음 ' 버튼 클릭시
     dispatch(
       setBasicInfo({
-        phone_number: phoneNum,
+        phone_number: phoneNumber,
         nickname: nickName,
         gender: gender,
         mbti: mbti,
       })
     );
+    console.log(basicInfo);
+  };
+
+  const checkDone = () => {
+    //입력한 내용 띄워주고 확인 누르면 넘어갈 수 있게 구현하기
+    if (nickName.length <= 0) {
+      Alert.alert("닉네임을 한 글자 이상 입력해주세요.");
+    } else {
+      Alert.alert("입력하신 정보가 맞는지 확인해주세요. 진행하시겠습니까?");
+    }
   };
 
   return (
@@ -46,8 +64,18 @@ const BasicInfoSetScreen = ({ navigation }) => {
           justifyContent: "space-evenly",
         }}
       >
-        <Button title={"남성"} color={"pink"} onPress={() => {}}></Button>
-        <Button title={"여성"} color={"pink"}></Button>
+        <Button
+          title={"남성"}
+          color={gender === MALE ? "pink" : "gray"}
+          onPress={() => {
+            setGender("M");
+          }}
+        ></Button>
+        <Button
+          title={"여성"}
+          color={gender === FEMALE ? "pink" : "gray"}
+          onPress={() => setGender("F")}
+        ></Button>
       </View>
       <Text>닉네임*</Text>
       <TextInput
@@ -56,7 +84,7 @@ const BasicInfoSetScreen = ({ navigation }) => {
         }}
         value={nickName}
         placeholder="Enter Your NickName..."
-        style={{ borderWidth: 0.5, margin: 10, padding: 5 }}
+        style={{ borderWidth: 0.5, margin: 10, padding: 5, borderRadius: 10 }}
       />
       <Text>MBTI*</Text>
       <View
@@ -66,7 +94,7 @@ const BasicInfoSetScreen = ({ navigation }) => {
           justifyContent: "flex-start",
         }}
       >
-        <Button title={"E"} color={"pink"}></Button>
+        <Button title={"E"} color={"pink"} onPress={() => {}}></Button>
         <Button title={"S"} color={"pink"}></Button>
         <Button title={"T"} color={"pink"}></Button>
         <Button title={"P"} color={"pink"}></Button>
@@ -89,6 +117,7 @@ const BasicInfoSetScreen = ({ navigation }) => {
         color={"black"}
         onPress={() => {
           onNext();
+          checkDone();
           navigation.navigate("Pref");
         }}
       ></Button>
