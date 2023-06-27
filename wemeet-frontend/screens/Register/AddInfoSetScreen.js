@@ -17,7 +17,7 @@ const AddInfoSetScreen = ({ navigation }) => {
       <Button
         title={"다음"}
         onPress={() => {
-          navigation.navigate("Main");
+          navigation.replace("Main");
         }}
       ></Button>
     </SafeAreaView>

@@ -12,44 +12,62 @@ import UnivAuthScreen from "./screens/UnivAuthScreen.js";
 import PhotoSetScreen from "./screens/PhotoSetScreen.js";
 import AddInfoSetScreen from "./screens/Register/AddInfoSetScreen.js";
 import MainScreen from "./screens/MainScreen.js";
+import { Provider } from "react-redux";
+import {
+  setBasicInfo,
+  setPrefInfo,
+  setUnivInfo,
+} from "./redux/registerSlice.js";
+import store from "./redux/store.js";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  console.log(setBasicInfo);
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Initial"
-        screenOptions={{ headerShown: true }}
-      >
-        <Stack.Screen
-          name="Initial"
-          component={InitialScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
-        <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
-        <Stack.Screen
-          name="Basic"
-          component={BasicInfoSetScreen}
-          options={{}}
-        />
-        <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />
-        <Stack.Screen name="UnivSet" component={UnivSetScreen} options={{}} />
-        <Stack.Screen name="UnivAuth" component={UnivAuthScreen} options={{}} />
-        <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} />
-        <Stack.Screen
-          name="AddInfoSet"
-          component={AddInfoSetScreen}
-          options={{}}
-        />
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Initial"
+          screenOptions={{ headerShown: true }}
+        >
+          <Stack.Screen
+            name="Initial"
+            component={InitialScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
+          <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
+          <Stack.Screen
+            name="Basic"
+            component={BasicInfoSetScreen}
+            options={{}}
+          />
+          <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />
+          <Stack.Screen name="UnivSet" component={UnivSetScreen} options={{}} />
+          <Stack.Screen
+            name="UnivAuth"
+            component={UnivAuthScreen}
+            options={{}}
+          />
+          <Stack.Screen
+            name="PhotoSet"
+            component={PhotoSetScreen}
+            options={{}}
+          />
+          <Stack.Screen
+            name="AddInfoSet"
+            component={AddInfoSetScreen}
+            options={{}}
+          />
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

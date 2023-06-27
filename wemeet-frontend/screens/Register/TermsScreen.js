@@ -35,13 +35,18 @@ const TermsScreen = ({ navigation }) => {
     >
       <Text>{title}</Text>
       <Text>{subtitle}</Text>
-      <Checkbox
+      <Checkbox.Item
         status={allChecked ? "checked" : "unchecked"}
+        label={s_all}
+        position={"leading"}
+        mode={"android"}
         onPress={handleAllCheckboxToggle}
       />
-      <Text>{s_all}</Text>
-      <Checkbox
+      <Checkbox.Item
         status={checked[0] ? "checked" : "unchecked"}
+        label={s_age}
+        position={"leading"}
+        mode={"android"}
         onPress={() => {
           if (allChecked && checked[0]) setAllChecked(false);
           else if (
@@ -52,9 +57,11 @@ const TermsScreen = ({ navigation }) => {
           setChecked([!checked[0], checked[1], checked[2], checked[3]]);
         }}
       />
-      <Text>{s_age}</Text>
-      <Checkbox
+      <Checkbox.Item
         status={checked[1] ? "checked" : "unchecked"}
+        label={s_terms}
+        position={"leading"}
+        mode={"android"}
         onPress={() => {
           if (allChecked && checked[1]) setAllChecked(false);
           else if (
@@ -65,9 +72,11 @@ const TermsScreen = ({ navigation }) => {
           setChecked([checked[0], !checked[1], checked[2], checked[3]]);
         }}
       />
-      <Text>{s_terms}</Text>
-      <Checkbox
+      <Checkbox.Item
         status={checked[2] ? "checked" : "unchecked"}
+        label={s_privacy}
+        position={"leading"}
+        mode={"android"}
         onPress={() => {
           if (allChecked && checked[2]) setAllChecked(false);
           else if (
@@ -78,9 +87,11 @@ const TermsScreen = ({ navigation }) => {
           setChecked([checked[0], checked[1], !checked[2], checked[3]]);
         }}
       />
-      <Text>{s_privacy}</Text>
-      <Checkbox
+      <Checkbox.Item
         status={checked[3] ? "checked" : "unchecked"}
+        label={s_info}
+        position={"leading"}
+        mode={"android"}
         onPress={() => {
           if (allChecked && checked[3]) setAllChecked(false);
           else if (
@@ -91,7 +102,6 @@ const TermsScreen = ({ navigation }) => {
           setChecked([checked[0], checked[1], checked[2], !checked[3]]);
         }}
       />
-      <Text>{s_info}</Text>
       <Button
         title={"다음"}
         onPress={toNext}

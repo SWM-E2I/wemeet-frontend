@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 const InitialScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("initial screen mount");
-    navigation.navigate("Terms");
+    navigation.replace("Terms");
     return () => {
       console.log("initial screen unmount");
     };
