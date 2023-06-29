@@ -6,10 +6,56 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setPrefInfo } from "../../redux/registerSlice.js";
+/*
+C001 : 모두가 활발한 인싸 분위기
+C002 : 술게임 좋아요
+C003 : 친구 만나고 싶어요
+C004 : 설레고 싶어요
+C005 : 상관 없어요
+*/
 const PrefSetScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const [drinking, setDrinking] = useState(2);
+  const defaultMeetingType = {
+    C001: false,
+    C002: false,
+    C003: false,
+    C004: false,
+    C005: true,
+  };
+  const [meetingType, setMeetingType] = useState(defaultMeetingType); //multiple select 구현, 마지막에 구현하기
+  const [startAdmissionYear, setStartAdmissionYear] = useState("");
+  const [endAdmissionYear, setEndAdmissionYear] = useState("");
+  const [sameCollege, setSameCollege] = useState(2);
+  const [prefMbti, setPrefMbti] = useState("ESTP");
+  const onMeetingPressed = (code) => {
+    //코드 수정필요!!!
+    if (!meetingType[code]) {
+      //false -> true
+      if (code == "C005") {
+        setMeetingType(defaultMeetingType);
+      } else {
+        let tmpMeetingType = meetingType;
+        tmpMeetingType[code] = true;
+        tmpMeetingType.C005 = false;
+        setMeetingType({ ...tmpMeetingType });
+        console.log(tmpMeetingType);
+      }
+    } else if (code != "C005") {
+      //클릭 취소인데 다 취소된경우 (C005를 True로 바꿔줘야함!!)
+      //true -> false
+      // let tmpMeetingType = meetingType;
+      // tmpMeetingType[code] = false;
+      // setMeetingType({ ...tmpMeetingType });
+      // let codeList = ['C001', 'C002', 'C003', 'C004'];
+      // for (var i =0; i<4; i++){
+      //   if (codeList[i] != code && meetingType.codeList[i])
+      // }
+    }
+  };
   return (
     <SafeAreaView
       style={{
@@ -20,15 +66,63 @@ const PrefSetScreen = ({ navigation }) => {
       <ScrollView>
         <Text>선호 상대에 대해 알려주세요</Text>
         <Text>술자리 여부*</Text>
-        <Button title={"술자리 괜찮아요"} color={"pink"} />
-        <Button title={"술 없이도 즐거워요"} color={"pink"} />
-        <Button title={"상관없어요"} color={"pink"} />
+        <Button
+          title={"술자리 괜찮아요"}
+          color={drinking == 0 ? "pink" : "gray"}
+          onPress={() => {
+            setDrinking(0);
+          }}
+        />
+        <Button
+          title={"술 없이도 즐거워요"}
+          color={drinking == 1 ? "pink" : "gray"}
+          onPress={() => {
+            setDrinking(1);
+          }}
+        />
+        <Button
+          title={"상관없어요"}
+          color={drinking == 2 ? "pink" : "gray"}
+          onPress={() => {
+            setDrinking(2);
+          }}
+        />
         <Text>선호하는 만남 특징*</Text>
-        <Button title={"모두가 활발한 인싸 분위기"} color={"pink"} />
-        <Button title={"술게임 좋아요"} color={"pink"} />
-        <Button title={"친구 만나고 싶어요"} color={"pink"} />
-        <Button title={"설레고 싶어요"} color={"pink"} />
-        <Button title={"상관없어요"} color={"pink"} />
+        <Button
+          title={"모두가 활발한 인싸 분위기"}
+          color={meetingType.C001 ? "pink" : "gray"}
+          onPress={() => {
+            onMeetingPressed("C001");
+          }}
+        />
+        <Button
+          title={"술게임 좋아요"}
+          color={meetingType.C002 ? "pink" : "gray"}
+          onPress={() => {
+            onMeetingPressed("C002");
+          }}
+        />
+        <Button
+          title={"친구 만나고 싶어요"}
+          color={meetingType.C003 ? "pink" : "gray"}
+          onPress={() => {
+            onMeetingPressed("C003");
+          }}
+        />
+        <Button
+          title={"설레고 싶어요"}
+          color={meetingType.C004 ? "pink" : "gray"}
+          onPress={() => {
+            onMeetingPressed("C004");
+          }}
+        />
+        <Button
+          title={"상관없어요"}
+          color={meetingType.C005 ? "pink" : "gray"}
+          onPress={() => {
+            onMeetingPressed("C005");
+          }}
+        />
         <Text>선호하는 학번*</Text>
         {/* 선호하는 학번 -> range로 구현!! */}
         <TextInput />

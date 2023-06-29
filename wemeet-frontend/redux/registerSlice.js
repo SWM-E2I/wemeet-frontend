@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialRegisterState = {
-  basic_info: { phone_number: "", nickname: "", gender: "", mbti: "" },
+  phone_number: "",
+  basic_info: { nickname: "", gender: "", mbti: "" },
   pref_info: {
+    preference_meeting_type: "",
     start_preference_admission_year: "",
     end_preference_admission_year: "",
     same_college_state: null,
@@ -19,6 +21,9 @@ const registerSlice = createSlice({
   name: "registerSlice",
   initialState: initialRegisterState,
   reducers: {
+    setPhoneNum: (state, action) => {
+      state.phone_number = action.payload;
+    },
     setBasicInfo: (state, action) => {
       state.basic_info = action.payload;
     },
@@ -32,4 +37,5 @@ const registerSlice = createSlice({
 });
 
 export default registerSlice;
-export const { setBasicInfo, setPrefInfo, setUnivInfo } = registerSlice.actions;
+export const { setPhoneNum, setBasicInfo, setPrefInfo, setUnivInfo } =
+  registerSlice.actions;

@@ -23,7 +23,6 @@ import store from "./redux/store.js";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  console.log(setBasicInfo);
   return (
     <Provider store={store}>
       <NavigationContainer>
