@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 //분기 로직 수정 필요
 const InitialScreen = ({ navigation }) => {
   useEffect(() => {
-    navigation.replace("Terms");
+    // navigation.replace("Terms");
+    navigation.navigate("UnivSet"); //개발용, 임시
   }, []);
   return (
     <SafeAreaView>

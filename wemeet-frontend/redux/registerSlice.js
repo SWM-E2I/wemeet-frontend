@@ -4,7 +4,7 @@ const initialRegisterState = {
   phone_number: "",
   basic_info: { nickname: "", gender: "", mbti: "" },
   pref_info: {
-    preference_meeting_type: "",
+    preference_meeting_type: null, //meeting type : 객체 형태로 전달
     start_preference_admission_year: "",
     end_preference_admission_year: "",
     same_college_state: null,
