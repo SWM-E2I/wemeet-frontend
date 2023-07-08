@@ -2,7 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialRegisterState = {
   phone_number: "",
-  basic_info: { nickname: "", gender: "", mbti: "" },
+  basic_info: {
+    nickname: "",
+    gender: "",
+    mbti: "",
+    hobby: null,
+    intro: null,
+  },
   pref_info: {
     preference_meeting_type: null, //meeting type : 객체 형태로 전달
     start_preference_admission_year: "",

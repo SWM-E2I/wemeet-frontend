@@ -23,7 +23,9 @@ const BasicInfoSetScreen = ({ navigation }) => {
   const [gender, setGender] = useState(MALE);
   const [mbti, setMbti] = useState(DEFAULT_MBTI);
   //다 선택해야 넘어갈 수 있게 구현
-  //클릭시 색깔 바뀌도록 (구별되도록) 구현 -> 초기값 (남성, "",)
+  const [intro, setIntro] = useState("");
+  const [recommendCode, setRecommendCode] = useState("");
+  //if .length ==0 => null로 바꿔서 보내기!!
 
   const onMbtiClick = (chr, idx) => {
     const tmpMbti = mbti === "0000" ? DEFAULT_MBTI : mbti;
@@ -54,7 +56,9 @@ const BasicInfoSetScreen = ({ navigation }) => {
         "입력하신 정보를 확인해주세요",
         `닉네임 : ${nickName}\n성별 : ${
           gender === "MALE" ? "남성" : "여성"
-        }\nMBTI : ${mbti === "0000" ? "상관없어요" : mbti}`,
+        }\nMBTI : ${mbti === "0000" ? "상관없어요" : mbti}\n자기소개 : ${
+          intro.length > 0 ? intro : "미입력"
+        }`,
         [
           {
             text: "다시 입력",
@@ -68,6 +72,8 @@ const BasicInfoSetScreen = ({ navigation }) => {
                   nickname: nickName,
                   gender: gender,
                   mbti: mbti === "0000" ? "NOTHING" : mbti,
+                  hobby: null, //MVP이전까지는 null
+                  intro: intro.length > 0 ? intro : null,
                 })
               );
               navigation.navigate("Pref");
@@ -209,7 +215,54 @@ const BasicInfoSetScreen = ({ navigation }) => {
           }}
         ></Button>
       </View>
-      <Button title={"다음"} color={"black"} onPress={onNext}></Button>
+
+      <Text>자기소개</Text>
+      <TextInput
+        onChangeText={(text) => {
+          setIntro(text);
+        }}
+        value={intro}
+        placeholder="자신을 소개해주세요"
+        // maxLength={10}
+        // inputMode={"text"}
+        style={{
+          height: 100,
+          width: 200,
+          borderWidth: 0.5,
+          margin: 10,
+          padding: 5,
+          borderRadius: 10,
+          textAlign: "left",
+        }}
+      />
+      <Text>추천인 코드</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TextInput
+          onChangeText={(text) => {
+            setRecommendCode(text);
+          }}
+          value={recommendCode}
+          placeholder="추천인 코드"
+          // maxLength={10}
+          // inputMode={"text"}
+          style={{
+            height: 35,
+            width: 150,
+            borderWidth: 0.5,
+            margin: 10,
+            padding: 5,
+            borderRadius: 10,
+          }}
+        />
+        <Button
+          title={"등록하기"}
+          color={"pink"}
+          onPress={() => {
+            Alert.alert("추천인 등록 API 전송..");
+          }}
+        ></Button>
+      </View>
+      <Button title={"다음"} color={"pink"} onPress={onNext}></Button>
     </SafeAreaView>
   );
 };

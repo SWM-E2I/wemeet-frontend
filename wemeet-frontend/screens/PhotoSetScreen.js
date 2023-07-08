@@ -1,17 +1,53 @@
-import { SafeAreaView, Button, View, Text } from "react-native";
-import React, { useEffect } from "react";
+import { SafeAreaView, Button, View, Text, Image, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
+import { CommonActions } from "@react-navigation/native";
 
 const PhotoSetScreen = ({ navigation }) => {
+  const [profileImg, setProfileImg] = useState(null);
+  const [subImg, setSubImg] = useState(null);
+  const [granted, setGranted] = useState(false);
+  const getPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "사진 라이브러리 접근 불가",
+        "설정>we-meet에서 사진 권한을 설정해주세요."
+      );
+      //iOS인경우 : wemeet어플 설정에서>사진>권한 부여 필요하다고 전달
+      setGranted(false);
+      return false;
+    }
+    setGranted(true);
+    return true;
+  };
+  const pickImageAsync = async (type) => {
+    if (!granted) {
+      Alert.alert(
+        "사진 라이브러리 접근 불가",
+        "설정>we-meet에서 사진 권한을 설정해주세요."
+      );
+      return;
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      //option finetune필요
+      allowsEditing: true,
+      quality: 1,
+      // aspect: [4, 3], ->
+    });
+    if (!result.canceled && type == 0) {
+      setProfileImg(result.assets[0].uri);
+    } else if (!result.canceled && type == 1) {
+      setSubImg(result.assets[0].uri);
+    } else {
+      console.log("사진을 선택하지 않음");
+    }
+  };
   useEffect(() => {
-    (async () => {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("카메라 롤에 접근하기 위한 권한이 필요합니다!");
-      }
-    })();
+    getPermission();
   }, []);
+  console.log("프로필", profileImg);
+  console.log("추가", subImg);
   return (
     <SafeAreaView
       style={{
@@ -21,11 +57,64 @@ const PhotoSetScreen = ({ navigation }) => {
       }}
     >
       <Text>본인 사진을 등록해주세요 (대표사진 1장, 추가사진 1장)</Text>
+      {granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>}
+      <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-around",
+        }}
+      >
+        {profileImg && (
+          <Image
+            source={{ uri: profileImg }}
+            style={{ width: 150, height: 150 }}
+          ></Image>
+        )}
+        {subImg && (
+          <Image
+            source={{ uri: subImg }}
+            style={{ width: 150, height: 150 }}
+          ></Image>
+        )}
+      </View>
+
       <Button
-        title={"다음"}
+        title="대표사진 업로드"
+        onPress={() => {
+          pickImageAsync(0);
+        }}
+        color={"pink"}
+      />
+
+      <Button
+        theme="primary"
+        title="추가사진 업로드"
+        onPress={() => {
+          pickImageAsync(1);
+        }}
+        color={"pink"}
+      />
+      <Button
+        title={"사진 등록하기"}
         onPress={() => {
           navigation.navigate("AddInfoSet");
+          //사진 업로드 API주기
         }}
+        color={"pink"}
+      ></Button>
+      <Button
+        title={"건너뛰기"}
+        onPress={() => {
+          //사진 업로드 API주기
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Main" }],
+            })
+          );
+        }}
+        color={"pink"}
       ></Button>
     </SafeAreaView>
   );

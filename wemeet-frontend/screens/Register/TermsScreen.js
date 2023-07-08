@@ -1,7 +1,8 @@
 import { Button, View, Text, SafeAreaView } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Checkbox } from "react-native-paper";
 import { Alert } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 const TermsScreen = ({ navigation }) => {
   const [allChecked, setAllChecked] = useState(false);
@@ -14,7 +15,6 @@ const TermsScreen = ({ navigation }) => {
     }
     setAllChecked(!allChecked);
   };
-
   const title = "서비스 이용을 위한 동의 안내";
   const subtitle = "여러분의 개인정보와 서비스 이용 권리 잘 지켜 드릴게요.";
   const s_all = "서비스 이용을 위해 아래 약관에 모두 동의합니다.";
@@ -26,7 +26,7 @@ const TermsScreen = ({ navigation }) => {
     if (allChecked) {
       navigation.navigate("Auth");
     } else {
-      Alert.alert("모두 동의하세용");
+      Alert.alert("모두 동의해야 서비스 이용이 가능합니다.");
     }
   };
   return (

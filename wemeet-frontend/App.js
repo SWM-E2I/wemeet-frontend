@@ -1,80 +1,30 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import InitialScreen from "./screens/InitialScreen.js";
-import TermsScreen from "./screens/Register/TermsScreen.js";
-import BasicInfoSetScreen from "./screens/Register/BasicInfoSetScreen.js";
-import AuthScreen from "./screens/AuthScreen.js";
-import PrefSetScreen from "./screens/Register/PrefSetScreen.js";
-import UnivSetScreen from "./screens/Register/UnivSetScreen.js";
-import UnivAuthScreen from "./screens/UnivAuthScreen.js";
-import PhotoSetScreen from "./screens/PhotoSetScreen.js";
-import AddInfoSetScreen from "./screens/Register/AddInfoSetScreen.js";
-import MainScreen from "./screens/MainScreen.js";
 import { Provider } from "react-redux";
-import {
-  setBasicInfo,
-  setPrefInfo,
-  setUnivInfo,
-} from "./redux/registerSlice.js";
 import store from "./redux/store.js";
+import * as SecureStore from "expo-secure-store";
+import { RegisterStackNavigation } from "./navigations/StackNavigation.js";
+import MainScreen from "./screens/MainScreen.js";
 
-const Stack = createNativeStackNavigator();
-
+// const Stack = createNativeStackNavigator();
+async function checkPersist(setPersist) {
+  let result = await SecureStore.getItemAsync("refreshToken");
+  if (result) setPersist(true);
+  else setPersist(false);
+  console.log("app.js > persist? : ", result);
+  //여기에 refresh로직 및
+}
 export default function App() {
+  const [persist, setPersist] = useState(false); //persist check
+  useEffect(() => {
+    checkPersist(setPersist);
+  }, []);
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Initial"
-          screenOptions={{ headerShown: true }}
-        >
-          <Stack.Screen
-            name="Initial"
-            component={InitialScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
-          <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
-          <Stack.Screen
-            name="Basic"
-            component={BasicInfoSetScreen}
-            options={{}}
-          />
-          <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />
-          <Stack.Screen name="UnivSet" component={UnivSetScreen} options={{}} />
-          <Stack.Screen
-            name="UnivAuth"
-            component={UnivAuthScreen}
-            options={{}}
-          />
-          <Stack.Screen
-            name="PhotoSet"
-            component={PhotoSetScreen}
-            options={{}}
-          />
-          <Stack.Screen
-            name="AddInfoSet"
-            component={AddInfoSetScreen}
-            options={{}}
-          />
-          <Stack.Screen
-            name="Main"
-            component={MainScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+        {persist ? <MainScreen /> : <RegisterStackNavigation />}
       </NavigationContainer>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
