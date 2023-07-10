@@ -77,10 +77,10 @@ export const phoneVrfIssueApi = async (
 //axios로 부터 받은 응답의 header에 들어있는 accesstoken값을 expo secure store에 저장하는 함수
 const storeAccessToken = async (response) => {
   try {
-    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
+    await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
     await SecureStore.setItemAsync(
       "refreshToken",
-      response.headers.refreshtoken
+      response.headers.RefreshToken
     );
     console.log("accessToken, refreshToken 저장완료");
   } catch (err) {

@@ -22,6 +22,29 @@ const initialRegisterState = {
   },
   univ_info: { college: "", major: "", admission_year: "" },
 }; //회원가입시 필요한 필수정보 state
+// const initialRegisterState = // RequestBody Data
+// {
+// 	"nickname" : String,
+// 	"gender" : String, // "MALE" or "FEMALE"
+// 	"phoneNumber": String, // "+8210********"
+// 	"collegeInfo": {
+// 		"college": String,
+// 		"collegeType": String,
+// 		"admissionYear" : String
+// 	},
+// 	"preference" : {
+// 		"startPreferenceAdmissionYear": String,
+// 		"endPreferenceAdmissionYear" : String,
+// 		"sameCollegeState" : String,
+// 		"drinkingOption": String,
+// 		"isAvoidedFriends" : Boolean,
+// 		"preferenceMbti": String
+// 	},
+// 	"preferenceMeetingTypeList" : String[],
+// 	"mbti": String,
+// 	"introduction" : String, // nullable
+// 	"memberInterestList" : String[] // nullable
+// }
 
 const registerSlice = createSlice({
   name: "registerSlice",
