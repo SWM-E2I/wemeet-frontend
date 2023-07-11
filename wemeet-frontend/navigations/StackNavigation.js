@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import InitialScreen from "../screens/Register/TermsScreen.js";
 import TermsScreen from "../screens/Register/TermsScreen.js";
 import BasicInfoSetScreen from "../screens/Register/BasicInfoSetScreen.js";
 import AuthScreen from "../screens/AuthScreen.js";
@@ -11,17 +10,13 @@ import MainScreen from "../screens/MainScreen.js";
 
 const Stack = createNativeStackNavigator();
 
-export const RegisterStackNavigation = () => {
+export const RegisterStackNavigation = ({ persistType }) => {
+  console.log("stackscreen :", persistType);
   return (
     <Stack.Navigator
-      initialRouteName="Initial"
+      initialRouteName={persistType === 1 ? "Auth" : "Terms"}
       screenOptions={{ headerShown: true }}
     >
-      <Stack.Screen
-        name="Initial"
-        component={InitialScreen}
-        options={{ headerShown: false }}
-      />
       <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
       <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />
