@@ -7,16 +7,17 @@ import UnivSetScreen from "../screens/Register/UnivSetScreen.js";
 import UnivAuthScreen from "../screens/UnivAuthScreen.js";
 import PhotoSetScreen from "../screens/PhotoSetScreen.js";
 import MainScreen from "../screens/MainScreen.js";
+import InitialScreen from "../screens/Register/InitialScreen.js";
 
 const Stack = createNativeStackNavigator();
 
-export const RegisterStackNavigation = ({ persistType }) => {
-  console.log("stackscreen :", persistType);
+export const RegisterStackNavigation = () => {
   return (
     <Stack.Navigator
-      initialRouteName={persistType === 1 ? "Auth" : "Terms"}
-      screenOptions={{ headerShown: true }}
+      initialRouteName={"Initial"}
+      screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="Initial" component={InitialScreen} options={{}} />
       <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
       <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />
