@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
@@ -50,11 +50,14 @@ export default function App() {
           <>{persistType ? <MainScreen /> : <RegisterStackNavigation />}</>
         ) : (
           //splash Screen 필요!
-          <View
+          <SafeAreaView
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <Text>초기 로딩 페이지 (스플래시 구현) </Text>
-          </View>
+            <Image
+              style={{ flex: 1 }}
+              source={require("./assets/images/splash.png")}
+            />
+          </SafeAreaView>
         )}
       </NavigationContainer>
     </Provider>
