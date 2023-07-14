@@ -10,6 +10,7 @@ import MainScreen from "../screens/MainScreen.js";
 import InitialScreen from "../screens/Register/InitialScreen.js";
 import NameScreen from "../screens/Auth/NameScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
+import VerifyScreen from "../screens/Auth/VerifyScreen.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,11 +20,13 @@ export const RegisterStackNavigation = () => {
       initialRouteName={"Initial"}
       screenOptions={{
         headerShown: false,
+        animation: "fade",
       }}
     >
       <Stack.Screen name="Initial" component={InitialScreen} options={{}} />
       <Stack.Screen name="Name" component={NameScreen} options={{}} />
       <Stack.Screen name="PhoneNum" component={PhoneNumScreen} options={{}} />
+      <Stack.Screen name="Verify" component={VerifyScreen} options={{}} />
       <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
       <Stack.Screen name="Auth" component={AuthScreen} options={{}} />
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />

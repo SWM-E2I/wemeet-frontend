@@ -23,7 +23,13 @@ const refresh = async () => {
       response.headers.RefreshToken
     );
     return accessToken;
-  } catch (err) {
+  } catch (error) {
+    if (error.response?.status === 401) {
+      //로그아웃 시키기
+      console.log("refresh token 만료");
+      await SecureStore.setItemAsync("accessToken", null);
+      await SecureStore.setItemAsync("refreshToken", null);
+    }
     console.log("token refresh 중 에러 발생");
     return null;
   }
@@ -51,7 +57,6 @@ axiosPrivate.interceptors.response.use(
     if (error.message === "Network Error" && !error.response) {
       print(error.config);
       console.log("Network Error");
-      return Promise.reject(error);
     } else if (error.response?.status === 401) {
       //토큰이 만료되었을 경우, refresh token을 이용해 access token을 재발급 받습니다.
       //그리고 이전에 요청한 페이지로 이동합니다.
@@ -61,10 +66,9 @@ axiosPrivate.interceptors.response.use(
       if (accessToken) {
         prevRequest.headers["AccessToken"] = accessToken;
         return axiosPrivate.request(error.config);
-      }
-      //refresh해도 이상하면 로그아웃시키기, 토큰만료여서 재 요청을 보냈는데도 계속해서 401에러가 나는 경우는 서버에서 핸들링? -> 논의해야할듯.
+      } else return Promise.reject("LOGOUT");
     } else {
-      console.log("그 외");
+      console.log("그 외 response error");
     }
     return Promise.reject(error);
   }

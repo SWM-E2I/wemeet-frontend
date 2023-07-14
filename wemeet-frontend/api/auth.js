@@ -128,22 +128,22 @@ export const phoneVrfValidateApi = async (
   //       setVrfCode("");
   //     }
   //   } catch (err) {
-  //     setVrfCode("");
-  //     Alert.alert("오류가 발생했습니다.", "잠시 후 다시 시도해주세요");
-  //     //예외처리
-  //     if (err.response) {
-  //       console.log(
-  //         "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
-  //       );
-  //       console.log(err.response.data);
-  //     } else if (err.request) {
-  //       console.log("요청이 이루어 졌으나 응답을 받지 못했습니다.");
-  //       console.log(err.request._response);
-  //     } else {
-  //       console.log(
-  //         "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
-  //         err.message
-  //       );
+  // setVrfCode("");
+  // Alert.alert("오류가 발생했습니다.", "잠시 후 다시 시도해주세요");
+  // //예외처리
+  // if (err.response) {
+  //   console.log(
+  //     "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
+  //   );
+  //   console.log(err.response.data);
+  // } else if (err.request) {
+  //   console.log("요청이 이루어 졌으나 응답을 받지 못했습니다.");
+  //   console.log(err.request._response);
+  // } else {
+  //   console.log(
+  //     "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
+  //     err.message
+  //   );
   //     }
   //   }
   //   return "ERROR";

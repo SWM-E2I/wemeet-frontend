@@ -7,13 +7,11 @@ import RegisterCreditView from "../../components/RegisterCreditView";
 
 const instruction = "너의\n이름을 알려줘";
 const NameScreen = ({ navigation }) => {
-  const nameRef = useRef();
+  //redux 전역 상태 변경하기!!
   const [name, setName] = useState("");
-  useEffect(() => {
-    nameRef.current.focus();
-  }, []);
   const onSubmit = () => {
     navigation.navigate("PhoneNum");
+    //한글자 이상, 예외처리하기
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
@@ -25,15 +23,15 @@ const NameScreen = ({ navigation }) => {
       <View style={{ alignItems: "center" }}>
         <View style={registerStyles.inputTextView}>
           <TextInput
-            ref={nameRef}
             onChangeText={(text) => {
               setName(text);
             }}
             onSubmitEditing={onSubmit}
             value={name}
             placeholder={"이름을 입력하세요"}
-            style={registerStyles.inputTextBox}
+            style={[registerStyles.inputTextBox, registerStyles.inputText]}
             maxLength={10}
+            autoFocus={true}
           />
         </View>
       </View>

@@ -6,7 +6,7 @@ const RegisterHeader = ({ navigation, back }) => {
   return (
     <View style={styles.container}>
       {back ? (
-        <TouchableOpacity onPress={navigation.goback}>
+        <TouchableOpacity onPress={navigation.goBack}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
       ) : null}

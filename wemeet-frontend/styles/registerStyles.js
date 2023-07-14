@@ -22,6 +22,9 @@ const registerStyles = StyleSheet.create({
     width: "85%",
     borderWidth: 0,
   },
+  inputText: {
+    fontSize: 22,
+  },
 });
 
 export default registerStyles;
