@@ -7,9 +7,14 @@ const RegisterAnimatedView = ({ label, text }) => {
   //label도 위에 띄워주기, disabled된 view들.
   return (
     <Animated.View
-      entering={FadeInUp.duration(700)}
+      entering={FadeInUp.duration(1200)}
       style={styles.animatedContainer}
     >
+      <View style={{ width: "100%" }}>
+        <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
+          {label}
+        </Text>
+      </View>
       <View
         style={[
           registerStyles.inputTextView,
@@ -30,8 +35,8 @@ const styles = StyleSheet.create({
   animatedContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
     width: "100%",
+    marginTop: 5,
   },
 });
 export default RegisterAnimatedView;

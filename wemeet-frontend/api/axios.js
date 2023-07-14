@@ -73,4 +73,4 @@ axiosPrivate.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-export { refresh, axiosPrivate };
+export { refresh, axiosDefault, axiosPrivate };

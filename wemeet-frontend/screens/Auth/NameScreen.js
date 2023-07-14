@@ -9,9 +9,10 @@ const instruction = "너의\n이름을 알려줘";
 const NameScreen = ({ navigation }) => {
   //redux 전역 상태 변경하기!!
   const [name, setName] = useState("");
+  const [warning, setWarning] = useState(null);
   const onSubmit = () => {
-    navigation.navigate("PhoneNum");
-    //한글자 이상, 예외처리하기
+    if (name.length < 1) setWarning("이름을 한 글자 이상 입력해주세요");
+    else navigation.navigate("PhoneNum", { name: name });
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
@@ -20,6 +21,9 @@ const NameScreen = ({ navigation }) => {
         <Text style={registerStyles.instText}>{instruction}</Text>
       </View>
       <RegisterCreditView currentCredit={5} />
+      <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
+        이름
+      </Text>
       <View style={{ alignItems: "center" }}>
         <View style={registerStyles.inputTextView}>
           <TextInput
@@ -32,9 +36,19 @@ const NameScreen = ({ navigation }) => {
             style={[registerStyles.inputTextBox, registerStyles.inputText]}
             maxLength={10}
             autoFocus={true}
+            // blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            returnKeyType={"next"}
           />
         </View>
       </View>
+      {name.length < 1 ? (
+        <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
+          {warning}
+        </Text>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };

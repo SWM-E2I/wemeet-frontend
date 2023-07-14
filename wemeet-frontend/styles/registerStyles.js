@@ -25,6 +25,16 @@ const registerStyles = StyleSheet.create({
   inputText: {
     fontSize: 22,
   },
+  warningText: {
+    fontSize: 12,
+    color: "red",
+    marginTop: 5,
+  },
+  labelText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
 });
 
 export default registerStyles;
