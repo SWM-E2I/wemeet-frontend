@@ -24,8 +24,16 @@ export const RegisterStackNavigation = () => {
       }}
     >
       <Stack.Screen name="Initial" component={InitialScreen} options={{}} />
-      <Stack.Screen name="Name" component={NameScreen} options={{}} />
-      <Stack.Screen name="PhoneNum" component={PhoneNumScreen} options={{}} />
+      <Stack.Screen
+        name="Name"
+        component={NameScreen}
+        options={{ keyboardHandlingEnabled: true }}
+      />
+      <Stack.Screen
+        name="PhoneNum"
+        component={PhoneNumScreen}
+        options={{ keyboardHandlingEnabled: true }}
+      />
       <Stack.Screen name="Verify" component={VerifyScreen} options={{}} />
       <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
       <Stack.Screen name="Auth" component={AuthScreen} options={{}} />

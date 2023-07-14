@@ -10,14 +10,14 @@ import RegisterAnimatedView from "../../components/RegisterAnimatedView";
 const instruction = "휴대폰 번호를\n알려줘";
 const PhoneNumScreen = ({ navigation }) => {
   const [phoneNum, setPhoneNum] = useState("");
-  const [data, setData] = useState(["임시닉네임"]);
+  const [data, setData] = useState(["닉네임"]);
   const onSubmit = () => {
     navigation.navigate("VerifyScreen");
   };
   useEffect(() => {
     setTimeout(() => {
-      setData([...data, "임심"]);
-    }, 3000);
+      setData([...data, "폰번호"]);
+    }, 2000);
   }, []);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
@@ -26,10 +26,15 @@ const PhoneNumScreen = ({ navigation }) => {
         <Text style={registerStyles.instText}>{instruction}</Text>
       </View>
       <RegisterCreditView currentCredit={5} />
-      <View style={{ flex: 1 }}>
-        {data.map((item, index) => (
-          <RegisterAnimatedView text={item} key={index} />
-        ))}
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={registerStyles.inputTextView}>
+          <TextInput
+            value={"01083761996"}
+            style={[registerStyles.inputTextBox, registerStyles.inputText]}
+            autoFocus
+          ></TextInput>
+        </View>
+        <RegisterAnimatedView text={"장세윤"} />
       </View>
     </SafeAreaView>
   );
