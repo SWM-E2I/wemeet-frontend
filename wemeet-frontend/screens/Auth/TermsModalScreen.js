@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const ChatScreen = () => {
+const TermsModalScreen = () => {
   return (
     <View>
-      <Text>ChatScreen</Text>
+      <Text>TermsModalScreen</Text>
     </View>
   );
 };
 
-export default ChatScreen;
+export default TermsModalScreen;

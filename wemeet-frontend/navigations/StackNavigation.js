@@ -10,6 +10,7 @@ import InitialScreen from "../screens/Register/InitialScreen.js";
 import NameScreen from "../screens/Auth/NameScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
 import VerifyScreen from "../screens/Auth/VerifyScreen.js";
+import TermsModalScreen from "../screens/Auth/TermsModalScreen.js";
 // import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,11 @@ export const RegisterStackNavigation = () => {
       <Stack.Screen name="Name" component={NameScreen} options={{}} />
       <Stack.Screen name="PhoneNum" component={PhoneNumScreen} options={{}} />
       <Stack.Screen name="Verify" component={VerifyScreen} options={{}} />
+      <Stack.Screen
+        name="TermsModal"
+        component={TermsModalScreen}
+        options={{ presentation: "modal" }}
+      />
       <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />
       <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />

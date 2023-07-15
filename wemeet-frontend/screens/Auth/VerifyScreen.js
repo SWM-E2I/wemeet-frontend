@@ -46,12 +46,13 @@ const VerifyScreen = ({ navigation, route }) => {
       } else {
         console.log("인증성공", res);
         let nextPage = res == "REGISTERED" ? "Main" : "Basic";
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: nextPage }],
-          })
-        );
+        navigation.navigate("TermsModal");
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 0,
+        //     routes: [{ name: nextPage }],
+        //   })
+        // );
       }
     }
   };
