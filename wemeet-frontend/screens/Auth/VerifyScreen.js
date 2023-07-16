@@ -35,10 +35,9 @@ const VerifyScreen = ({ navigation, route }) => {
     let result = await phoneVrfIssueApi(phone, controller, navigation);
     setLoading(false);
     if (result) {
-      setWarning(null);
-      navigation.navigate("Verify", { phone: phone });
+      setWarning("인증번호가 재전송되었습니다.");
     } else {
-      setWarning("오류가 발생했습니다. 다시 시도해주세요.");
+      setWarning("인증번호 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   const onSubmit = async () => {
@@ -55,14 +54,9 @@ const VerifyScreen = ({ navigation, route }) => {
         setWarning("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else {
         console.log("인증성공", res);
-        let nextPage = res == "REGISTERED" ? "Main" : "Basic";
-        navigation.navigate("TermsModal");
-        // navigation.dispatch(
-        //   CommonActions.reset({
-        //     index: 0,
-        //     routes: [{ name: nextPage }],
-        //   })
-        // );
+        setWarning(null);
+        let nextPage = res == "REGISTERED" ? "Main" : "Gender";
+        navigation.navigate("TermsModal", { next: nextPage });
       }
     }
     setTimer(null); //setting timer to null

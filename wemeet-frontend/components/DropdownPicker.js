@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 //https://www.npmjs.com/package/react-native-autocomplete-dropdown?activeTab=readme#options
+//아직 사용 X
 const univNameList = [
   "고려대학교(서울)",
   "고려대학교(세종)",

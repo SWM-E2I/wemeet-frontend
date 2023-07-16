@@ -1,5 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TermsScreen from "../screens/Register/TermsScreen.js";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BasicInfoSetScreen from "../screens/Register/BasicInfoSetScreen.js";
 import PrefSetScreen from "../screens/Register/PrefSetScreen.js";
 import UnivSetScreen from "../screens/Register/UnivSetScreen.js";
@@ -11,9 +10,13 @@ import NameScreen from "../screens/Auth/NameScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
 import VerifyScreen from "../screens/Auth/VerifyScreen.js";
 import TermsModalScreen from "../screens/Auth/TermsModalScreen.js";
-// import { createStackNavigator } from "@react-navigation/stack";
+import GenderScreen from "../screens/Register/GenderScreen.js";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 export const RegisterStackNavigation = () => {
   return (
     <Stack.Navigator
@@ -22,16 +25,19 @@ export const RegisterStackNavigation = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Initial" component={InitialScreen} options={{}} />
-      <Stack.Screen name="Name" component={NameScreen} options={{}} />
-      <Stack.Screen name="PhoneNum" component={PhoneNumScreen} options={{}} />
-      <Stack.Screen name="Verify" component={VerifyScreen} options={{}} />
+      <Stack.Screen name="Initial" component={InitialScreen} />
+      <Stack.Screen name="Name" component={NameScreen} />
+      <Stack.Screen name="PhoneNum" component={PhoneNumScreen} />
+      <Stack.Screen name="Verify" component={VerifyScreen} />
       <Stack.Screen
         name="TermsModal"
         component={TermsModalScreen}
-        options={{ presentation: "modal" }}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
       />
-      <Stack.Screen name="Terms" component={TermsScreen} options={{}} />
+      <Stack.Screen name="Gender" component={GenderScreen} options={{}} />
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />
       <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />
       <Stack.Screen name="UnivSet" component={UnivSetScreen} options={{}} />
