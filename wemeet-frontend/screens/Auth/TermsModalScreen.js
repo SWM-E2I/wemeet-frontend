@@ -1,11 +1,13 @@
-import { View, Text } from "react-native";
+import { SafeAreaView, View, Text } from "react-native";
 import React from "react";
 
-const TermsModalScreen = () => {
+const TermsModalScreen = ({ navigation }) => {
   return (
-    <View>
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+    >
       <Text>TermsModalScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

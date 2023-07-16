@@ -20,7 +20,19 @@ const registerStyles = StyleSheet.create({
   inputTextBox: {
     height: 55,
     width: "85%",
+    // width: "70%",
     borderWidth: 0,
+  },
+  codeInputTextBox: {
+    height: 55,
+    width: "70%",
+  },
+  inputTimerView: {
+    height: 55,
+    width: "20%",
+    borderWidth: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
   inputText: {
     fontSize: 22,

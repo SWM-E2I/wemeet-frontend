@@ -28,7 +28,18 @@ const VerifyScreen = ({ navigation, route }) => {
   const resend = async () => {
     //재전송 버튼 눌렀을 때
     setTimer(90);
-    await onSubmit();
+    setCode("");
+    console.log("인증번호 발송, 다음 화면으로 이동");
+    setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
+    setLoading(true);
+    let result = await phoneVrfIssueApi(phone, controller, navigation);
+    setLoading(false);
+    if (result) {
+      setWarning(null);
+      navigation.navigate("Verify", { phone: phone });
+    } else {
+      setWarning("오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
   const onSubmit = async () => {
     if (code.length < 6) setWarning("6자리 인증번호를 입력해주세요.");
@@ -42,7 +53,6 @@ const VerifyScreen = ({ navigation, route }) => {
       if (res == "ERROR") {
         setCode("");
         setWarning("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        navigation.goBack();
       } else {
         console.log("인증성공", res);
         let nextPage = res == "REGISTERED" ? "Main" : "Basic";
@@ -55,6 +65,7 @@ const VerifyScreen = ({ navigation, route }) => {
         // );
       }
     }
+    setTimer(null); //setting timer to null
   };
   useEffect(() => {
     if (timer === 0) {
@@ -70,7 +81,7 @@ const VerifyScreen = ({ navigation, route }) => {
         setTimer(timer - 1);
       }, 1000);
     }
-    console.log(timer);
+    console.log("timer value : ", timer);
     return () => clearTimeout(timeout);
   }, [timer]);
   useEffect(() => {
@@ -89,10 +100,10 @@ const VerifyScreen = ({ navigation, route }) => {
         인증번호
       </Text>
       <View style={{ flex: 1, alignItems: "center" }}>
-        <View style={registerStyles.inputTextView}>
+        <View style={[registerStyles.inputTextView, { flexDirection: "row" }]}>
           <TextInput
             value={code}
-            style={[registerStyles.inputTextBox, registerStyles.inputText]}
+            style={[registerStyles.codeInputTextBox, registerStyles.inputText]}
             onChangeText={(text) => {
               setCode(text);
             }}
@@ -106,6 +117,11 @@ const VerifyScreen = ({ navigation, route }) => {
             onSubmitEditing={onSubmit}
             editable={!loading}
           ></TextInput>
+          <View style={registerStyles.inputTimerView}>
+            <Text style={{ fontSize: 20, color: "gray" }}>
+              {timer ? `${Math.floor(timer / 60)} : ${timer % 60}` : null}
+            </Text>
+          </View>
         </View>
         <View style={{ width: "100%" }}>
           <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
