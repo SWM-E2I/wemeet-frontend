@@ -59,6 +59,7 @@ const TermsModalScreen = ({ navigation, route }) => {
           position={"leading"}
           mode={"android"}
           onPress={handleAllCheckboxToggle}
+          color={"black"}
         />
         <Checkbox.Item
           status={checked[0] ? "checked" : "unchecked"}
@@ -74,6 +75,7 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([!checked[0], checked[1], checked[2], checked[3]]);
           }}
+          color={"black"}
         />
         <Checkbox.Item
           status={checked[1] ? "checked" : "unchecked"}
@@ -89,6 +91,7 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], !checked[1], checked[2], checked[3]]);
           }}
+          color={"black"}
         />
         <Checkbox.Item
           status={checked[2] ? "checked" : "unchecked"}
@@ -104,6 +107,7 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], checked[1], !checked[2], checked[3]]);
           }}
+          color={"black"}
         />
         <Checkbox.Item
           status={checked[3] ? "checked" : "unchecked"}
@@ -119,6 +123,7 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], checked[1], checked[2], !checked[3]]);
           }}
+          color={"black"}
         />
         <NextButton
           text={"동의하고 진행하기"}

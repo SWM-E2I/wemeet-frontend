@@ -27,8 +27,8 @@ const VerifyScreen = ({ navigation, route }) => {
   const controller = new AbortController();
   const resend = async () => {
     //재전송 버튼 눌렀을 때
-    setTimer(90);
     setCode("");
+    setTimer(90);
     console.log("인증번호 발송, 다음 화면으로 이동");
     setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
     setLoading(true);
@@ -41,7 +41,10 @@ const VerifyScreen = ({ navigation, route }) => {
     }
   };
   const onSubmit = async () => {
-    if (code.length < 6) setWarning("6자리 인증번호를 입력해주세요.");
+    if (code.length < 6) {
+      setWarning("6자리 인증번호를 입력해주세요.");
+      setCode("");
+    }
     //인증번호 확인 API실행
     else {
       console.log("phoneVrfvalidateApi 실행");
@@ -88,8 +91,9 @@ const VerifyScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
+        <RegisterCreditView currentCredit={5} />
       </View>
-      <RegisterCreditView currentCredit={5} />
+
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         인증번호
       </Text>
@@ -123,7 +127,9 @@ const VerifyScreen = ({ navigation, route }) => {
           </Text>
         </View>
         <TouchableOpacity onPress={resend}>
-          <Text style={{ fontSize: 15, color: "gray" }}>임시 재전송 버튼</Text>
+          <Text style={{ fontSize: 15, color: "gray" }}>
+            인증번호 재전송 (임시)
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

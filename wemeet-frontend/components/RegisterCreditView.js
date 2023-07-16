@@ -17,7 +17,9 @@ const RegisterCreditView = ({ currentCredit }) => {
 const styles = StyleSheet.create({
   container: {
     height: 60,
-    alignItems: "flex-end",
+    // alignItems: "flex-end",
+    justifyContent: "flex-end",
+    // backgroundColor: "black",
   },
   box: {
     width: 90,

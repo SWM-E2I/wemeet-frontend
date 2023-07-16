@@ -25,7 +25,7 @@ const refresh = async () => {
     return accessToken;
   } catch (error) {
     if (error.response?.status === 401) {
-      //로그아웃 시키기
+      //로그아웃 시키기 -> 인증 페이지로 돌아가기
       console.log("refresh token 만료");
       await SecureStore.setItemAsync("accessToken", null);
       await SecureStore.setItemAsync("refreshToken", null);

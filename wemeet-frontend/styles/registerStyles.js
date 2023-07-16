@@ -3,10 +3,15 @@ import { StyleSheet } from "react-native";
 const registerStyles = StyleSheet.create({
   instContainer: {
     height: 85,
-    paddingLeft: 20,
+    // paddingLeft: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
   instText: {
-    fontSize: 25,
+    marginLeft: "8%",
+    fontSize: 30,
     color: "black",
   },
   inputTextView: {
@@ -46,6 +51,7 @@ const registerStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     marginBottom: 5,
+    marginLeft: "10%",
   },
 });
 

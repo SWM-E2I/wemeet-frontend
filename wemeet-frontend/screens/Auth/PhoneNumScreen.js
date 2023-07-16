@@ -47,11 +47,9 @@ const PhoneNumScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
+        <RegisterCreditView currentCredit={5} />
       </View>
-      <RegisterCreditView currentCredit={5} />
-      <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
-        휴대폰 번호
-      </Text>
+      <Text style={registerStyles.labelText}>휴대폰 번호</Text>
       <View style={{ flex: 1, alignItems: "center" }}>
         <View style={registerStyles.inputTextView}>
           <TextInput

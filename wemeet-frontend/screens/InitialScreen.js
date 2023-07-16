@@ -1,8 +1,8 @@
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import NextButton from "../../components/NextButton";
-import commonStyles from "../../styles/commonStyles.js";
+import NextButton from "../components/NextButton";
+import commonStyles from "../styles/commonStyles.js";
 
 const title = "위치기반\n대학생 미팅 매칭 서비스,\n위밋";
 const body = "회원가입하고 시그널받기!";
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 20,
+    fontSize: 25,
   },
 });
 
