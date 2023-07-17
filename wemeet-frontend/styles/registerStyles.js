@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const width = Dimensions.get("window").width;
 
 const registerStyles = StyleSheet.create({
   instContainer: {
@@ -18,9 +20,10 @@ const registerStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 55,
-    width: "85%",
+    width: width * 0.85,
     borderWidth: 2,
     borderRadius: 15,
+    marginBottom: 5,
   },
   inputTextBox: {
     height: 55,
@@ -45,7 +48,7 @@ const registerStyles = StyleSheet.create({
   warningText: {
     fontSize: 12,
     color: "red",
-    marginTop: 5,
+    marginBottom: 5,
   },
   labelText: {
     fontSize: 14,

@@ -26,7 +26,7 @@ const NextButton = ({ onPress, text, style, disabled }) => {
 
 const styles = StyleSheet.create({
   buttonEnabled: {
-    width: "80%",
+    width: "85%",
     height: 55,
     justifyContent: "center",
     alignItems: "center",
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   buttonDisabled: {
-    width: "80%",
+    width: "85%",
     height: 55,
     justifyContent: "center",
     alignItems: "center",

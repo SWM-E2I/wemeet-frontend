@@ -35,7 +35,7 @@ const NameScreen = ({ navigation }) => {
             style={[registerStyles.inputTextBox, registerStyles.inputText]}
             maxLength={10}
             autoFocus={true}
-            // blurOnSubmit={false}
+            blurOnSubmit={true}
             enablesReturnKeyAutomatically
             returnKeyType={"next"}
           />

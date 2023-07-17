@@ -12,17 +12,17 @@ import RegisterHeader from "../../components/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/RegisterCreditView";
 import NextButton from "../../components/NextButton";
+import SkipButton from "../../components/SkipButton";
 
-const instruction = "위밋은\n너가 궁금해";
-const GenderScreen = ({ navigation }) => {
-  const [gender, setGender] = useState("여자");
+const instruction = "MBTI는 필수지";
+
+const MbtiScreen = ({ navigation }) => {
   const toNext = () => {
-    navigation.navigate("Nickname");
-    //redux state에 성별 저장하기
+    navigation.navigate("Intro");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
-      <RegisterHeader navigation={navigation} />
+      <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />
@@ -39,9 +39,10 @@ const GenderScreen = ({ navigation }) => {
             ]}
             autoFocus
             enablesReturnKeyAutomatically
-            placeholder={"성별 (임시)"}
+            placeholder={"MBTI입력페이지(미구현)"}
           ></TextInput>
         </View>
+        <SkipButton text={"아직 잘 몰라"} />
       </View>
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView
@@ -61,4 +62,4 @@ const GenderScreen = ({ navigation }) => {
   );
 };
 
-export default GenderScreen;
+export default MbtiScreen;

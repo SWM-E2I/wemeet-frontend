@@ -13,34 +13,52 @@ import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/RegisterCreditView";
 import NextButton from "../../components/NextButton";
 
-const instruction = "위밋은\n너가 궁금해";
-const GenderScreen = ({ navigation }) => {
-  const [gender, setGender] = useState("여자");
+const instruction = "멋드러지는\n소개를 입력해줘";
+const IntroScreen = ({ navigation }) => {
+  //글자 수 제한 필요!! (얼마나 둘건지)
   const toNext = () => {
-    navigation.navigate("Nickname");
+    navigation.navigate("Univ");
     //redux state에 성별 저장하기
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
-      <RegisterHeader navigation={navigation} />
+      <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />
       </View>
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
         {/* 여기에 body내용 입력 */}
-        <View style={[registerStyles.inputTextView]}>
+        <View style={[registerStyles.inputTextView, { height: 160 }]}>
           <TextInput
             value={""}
             style={[
-              registerStyles.codeInputTextBox,
-              registerStyles.inputText,
-              { textAlign: "center" },
+              registerStyles.inputTextBox,
+              {
+                height: 160,
+                paddingTop: 20,
+              },
             ]}
             autoFocus
             enablesReturnKeyAutomatically
-            placeholder={"성별 (임시)"}
+            placeholder={"20자 이상 입력하면 추가 시그널 지급!"}
+            multiline
           ></TextInput>
+        </View>
+        <View style={{ width: "100%" }}>
+          <Text
+            style={[
+              registerStyles.warningText,
+              { marginLeft: "10%", color: "black" },
+            ]}
+          >
+            {"20자 이상 입력하면 추가 시그널!"}
+          </Text>
         </View>
       </View>
       {/* 이부분 다시 생각 */}
@@ -61,4 +79,4 @@ const GenderScreen = ({ navigation }) => {
   );
 };
 
-export default GenderScreen;
+export default IntroScreen;
