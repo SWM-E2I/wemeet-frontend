@@ -42,6 +42,7 @@ const IntroScreen = ({ navigation }) => {
               {
                 height: 160,
                 paddingTop: 20,
+                textAlignVertical: "top",
               },
             ]}
             autoFocus
