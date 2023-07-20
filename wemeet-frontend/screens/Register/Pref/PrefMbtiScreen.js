@@ -7,18 +7,17 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
-import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import NextButton from "../../components/NextButton";
-import SkipButton from "../../components/SkipButton";
+import commonStyles from "../../../styles/commonStyles";
+import RegisterHeader from "../../../components/RegisterHeader";
+import registerStyles from "../../../styles/registerStyles";
+import RegisterCreditView from "../../../components/RegisterCreditView";
+import NextButton from "../../../components/NextButton";
+import SkipButton from "../../../components/SkipButton";
 
-const instruction = "MBTI는 필수지";
-
-const MbtiScreen = ({ navigation }) => {
+const instruction = "상대가 어떤\nMBTI였으면 좋겠어?";
+const PrefMbtiScreen = ({ navigation }) => {
   const toNext = () => {
-    navigation.navigate("Intro");
+    navigation.navigate("UnivMail");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
@@ -42,7 +41,7 @@ const MbtiScreen = ({ navigation }) => {
             placeholder={"MBTI입력페이지(미구현)"}
           ></TextInput>
         </View>
-        <SkipButton text={"아직 잘 몰라"} />
+        <SkipButton text={"상관없어"} />
       </View>
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView
@@ -62,4 +61,4 @@ const MbtiScreen = ({ navigation }) => {
   );
 };
 
-export default MbtiScreen;
+export default PrefMbtiScreen;

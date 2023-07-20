@@ -7,12 +7,12 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
-import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import NextButton from "../../components/NextButton";
-import SkipButton from "../../components/SkipButton";
+import commonStyles from "../../../styles/commonStyles";
+import RegisterHeader from "../../../components/RegisterHeader";
+import registerStyles from "../../../styles/registerStyles";
+import RegisterCreditView from "../../../components/RegisterCreditView";
+import NextButton from "../../../components/NextButton";
+import SkipButton from "../../../components/SkipButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const instruction = "원하는\n닉네임을 알려줘";

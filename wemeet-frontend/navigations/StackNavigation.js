@@ -1,25 +1,39 @@
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Easing } from "react-native";
+// import { Easing } from "react-native";
 import BasicInfoSetScreen from "../screens/Register/BasicInfoSetScreen.js";
 import PrefSetScreen from "../screens/Register/PrefSetScreen.js";
 import UnivSetScreen from "../screens/Register/UnivSetScreen.js";
 import UnivAuthScreen from "../screens/UnivAuthScreen.js";
 import PhotoSetScreen from "../screens/PhotoSetScreen.js";
 import MainScreen from "../screens/MainScreen.js";
+//Begin - Auth
 import InitialScreen from "../screens/InitialScreen.js";
 import NameScreen from "../screens/Auth/NameScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
 import VerifyScreen from "../screens/Auth/VerifyScreen.js";
 import TermsModalScreen from "../screens/Auth/TermsModalScreen.js";
-import GenderScreen from "../screens/Register/GenderScreen.js";
-import MbtiScreen from "../screens/Register/MbtiScreen.js";
-import IntroScreen from "../screens/Register/IntroScreen.js";
-import UnivScreen from "../screens/Register/UnivScreen.js";
+//Register - UserInfo
+import GenderScreen from "../screens/Register/UserInfo/GenderScreen.js";
+import MbtiScreen from "../screens/Register/UserInfo/MbtiScreen.js";
+import IntroScreen from "../screens/Register/UserInfo/IntroScreen.js";
+import UnivScreen from "../screens/Register/UserInfo/UnivScreen.js";
+//Register - PrefInfo
+import DrinkScreen from "../screens/Register/Pref/DrinkScreen.js";
+import TypeScreen from "../screens/Register/Pref/TypeScreen.js";
+import AdmissionYearScreen from "../screens/Register/Pref/AdmissionYearScreen.js";
+import SameUnivScreen from "../screens/Register/Pref/SameUnivScreen.js";
+import FriendScreen from "../screens/Register/Pref/FriendScreen.js";
+import PrefMbtiScreen from "../screens/Register/Pref/PrefMbtiScreen.js";
+//Register - univAuth, photoSet
+import UnivMailScreen from "../screens/Register/Additional/UnivMailScreen.js";
+import UnivVerifyScreen from "../screens/Register/Additional/UnivVerifyScreen.js";
+// import PhotoSetScreen from "../screens/Register/Auth/PhotoSetScreen.js";
+
 import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import NicknameScreen from "../screens/Register/NicknameScreen.js";
+import NicknameScreen from "../screens/Register/UserInfo/NicknameScreen.js";
 
 const config = {
   animation: "timing",
@@ -63,11 +77,31 @@ export const RegisterStackNavigation = () => {
           ...TransitionPresets.ModalSlideFromBottomIOS,
         }}
       />
+      {/* user info */}
       <Stack.Screen name="Gender" component={GenderScreen} options={{}} />
       <Stack.Screen name="Nickname" component={NicknameScreen} options={{}} />
       <Stack.Screen name="Mbti" component={MbtiScreen} options={{}} />
       <Stack.Screen name="Intro" component={IntroScreen} options={{}} />
       <Stack.Screen name="Univ" component={UnivScreen} options={{}} />
+      {/* pref info */}
+      <Stack.Screen name="Drink" component={DrinkScreen} options={{}} />
+      <Stack.Screen name="Type" component={TypeScreen} options={{}} />
+      <Stack.Screen
+        name="AdmissionYear"
+        component={AdmissionYearScreen}
+        options={{}}
+      />
+      <Stack.Screen name="SameUniv" component={SameUnivScreen} options={{}} />
+      <Stack.Screen name="Friend" component={FriendScreen} options={{}} />
+      <Stack.Screen name="PrefMbti" component={PrefMbtiScreen} options={{}} />
+      {/* Additional */}
+      <Stack.Screen name="UnivMail" component={UnivMailScreen} options={{}} />
+      <Stack.Screen
+        name="UnivVerify"
+        component={UnivVerifyScreen}
+        options={{}}
+      />
+      {/* <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} /> */}
       {/* 여기 아래는 deprecated */}
       <Stack.Screen name="Basic" component={BasicInfoSetScreen} options={{}} />
       <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />

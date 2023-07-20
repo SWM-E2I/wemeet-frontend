@@ -9,7 +9,9 @@ const body = "회원가입하고 시그널받기!";
 const bottom = "시그널로 내 주변 상대 추천받기!";
 const InitialScreen = ({ navigation }) => {
   const onPress = () => {
-    navigation.replace("Name");
+    // navigation.replace("Name");
+    //임시
+    navigation.replace("Type");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

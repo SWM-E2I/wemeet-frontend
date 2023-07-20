@@ -7,11 +7,11 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
-import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import NextButton from "../../components/NextButton";
+import commonStyles from "../../../styles/commonStyles";
+import RegisterHeader from "../../../components/RegisterHeader";
+import registerStyles from "../../../styles/registerStyles";
+import RegisterCreditView from "../../../components/RegisterCreditView";
+import NextButton from "../../../components/NextButton";
 
 const instruction = "위밋은\n너가 궁금해";
 const GenderScreen = ({ navigation }) => {

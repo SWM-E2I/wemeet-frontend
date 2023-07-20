@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "black",
     borderRadius: 15,
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 20,
   },
   buttonDisabled: {
     width: "85%",
@@ -40,6 +43,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F2F2F2",
     borderRadius: 15,
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 20,
   },
   textDisabled: {
     fontSize: 20,

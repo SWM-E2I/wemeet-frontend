@@ -7,12 +7,13 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
-import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import NextButton from "../../components/NextButton";
-import UnivSet from "../../components/UnivSet";
+import commonStyles from "../../../styles/commonStyles";
+import RegisterHeader from "../../../components/RegisterHeader";
+import registerStyles from "../../../styles/registerStyles";
+import RegisterCreditView from "../../../components/RegisterCreditView";
+import NextButton from "../../../components/NextButton";
+import UnivSet from "../../../components/UnivSet";
+import { CommonActions } from "@react-navigation/native";
 
 const instruction = "너의 학교가\n궁금해";
 const UnivScreen = ({ navigation }) => {
@@ -24,8 +25,14 @@ const UnivScreen = ({ navigation }) => {
   const [college, setCollege] = useState(""); //단과대
   const [admissionYear, setAdmissionYear] = useState(""); //입학년도
   const toNext = () => {
-    if (stage === 3) navigation.navigate("Pref");
-    else setStage(stage + 1);
+    if (stage === 3) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Drink" }],
+        })
+      );
+    } else setStage(stage + 1);
     //redux state에 성별 저장하기
   };
   return (

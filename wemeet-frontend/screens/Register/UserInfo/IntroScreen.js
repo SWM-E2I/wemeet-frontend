@@ -7,15 +7,16 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
-import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import NextButton from "../../components/NextButton";
+import commonStyles from "../../../styles/commonStyles";
+import RegisterHeader from "../../../components/RegisterHeader";
+import registerStyles from "../../../styles/registerStyles";
+import RegisterCreditView from "../../../components/RegisterCreditView";
+import NextButton from "../../../components/NextButton";
 
 const instruction = "멋드러지는\n소개를 입력해줘";
 const IntroScreen = ({ navigation }) => {
   //글자 수 제한 필요!! (얼마나 둘건지)
+  const [intro, setIntro] = useState("");
   const toNext = () => {
     navigation.navigate("Univ");
     //redux state에 성별 저장하기
@@ -36,7 +37,7 @@ const IntroScreen = ({ navigation }) => {
         {/* 여기에 body내용 입력 */}
         <View style={[registerStyles.inputTextView, { height: 160 }]}>
           <TextInput
-            value={""}
+            value={intro}
             style={[
               registerStyles.inputTextBox,
               {
@@ -45,8 +46,8 @@ const IntroScreen = ({ navigation }) => {
                 textAlignVertical: "top",
               },
             ]}
+            onChangeText={(text) => setIntro(text)}
             autoFocus
-            enablesReturnKeyAutomatically
             placeholder={"20자 이상 입력하면 추가 시그널 지급!"}
             multiline
           ></TextInput>
