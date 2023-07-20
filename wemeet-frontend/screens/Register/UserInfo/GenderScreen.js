@@ -4,7 +4,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  TextInput,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
@@ -12,12 +12,16 @@ import RegisterHeader from "../../../components/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
+import RegisterSelectView from "../../../components/RegisterSelectView";
+import RegisterAnimatedView from "../../../components/RegisterAnimatedView";
 
 const instruction = "위밋은\n너가 궁금해";
 const GenderScreen = ({ navigation }) => {
-  const [gender, setGender] = useState("여자");
+  const [gender, setGender] = useState(null);
+  const [open, setOpen] = useState(false); //select 창을 open할지\
   const toNext = () => {
-    navigation.navigate("Nickname");
+    if (gender) navigation.navigate("Nickname");
+    else Alert.alert("성별을 선택해줘!");
     //redux state에 성별 저장하기
   };
   return (
@@ -29,19 +33,37 @@ const GenderScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* 여기에 body내용 입력 */}
-        <View style={[registerStyles.inputTextView]}>
-          <TextInput
-            value={""}
-            style={[
-              registerStyles.codeInputTextBox,
-              registerStyles.inputText,
-              { textAlign: "center" },
-            ]}
-            autoFocus
-            enablesReturnKeyAutomatically
-            placeholder={"성별 (임시)"}
-          ></TextInput>
-        </View>
+        <RegisterSelectView
+          text={gender ? gender : "성별"}
+          onPress={() => {
+            setOpen(!open);
+          }}
+          dark
+        />
+        {open ? (
+          <>
+            <RegisterAnimatedView
+              text={"여자"}
+              style={{ borderWidth: 2 }}
+              open
+              duration={300}
+              onPress={() => {
+                setGender("여자");
+                setOpen(false);
+              }}
+            />
+            <RegisterAnimatedView
+              text={"남자"}
+              style={{ borderWidth: 2 }}
+              open
+              duration={260}
+              onPress={() => {
+                setGender("남자");
+                setOpen(false);
+              }}
+            />
+          </>
+        ) : null}
       </View>
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView

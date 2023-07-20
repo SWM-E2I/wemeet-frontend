@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const width = Dimensions.get("window").width;
-
 const registerStyles = StyleSheet.create({
   instContainer: {
     height: 85,
@@ -19,10 +18,10 @@ const registerStyles = StyleSheet.create({
   inputTextView: {
     justifyContent: "center",
     alignItems: "center",
-    height: 55,
+    height: 70,
     width: width * 0.85,
     borderWidth: 2,
-    borderRadius: 15,
+    borderRadius: 10,
     marginBottom: 5,
   },
   inputTextBox: {

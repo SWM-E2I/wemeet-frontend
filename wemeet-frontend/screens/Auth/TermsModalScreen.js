@@ -49,6 +49,7 @@ const TermsModalScreen = ({ navigation, route }) => {
           borderTopLeftRadius: 20,
           borderWidth: 1,
           borderBottomWidth: 0,
+          paddingTop: 15,
         }}
       >
         <Text>{title}</Text>
