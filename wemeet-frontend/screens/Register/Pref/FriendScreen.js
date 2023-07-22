@@ -1,11 +1,11 @@
 import { SafeAreaView, View, Text } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
-import RegisterHeader from "../../../components/RegisterHeader";
+import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import RegisterCreditView from "../../../components/RegisterCreditView";
+import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
-import RegisterSelectView from "../../../components/RegisterSelectView";
+import RegisterSelectView from "../../../components/register/RegisterSelectView";
 
 const instruction = "아는 사람은\n빼고 추천할 수 있어";
 const FriendScreen = ({ navigation }) => {

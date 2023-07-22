@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
-import RegisterHeader from "../../../components/RegisterHeader";
+import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import RegisterCreditView from "../../../components/RegisterCreditView";
+import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
-import RegisterSelectView from "../../../components/RegisterSelectView";
-import RegisterAnimatedView from "../../../components/RegisterAnimatedView";
+import RegisterSelectView from "../../../components/register/RegisterSelectView";
+import RegisterAnimatedView from "../../../components/register/RegisterAnimatedView";
 
 const instruction = "위밋은\n너가 궁금해";
 const GenderScreen = ({ navigation }) => {
@@ -38,7 +38,7 @@ const GenderScreen = ({ navigation }) => {
           onPress={() => {
             setOpen(!open);
           }}
-          dark
+          color={"#E9E9E9"}
         />
         {open ? (
           <>

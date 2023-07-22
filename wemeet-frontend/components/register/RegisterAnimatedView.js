@@ -12,7 +12,7 @@ import Animated, {
   FadeIn,
   FadeOut,
 } from "react-native-reanimated";
-import registerStyles from "../styles/registerStyles";
+import registerStyles from "../../styles/registerStyles";
 
 const RegisterAnimatedView = ({
   label,
@@ -24,6 +24,7 @@ const RegisterAnimatedView = ({
   onPress,
 }) => {
   //label도 위에 띄워주기, disabled된 view들.
+  console.log(onPress == null);
   return (
     <Animated.View
       entering={
@@ -59,15 +60,14 @@ const RegisterAnimatedView = ({
               style={[registerStyles.inputTextView, { borderWidth: 0 }]}
               onPress={onPress}
             >
-              <TextInput
-                value={text}
+              <Text
                 style={[
-                  registerStyles.inputTextBox,
                   registerStyles.inputText,
                   { color: "gray", textAlign: "center" },
                 ]}
-                editable={false}
-              />
+              >
+                {text}
+              </Text>
             </TouchableOpacity>
           ) : (
             <TextInput

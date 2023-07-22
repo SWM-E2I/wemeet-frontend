@@ -7,11 +7,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
-import RegisterHeader from "../../../components/RegisterHeader";
+import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import RegisterCreditView from "../../../components/RegisterCreditView";
+import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
-import RegisterSelectView from "../../../components/RegisterSelectView";
+import RegisterSelectView from "../../../components/register/RegisterSelectView";
 import SkipButton from "../../../components/SkipButton";
 
 const instruction = "어떤 미팅\n상대를 원하니";

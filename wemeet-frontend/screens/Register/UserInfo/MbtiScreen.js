@@ -5,21 +5,30 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
-import RegisterHeader from "../../../components/RegisterHeader";
+import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import RegisterCreditView from "../../../components/RegisterCreditView";
+import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
 import SkipButton from "../../../components/SkipButton";
+import RegisterSelectView from "../../../components/register/RegisterSelectView";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
+import MbtiComponent from "../../../components/register/MbtiComponent";
 
 const instruction = "MBTI는 필수지";
 
 const MbtiScreen = ({ navigation }) => {
+  const [mbti, setMbti] = useState("XXXX"); //redux state에 mbti 저장하기
+  const [open, setOpen] = useState(false);
   const toNext = () => {
+    //MBTI 미완성인경우 필터링 필요!!!!! (수정하기)
     navigation.navigate("Intro");
   };
+  console.log("MBTI :", mbti);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />
@@ -29,20 +38,65 @@ const MbtiScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* 여기에 body내용 입력 */}
-        <View style={[registerStyles.inputTextView]}>
-          <TextInput
-            value={""}
-            style={[
-              registerStyles.codeInputTextBox,
-              registerStyles.inputText,
-              { textAlign: "center" },
-            ]}
-            autoFocus
-            enablesReturnKeyAutomatically
-            placeholder={"MBTI입력페이지(미구현)"}
-          ></TextInput>
-        </View>
-        <SkipButton text={"아직 잘 몰라"} />
+        <RegisterSelectView
+          text={"MBTI"}
+          onPress={() => {
+            setOpen(!open);
+          }}
+          color={"white"}
+        />
+        {open ? (
+          <>
+            <Animated.View
+              entering={FadeInUp.duration(220)}
+              exiting={FadeOutUp.duration(220)}
+              style={styles.rowContainer}
+            >
+              <MbtiComponent
+                mbti={mbti}
+                setMbti={setMbti}
+                letters={["E", "S", "T", "P"]}
+              />
+            </Animated.View>
+            <Animated.View
+              entering={FadeInUp.duration(260)}
+              exiting={FadeOutUp.duration(260)}
+              style={[styles.rowContainer, { marginTop: 10 }]}
+            >
+              <MbtiComponent
+                mbti={mbti}
+                setMbti={setMbti}
+                letters={["I", "N", "F", "J"]}
+              />
+            </Animated.View>
+            <Animated.View
+              entering={FadeInUp.duration(300)}
+              exiting={FadeOutUp.duration(300)}
+              style={{
+                height: 35,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+              }}
+            >
+              <SkipButton
+                text={"아직 잘 몰라"}
+                onPress={() => {
+                  setMbti("XXXX");
+                }}
+                style={
+                  mbti == "XXXX"
+                    ? {
+                        backgroundColor: "white",
+                        borderWidth: 2,
+                      }
+                    : null
+                }
+              />
+            </Animated.View>
+          </>
+        ) : null}
       </View>
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView
@@ -61,5 +115,22 @@ const MbtiScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  rowContainer: {
+    height: 70,
+    width: "85%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  mbtiComponent: {
+    height: 65,
+    width: 65,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+});
 
 export default MbtiScreen;

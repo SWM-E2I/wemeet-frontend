@@ -1,10 +1,10 @@
 import { SafeAreaView, View, Text, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
 import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/RegisterHeader";
+import RegisterHeader from "../../components/register/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
-import RegisterCreditView from "../../components/RegisterCreditView";
-import RegisterAnimatedView from "../../components/RegisterAnimatedView";
+import RegisterCreditView from "../../components/register/RegisterCreditView";
+import RegisterAnimatedView from "../../components/register/RegisterAnimatedView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
 import { useDispatch } from "react-redux";
 import { setPhoneNum } from "../../redux/registerSlice";

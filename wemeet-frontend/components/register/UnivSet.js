@@ -1,7 +1,8 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
-import registerStyles from "../styles/registerStyles";
+import registerStyles from "../../styles/registerStyles";
 import RegisterAnimatedView from "./RegisterAnimatedView";
+import { SelectList } from "react-native-dropdown-select-list";
 
 const labels = ["학교명", "단과대", "학번"];
 const placeholders = [
@@ -20,6 +21,16 @@ const UnivSet = ({
 }) => {
   const values = [univ, college, admissionYear];
   const [animatedCards, setAnimatedCards] = useState([]);
+  //임시
+  const data = [
+    { key: "1", value: "고려대학교(서울)" },
+    { key: "2", value: "고려대학교(세종)" },
+    { key: "3", value: "연세대학교(서울)" },
+    { key: "4", value: "연세대학교(원주)" },
+    { key: "5", value: "제주대학교" },
+    { key: "6", value: "MIT" },
+    { key: "7", value: "Harvard" },
+  ];
   return (
     <>
       <View style={{ width: "100%" }}>
@@ -27,8 +38,7 @@ const UnivSet = ({
           {labels[stage - 1]}
         </Text>
       </View>
-      <View style={[registerStyles.inputTextView]}>
-        <TextInput
+      {/* <TextInput
           value={values[stage - 1]}
           onChangeText={(text) => {
             switch (stage) {
@@ -47,8 +57,38 @@ const UnivSet = ({
           autoFocus
           placeholder={placeholders[stage - 1]}
           inputMode={stage === 3 ? "numeric" : "none"}
-        ></TextInput>
-      </View>
+        ></TextInput> */}
+      {/* arrow 아이콘 검색 아이콘 변경 및 사이즈 바꾸기 + 바로 검색창 뜨게 가능한지?*/}
+      <SelectList
+        setSelected={(val) => setUniv(val)}
+        data={data}
+        save="value"
+        boxStyles={[
+          registerStyles.inputTextView,
+          {
+            width: Dimensions.get("window").width * 0.85,
+            justifyContent: "space-between",
+          },
+        ]}
+        inputStyles={[registerStyles.inputText]}
+        dropdownTextStyles={{ fontSize: 15 }}
+        placeholder={"대학교를 선택해주세요"}
+        searchPlaceholder={"학교명으로 검색"}
+        notFoundText={"검색 결과가 없습니다"}
+        search
+        onSelect={() => {
+          //클릭시 Keyboard.dismiss()
+        }}
+        maxHeight={160}
+        dropdownStyles={{
+          marginTop: 0,
+          borderWidth: 2,
+        }}
+        dropdownItemStyles={{
+          height: 35,
+          justifyContent: "center",
+        }}
+      />
       <Text
         style={[
           registerStyles.warningText,

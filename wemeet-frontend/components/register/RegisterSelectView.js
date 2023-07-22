@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import registerStyles from "../styles/registerStyles";
+import registerStyles from "../../styles/registerStyles";
 
-const RegisterSelectView = ({ label, text, disabled, onPress, dark }) => {
+const RegisterSelectView = ({ label, text, disabled, onPress, color }) => {
   return (
     <View style={styles.container}>
       {label && (
@@ -17,7 +17,7 @@ const RegisterSelectView = ({ label, text, disabled, onPress, dark }) => {
           registerStyles.inputTextView,
           {
             borderWidth: !disabled ? 2 : 0,
-            backgroundColor: dark ? "#E9E9E9" : "#F8F8F8",
+            backgroundColor: color ? color : "#F8F8F8",
           },
         ]}
         onPress={onPress}

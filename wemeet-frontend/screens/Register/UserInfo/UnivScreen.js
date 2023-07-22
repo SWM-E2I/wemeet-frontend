@@ -4,15 +4,14 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
-import RegisterHeader from "../../../components/RegisterHeader";
+import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import RegisterCreditView from "../../../components/RegisterCreditView";
+import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
-import UnivSet from "../../../components/UnivSet";
+import UnivSet from "../../../components/register/UnivSet";
 import { CommonActions } from "@react-navigation/native";
 
 const instruction = "너의 학교가\n궁금해";
@@ -35,6 +34,11 @@ const UnivScreen = ({ navigation }) => {
     } else setStage(stage + 1);
     //redux state에 성별 저장하기
   };
+
+  //temporary
+  console.log(univ);
+
+  //temporary ends
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />
@@ -44,6 +48,7 @@ const UnivScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* 여기에 body내용 입력 */}
+
         <UnivSet
           stage={stage}
           univ={univ}
