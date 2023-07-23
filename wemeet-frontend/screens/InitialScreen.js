@@ -9,8 +9,11 @@ const body = "회원가입하고 시그널받기!";
 const bottom = "시그널로 내 주변 상대 추천받기!";
 const InitialScreen = ({ navigation }) => {
   const onPress = () => {
-    navigation.replace("Mbti");
+    //수정 필요 -> 분기하기!
+    navigation.replace("Name");
+    // navigation.navigate("Nickname");
     // navigation.navigate("Gender");
+    // navigation.navigate("UnivMail");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

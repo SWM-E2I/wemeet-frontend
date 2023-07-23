@@ -11,6 +11,7 @@ import Animated, {
   FadeOutUp,
   FadeIn,
   FadeOut,
+  FadeOutDown,
 } from "react-native-reanimated";
 import registerStyles from "../../styles/registerStyles";
 
@@ -22,9 +23,10 @@ const RegisterAnimatedView = ({
   open,
   duration,
   onPress,
+  textStyle,
+  down,
 }) => {
   //label도 위에 띄워주기, disabled된 view들.
-  console.log(onPress == null);
   return (
     <Animated.View
       entering={
@@ -32,9 +34,15 @@ const RegisterAnimatedView = ({
           ? null
           : duration
           ? FadeInUp.duration(duration)
-          : FadeInUp.duration(1600)
+          : FadeInUp.duration(600)
       }
-      exiting={open && duration ? FadeOutUp.duration(duration) : null}
+      exiting={
+        down
+          ? FadeOutDown.duration(400)
+          : open && duration
+          ? FadeOutUp.duration(duration)
+          : null
+      }
       style={styles.animatedContainer}
     >
       {label && (
@@ -52,8 +60,7 @@ const RegisterAnimatedView = ({
         ]}
       >
         <Animated.View
-          entering={fade ? FadeIn.duration(2500) : null}
-          exiting={fade ? FadeOut.duration(600) : null}
+          entering={fade ? FadeIn.duration(1200) : null} //FadeIn.duration(1500)
         >
           {onPress ? (
             <TouchableOpacity
@@ -64,21 +71,28 @@ const RegisterAnimatedView = ({
                 style={[
                   registerStyles.inputText,
                   { color: "gray", textAlign: "center" },
+                  textStyle,
                 ]}
               >
                 {text}
               </Text>
             </TouchableOpacity>
           ) : (
-            <TextInput
-              value={text}
-              style={[
-                registerStyles.inputTextBox,
-                registerStyles.inputText,
-                { color: "gray" },
-              ]}
-              editable={false}
-            />
+            <View style={[registerStyles.inputTextView, { borderWidth: 0 }]}>
+              <Text
+                style={[
+                  registerStyles.inputText,
+                  {
+                    color: "gray",
+                    alignSelf: "flex-start",
+                    marginLeft: "7.5%",
+                  },
+                  textStyle,
+                ]}
+              >
+                {text}
+              </Text>
+            </View>
           )}
         </Animated.View>
       </View>

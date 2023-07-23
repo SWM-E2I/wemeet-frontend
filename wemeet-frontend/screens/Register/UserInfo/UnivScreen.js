@@ -23,25 +23,37 @@ const UnivScreen = ({ navigation }) => {
   const [univ, setUniv] = useState(""); //대학
   const [college, setCollege] = useState(""); //단과대
   const [admissionYear, setAdmissionYear] = useState(""); //입학년도
+  console.log(
+    "stage :",
+    stage,
+    "univ :",
+    univ,
+    "college :",
+    college,
+    "admissionYear :",
+    admissionYear
+  );
   const toNext = () => {
     if (stage === 3) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Drink" }],
-        })
-      );
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [{ name: "Main" }],
+      //   })
+      // );
+      // navigation.navigate("UnivMail");
+      navigation.navigate("UnivMail");
     } else setStage(stage + 1);
     //redux state에 성별 저장하기
   };
 
-  //temporary
-  console.log(univ);
-
-  //temporary ends
+  const onBack = () => {
+    if (stage > 1) setStage(stage - 1);
+    else navigation.goBack();
+  };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
-      <RegisterHeader navigation={navigation} back />
+      <RegisterHeader navigation={navigation} back onBack={onBack} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />
@@ -57,11 +69,13 @@ const UnivScreen = ({ navigation }) => {
           setCollege={setCollege}
           admissionYear={admissionYear}
           setAdmissionYear={setAdmissionYear}
+          setStage={setStage}
+          navigation={navigation}
         />
       </View>
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
         <NextButton
           text={"다음"}

@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
@@ -103,8 +104,9 @@ const NicknameScreen = ({ navigation }) => {
         />
       </View>
       {/* 이부분 다시 생각 */}
+      {/* <ScrollView> */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
         <NextButton
           text={"다음"}
@@ -117,6 +119,7 @@ const NicknameScreen = ({ navigation }) => {
           disabled={nickName.length > 0 ? false : true}
         />
       </KeyboardAvoidingView>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

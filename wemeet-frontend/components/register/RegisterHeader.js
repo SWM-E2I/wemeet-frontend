@@ -2,11 +2,11 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-const RegisterHeader = ({ navigation, back }) => {
+const RegisterHeader = ({ navigation, back, onBack }) => {
   return (
     <View style={styles.container}>
       {back ? (
-        <TouchableOpacity onPress={navigation.goBack}>
+        <TouchableOpacity onPress={onBack ? onBack : navigation.goBack}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
       ) : null}
