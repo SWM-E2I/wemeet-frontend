@@ -14,14 +14,19 @@ import RegisterCreditView from "../../../components/register/RegisterCreditView"
 import NextButton from "../../../components/NextButton";
 import RegisterSelectView from "../../../components/register/RegisterSelectView";
 import RegisterAnimatedView from "../../../components/register/RegisterAnimatedView";
+import { useDispatch } from "react-redux";
+import { setRegisterGender } from "../../../redux/registerSlice";
 
 const instruction = "위밋은\n너가 궁금해";
 const GenderScreen = ({ navigation }) => {
   const [gender, setGender] = useState(null);
   const [open, setOpen] = useState(false); //select 창을 open할지\
+  const dispatch = useDispatch();
   const toNext = () => {
-    if (gender) navigation.navigate("Nickname");
-    else Alert.alert("성별을 선택해줘!");
+    if (gender) {
+      dispatch(setRegisterGender(gender));
+      navigation.navigate("Nickname");
+    } else Alert.alert("성별을 선택해줘!");
     //redux state에 성별 저장하기
   };
   return (

@@ -15,6 +15,8 @@ import RegisterCreditView from "../../../components/register/RegisterCreditView"
 import NextButton from "../../../components/NextButton";
 import SkipButton from "../../../components/SkipButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { setRegisterNickName } from "../../../redux/registerSlice";
 
 const instruction = "원하는\n닉네임을 알려줘";
 //for random recommended nickname
@@ -52,11 +54,12 @@ function generateRandomNickname() {
 }
 
 const NicknameScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [nickName, setNickName] = useState(generateRandomNickname());
   const [manual, setManual] = useState(false);
   const toNext = () => {
+    dispatch(setRegisterNickName(nickName)); //redux state에 성별 저장하기
     navigation.navigate("Mbti");
-    //redux state에 성별 저장하기
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

@@ -18,25 +18,25 @@ const registerSlice = createSlice({
   name: "registerSlice",
   initialState: initialRegisterState,
   reducers: {
-    setPhoneNum: (state, action) => {
+    setRegisterPhoneNum: (state, action) => {
       state.phoneNumber = action.payload;
     },
-    setGender: (state, action) => {
+    setRegisterGender: (state, action) => {
       state.gender = action.payload;
     },
-    setNickName: (state, action) => {
+    setRegisterNickName: (state, action) => {
       state.nickname = action.payload;
     },
-    setCollegeInfo: (state, action) => {
+    setRegisterCollegeInfo: (state, action) => {
       state.collegeInfo = action.payload;
     },
-    setMbti: (state, action) => {
+    setRegisterMbti: (state, action) => {
       state.mbti = action.payload;
     },
-    setIntroduction: (state, action) => {
+    setRegisterIntroduction: (state, action) => {
       state.introduction = action.payload;
     },
-    setMemberInterestList: (state, action) => {
+    setRegisterMemberInterestList: (state, action) => {
       state.memberInterestList = action.payload;
     },
   },
@@ -44,11 +44,11 @@ const registerSlice = createSlice({
 
 export default registerSlice;
 export const {
-  setPhoneNum,
-  setGender,
-  setNickName,
-  setCollegeInfo,
-  setMbti,
-  setIntroduction,
-  setMemberInterestList,
+  setRegisterPhoneNum,
+  setRegisterGender,
+  setRegisterNickName,
+  setRegisterCollegeInfo,
+  setRegisterMbti,
+  setRegisterIntroduction,
+  setRegisterMemberInterestList,
 } = registerSlice.actions;

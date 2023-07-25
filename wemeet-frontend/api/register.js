@@ -16,7 +16,9 @@ const storeAccessToken = async (response) => {
 };
 
 const registerApi = async (registerInfo, controller) => {
-  //registerInfo == Redux의 register slice
+  //test code begins
+  return true;
+  //test code ends
   try {
     const response = await axiosDefault.post(REGISTER_URL, registerInfo, {
       signal: controller.signal,
@@ -26,8 +28,8 @@ const registerApi = async (registerInfo, controller) => {
       await storeAccessToken(response);
       return true;
     } else {
-      console.log("회원 가입 실패");
-      Alert.alert("오류가 발생했습니다. 다시 시도 해주세요", response?.message);
+      console.log("회원 가입 실패, status == ERROR");
+      console.log(response?.message);
     }
   } catch (err) {
     if (err.response) {

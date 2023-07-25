@@ -17,7 +17,6 @@ const UnivSet = ({
   setCollege,
   setAdmissionYear,
   setStage,
-  navigation,
 }) => {
   //임시
   const currentYear = getCurrentYear() % 100;

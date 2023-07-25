@@ -58,6 +58,10 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       if (res) {
         console.log("인증성공");
         setWarning(null);
+        Alert.alert(
+          "인증 완료,,,",
+          "추가정보 입력하던지 말던지, 안 할거면 추천페이지로 이동 ㅋ"
+        );
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

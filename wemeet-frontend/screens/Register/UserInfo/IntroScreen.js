@@ -13,12 +13,17 @@ import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
+import { useDispatch } from "react-redux";
+import { setRegisterIntroduction } from "../../../redux/registerSlice";
 
 const instruction = "멋드러지는\n소개를 입력해줘";
 const IntroScreen = ({ navigation }) => {
   //글자 수 제한 필요!! (얼마나 둘건지)
+  const dispatch = useDispatch();
   const [intro, setIntro] = useState("");
   const toNext = () => {
+    //20자 이상 입력하면 추가 시그널 주는 기능 추가 필요!!
+    dispatch(setRegisterIntroduction(intro));
     navigation.navigate("Univ");
     //redux state에 성별 저장하기
   };

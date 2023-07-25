@@ -43,7 +43,7 @@ const UnivMailScreen = ({ navigation }) => {
   //loading, warning, 글자 수 최소 등, api, ac.kr 피렅링 등 기능 추가하기
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
-      <RegisterHeader navigation={navigation} back />
+      <RegisterHeader navigation={navigation} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />

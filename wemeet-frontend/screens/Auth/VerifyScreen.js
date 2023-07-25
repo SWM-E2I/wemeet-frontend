@@ -13,7 +13,6 @@ import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
 import { phoneVrfValidateApi } from "../../api/auth.js";
-import { CommonActions } from "@react-navigation/native";
 
 const instruction = "인증번호는\n자동완성이지";
 const VerifyScreen = ({ navigation, route }) => {
@@ -56,7 +55,10 @@ const VerifyScreen = ({ navigation, route }) => {
       } else {
         console.log("인증성공", res);
         setWarning(null);
-        let nextPage = res == "REGISTERED" ? "Main" : "Gender";
+        let nextPage = "Main";
+        if (res == "UNREGISTERED") {
+          nextPage = "Gender";
+        }
         navigation.navigate("TermsModal", { next: nextPage });
       }
     }

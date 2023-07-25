@@ -14,9 +14,18 @@ const MbtiComponent = ({ mbti, setMbti, letters }) => {
               : { backgroundColor: "#E9E9E9", borderWidth: 0 },
           ]}
           onPress={() => {
-            setMbti(
-              mbti.substring(0, idx) + letter + mbti.substring(idx + 1, 4)
-            );
+            if (mbti == "XXXX") {
+              // Convert the string to an array
+              let tmpArray = "ESTP".split("");
+              // Update the character at the specified index
+              tmpArray[idx] = letter;
+              // Convert the array back to a string
+              tmp = tmpArray.join("");
+              setMbti(tmp);
+            } else
+              setMbti(
+                mbti.substring(0, idx) + letter + mbti.substring(idx + 1, 4)
+              );
           }}
         >
           <Text
@@ -32,31 +41,6 @@ const MbtiComponent = ({ mbti, setMbti, letters }) => {
     );
   });
 };
-
-//           {letters.map((letter, idx) => {
-//             return (
-//               <>
-//               <TouchableOpacity
-//                 style={[
-//                   styles.mbtiComponent,
-//                   mbti[idx] == letters[idx]
-//                     ? null
-//                     : { backgroundColor: "#E9E9E9", borderWidth: 0 },
-//                 ]}
-//                 onPress={() => {
-//                   setMbti(
-//                     mbti.substring(0, idx) + letter + mbti.substring(idx + 1, 4)
-//                   );
-//                 }}
-//               >
-
-//               </TouchableOpacity></>
-//             );
-
-//           }
-
-//   );
-// }
 
 const styles = StyleSheet.create({
   mbtiComponent: {
