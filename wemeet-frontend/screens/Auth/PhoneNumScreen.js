@@ -27,12 +27,12 @@ const PhoneNumScreen = ({ navigation, route }) => {
       setWarning("휴대폰 번호를 정확히 입력해주세요");
       setPhone("010");
     } else {
-      console.log("인증번호 발송, 다음 화면으로 이동");
       setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
       setLoading(true);
       let result = await phoneVrfIssueApi(phone, controller, navigation);
       setLoading(false);
       if (result) {
+        console.log("인증번호 발송, 다음 화면으로 이동");
         setWarning(null);
         dispatch(setPhoneNum(phone));
         navigation.navigate("Verify", { phone: phone });
@@ -59,10 +59,10 @@ const PhoneNumScreen = ({ navigation, route }) => {
               setPhone(text);
             }}
             autoFocus
-            // blurOnSubmit={false}
+            blurOnSubmit={false}
             enablesReturnKeyAutomatically
             returnKeyType={phone.length == 11 ? "done" : "none"}
-            inputMode={"numeric"}
+            keyboardType={"number-pad"}
             maxLength={11}
             placeholder={"휴대폰 번호를 입력하세요"}
             onSubmitEditing={onSubmit}

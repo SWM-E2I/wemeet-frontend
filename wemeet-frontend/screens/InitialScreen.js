@@ -11,9 +11,6 @@ const InitialScreen = ({ navigation }) => {
   const onPress = () => {
     //수정 필요 -> 분기하기!
     navigation.replace("Name");
-    // navigation.navigate("Nickname");
-    // navigation.navigate("Gender");
-    // navigation.navigate("UnivMail");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

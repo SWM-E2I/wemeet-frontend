@@ -12,7 +12,6 @@ import RegisterHeader from "../../components/register/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
-import { useDispatch } from "react-redux";
 import { phoneVrfValidateApi } from "../../api/auth.js";
 import { CommonActions } from "@react-navigation/native";
 

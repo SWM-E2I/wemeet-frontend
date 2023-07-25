@@ -1,11 +1,11 @@
 import { axiosDefault, axiosPrivate } from "./axios.js";
-import { Alert, Keyboard } from "react-native";
+import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 //for phone and email verification
 const PHONE_VRF_ISSUE_URL = "v1/auth/phone/issue";
 const PHONE_VRF_VALIDATE_URL = "/v1/auth/phone/validate";
-export const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
+const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
   //테스트용 시작
   return true;
   //테스트용 끝
@@ -59,8 +59,9 @@ const storeAccessToken = async (response) => {
     console.log(err);
   }
 };
-
-export const phoneVrfValidateApi = async (phone, code, controller) => {
+//회원가입이 안되어있는 사람은 token 안온다!!!!
+//회원가입이 되어있는 사람은 token이 온다!!!
+const phoneVrfValidateApi = async (phone, code, controller) => {
   //테스트코드시작
   return "UNREGISTERED";
   //테스트코드끝
@@ -75,11 +76,15 @@ export const phoneVrfValidateApi = async (phone, code, controller) => {
       { signal: controller.signal }
     );
     if (response.data.status == "SUCCESS") {
-      await storeAccessToken(response);
       console.log("휴대폰 인증 성공");
-      Keyboard.dismiss();
-      if (response.data.registered) return "REGISTERED";
-      return "UNREGISTERED";
+      if (response.data.registered) {
+        console.log("회원가입이 되어있는 사람입니다.");
+        await storeAccessToken(response);
+        return "REGISTERED";
+      } else {
+        console.log("회원가입이 안되어있는 사람입니다.");
+        return "UNREGISTERED";
+      }
     } else {
       Alert.alert(
         "오류가 발생했습니다. 잠시 후 다시 시도해주세요",
@@ -110,3 +115,5 @@ export const phoneVrfValidateApi = async (phone, code, controller) => {
   }
   return "ERROR";
 };
+
+export { phoneVrfIssueApi, phoneVrfValidateApi };

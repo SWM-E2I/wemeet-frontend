@@ -6,8 +6,8 @@ import {
   Alert,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Keyboard,
   Platform,
+  Keyboard,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import NextButton from "../../../components/NextButton";
@@ -15,16 +15,61 @@ import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import commonStyles from "../../../styles/commonStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
+import { emailVrfIssueApi, emailVrfValidateApi } from "../../../api/univAuth";
+import { useSelector } from "react-redux";
+import { CommonActions } from "@react-navigation/native";
 
 const instruction = "학생인증을\n완료해줘";
 const UnivVerifyScreen = ({ navigation, route }) => {
   const mail = route.params.mail;
+  const college = useSelector((state) => {
+    return state.register.collegeInfo.college; //학교 코드
+  });
   const [timer, setTimer] = useState(90);
   const [code, setCode] = useState("");
   const [warning, setWarning] = useState(null);
-  const onSubmit = () => {
-    navigation.navigate("Main");
-    // 임시
+  const [loading, setLoading] = useState(false);
+  const controller = new AbortController();
+  const resend = async () => {
+    //재전송 버튼 눌렀을 때
+    setCode("");
+    setTimer(90);
+    console.log("인증번호 발송, 다음 화면으로 이동");
+    setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
+    setLoading(true);
+    let result = await emailVrfIssueApi(college, mail, controller);
+    setLoading(false);
+    if (result) setWarning("인증번호가 재전송되었습니다.");
+    else setWarning("인증번호 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+  };
+  const onSubmit = async () => {
+    // navigation.navigate
+    if (code.length < 6) {
+      setWarning("6자리 인증번호를 입력해주세요.");
+      setCode("");
+    }
+    //인증번호 확인 API실행
+    else {
+      console.log("phoneVrfvalidateApi 실행");
+      setLoading(true);
+      setTimer(null);
+      const res = await emailVrfValidateApi(mail, code, controller); //api전송
+      setLoading(false);
+      if (res) {
+        console.log("인증성공");
+        setWarning(null);
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          })
+        );
+      } else {
+        setCode("");
+        setWarning("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    }
+    setTimer(null); //setting timer to null
   };
   useEffect(() => {
     if (timer === 0) {
@@ -68,8 +113,10 @@ const UnivVerifyScreen = ({ navigation, route }) => {
             inputMode={"numeric"}
             maxLength={6}
             placeholder={"인증번호를 입력하세요"}
-            onSubmitEditing={onSubmit}
-            // editable={!loading}
+            onSubmitEditing={() => {
+              Keyboard.dismiss();
+            }}
+            editable={!loading}
           ></TextInput>
           <View style={registerStyles.inputTimerView}>
             <Text style={{ fontSize: 20, color: "gray" }}>
@@ -82,9 +129,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
             {warning}
           </Text>
         </View>
-        <TouchableOpacity
-        // onPress={resend}
-        >
+        <TouchableOpacity onPress={resend}>
           <Text style={{ fontSize: 15, color: "gray" }}>
             인증번호 재전송 (임시)
           </Text>
@@ -93,7 +138,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
-        <NextButton text={"회원가입 완료하기(가제)"} onPress={onSubmit} />
+        <NextButton text={"학생인증 완료하기"} onPress={onSubmit} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

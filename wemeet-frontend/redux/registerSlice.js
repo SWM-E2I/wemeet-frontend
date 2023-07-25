@@ -1,70 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialRegisterState = {
-  phone_number: "",
-  basic_info: {
-    nickname: "",
-    gender: "",
-    mbti: "",
-    hobby: null,
-    intro: null,
+  nickname: "",
+  gender: "",
+  phoneNumber: "",
+  collegeInfo: {
+    college: "",
+    collegeType: "",
+    admissionYear: "",
   },
-  pref_info: {
-    preference_meeting_type: null, //meeting type : 객체 형태로 전달
-    start_preference_admission_year: "",
-    end_preference_admission_year: "",
-    same_college_state: null,
-    drinking_option: null,
-    e_or_i: null,
-    s_or_n: null,
-    t_or_f: null,
-    j_or_p: null,
-  },
-  univ_info: { college: "", major: "", admission_year: "" },
+  mbti: "",
+  introduction: null,
+  memberInterestList: null,
 }; //회원가입시 필요한 필수정보 state
-// const initialRegisterState = // RequestBody Data
-// {
-// 	"nickname" : String,
-// 	"gender" : String, // "MALE" or "FEMALE"
-// 	"phoneNumber": String, // "+8210********"
-// 	"collegeInfo": {
-// 		"college": String,
-// 		"collegeType": String,
-// 		"admissionYear" : String
-// 	},
-// 	"preference" : {
-// 		"startPreferenceAdmissionYear": String,
-// 		"endPreferenceAdmissionYear" : String,
-// 		"sameCollegeState" : String,
-// 		"drinkingOption": String,
-// 		"isAvoidedFriends" : Boolean,
-// 		"preferenceMbti": String
-// 	},
-// 	"preferenceMeetingTypeList" : String[],
-// 	"mbti": String,
-// 	"introduction" : String, // nullable
-// 	"memberInterestList" : String[] // nullable
-// }
 
 const registerSlice = createSlice({
   name: "registerSlice",
   initialState: initialRegisterState,
   reducers: {
     setPhoneNum: (state, action) => {
-      state.phone_number = action.payload;
+      state.phoneNumber = action.payload;
     },
-    setBasicInfo: (state, action) => {
-      state.basic_info = action.payload;
+    setGender: (state, action) => {
+      state.gender = action.payload;
     },
-    setPrefInfo: (state, action) => {
-      state.pref_info = action.payload;
+    setNickName: (state, action) => {
+      state.nickname = action.payload;
     },
-    setUnivInfo: (state, action) => {
-      state.univ_info = action.payload;
+    setCollegeInfo: (state, action) => {
+      state.collegeInfo = action.payload;
+    },
+    setMbti: (state, action) => {
+      state.mbti = action.payload;
+    },
+    setIntroduction: (state, action) => {
+      state.introduction = action.payload;
+    },
+    setMemberInterestList: (state, action) => {
+      state.memberInterestList = action.payload;
     },
   },
 });
 
 export default registerSlice;
-export const { setPhoneNum, setBasicInfo, setPrefInfo, setUnivInfo } =
-  registerSlice.actions;
+export const {
+  setPhoneNum,
+  setGender,
+  setNickName,
+  setCollegeInfo,
+  setMbti,
+  setIntroduction,
+  setMemberInterestList,
+} = registerSlice.actions;

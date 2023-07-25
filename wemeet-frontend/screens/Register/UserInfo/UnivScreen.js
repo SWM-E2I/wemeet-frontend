@@ -35,14 +35,12 @@ const UnivScreen = ({ navigation }) => {
   );
   const toNext = () => {
     if (stage === 3) {
-      // navigation.dispatch(
-      //   CommonActions.reset({
-      //     index: 0,
-      //     routes: [{ name: "Main" }],
-      //   })
-      // );
-      // navigation.navigate("UnivMail");
-      navigation.navigate("UnivMail");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "UnivMail" }],
+        })
+      );
     } else setStage(stage + 1);
     //redux state에 성별 저장하기
   };
