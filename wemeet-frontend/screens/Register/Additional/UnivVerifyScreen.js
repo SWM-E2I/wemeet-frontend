@@ -65,9 +65,10 @@ const UnivVerifyScreen = ({ navigation, route }) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{ name: "Main" }],
+            routes: [{ name: "Additional" }],
           })
         );
+        // navigation.navigate("Main");
       } else {
         setCode("");
         setWarning("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

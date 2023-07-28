@@ -13,11 +13,22 @@ import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
 import SkipButton from "../../../components/SkipButton";
+import { CommonActions } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setPreferenceCompleted } from "../../../redux/persistSlice";
 
 const instruction = "상대가 어떤\nMBTI였으면 좋겠어?";
 const PrefMbtiScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const persistData = useSelector((state) => state.persist);
   const toNext = () => {
-    navigation.navigate("UnivMail");
+    dispatch(setPreferenceCompleted(true));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Additional" }],
+      })
+    );
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

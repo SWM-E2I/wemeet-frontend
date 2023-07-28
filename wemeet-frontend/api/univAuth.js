@@ -1,12 +1,12 @@
 import { axiosPrivate } from "./axios.js";
 import { Alert } from "react-native";
 
-const EMAIL_VRF_ISSUE_URL = "/v1/auth/mail/request";
-const EMAIL_VRF_VALIDATE_URL = "/v1/auth/mail/validate";
+const EMAIL_VRF_ISSUE_URL = "/auth/mail/request";
+const EMAIL_VRF_VALIDATE_URL = "/auth/mail/validate";
 
 const emailVrfIssueApi = async (college, mail, controller) => {
   // //for test only
-  return true;
+  // return true;
   // //for test ends
 
   //college는 코드로 주기
@@ -30,7 +30,8 @@ const emailVrfIssueApi = async (college, mail, controller) => {
     if (err.response) {
       console.log(
         "emailVrfIssueApi : ",
-        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
+        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
+        err.response._response
       );
     } else if (err.request) {
       console.log(
@@ -51,7 +52,7 @@ const emailVrfIssueApi = async (college, mail, controller) => {
 
 const emailVrfValidateApi = async (mail, code, controller) => {
   //test code begins
-  return true;
+  // return true;
   //test code ends
 
   try {
@@ -69,10 +70,11 @@ const emailVrfValidateApi = async (mail, code, controller) => {
       //인증번호 확인 '요청' 성공
       if (response.data.data) {
         //인증번호 확인 성공
-        console.log("이메일 인증 성공");
+        console.log("이메일 인증 성공", response.data.data);
         return true;
       } else {
         Alert.alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+        console.log("이메일 인증 실패", response.data.data);
         return false;
       }
     } else
@@ -87,7 +89,7 @@ const emailVrfValidateApi = async (mail, code, controller) => {
         "emailVrfValidateApi : ",
         "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
       );
-      console.log(err.response.data);
+      console.log(err.response.data, err.response.status);
     } else if (err.request) {
       console.log(
         "emailVrfValidateApi : ",

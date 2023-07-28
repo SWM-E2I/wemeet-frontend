@@ -13,9 +13,13 @@ import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
 import { phoneVrfValidateApi } from "../../api/auth.js";
+import { persistLoginApi } from "../../api/persist";
+import { useDispatch } from "react-redux";
+import { setPersistState } from "../../redux/persistSlice";
 
 const instruction = "인증번호는\n자동완성이지";
 const VerifyScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const phone = route.params.phone;
   const [code, setCode] = useState("");
   const [warning, setWarning] = useState(null);
@@ -55,11 +59,28 @@ const VerifyScreen = ({ navigation, route }) => {
       } else {
         console.log("인증성공", res);
         setWarning(null);
+        //여기서 PersistLogin 요청하기
         let nextPage = "Main";
-        if (res == "UNREGISTERED") {
-          nextPage = "Gender";
+        if (res == "NOT_REGISTERED") {
+          navigation.navigate("TermsModal", { next: "Gender" });
+        } else {
+          //회원가입된 회원의 경우
+          const persistRes = await persistLoginApi(controller);
+          if (persistRes) {
+            dispatch(setPersistState(persistRes)); //state 저장
+            if (!persistRes.emailAuthenticated) nextPage = "UnivMail";
+            else if (
+              persistRes.preferenceCompleted &&
+              persistRes.hasMainProfileImage
+            )
+              nextPage = "Main";
+            else nextPage = "Additional"; //추가정보 분기 페이지
+          } else {
+            Alert.alert("오류가 발생했습니다.", "다시 시도해주세요.");
+            console.log("persistRes : ", persistRes);
+          }
+          navigation.navigate("TermsModal", { next: nextPage });
         }
-        navigation.navigate("TermsModal", { next: nextPage });
       }
     }
     setTimer(null); //setting timer to null

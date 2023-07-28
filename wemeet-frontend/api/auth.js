@@ -3,11 +3,11 @@ import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 //for phone and email verification
-const PHONE_VRF_ISSUE_URL = "v1/auth/phone/issue";
-const PHONE_VRF_VALIDATE_URL = "/v1/auth/phone/validate";
+const PHONE_VRF_ISSUE_URL = "/auth/phone/issue";
+const PHONE_VRF_VALIDATE_URL = "/auth/phone/validate";
 const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
   //테스트용 시작
-  return true;
+  // return true;
   //테스트용 끝
   try {
     const response = await axiosDefault.post(
@@ -17,6 +17,7 @@ const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
       },
       { signal: controller.signal }
     );
+    console.log(response.data);
     if (response.data.status == "SUCCESS") {
       //인증코드 발급됨
       console.log("인증번호 발급 성공");
@@ -28,14 +29,16 @@ const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
     if (err.response) {
       console.log(
         "phoneVrfIssueApi : ",
-        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
+        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
+        err.response.data,
+        err.response.status
       );
     } else if (err.request) {
       console.log(
         "phoneVrfIssueApi : ",
-        "요청이 이루어 졌으나 응답을 받지 못했습니다."
+        "요청이 이루어 졌으나 응답을 받지 못했습니다.",
+        err.request
       );
-      console.log(err.request._response);
     } else {
       console.log(
         "phoneVrfIssueApi : ",
@@ -63,7 +66,7 @@ const storeAccessToken = async (response) => {
 //회원가입이 되어있는 사람은 token이 온다!!!
 const phoneVrfValidateApi = async (phone, code, controller) => {
   //테스트코드시작
-  return "UNREGISTERED";
+  return "NOT_REGISTERED";
   //테스트코드끝
 
   try {
@@ -77,13 +80,14 @@ const phoneVrfValidateApi = async (phone, code, controller) => {
     );
     if (response.data.status == "SUCCESS") {
       console.log("휴대폰 인증 성공");
-      if (response.data.registered) {
-        console.log("회원가입이 되어있는 사람입니다.");
+      if (response.data.registrationType == "APP" || "WEB") {
+        console.log("RegistrationType : APP or WEB, persist login API요청");
         await storeAccessToken(response);
+        //리턴값 추후 수정 필요
         return "REGISTERED";
       } else {
         console.log("회원가입이 안되어있는 사람입니다.");
-        return "UNREGISTERED";
+        return "NOT_REGISTERED";
       }
     } else {
       Alert.alert(

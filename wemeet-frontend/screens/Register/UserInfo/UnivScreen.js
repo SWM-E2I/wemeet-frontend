@@ -21,8 +21,7 @@ import { registerApi } from "../../../api/register";
 const instruction = "너의 학교가\n궁금해";
 const UnivScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  // const tmp = useSelector((state) => state.register);
-  // console.log("registerInfo :", tmp);
+  const registerInfo = useSelector((state) => state.register);
   const [stage, setStage] = useState(1); //1 : 학교선택 -> 2 : 단과대선택 -> 3 : 학번입력
   const [univ, setUniv] = useState(""); //대학
   const [college, setCollege] = useState(""); //단과대
@@ -44,14 +43,24 @@ const UnivScreen = ({ navigation }) => {
       case 3:
         if (admissionYear != "") {
           //여기서 회원가입 api 실행해야함! (수정필요)
-          let registerInfo = {
-            college: univ,
-            collegeType: college,
-            admissionYear: admissionYear,
+          dispatch(
+            setRegisterCollegeInfo({
+              college: univ,
+              collegeType: college,
+              admissionYear: admissionYear,
+            })
+          );
+          let registerData = {
+            ...registerInfo,
+            collegeInfo: {
+              college: univ,
+              collegeType: college,
+              admissionYear: admissionYear,
+            },
           };
-          dispatch(setRegisterCollegeInfo(registerInfo));
+          console.log(registerData);
           // await 회원가입 api 실행
-          let result = await registerApi(registerInfo, controller);
+          let result = await registerApi(registerData, controller);
           if (result) {
             Alert.alert(
               "위밋 회원이 된 걸 환영해!",

@@ -1,13 +1,19 @@
 import { axiosDefault } from "./axios.js";
+import * as SecureStore from "expo-secure-store";
 
-const REGISTER_URL = "/v1/member";
+const REGISTER_URL = "/member";
 
 const storeAccessToken = async (response) => {
   try {
-    await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
+    console.log(
+      "storeAccessToken :",
+      response.headers.accesstoken,
+      response.headers.refreshtoken
+    );
+    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
     await SecureStore.setItemAsync(
       "refreshToken",
-      response.headers.RefreshToken
+      response.headers.refreshtoken
     );
     console.log("accessToken, refreshToken 저장완료");
   } catch (err) {
@@ -17,12 +23,13 @@ const storeAccessToken = async (response) => {
 
 const registerApi = async (registerInfo, controller) => {
   //test code begins
-  return true;
+  // return true;
   //test code ends
   try {
     const response = await axiosDefault.post(REGISTER_URL, registerInfo, {
       signal: controller.signal,
     });
+    console.log(response.data);
     if (response.data.status == "SUCCESS") {
       console.log("회원 가입 성공");
       await storeAccessToken(response);

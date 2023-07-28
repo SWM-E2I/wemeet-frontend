@@ -1,6 +1,8 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-const BASE_URL = "https://we.meet.api.com/v1";
+// const BASE_URL = "https://we.meet.api.com/v1"; - 실제
+const BASE_URL =
+  "http://ec2-52-78-215-171.ap-northeast-2.compute.amazonaws.com:8080/v1/"; //for test only
 
 const axiosDefault = axios.create({
   baseURL: BASE_URL,
@@ -27,8 +29,8 @@ const refresh = async () => {
     if (error.response?.status === 401) {
       //로그아웃 시키기 -> 인증 페이지로 돌아가기
       console.log("refresh token 만료");
-      await SecureStore.setItemAsync("accessToken", null);
-      await SecureStore.setItemAsync("refreshToken", null);
+      await SecureStore.deleteItemAsync("accessToken");
+      await SecureStore.deleteItemAsync("refreshToken");
     }
     console.log("token refresh 중 에러 발생");
     return null;
@@ -53,7 +55,7 @@ axiosPrivate.interceptors.response.use(
   },
   async (error) => {
     // 2XX 외의 범위에 있는 상태 코드
-    console.log(error.config);
+    console.log("axiosPrivate response error", error.message);
     if (error.message === "Network Error" && !error.response) {
       print(error.config);
       console.log("Network Error");
@@ -67,9 +69,8 @@ axiosPrivate.interceptors.response.use(
         prevRequest.headers["AccessToken"] = accessToken;
         return axiosPrivate.request(error.config);
       } else return Promise.reject("LOGOUT");
-    } else {
-      console.log("그 외 response error");
     }
+    x;
     return Promise.reject(error);
   }
 );

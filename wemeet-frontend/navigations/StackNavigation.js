@@ -1,7 +1,7 @@
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { Easing } from "react-native";
 import PrefSetScreen from "../screens/Register/PrefSetScreen.js";
-import PhotoSetScreen from "../screens/PhotoSetScreen.js";
+
 import MainScreen from "../screens/MainScreen.js";
 //Begin - Auth
 import InitialScreen from "../screens/InitialScreen.js";
@@ -14,17 +14,22 @@ import GenderScreen from "../screens/Register/UserInfo/GenderScreen.js";
 import MbtiScreen from "../screens/Register/UserInfo/MbtiScreen.js";
 import IntroScreen from "../screens/Register/UserInfo/IntroScreen.js";
 import UnivScreen from "../screens/Register/UserInfo/UnivScreen.js";
-//Register - PrefInfo
+//Register - univAuth
+import UnivMailScreen from "../screens/Register/Additional/UnivMailScreen.js";
+import UnivVerifyScreen from "../screens/Register/Additional/UnivVerifyScreen.js";
+//Register - Additional; PrefInfo, photoSet
+import AdditionalScreen from "../screens/Register/Additional/AdditionalScreen.js";
 import DrinkScreen from "../screens/Register/Pref/DrinkScreen.js";
 import TypeScreen from "../screens/Register/Pref/TypeScreen.js";
 import AdmissionYearScreen from "../screens/Register/Pref/AdmissionYearScreen.js";
 import SameUnivScreen from "../screens/Register/Pref/SameUnivScreen.js";
 import FriendScreen from "../screens/Register/Pref/FriendScreen.js";
 import PrefMbtiScreen from "../screens/Register/Pref/PrefMbtiScreen.js";
-//Register - univAuth, photoSet
-import UnivMailScreen from "../screens/Register/Additional/UnivMailScreen.js";
-import UnivVerifyScreen from "../screens/Register/Additional/UnivVerifyScreen.js";
 // import PhotoSetScreen from "../screens/Register/Auth/PhotoSetScreen.js";
+import PhotoSetScreen from "../screens//Register/Additional/PhotoSetScreen.js";
+import { useDispatch } from "react-redux";
+import { setPersistState } from "../redux/persistSlice.js";
+import { useEffect } from "react";
 
 import {
   createStackNavigator,
@@ -39,10 +44,17 @@ const config = {
   },
 };
 const Stack = createStackNavigator();
-export const RegisterStackNavigation = () => {
+export const RegisterStackNavigation = ({ persistType, persistData }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (persistData) {
+      dispatch(setPersistState(persistData));
+    }
+  }, []);
+  console.log("registerStackNavigation>persistType :", persistType);
   return (
     <Stack.Navigator
-      initialRouteName={"Initial"}
+      initialRouteName={persistType}
       screenOptions={{
         headerShown: false,
         ...TransitionPresets.SlideFromRightIOS,
@@ -96,6 +108,11 @@ export const RegisterStackNavigation = () => {
       <Stack.Screen
         name="UnivVerify"
         component={UnivVerifyScreen}
+        options={{}}
+      />
+      <Stack.Screen
+        name="Additional"
+        component={AdditionalScreen}
         options={{}}
       />
       {/* <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} /> */}

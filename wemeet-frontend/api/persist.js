@@ -1,0 +1,40 @@
+import { axiosPrivate } from "./axios.js";
+
+const PERSIST_LOGIN_URL = "/auth/persist";
+
+export const persistLoginApi = async (controller) => {
+  try {
+    const response = await axiosPrivate.get(PERSIST_LOGIN_URL, {
+      signal: controller.signal,
+    });
+    console.log("persistLoginApi response : ", response.data);
+    if (response.data.status == "SUCCESS") {
+      console.log("PersistLogin response status : SUCCESS");
+      return response.data?.data;
+    } else {
+      console.log("PersistLogin response status : FAIL or ERROR");
+      return null;
+    }
+  } catch (err) {
+    if (err.response) {
+      console.log(
+        "persistLoginApi : ",
+        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
+        err.response._response
+      );
+    } else if (err.request) {
+      console.log(
+        "persistLoginApi : ",
+        "요청이 이루어 졌으나 응답을 받지 못했습니다."
+      );
+      console.log(err.request._response);
+    } else {
+      console.log(
+        "persistLoginApi : ",
+        "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다."
+      );
+      console.log(err.message);
+    }
+  }
+  return null;
+};
