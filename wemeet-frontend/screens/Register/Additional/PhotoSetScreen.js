@@ -136,7 +136,8 @@ const PhotoSetScreen = ({ navigation }) => {
                   width: "90%",
                   color: "gray",
                   position: "absolute",
-                  bottom: 30,
+                  fontSize: 13,
+                  bottom: 40,
                   textAlign: "center",
                 }}
               >

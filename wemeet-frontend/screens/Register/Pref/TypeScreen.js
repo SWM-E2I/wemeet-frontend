@@ -6,7 +6,8 @@ import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
 import RegisterSelectView from "../../../components/register/RegisterSelectView";
-
+import { useDispatch } from "react-redux";
+import { setPreferenceMeetingTypeList } from "../../../redux/preferSlice";
 const instruction = "어떤 미팅\n상대를 원하니";
 const defaultMeetingType = {
   C001: false,
@@ -16,23 +17,17 @@ const defaultMeetingType = {
   C005: true,
 };
 const typeText = [
-  "모두가 활발한 인싸 분위기",
-  "술게임 좋아요",
-  "친구 만나고 싶어요",
-  "설레고 싶어요",
-  "상관 없어요",
+  "모두가 활발한 E들의 모임",
+  "미팅은 친구 만들러 가는거야",
+  "설레는 미팅이 좋아",
+  "술게임이 좋아",
+  "상관없어!",
 ];
 const typeCode = ["C001", "C002", "C003", "C004", "C005"];
-/*
-C001 : 모두가 활발한 인싸 분위기
-C002 : 술게임 좋아요
-C003 : 친구 만나고 싶어요
-C004 : 설레고 싶어요
-C005 : 상관 없어요
-*/
 const TypeScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [meetingType, setMeetingType] = useState(defaultMeetingType);
-  console.log(meetingType);
+
   const onMeetingTypePressed = (code) => {
     //코드 수정필요!!!
     if (!meetingType[code]) {
@@ -63,6 +58,12 @@ const TypeScreen = ({ navigation }) => {
     }
   };
   const toNext = () => {
+    let list = [];
+    for (let key in meetingType) {
+      if (meetingType[key]) list.push(key);
+    }
+    dispatch(setPreferenceMeetingTypeList(list));
+    console.log(list);
     navigation.navigate("AdmissionYear");
   };
   return (

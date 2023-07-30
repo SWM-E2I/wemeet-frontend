@@ -14,6 +14,13 @@ const MainScreen = () => {
       <Tab.Screen name="Team" component={TeamScreen} />
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="MyPageRoot" component={MyPageRoot} />
+      {/*options={{
+          tabBarIcon: ({ color }) => (
+            <Image
+              style={styles.bottomTabIcon}
+              source={require('../assets/icons/home.png')                  
+              }/>
+            )*/}
     </Tab.Navigator>
   );
 };

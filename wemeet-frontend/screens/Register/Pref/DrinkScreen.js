@@ -6,11 +6,15 @@ import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
 import RegisterSelectView from "../../../components/register/RegisterSelectView";
+import { useDispatch } from "react-redux";
+import { setDrinkingOption } from "../../../redux/preferSlice";
 
 const instruction = "어떤 미팅\n상대를 원하니";
 const DrinkScreen = ({ navigation }) => {
-  const [withDrink, setWithDrink] = useState(true);
+  const dispatch = useDispatch();
+  const [option, setOption] = useState("0"); //["", "술 있는 미팅이 좋아", "술 없이도 즐거울 수 있어"
   const toNext = () => {
+    dispatch(setDrinkingOption(option));
     navigation.navigate("Type");
   };
   return (
@@ -24,13 +28,18 @@ const DrinkScreen = ({ navigation }) => {
         {/* 여기에 body내용 입력 */}
         <RegisterSelectView
           text={"술 있는 미팅이 좋아"}
-          disabled={!withDrink}
-          onPress={() => setWithDrink(true)}
+          disabled={option != "0"}
+          onPress={() => setOption("0")}
         />
         <RegisterSelectView
           text={"술 없이도 즐거울 수 있어"}
-          disabled={withDrink}
-          onPress={() => setWithDrink(false)}
+          disabled={option != "1"}
+          onPress={() => setOption("1")}
+        />
+        <RegisterSelectView
+          text={"상관없어"}
+          disabled={option != "X"}
+          onPress={() => setOption("X")}
         />
       </View>
       {/* 이부분 다시 생각 */}
