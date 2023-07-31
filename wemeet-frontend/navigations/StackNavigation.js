@@ -1,18 +1,15 @@
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { Easing } from "react-native";
 import PrefSetScreen from "../screens/Register/PrefSetScreen.js";
-
 import MainScreen from "../screens/MainScreen.js";
 //Begin - Auth
 import InitialScreen from "../screens/InitialScreen.js";
-import NameScreen from "../screens/Auth/NameScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
 import VerifyScreen from "../screens/Auth/VerifyScreen.js";
 import TermsModalScreen from "../screens/Auth/TermsModalScreen.js";
 //Register - UserInfo
 import GenderScreen from "../screens/Register/UserInfo/GenderScreen.js";
 import MbtiScreen from "../screens/Register/UserInfo/MbtiScreen.js";
-import IntroScreen from "../screens/Register/UserInfo/IntroScreen.js";
 import UnivScreen from "../screens/Register/UserInfo/UnivScreen.js";
 //Register - univAuth
 import UnivMailScreen from "../screens/Register/Additional/UnivMailScreen.js";
@@ -75,7 +72,6 @@ export const RegisterStackNavigation = ({ persistType, persistData }) => {
       }}
     >
       <Stack.Screen name="Initial" component={InitialScreen} />
-      <Stack.Screen name="Name" component={NameScreen} />
       <Stack.Screen name="PhoneNum" component={PhoneNumScreen} />
       <Stack.Screen name="Verify" component={VerifyScreen} />
       <Stack.Screen
@@ -90,7 +86,6 @@ export const RegisterStackNavigation = ({ persistType, persistData }) => {
       <Stack.Screen name="Gender" component={GenderScreen} options={{}} />
       <Stack.Screen name="Nickname" component={NicknameScreen} options={{}} />
       <Stack.Screen name="Mbti" component={MbtiScreen} options={{}} />
-      <Stack.Screen name="Intro" component={IntroScreen} options={{}} />
       <Stack.Screen name="Univ" component={UnivScreen} options={{}} />
       {/* pref info */}
       <Stack.Screen name="Drink" component={DrinkScreen} options={{}} />

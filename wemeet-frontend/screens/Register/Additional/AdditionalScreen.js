@@ -68,8 +68,8 @@ const ButtonContainer = ({ text, done, onPress }) => {
 const instruction = "추가 정보를 입력하면\n더 많은 친구들을\n만날 수 있어!";
 const AdditionalScreen = ({ navigation }) => {
   //persist Data 받아서 분기하기!
-  const preferenceCompleted = useSelector(
-    (state) => state.persist.preferenceCompleted
+  const emailAuthenticated = useSelector(
+    (state) => state.persist.emailAuthenticated
   );
   const hasMainProfileImage = useSelector(
     (state) => state.persist.hasMainProfileImage
@@ -88,38 +88,37 @@ const AdditionalScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <ButtonContainer text={"학교 인증"} done={true} />
-        {!hasMainProfileImage && preferenceCompleted ? (
+        {hasMainProfileImage && !emailAuthenticated ? (
           <>
-            <ButtonContainer
-              text={"선호 상대 입력"}
-              done={preferenceCompleted}
-              onPress={() => {
-                navigation.navigate("Drink");
-              }}
-            />
             <ButtonContainer
               text={"사진 등록"}
               done={hasMainProfileImage}
               onPress={() => {
                 navigation.navigate("PhotoSet");
+              }}
+            />
+            <ButtonContainer
+              text={"대학생 인증"}
+              done={emailAuthenticated}
+              onPress={() => {
+                navigation.navigate("UnivMail");
               }}
             />
           </>
         ) : (
           <>
             <ButtonContainer
+              text={"대학생 인증"}
+              done={emailAuthenticated}
+              onPress={() => {
+                navigation.navigate("UnivMail");
+              }}
+            />
+            <ButtonContainer
               text={"사진 등록"}
               done={hasMainProfileImage}
               onPress={() => {
                 navigation.navigate("PhotoSet");
-              }}
-            />
-            <ButtonContainer
-              text={"선호 상대 입력"}
-              done={preferenceCompleted}
-              onPress={() => {
-                navigation.navigate("Drink");
               }}
             />
           </>
@@ -129,7 +128,7 @@ const AdditionalScreen = ({ navigation }) => {
         text={"위밋 바로 시작하기"}
         onPress={() => {
           //*** Alert띄워서 정말 입력안할거양?!? 해주기 */
-          Alert.alert("추가 획득의 기회를 놓치다니", "아쉽구만 그래 ㅋ");
+          Alert.alert("위밋 시작!");
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

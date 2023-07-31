@@ -16,11 +16,13 @@ import registerStyles from "../../../styles/registerStyles";
 import commonStyles from "../../../styles/commonStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import { emailVrfIssueApi, emailVrfValidateApi } from "../../../api/univAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmailAuthenticated } from "../../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
 
 const instruction = "학생인증을\n완료해줘";
 const UnivVerifyScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const mail = route.params.mail;
   const college = useSelector((state) => {
     return state.register.collegeInfo.college; //학교 코드
@@ -56,12 +58,10 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       const res = await emailVrfValidateApi(mail, code, controller); //api전송
       setLoading(false);
       if (res) {
+        dispatch(setEmailAuthenticated(true));
         console.log("인증성공");
         setWarning(null);
-        Alert.alert(
-          "인증 완료,,,",
-          "추가정보 입력하던지 말던지, 안 할거면 추천페이지로 이동 ㅋ"
-        );
+        Alert.alert("인증 완료,,,");
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

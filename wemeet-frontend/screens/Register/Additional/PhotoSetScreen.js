@@ -16,11 +16,14 @@ import registerStyles from "../../../styles/registerStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
+import { useDispatch } from "react-redux";
+import { setHasMainProfileImage } from "../../../redux/persistSlice";
+import { CommonActions } from "@react-navigation/native";
 
 const instruction = "너의 사진을\n등록해줘";
 const PhotoSetScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState(null);
-  const [subImg, setSubImg] = useState(null);
   const [granted, setGranted] = useState(false);
   const getPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,7 +39,7 @@ const PhotoSetScreen = ({ navigation }) => {
     setGranted(true);
     return true;
   };
-  const pickImageAsync = async (type) => {
+  const pickImageAsync = async () => {
     if (!granted) {
       Alert.alert(
         "사진 라이브러리 접근 불가",
@@ -50,13 +53,19 @@ const PhotoSetScreen = ({ navigation }) => {
       quality: 1,
       // aspect: [4, 3],
     });
-    if (!result.canceled && type == 0) {
-      setProfileImg(result.assets[0].uri);
-    } else if (!result.canceled && type == 1) {
-      setSubImg(result.assets[0].uri);
-    } else {
-      console.log("사진을 선택하지 않음");
-    }
+    if (!result.canceled) setProfileImg(result.assets[0].uri);
+    else console.log("사진을 선택하지 않음");
+  };
+  const onPress = () => {
+    //수정하기, 사진 등록하기 버튼 눌렀을 경우 -> API요청 보내야함
+
+    dispatch(setHasMainProfileImage(true));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Additional" }],
+      })
+    );
   };
   useEffect(() => {
     getPermission();
@@ -147,30 +156,8 @@ const PhotoSetScreen = ({ navigation }) => {
             </>
           )}
         </TouchableOpacity>
-        {subImg && (
-          <Image
-            source={{ uri: subImg }}
-            style={{ width: 150, height: 150 }}
-          ></Image>
-        )}
-
-        {/* <Button
-          title="대표사진 업로드"
-          onPress={() => {
-            pickImageAsync(0);
-          }}
-          color={"pink"}
-        />
-        <Button
-          theme="primary"
-          title="추가사진 업로드"
-          onPress={() => {
-            pickImageAsync(1);
-          }}
-          color={"pink"}
-        /> */}
       </View>
-      <NextButton text={"사진 등록하기"} onPress={() => {}} />
+      <NextButton text={"사진 등록하기"} onPress={onPress} />
     </SafeAreaView>
   );
 };

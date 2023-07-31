@@ -10,11 +10,10 @@ import { useDispatch } from "react-redux";
 import { setRegisterPhoneNum } from "../../redux/registerSlice";
 
 const instruction = "휴대폰 번호를\n알려줘";
-const PhoneNumScreen = ({ navigation, route }) => {
+const PhoneNumScreen = ({ navigation }) => {
   const [phone, setPhone] = useState("010");
   const [warning, setWarning] = useState(null); //잘못 입력했을시 안내 멘트
   const [loading, setLoading] = useState(false); //API응답대기여부
-  const name = route.params.name;
   const controller = new AbortController(); //abortcontroller
   const dispatch = useDispatch();
   useEffect(() => {
@@ -74,7 +73,6 @@ const PhoneNumScreen = ({ navigation, route }) => {
             {warning}
           </Text>
         </View>
-        <RegisterAnimatedView text={name} label={"이름"} />
       </View>
     </SafeAreaView>
   );

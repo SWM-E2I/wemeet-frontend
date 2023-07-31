@@ -6,7 +6,7 @@ const EMAIL_VRF_VALIDATE_URL = "/auth/mail/validate";
 
 const emailVrfIssueApi = async (college, mail, controller) => {
   // //for test only
-  // return true;
+  return true;
   // //for test ends
 
   //college는 코드로 주기
@@ -23,9 +23,7 @@ const emailVrfIssueApi = async (college, mail, controller) => {
       console.log("이메일 인증번호 발급 성공");
       return true;
       //navigate to the next page
-    }
-    // else
-    //   Alert.alert("오류가 발생했습니다. 다시 시도 해주세요", response?.message);
+    } else Alert.alert("요청에 실패했습니다.", response.data.message);
   } catch (err) {
     if (err.response) {
       console.log(
@@ -52,7 +50,7 @@ const emailVrfIssueApi = async (college, mail, controller) => {
 
 const emailVrfValidateApi = async (mail, code, controller) => {
   //test code begins
-  // return true;
+  return true;
   //test code ends
 
   try {

@@ -16,8 +16,8 @@ const persistSlice = createSlice({
     setPersistState: (state, action) => {
       state = action.payload;
     },
-    setPreferenceCompleted: (state, action) => {
-      state.preferenceCompleted = action.payload;
+    setEmailAuthenticated: (state, action) => {
+      state.emailAuthenticated = action.payload;
     },
     setHasMainProfileImage: (state, action) => {
       state.hasMainProfileImage = action.payload;
@@ -28,6 +28,6 @@ const persistSlice = createSlice({
 export default persistSlice;
 export const {
   setPersistState,
-  setPreferenceCompleted,
+  setEmailAuthenticated,
   setHasMainProfileImage,
 } = persistSlice.actions;

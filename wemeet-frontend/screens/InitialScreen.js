@@ -10,7 +10,7 @@ const bottom = "시그널로 내 주변 상대 추천받기!";
 const InitialScreen = ({ navigation }) => {
   const onPress = () => {
     //수정 필요 -> 분기하기!
-    navigation.replace("Name");
+    navigation.replace("PhoneNum");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

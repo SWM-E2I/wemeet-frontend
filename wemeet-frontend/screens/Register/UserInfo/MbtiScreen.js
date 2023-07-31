@@ -29,7 +29,7 @@ const MbtiScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const toNext = () => {
     dispatch(setRegisterMbti(mbti));
-    navigation.navigate("Intro");
+    navigation.navigate("Univ");
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

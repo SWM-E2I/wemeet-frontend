@@ -10,8 +10,6 @@ const initialRegisterState = {
     admissionYear: "",
   },
   mbti: "",
-  introduction: null,
-  memberInterestList: null,
 }; //회원가입시 필요한 필수정보 state
 
 const registerSlice = createSlice({
@@ -33,12 +31,6 @@ const registerSlice = createSlice({
     setRegisterMbti: (state, action) => {
       state.mbti = action.payload;
     },
-    setRegisterIntroduction: (state, action) => {
-      state.introduction = action.payload;
-    },
-    setRegisterMemberInterestList: (state, action) => {
-      state.memberInterestList = action.payload;
-    },
   },
 });
 
@@ -49,6 +41,4 @@ export const {
   setRegisterNickName,
   setRegisterCollegeInfo,
   setRegisterMbti,
-  setRegisterIntroduction,
-  setRegisterMemberInterestList,
 } = registerSlice.actions;
