@@ -59,7 +59,7 @@ const emailVrfIssueApi = async (college, mail, controller, navigation) => {
 
 const emailVrfValidateApi = async (mail, code, controller) => {
   //test code begins
-  return true;
+  // return true;
   //test code ends
 
   try {

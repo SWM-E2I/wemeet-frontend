@@ -93,6 +93,11 @@ const UnivVerifyScreen = ({ navigation, route }) => {
     console.log("timer value : ", timer);
     return () => clearTimeout(timeout);
   }, [timer]);
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  }, []);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />

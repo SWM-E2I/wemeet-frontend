@@ -10,7 +10,7 @@ export const persistLoginApi = async (controller) => {
     console.log("persistLoginApi response : ", response.data);
     if (response.data.status == "SUCCESS") {
       console.log("PersistLogin response status : SUCCESS");
-      return response.data?.data;
+      return response.data.data;
     } else {
       console.log("PersistLogin response status : FAIL or ERROR");
       return null;

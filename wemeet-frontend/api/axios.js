@@ -44,7 +44,9 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(async (config) => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
-  config.headers = { AccessToken: accessToken };
+  // console.log("axiosPrivate interceptor request:", config.headers);
+  config.headers = { ...config.headers, AccessToken: accessToken };
+  console.log("axiosPrivate interceptor, request header:", config.headers);
   return config;
 });
 axiosPrivate.interceptors.response.use(
@@ -70,7 +72,6 @@ axiosPrivate.interceptors.response.use(
         return axiosPrivate.request(error.config);
       } else return Promise.reject("LOGOUT");
     }
-    x;
     return Promise.reject(error);
   }
 );

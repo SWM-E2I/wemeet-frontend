@@ -52,11 +52,12 @@ const phoneVrfIssueApi = async (phoneNum, controller) => {
 };
 //axios로 부터 받은 응답의 header에 들어있는 accesstoken값을 expo secure store에 저장하는 함수
 const storeAccessToken = async (response) => {
+  console.log("storeAccessToken :", response.headers);
   try {
-    await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
+    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
     await SecureStore.setItemAsync(
       "refreshToken",
-      response.headers.RefreshToken
+      response.headers.refreshtoken
     );
     console.log("accessToken, refreshToken 저장완료");
   } catch (err) {
@@ -67,7 +68,7 @@ const storeAccessToken = async (response) => {
 //회원가입이 되어있는 사람은 token이 온다!!!
 const phoneVrfValidateApi = async (phone, code, controller) => {
   //테스트코드시작
-  return "NOT_REGISTERED";
+  // return "NOT_REGISTERED";
   //테스트코드끝
 
   try {

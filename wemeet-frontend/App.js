@@ -35,7 +35,7 @@ async function checkPersistType(
         setPersistType("UnivMail");
         setLoading(false);
         return;
-      } else if (res.preferenceCompleted && res.hasMainProfileImage) {
+      } else if (res.emailAuthenticated && res.hasMainProfileImage) {
         setPersistType("Main");
         console.log("앱 실행, 메인 페이지로 이동");
         setLoading(false);
@@ -75,8 +75,8 @@ export default function App() {
               <MainScreen />
             ) : (
               <RegisterStackNavigation
-                // persistType={persistType}
-                persistType={"Additional"} //for test only
+                persistType={persistType}
+                // persistType={"Additional"} //for test only
                 persistData={persistData}
               />
             )}

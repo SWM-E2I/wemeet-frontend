@@ -68,16 +68,16 @@ const VerifyScreen = ({ navigation, route }) => {
           const persistRes = await persistLoginApi(controller);
           if (persistRes) {
             dispatch(setPersistState(persistRes)); //state 저장
-            if (!persistRes.emailAuthenticated) nextPage = "UnivMail";
-            else if (
-              persistRes.preferenceCompleted &&
-              persistRes.hasMainProfileImage
-            )
+            if (persistRes.emailAuthenticated && persistRes.hasMainProfileImage)
               nextPage = "Main";
             else nextPage = "Additional"; //추가정보 분기 페이지
           } else {
-            Alert.alert("오류가 발생했습니다.", "다시 시도해주세요.");
-            console.log("persistRes : ", persistRes);
+            Alert.alert(
+              "User Data를 가져오는 중 오류가 발생했습니다.",
+              "다시 시도해주세요."
+            );
+            console.log("peristLoginApi Error");
+            nextPage = "Additional"; //임시!!!!! 수정해야함 - pesistLoginApi나오면
           }
           navigation.navigate("TermsModal", { next: nextPage });
         }

@@ -14,7 +14,13 @@ const persistSlice = createSlice({
   initialState: initialPersistState,
   reducers: {
     setPersistState: (state, action) => {
-      state = action.payload;
+      state.nickname = action.payload.nickname;
+      state.emailAuthenticated = action.payload.emailAuthenticated;
+      state.preferenceCompleted = action.payload.preferenceCompleted;
+      state.hasMainProfileImage = action.payload.hasMainProfileImage;
+      state.profileImageAuthenticated =
+        action.payload.profileImageAuthenticated;
+      state.hasTeam = action.payload.hasTeam;
     },
     setEmailAuthenticated: (state, action) => {
       state.emailAuthenticated = action.payload;

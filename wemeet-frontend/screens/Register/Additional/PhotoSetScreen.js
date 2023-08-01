@@ -19,12 +19,14 @@ import NextButton from "../../../components/NextButton";
 import { useDispatch } from "react-redux";
 import { setHasMainProfileImage } from "../../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
+import { setProfileImgApi } from "../../../api/photoSet";
 
 const instruction = "너의 사진을\n등록해줘";
 const PhotoSetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState(null);
   const [granted, setGranted] = useState(false);
+  const controller = new AbortController();
   const getPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -53,23 +55,33 @@ const PhotoSetScreen = ({ navigation }) => {
       quality: 1,
       // aspect: [4, 3],
     });
-    if (!result.canceled) setProfileImg(result.assets[0].uri);
-    else console.log("사진을 선택하지 않음");
+    if (!result.canceled) {
+      // console.log(result.assets[0]);
+      setProfileImg(result.assets[0]);
+    } else console.log("사진을 선택하지 않음");
   };
-  const onPress = () => {
+  const onPress = async () => {
     //수정하기, 사진 등록하기 버튼 눌렀을 경우 -> API요청 보내야함
-
-    dispatch(setHasMainProfileImage(true));
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "Additional" }],
-      })
-    );
+    //API에 result.assets[0]이 담긴 객체인 profileImg 객체 넘겨주기!!
+    const res = await setProfileImgApi(profileImg, controller, navigation);
+    console.log("photoSetScreen, setProfileImgApi result :", res);
+    if (res) {
+      dispatch(setHasMainProfileImage(true));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Additional" }],
+        })
+      );
+    }
   };
   useEffect(() => {
     getPermission();
+    return () => {
+      controller.abort();
+    };
   }, []);
+  // console.log("photoSet, profileImg : ", profileImg);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />
@@ -89,7 +101,7 @@ const PhotoSetScreen = ({ navigation }) => {
           }}
         >
           {
-            "다른 사람에게 보여지는 내 프로필 화면이에요\n서로 매칭되기 전까지는 사진 원본이 공개되지 않아요"
+            "다른 사람에게 보여지는 내 프로필 화면이야!\n미팅 신청을 위해 필수로 등록해줘야해"
           }
         </Text>
         <TouchableOpacity
@@ -118,19 +130,19 @@ const PhotoSetScreen = ({ navigation }) => {
           {profileImg ? (
             //resizeMode 다시 보기, 누르고 있는 동안은 원본 사진 볼 수 있게! (pressable 활용!)
             <Image
-              source={{ uri: profileImg }}
+              source={{ uri: profileImg.uri }}
               style={{
                 height: "100%",
                 width: "100%",
                 borderRadius: 15,
               }}
-              blurRadius={30}
+              // blurRadius={30}
               resizeMode={"cover"}
             />
           ) : (
             <>
               <FontAwesome5 name="camera" size={40} color="gray" />
-              <Text
+              {/* <Text
                 style={{
                   color: "gray",
                   fontSize: 20,
@@ -139,7 +151,7 @@ const PhotoSetScreen = ({ navigation }) => {
                 }}
               >
                 1/2
-              </Text>
+              </Text> */}
               <Text
                 style={{
                   width: "90%",
@@ -150,14 +162,18 @@ const PhotoSetScreen = ({ navigation }) => {
                   textAlign: "center",
                 }}
               >
-                대표 사진은 자신을 가장 잘 나타낼 수 있는 사진이야!{"\n"}
-                눈코입을 전부 확인할 수 있는 사진을 올려줘
+                {/* 대표 사진은 자신을 가장 잘 나타낼 수 있는 사진이야!{"\n"} */}
+                가급적 본인을 가장 잘 나타낼 수 있는 사진을 올려줘
               </Text>
             </>
           )}
         </TouchableOpacity>
       </View>
-      <NextButton text={"사진 등록하기"} onPress={onPress} />
+      <NextButton
+        text={"사진 등록하기"}
+        onPress={onPress}
+        disabled={!profileImg}
+      />
     </SafeAreaView>
   );
 };
