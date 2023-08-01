@@ -1,11 +1,12 @@
 import { axiosDefault, axiosPrivate } from "./axios.js";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { CommonActions } from "@react-navigation/native";
 
 //for phone and email verification
 const PHONE_VRF_ISSUE_URL = "/auth/phone/issue";
 const PHONE_VRF_VALIDATE_URL = "/auth/phone/validate";
-const phoneVrfIssueApi = async (phoneNum, controller, navigation) => {
+const phoneVrfIssueApi = async (phoneNum, controller) => {
   //테스트용 시작
   // return true;
   //테스트용 끝

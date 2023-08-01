@@ -1,12 +1,13 @@
 import { axiosPrivate } from "./axios.js";
 import { Alert } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 
 const EMAIL_VRF_ISSUE_URL = "/auth/mail/request";
 const EMAIL_VRF_VALIDATE_URL = "/auth/mail/validate";
 
-const emailVrfIssueApi = async (college, mail, controller) => {
+const emailVrfIssueApi = async (college, mail, controller, navigation) => {
   // //for test only
-  return true;
+  // return true;
   // //for test ends
 
   //college는 코드로 주기
@@ -25,7 +26,15 @@ const emailVrfIssueApi = async (college, mail, controller) => {
       //navigate to the next page
     } else Alert.alert("요청에 실패했습니다.", response.data.message);
   } catch (err) {
-    if (err.response) {
+    if (err == "LOGOUT") {
+      Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "PhoneNum" }],
+        })
+      );
+    } else if (err.response) {
       console.log(
         "emailVrfIssueApi : ",
         "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
@@ -82,7 +91,15 @@ const emailVrfValidateApi = async (mail, code, controller) => {
       ); //해당 번호에 인증번호가 발급되지 않았습니다.
   } catch (err) {
     //예외처리
-    if (err.response) {
+    if (err == "LOGOUT") {
+      Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "PhoneNum" }],
+        })
+      );
+    } else if (err.response) {
       console.log(
         "emailVrfValidateApi : ",
         "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."

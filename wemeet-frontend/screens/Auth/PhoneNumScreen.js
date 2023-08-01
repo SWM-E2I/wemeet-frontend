@@ -4,7 +4,7 @@ import commonStyles from "../../styles/commonStyles";
 import RegisterHeader from "../../components/register/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
-import RegisterAnimatedView from "../../components/register/RegisterAnimatedView";
+// import RegisterAnimatedView from "../../components/register/RegisterAnimatedView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
 import { useDispatch } from "react-redux";
 import { setRegisterPhoneNum } from "../../redux/registerSlice";
@@ -43,7 +43,7 @@ const PhoneNumScreen = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
-      <RegisterHeader navigation={navigation} back />
+      <RegisterHeader navigation={navigation} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />

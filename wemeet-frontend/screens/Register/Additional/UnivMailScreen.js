@@ -28,7 +28,12 @@ const UnivMailScreen = ({ navigation }) => {
     else {
       setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
       setLoading(true);
-      let result = await emailVrfIssueApi(college, mail, controller);
+      let result = await emailVrfIssueApi(
+        college,
+        mail,
+        controller,
+        navigation
+      );
       setLoading(false);
       if (result) {
         console.log("인증번호 발송, 다음 화면으로 이동");
