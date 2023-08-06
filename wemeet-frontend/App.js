@@ -8,8 +8,6 @@ import * as SecureStore from "expo-secure-store";
 import { RegisterStackNavigation } from "./navigations/StackNavigation.js";
 import MainScreen from "./screens/MainScreen.js";
 import { persistLoginApi } from "./api/persist.js";
-import { useDispatch } from "react-redux";
-import { setPersistState } from "./redux/persistSlice.js";
 
 // const Stack = createNativeStackNavigator();
 async function checkPersistType(
@@ -80,6 +78,11 @@ export default function App() {
                 persistData={persistData}
               />
             )}
+            {/* <RegisterStackNavigation
+              // persistType={persistType}
+              persistType={"Additional"} //for test only
+              persistData={persistData}
+            /> */}
           </>
         ) : (
           //splash Screen 필요!

@@ -116,7 +116,8 @@ const AdditionalScreen = ({ navigation }) => {
             />
             <ButtonContainer
               text={"사진 등록"}
-              done={hasMainProfileImage}
+              // done={hasMainProfileImage}
+              done={false}
               onPress={() => {
                 navigation.navigate("PhotoSet");
               }}

@@ -3,26 +3,16 @@ import { CommonActions } from "@react-navigation/native";
 import { Alert, Platform } from "react-native";
 
 //개인 프로필 사진 전송하는거
-const SET_PROFILE_IMG_API_URL = "/profile_image";
+// const SET_PROFILE_IMG_API_URL = "/profile_image";
+const SET_PROFILE_IMG_API_URL = "/profile_image?main=true";
 const setProfileImgApi = async (profileImg, controller, navigation) => {
   //profileImg = 사진 데이터 객체 (pickImageAsync의 result.assets[0])
   const formData = new FormData();
-  formData.append("photo", {
+  formData.append("file", {
     uri: profileImg.uri,
     type: profileImg.type,
     name: profileImg.fileName,
   });
-  console.log(
-    "setProfileImgApi\n",
-    "formData :",
-    formData,
-    "profileImg.uri :",
-    profileImg.uri,
-    "profileImg.type :",
-    profileImg.type,
-    "profileImg.fileName :",
-    profileImg.fileName
-  );
   try {
     const response = await axiosPrivate.post(
       SET_PROFILE_IMG_API_URL,

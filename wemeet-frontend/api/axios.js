@@ -11,13 +11,20 @@ const axiosDefault = axios.create({
 const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
-  console.log("refresh 실행", accessToken, refreshToken);
+  console.log(
+    "refresh 실행",
+    "accessToken :",
+    accessToken,
+    "refreshToken :",
+    refreshToken
+  );
   try {
     const response = await axiosDefault.post(
       "/auth/refresh",
       {},
       { headers: { AccessToken: accessToken, RefreshToken: refreshToken } }
     );
+    console.log("refresh response :", response.data);
     //SecureStore에 새로운 accessToken, refreshToken 저장
     await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
     await SecureStore.setItemAsync(
@@ -28,11 +35,10 @@ const refresh = async () => {
   } catch (error) {
     if (error.response?.status === 401) {
       //로그아웃 시키기 -> 인증 페이지로 돌아가기
-      console.log("refresh token 만료");
+      console.log("token refresh : refresh token 만료");
       await SecureStore.deleteItemAsync("accessToken");
       await SecureStore.deleteItemAsync("refreshToken");
-    }
-    console.log("token refresh 중 에러 발생");
+    } else console.log("token refresh 중 에러 발생");
     return null;
   }
 };
@@ -59,7 +65,7 @@ axiosPrivate.interceptors.response.use(
     // 2XX 외의 범위에 있는 상태 코드
     console.log("axiosPrivate response error", error.message);
     if (error.message === "Network Error" && !error.response) {
-      print(error.config);
+      console.log(error.config);
       console.log("Network Error");
     } else if (error.response?.status === 401) {
       //토큰이 만료되었을 경우, refresh token을 이용해 access token을 재발급 받습니다.
