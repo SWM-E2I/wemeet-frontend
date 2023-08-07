@@ -24,7 +24,7 @@ const GenderScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const toNext = () => {
     if (gender) {
-      dispatch(setRegisterGender(gender === "여자" ? "FEMALE" : "MALE"));
+      dispatch(setRegisterGender(gender === "여자" ? "WOMAN" : "MAN"));
       navigation.navigate("Nickname");
     } else Alert.alert("성별을 선택해줘!");
     //redux state에 성별 저장하기

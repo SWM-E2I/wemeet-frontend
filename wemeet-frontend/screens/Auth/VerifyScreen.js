@@ -60,7 +60,7 @@ const VerifyScreen = ({ navigation, route }) => {
         console.log("인증성공", res);
         setWarning(null);
         //여기서 PersistLogin 요청하기
-        let nextPage = "Main";
+        let nextPage = "MainTab";
         if (res == "NOT_REGISTERED") {
           navigation.navigate("TermsModal", { next: "Gender" });
         } else {
@@ -69,7 +69,7 @@ const VerifyScreen = ({ navigation, route }) => {
           if (persistRes) {
             dispatch(setPersistState(persistRes)); //state 저장
             if (persistRes.emailAuthenticated && persistRes.hasMainProfileImage)
-              nextPage = "Main";
+              nextPage = "MainTab";
             else nextPage = "Additional"; //추가정보 분기 페이지
           } else {
             Alert.alert(

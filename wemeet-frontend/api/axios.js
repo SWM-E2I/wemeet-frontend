@@ -24,7 +24,6 @@ const refresh = async () => {
       {},
       { headers: { AccessToken: accessToken, RefreshToken: refreshToken } }
     );
-    console.log("refresh response :", response.data);
     //SecureStore에 새로운 accessToken, refreshToken 저장
     await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
     await SecureStore.setItemAsync(
@@ -52,7 +51,7 @@ axiosPrivate.interceptors.request.use(async (config) => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   // console.log("axiosPrivate interceptor request:", config.headers);
   config.headers = { ...config.headers, AccessToken: accessToken };
-  console.log("axiosPrivate interceptor, request header:", config.headers);
+  // console.log("axiosPrivate interceptor, request header:", config.headers);
   return config;
 });
 axiosPrivate.interceptors.response.use(

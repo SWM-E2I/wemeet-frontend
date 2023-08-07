@@ -1,7 +1,7 @@
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { Easing } from "react-native";
-import PrefSetScreen from "../screens/Register/PrefSetScreen.js";
-import MainScreen from "../screens/MainScreen.js";
+//Other Navigations
+import MainTabNavigation from "./MainTabNavigation.js";
 //Begin - Auth
 import InitialScreen from "../screens/InitialScreen.js";
 import PhoneNumScreen from "../screens/Auth/PhoneNumScreen.js";
@@ -23,7 +23,7 @@ import SameUnivScreen from "../screens/Register/Pref/SameUnivScreen.js";
 import FriendScreen from "../screens/Register/Pref/FriendScreen.js";
 import PrefMbtiScreen from "../screens/Register/Pref/PrefMbtiScreen.js";
 // import PhotoSetScreen from "../screens/Register/Auth/PhotoSetScreen.js";
-import PhotoSetScreen from "../screens//Register/Additional/PhotoSetScreen.js";
+import PhotoSetScreen from "../screens/Register/Additional/PhotoSetScreen.js";
 import { useDispatch } from "react-redux";
 import { setPersistState } from "../redux/persistSlice.js";
 import { useEffect } from "react";
@@ -32,6 +32,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 import NicknameScreen from "../screens/Register/UserInfo/NicknameScreen.js";
 
 const config = {
@@ -50,6 +51,7 @@ export const RegisterStackNavigation = ({ persistType, persistData }) => {
   }, []);
   console.log("registerStackNavigation>persistType :", persistType);
   return (
+    // <NavigationContainer>
     <Stack.Navigator
       initialRouteName={persistType}
       screenOptions={{
@@ -105,20 +107,20 @@ export const RegisterStackNavigation = ({ persistType, persistData }) => {
         component={UnivVerifyScreen}
         options={{}}
       />
+      {/* Additional */}
       <Stack.Screen
         name="Additional"
         component={AdditionalScreen}
         options={{}}
       />
-      {/* <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} /> */}
-      {/* 여기 아래는 deprecated */}
-      <Stack.Screen name="Pref" component={PrefSetScreen} options={{}} />
       <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} />
+      {/* MainTabNavigator */}
       <Stack.Screen
-        name="Main"
-        component={MainScreen}
+        name="MainTab"
+        component={MainTabNavigation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
+    // </NavigationContainer>
   );
 };

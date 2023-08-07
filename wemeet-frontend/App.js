@@ -5,8 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import * as SecureStore from "expo-secure-store";
-import { RegisterStackNavigation } from "./navigations/StackNavigation.js";
-import MainScreen from "./screens/MainScreen.js";
+import { RegisterStackNavigation } from "./navigations/RootStackNavigation.js";
+import MainTabNavigation from "./navigations/MainTabNavigation.js";
 import { persistLoginApi } from "./api/persist.js";
 
 // const Stack = createNativeStackNavigator();
@@ -18,9 +18,8 @@ async function checkPersistType(
 ) {
   //이때 실행되는 splash image 필요!!!
   setLoading(true);
-  // await SecureStore.setItemAsync("refreshToken", "OHYEAH");
-  // await SecureStore.setItemAsync("accessToken", "Bearer OHYEAH");
   let result = await SecureStore.getItemAsync("refreshToken");
+  console.log("앱 실행>refreshToken: ", result);
   if (result) {
     //persist Api 실행
     const res = await persistLoginApi(controller);
@@ -70,7 +69,7 @@ export default function App() {
         {!Loading ? (
           <>
             {persistType == "Main" ? (
-              <MainScreen />
+              <MainTabNavigation />
             ) : (
               <RegisterStackNavigation
                 persistType={persistType}

@@ -116,8 +116,8 @@ const AdditionalScreen = ({ navigation }) => {
             />
             <ButtonContainer
               text={"사진 등록"}
-              // done={hasMainProfileImage}
-              done={false}
+              // done={false}
+              done={hasMainProfileImage}
               onPress={() => {
                 navigation.navigate("PhotoSet");
               }}
@@ -133,7 +133,7 @@ const AdditionalScreen = ({ navigation }) => {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Main" }],
+              routes: [{ name: "MainTab" }],
             })
           );
         }}
