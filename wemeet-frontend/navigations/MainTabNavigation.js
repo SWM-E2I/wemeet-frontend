@@ -4,54 +4,71 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/Home/HomeScreen";
 import MatchPage from "../screens/Match/MatchPage";
 import ProfileStackNavigation from "./ProfileStackNavigation";
+import MyTeamScreen from "../screens/Team/MyTeamScreen";
 //temporary icons
-import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 //MainScreen 여기로 옮기기
 const MainTabNavigation = () => {
   const Tab = createBottomTabNavigator();
   return (
     // <NavigationContainer independent={true}>
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "bold",
+          color: "gray",
+        },
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
           tabBarLabel: "홈",
           tabBarIcon: ({ focused }) => (
-            <AntDesign
+            <Ionicons
               name="home"
               size={24}
               color={focused ? "orange" : "black"}
             />
           ),
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: "bold",
-            color: "gray",
-          },
         }}
       />
-      {/*임시*/}
+      {/*임시 -> nested navigator로 재구현*/}
       <Tab.Screen
         name="Match"
         component={MatchPage}
         options={{
           tabBarLabel: "매칭",
           tabBarIcon: ({ focused }) => (
-            <MaterialIcons
-              name="group"
+            <FontAwesome
+              name="wechat"
               size={24}
               color={focused ? "orange" : "black"}
             />
           ),
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: "bold",
-            color: "gray",
-          },
+        }}
+      />
+      {/*임시 -> nested navigator로 재구현*/}
+      <Tab.Screen
+        name="MyTeam"
+        component={MyTeamScreen}
+        options={{
+          tabBarLabel: "팀 관리",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="ios-people"
+              size={27}
+              color={focused ? "orange" : "black"}
+            />
+          ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -66,11 +83,6 @@ const MainTabNavigation = () => {
               color={focused ? "orange" : "black"}
             />
           ),
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: "bold",
-            color: "gray",
-          },
         }}
       />
     </Tab.Navigator>

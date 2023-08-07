@@ -1,13 +1,17 @@
 import { SafeAreaView, View, Text, Button } from "react-native";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
+import commonStyles from "../../styles/commonStyles";
 
 const HomeScreen = () => {
   const [progress, setProgress] = useState(0);
 
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      style={[
+        commonStyles.safeAreaView,
+        { flex: 1, justifyContent: "center", alignItems: "center" },
+      ]}
     >
       <Text>Card will be shown here</Text>
       <Progress.Bar

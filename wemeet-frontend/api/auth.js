@@ -1,7 +1,6 @@
 import { axiosDefault, axiosPrivate } from "./axios.js";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import { CommonActions } from "@react-navigation/native";
 
 //for phone and email verification
 const PHONE_VRF_ISSUE_URL = "/auth/phone/issue";

@@ -2,7 +2,6 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import InitialProfileScreen from "../screens/Profile/InitialProfileScreen";
-import MyTeamScreen from "../screens/Profile/MyTeamScreen";
 
 const ProfileStackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -18,7 +17,7 @@ const ProfileStackNavigation = () => {
         //   options={{ headerShown: false }}
       />
 
-      <Stack.Screen name="MyTeam" component={MyTeamScreen} />
+      {/* <Stack.Screen name="MyTeam" component={MyTeamScreen} /> -> 팀관리는 마이페이지에서 빠짐*/}
     </Stack.Navigator>
     // </NavigationContainer>
   );

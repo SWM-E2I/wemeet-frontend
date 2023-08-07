@@ -65,6 +65,8 @@ export default function App() {
   }, []);
   return (
     <Provider store={store}>
+      {/* <StatusBar translucent={false} style="light" /> */}
+      {/* 나중에 status bar도 customize하기 */}
       <NavigationContainer>
         {!Loading ? (
           <>

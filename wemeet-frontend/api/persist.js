@@ -1,4 +1,5 @@
 import { axiosPrivate } from "./axios.js";
+import { CommonActions } from "@react-navigation/native";
 
 const PERSIST_LOGIN_URL = "/auth/persist";
 
@@ -16,6 +17,15 @@ export const persistLoginApi = async (controller) => {
       return null;
     }
   } catch (err) {
+    // if (err == "LOGOUT") {
+    //   Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+    //   navigation.dispatch(
+    //     CommonActions.reset({
+    //       index: 0,
+    //       routes: [{ name: "PhoneNum" }],
+    //     })
+    //   );
+    // }  => 이걸 persist에서 할지 말지
     if (err.response) {
       console.log(
         "persistLoginApi : ",
