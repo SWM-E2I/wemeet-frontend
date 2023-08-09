@@ -23,14 +23,7 @@ async function checkPersistType(
     const res = await persistLoginApi(controller);
     if (res) {
       setPersistData(res);
-      if (!res.emailAuthenticated) {
-        Alert.alert("대학생 인증을 완료하지 않았어!", "이메일 인증을 진행해줘");
-        //이메일 인증 안된 경우
-        console.log("앱 실행, 이메일 인증 페이지로 이동");
-        setPersistType("UnivMail");
-        setLoading(false);
-        return;
-      } else if (res.emailAuthenticated && res.hasMainProfileImage) {
+      if (res.emailAuthenticated && res.hasMainProfileImage) {
         setPersistType("MainTab");
         console.log("앱 실행, 메인 페이지로 이동");
         setLoading(false);
@@ -66,13 +59,12 @@ export default function App() {
       {/* <StatusBar translucent={false} style="light" /> */}
       {/* 나중에 status bar도 customize하기 */}
       {!Loading ? (
-        <>
-          <RootStackNavigation
-            persistType={persistType}
-            // persistType={"Additional"} //for test only
-            persistData={persistData}
-          />
-        </>
+        <RootStackNavigation
+          persistType={persistType}
+          // persistType={"PhotoSet"} //for Test only
+          // persistType={"Additional"} //for test only
+          persistData={persistData}
+        />
       ) : (
         //splash Screen 필요!
         <SafeAreaView

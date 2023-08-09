@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import { Alert } from "react-native";
 // const BASE_URL = "https://we.meet.api.com/v1"; - 실제
 const BASE_URL =
   "http://ec2-52-78-215-171.ap-northeast-2.compute.amazonaws.com:8080/v1/"; //for test only
@@ -7,7 +8,22 @@ const BASE_URL =
 const axiosDefault = axios.create({
   baseURL: BASE_URL,
 });
-
+axiosDefault.interceptors.response.use(
+  //accessToken을 사용하는 모든 요청에 필요
+  (response) => {
+    // 2xx 범위에 있는 상태 코드
+    return response;
+  },
+  async (error) => {
+    // 2XX 외의 범위에 있는 상태 코드
+    console.log("axiosPrivate response error", error.message);
+    if (error.message === "Network Error" && !error.response) {
+      console.log("Network Error");
+      Alert.alert("네트워크 에러", "네트워크 연결을 확인해주세요.");
+    }
+    return Promise.reject(error);
+  }
+);
 const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
@@ -64,8 +80,8 @@ axiosPrivate.interceptors.response.use(
     // 2XX 외의 범위에 있는 상태 코드
     console.log("axiosPrivate response error", error.message);
     if (error.message === "Network Error" && !error.response) {
-      console.log(error.config);
       console.log("Network Error");
+      Alert.alert("네트워크 에러", "네트워크 연결을 확인해주세요.");
     } else if (error.response?.status === 401) {
       //토큰이 만료되었을 경우, refresh token을 이용해 access token을 재발급 받습니다.
       //그리고 이전에 요청한 페이지로 이동합니다.

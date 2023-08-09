@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, Button, Alert } from "react-native";
+import { SafeAreaView, View, Text, Button, Alert, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { teamInquiryApi, teamGenerateApi } from "../../api/team";
 import commonStyles from "../../styles/commonStyles";
@@ -27,37 +27,40 @@ const sampleData = {
   ],
 }; //for Test only, 임시
 const MyTeamScreen = ({ navigation }) => {
-  const [granted, setGranted] = useState(false);
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [images, setImages] = useState([]); //리스트 형태
   const controller = new AbortController();
-  const getPermission = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
+  const onMount = async () => {
+    //권한 check??
+    // teamInquiryApi(navigation, controller);
+    // 위 코드는 테스트 진행을 위해 주석처리함!!
+    console.log("mediaLibaryPermission status :", status);
+    await requestPermission();
+    if (!status?.granted) {
+      console.log(status);
       Alert.alert(
-        "사진 라이브러리 접근 불가",
+        "사진 라이브러리 접근이 거부됨",
         "설정>we-meet에서 사진 권한을 설정해주세요."
       );
-      //iOS인경우 : wemeet어플 설정에서>사진>권한 부여 필요하다고 전달
-      setGranted(false);
-      return false;
+      await requestPermission();
     }
-    setGranted(true);
-    return true;
   };
   const pickImageAsync = async () => {
-    if (!granted) {
+    if (!status?.granted) {
       Alert.alert(
-        "사진 라이브러리 접근 불가",
+        "사진 라이브러리 접근이 거부됨",
         "설정>we-meet에서 사진 권한을 설정해주세요."
       );
-      return;
+      const permission = await requestPermission();
+      if (!permission.granted) return null;
     }
     let result = await ImagePicker.launchImageLibraryAsync({
-      //option finetune필요
-      //   allowsEditing: true,
+      //finetune필요
       quality: 1,
       aspect: [1, 1],
       allowsMultipleSelection: true,
+      orderedSelection: true, //only for iOS
+      selectionLimit: 10, //최대 10장까지만 선택가능하다고 알려주기
     });
     if (!result.canceled) {
       console.log(result.assets);
@@ -75,7 +78,7 @@ const MyTeamScreen = ({ navigation }) => {
     );
     console.log("MyTeamScreen, teamGenerateApi result :", res);
     if (res) {
-      // // dispatch(setHasMainProfileImage(true));
+      // dispatch(setHasMainProfileImage(true));
       // navigation.dispatch(
       //   CommonActions.reset({
       //     index: 0,
@@ -86,8 +89,7 @@ const MyTeamScreen = ({ navigation }) => {
   };
   useEffect(() => {
     console.log("MyTeamScreen mounted");
-    getPermission();
-    teamInquiryApi(navigation, controller);
+    onMount();
     return () => {
       console.log("MyTeamScreen unmounted");
       controller.abort();
@@ -100,7 +102,25 @@ const MyTeamScreen = ({ navigation }) => {
         조회 & 팀 삭제
       </Text>
       <Button title={"임시 사진등록"} onPress={pickImageAsync} />
+      {/* {status.granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
       <Button title={"팀 생성하기"} onPress={onPress} />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-around",
+        }}
+      >
+        {images.map((image, index) => {
+          return (
+            <Image
+              key={index}
+              source={{ uri: image.uri }}
+              style={{ width: 100, height: 100 }}
+            />
+          );
+        })}
+      </View>
     </SafeAreaView>
   );
 };

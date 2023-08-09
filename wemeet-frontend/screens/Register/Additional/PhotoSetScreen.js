@@ -25,35 +25,22 @@ const instruction = "너의 사진을\n등록해줘";
 const PhotoSetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState(null);
-  const [granted, setGranted] = useState(false);
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const controller = new AbortController();
-  const getPermission = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "사진 라이브러리 접근 불가",
-        "설정>we-meet에서 사진 권한을 설정해주세요."
-      );
-      //iOS인경우 : wemeet어플 설정에서>사진>권한 부여 필요하다고 전달
-      setGranted(false);
-      return false;
-    }
-    setGranted(true);
-    return true;
-  };
   const pickImageAsync = async () => {
-    if (!granted) {
+    if (!status?.granted) {
       Alert.alert(
-        "사진 라이브러리 접근 불가",
+        "사진 라이브러리 접근이 거부됨",
         "설정>we-meet에서 사진 권한을 설정해주세요."
       );
-      return;
+      const permission = await requestPermission();
+      if (!permission.granted) return null;
     }
     let result = await ImagePicker.launchImageLibraryAsync({
       //option finetune필요
       allowsEditing: true,
       quality: 1,
-      // aspect: [4, 3],
+      aspect: [1, 1],
     });
     if (!result.canceled) {
       // console.log(result.assets[0]);
@@ -76,7 +63,13 @@ const PhotoSetScreen = ({ navigation }) => {
     }
   };
   useEffect(() => {
-    getPermission();
+    if (!status?.granted) {
+      Alert.alert(
+        "사진 라이브러리 접근이 거부됨",
+        "설정>we-meet에서 사진 권한을 설정해주세요."
+      );
+      requestPermission();
+    }
     return () => {
       controller.abort();
     };
@@ -89,8 +82,13 @@ const PhotoSetScreen = ({ navigation }) => {
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />
       </View>
-      {/* {granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
-      <View style={{ flex: 1, alignItems: "center" }}>
+      {/* {status.granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
         {/* 여기에 body내용 입력 */}
         <Text
           style={{
@@ -108,9 +106,9 @@ const PhotoSetScreen = ({ navigation }) => {
           style={{
             backgroundColor: "white",
             // borderWidth: 1,
-            marginTop: 10,
-            height: 400,
-            width: "85%",
+            marginTop: 45,
+            height: 350,
+            width: 350,
             borderRadius: 15,
             justifyContent: "center",
             alignItems: "center",
@@ -135,23 +133,15 @@ const PhotoSetScreen = ({ navigation }) => {
                 height: "100%",
                 width: "100%",
                 borderRadius: 15,
+                // backgroundColor: "black",
               }}
               // blurRadius={30}
-              resizeMode={"cover"}
+              resizeMode={"contain"}
             />
           ) : (
             <>
               <FontAwesome5 name="camera" size={40} color="gray" />
-              {/* <Text
-                style={{
-                  color: "gray",
-                  fontSize: 20,
-                  letterSpacing: 2,
-                  textAlign: "center",
-                }}
-              >
-                1/2
-              </Text> */}
+
               <Text
                 style={{
                   width: "90%",
