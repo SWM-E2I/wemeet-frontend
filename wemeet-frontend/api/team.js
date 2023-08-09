@@ -38,17 +38,15 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
   //images = 사진 데이터 객체 리스트 (pickImageAsync의 result.assets)
   //아 몰랑 내일할래
   const formData = new FormData();
-  let imageList = [];
   images.forEach((image) => {
-    imageList.push({
+    formData.append("images", {
       uri: image.uri,
       type: image.type,
       name: image.fileName,
     });
   });
   formData.append("data", JSON.stringify(data));
-  formData.append("images", JSON.stringify(imageList)); //이게 맞나;;
-  console.log(formData);
+  console.log("teamGenerateApi, formData :", formData);
   try {
     const response = await axiosPrivate.post(TEAM_GENERATE_URL, formData, {
       headers: {

@@ -1,12 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
 import { SafeAreaView, Image, Alert } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import * as SecureStore from "expo-secure-store";
-import { RegisterStackNavigation } from "./navigations/RootStackNavigation.js";
-import MainTabNavigation from "./navigations/MainTabNavigation.js";
+import { RootStackNavigation } from "./navigations/RootStackNavigation.js";
 import { persistLoginApi } from "./api/persist.js";
 
 // const Stack = createNativeStackNavigator();
@@ -33,7 +31,7 @@ async function checkPersistType(
         setLoading(false);
         return;
       } else if (res.emailAuthenticated && res.hasMainProfileImage) {
-        setPersistType("Main");
+        setPersistType("MainTab");
         console.log("앱 실행, 메인 페이지로 이동");
         setLoading(false);
         return;
@@ -67,36 +65,25 @@ export default function App() {
     <Provider store={store}>
       {/* <StatusBar translucent={false} style="light" /> */}
       {/* 나중에 status bar도 customize하기 */}
-      <NavigationContainer>
-        {!Loading ? (
-          <>
-            {persistType == "Main" ? (
-              <MainTabNavigation />
-            ) : (
-              <RegisterStackNavigation
-                persistType={persistType}
-                // persistType={"Additional"} //for test only
-                persistData={persistData}
-              />
-            )}
-            {/* <RegisterStackNavigation
-              // persistType={persistType}
-              persistType={"Additional"} //for test only
-              persistData={persistData}
-            /> */}
-          </>
-        ) : (
-          //splash Screen 필요!
-          <SafeAreaView
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <Image
-              style={{ flex: 1 }}
-              source={require("./assets/images/splash.png")}
-            />
-          </SafeAreaView>
-        )}
-      </NavigationContainer>
+      {!Loading ? (
+        <>
+          <RootStackNavigation
+            persistType={persistType}
+            // persistType={"Additional"} //for test only
+            persistData={persistData}
+          />
+        </>
+      ) : (
+        //splash Screen 필요!
+        <SafeAreaView
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Image
+            style={{ flex: 1 }}
+            source={require("./assets/images/splash.png")}
+          />
+        </SafeAreaView>
+      )}
     </Provider>
   );
 }

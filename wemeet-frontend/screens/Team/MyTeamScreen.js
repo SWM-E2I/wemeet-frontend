@@ -28,7 +28,7 @@ const sampleData = {
 }; //for Test only, 임시
 const MyTeamScreen = ({ navigation }) => {
   const [granted, setGranted] = useState(false);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]); //리스트 형태
   const controller = new AbortController();
   const getPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -73,15 +73,15 @@ const MyTeamScreen = ({ navigation }) => {
       navigation,
       controller
     );
-    console.log("photoSetScreen, setProfileImgApi result :", res);
+    console.log("MyTeamScreen, teamGenerateApi result :", res);
     if (res) {
-      dispatch(setHasMainProfileImage(true));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Additional" }],
-        })
-      );
+      // // dispatch(setHasMainProfileImage(true));
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [{ name: "Additional" }],
+      //   })
+      // );
     }
   };
   useEffect(() => {
@@ -92,7 +92,7 @@ const MyTeamScreen = ({ navigation }) => {
       console.log("MyTeamScreen unmounted");
       controller.abort();
     };
-  });
+  }, []);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <Text>
