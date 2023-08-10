@@ -1,6 +1,7 @@
 import { axiosPrivate } from "./axios";
 import { Alert } from "react-native";
 import { CommonActions } from "@react-navigation/native";
+import mime from "mime";
 
 const TEAM_INQUIRY_URL = "/team";
 const TEAM_GENERATE_URL = "/team";
@@ -11,10 +12,10 @@ const teamInquiryApi = async (navigation, controller) => {
       signal: controller.signal,
     });
     if (response.data.status == "SUCCESS" && response.data.data) {
-      Alert.alert("팀이 존재합니다.");
+      Alert.alert("팀이 존재합니다.", "분기 페이지로 이동");
       console.log("TeamInquiryApi response data :", response.data.data);
     } else if (response.data.status == "SUCCESS" && !response.data.data) {
-      Alert.alert("팀이 존재하지 않습니다.");
+      Alert.alert("팀이 존재하지 않습니다.", "분기 페이지로 이동");
     } else {
       Alert.alert("요청에 실패했습니다.", response.data.message);
     }
@@ -28,8 +29,26 @@ const teamInquiryApi = async (navigation, controller) => {
         })
       );
     } else {
-      //임시
-      console.log(err);
+      // Alert.alert("오류","팀 정보를 불러오는 중 오류가 발생했습니다."); //오류발생시 분기하는 페이지로 이동하게 수정...
+      if (err.response) {
+        console.log(
+          "setProfileImgApi : ",
+          "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
+          err.response
+        );
+      } else if (err.request) {
+        console.log(
+          "setProfileImgApi : ",
+          "요청이 이루어 졌으나 응답을 받지 못했습니다.",
+          err.request._response
+        );
+      } else {
+        console.log(
+          "setProfileImgApi : ",
+          "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
+          err.message
+        );
+      }
     }
   }
 };
@@ -41,8 +60,8 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
   images.forEach((image) => {
     formData.append("images", {
       uri: image.uri,
-      type: image.type,
-      name: image.fileName,
+      type: mime.getType(image.uri),
+      name: image.uri.split("/").pop(),
     });
   });
   formData.append("data", JSON.stringify(data));

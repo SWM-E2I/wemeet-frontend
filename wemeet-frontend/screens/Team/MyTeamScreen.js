@@ -31,28 +31,29 @@ const MyTeamScreen = ({ navigation }) => {
   const [images, setImages] = useState([]); //리스트 형태
   const controller = new AbortController();
   const onMount = async () => {
-    //권한 check??
-    // teamInquiryApi(navigation, controller);
-    // 위 코드는 테스트 진행을 위해 주석처리함!!
-    console.log("mediaLibaryPermission status :", status);
-    await requestPermission();
     if (!status?.granted) {
-      console.log(status);
-      Alert.alert(
-        "사진 라이브러리 접근이 거부됨",
-        "설정>we-meet에서 사진 권한을 설정해주세요."
-      );
-      await requestPermission();
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        Alert.alert(
+          "사진 라이브러리 접근이 거부됨",
+          "설정>we-meet에서 사진 권한을 설정해주세요."
+        );
+        return null;
+      }
     }
+    await teamInquiryApi(navigation, controller);
+    console.log("dd");
   };
   const pickImageAsync = async () => {
     if (!status?.granted) {
-      Alert.alert(
-        "사진 라이브러리 접근이 거부됨",
-        "설정>we-meet에서 사진 권한을 설정해주세요."
-      );
       const permission = await requestPermission();
-      if (!permission.granted) return null;
+      if (!permission.granted) {
+        Alert.alert(
+          "사진 라이브러리 접근이 거부됨",
+          "설정>we-meet에서 사진 권한을 설정해주세요."
+        );
+        return null;
+      }
     }
     let result = await ImagePicker.launchImageLibraryAsync({
       //finetune필요

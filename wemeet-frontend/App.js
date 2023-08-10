@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
-import { SafeAreaView, Image, Alert } from "react-native";
+import { SafeAreaView, View, Image, Alert } from "react-native";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import * as SecureStore from "expo-secure-store";
@@ -67,14 +67,15 @@ export default function App() {
         />
       ) : (
         //splash Screen 필요!
-        <SafeAreaView
+        <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <Image
             style={{ flex: 1 }}
-            source={require("./assets/images/splash.png")}
+            resizeMode="cover"
+            source={require("./assets/images/splash.jpg")}
           />
-        </SafeAreaView>
+        </View>
       )}
     </Provider>
   );

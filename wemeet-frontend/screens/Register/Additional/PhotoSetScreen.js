@@ -27,6 +27,18 @@ const PhotoSetScreen = ({ navigation }) => {
   const [profileImg, setProfileImg] = useState(null);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const controller = new AbortController();
+  const onMount = async () => {
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        Alert.alert(
+          "사진 라이브러리 접근이 거부됨",
+          "설정>we-meet에서 사진 권한을 설정해주세요."
+        );
+        return null;
+      }
+    }
+  };
   const pickImageAsync = async () => {
     if (!status?.granted) {
       Alert.alert(
@@ -63,13 +75,7 @@ const PhotoSetScreen = ({ navigation }) => {
     }
   };
   useEffect(() => {
-    if (!status?.granted) {
-      Alert.alert(
-        "사진 라이브러리 접근이 거부됨",
-        "설정>we-meet에서 사진 권한을 설정해주세요."
-      );
-      requestPermission();
-    }
+    onMount();
     return () => {
       controller.abort();
     };
