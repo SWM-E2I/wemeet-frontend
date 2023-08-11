@@ -42,7 +42,6 @@ const MyTeamScreen = ({ navigation }) => {
       }
     }
     await teamInquiryApi(navigation, controller);
-    console.log("dd");
   };
   const pickImageAsync = async () => {
     if (!status?.granted) {

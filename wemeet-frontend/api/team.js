@@ -64,8 +64,13 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       name: image.uri.split("/").pop(),
     });
   });
-  formData.append("data", JSON.stringify(data));
-  console.log("teamGenerateApi, formData :", formData);
+  // formData.append("data", JSON.stringify(data));
+  const stringified = JSON.stringify(data);
+  formData.append(
+    "data",
+    new Blob([stringified], { type: "application/json" })
+  ); //for SPRING/JAVA FRAMEWORK BACKEND SERVER
+  // console.log("teamGenerateApi, formData :", formData);
   try {
     const response = await axiosPrivate.post(TEAM_GENERATE_URL, formData, {
       headers: {
@@ -92,8 +97,9 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
     } else if (err.response) {
       console.log(
         "teamGenerateApi : ",
-        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
-        err.response
+        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
+        // err.response._response
+        //  Object.keys(err.response)
       );
     } else if (err.request) {
       console.log(
