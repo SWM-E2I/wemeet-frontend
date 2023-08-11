@@ -1,26 +1,28 @@
 import {
-  SafeAreaView,
   View,
   Text,
-  Button,
   StyleSheet,
   Image,
   TouchableOpacity,
   Dimensions,
   Alert,
+  StatusBar,
+  Platform,
 } from "react-native";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
 import commonStyles from "../../styles/commonStyles";
 import Swiper from "react-native-deck-swiper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { roughCardData } from "../../assets/mock.js";
 import Logo from "../../assets/vectors/Logo";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
-const swiperHeightPercentage = 0.78;
+const swiperHeightPercentage = 0.8;
 const cardBorderRadius = 8;
 const mainComponentColor = "#6C66FE";
 const subComponentColor = "#9C9C9C";
@@ -107,7 +109,7 @@ const Card = ({ card }) => {
             paddingHorizontal: "6%",
           }}
         >
-          <View style={{ flex: 0.25, justifyContent: "center" }}>
+          <View style={{ flex: 0.2 }}>
             <Text
               style={{
                 color: "#8F8F8F",
@@ -118,7 +120,7 @@ const Card = ({ card }) => {
               팀원 정보
             </Text>
           </View>
-          <View style={{ flex: 0.75 }}>
+          <View style={{ flex: 0.8 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -232,8 +234,7 @@ const Card = ({ card }) => {
 const HomeScreen = () => {
   //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경ㅇ우 빈 하트)
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
-  const [progress, setProgress] = useState(0);
-  console.log(roughCardData[0]);
+  // const [progress, setProgress] = useState(0);
   return (
     <View
       style={[
@@ -244,17 +245,64 @@ const HomeScreen = () => {
       {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
 
       <View style={styles.aboveContainer}>
-        <Text
+        <View
           style={{
-            fontSize: 40,
-            // fontFamily: "Pretendard",
-            color: "white",
-            fontWeight: "bold",
+            flex: 0.3,
+            flexDirection: "row",
+            width: "100%",
+
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          we:meet!!
-        </Text>
-        <Logo width={20} height={10} />
+          <Logo width={90} height={20} />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <MaterialCommunityIcons
+              name="lightning-bolt"
+              size={24}
+              color="white"
+            />
+            <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
+              25
+            </Text>
+            {/* 임시 시그널수 */}
+          </View>
+        </View>
+        <View
+          style={{
+            marginTop: 10,
+            flex: 0.55,
+            width: "100%",
+            backgroundColor: "rgba(255,255,255,0.1)",
+            borderRadius: 8,
+            paddingLeft: 20,
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 15,
+              fontWeight: 500,
+              letterSpacing: -0.47,
+              lineHeight: 23.4,
+            }}
+          >
+            {"좋아요는 오늘 한번만!\n하트로 상대팀에게 우리를 알려봐!"}
+          </Text>
+          <Text
+            style={{
+              position: "absolute",
+              right: 20,
+              bottom: 20,
+              fontSize: 17,
+              color: "white",
+            }}
+            opacity={0.5}
+          >
+            1/2
+          </Text>
+        </View>
       </View>
       <View style={styles.swiperContainer}>
         <Swiper
@@ -269,14 +317,15 @@ const HomeScreen = () => {
           }}
           cardIndex={0}
           stackSize={2}
+          // horizontalSwipe
           // horizontalSwipe={false}
           // disableLeftSwipe
-          // disableRightSwipe
-          horizontalSwipe={false}
-          verticalSwipe
-          disableBottomSwipe
+          swipeAnimationDuration={500}
+          verticalThreshold={100}
+          // verticalSwipe={false}
+          // disableBottomSwipe
           // disableTopSwipe
-          stackSeparation={20} //얼마로 해야할지 다시 무렁보기
+          stackSeparation={15} //얼마로 해야할지 다시 무렁보기
           stackScale={1}
           containerStyle={{
             justifyContent: "center",
@@ -286,8 +335,12 @@ const HomeScreen = () => {
           animateCardOpacity
           infinite //임시
           backgroundColor="white"
-          // showSecondCard={false}
-          cardVerticalMargin={30}
+          showSecondCard
+          cardVerticalMargin={20}
+          stackAnimationFriction={4}
+          stackAnimationTension={10}
+          // outputCardOpacityRangeX={[-1, 1, 1, 1, -1]}
+          // outputCardOpacityRangeY={[-1, 1, 1, 1, -1]}
         />
       </View>
 
@@ -314,8 +367,10 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   aboveContainer: {
     flex: 1 - swiperHeightPercentage,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop:
+      Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
+    paddingHorizontal: "6%",
+    // alignItems: "center",
     backgroundColor: "#3A3948",
   },
   swiperContainer: {
@@ -325,7 +380,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   card: {
-    height: HEIGHT * swiperHeightPercentage * 0.8,
+    height: HEIGHT * swiperHeightPercentage * 0.77,
     width: WIDTH * 0.88,
     borderRadius: cardBorderRadius,
     // borderWidth: 2, //임시
@@ -346,7 +401,7 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     width: "100%",
-    height: HEIGHT * swiperHeightPercentage * 0.8 - WIDTH * 0.88,
+    height: HEIGHT * swiperHeightPercentage * 0.77 - WIDTH * 0.88,
     borderRadius: cardBorderRadius,
     alignItems: "center",
     //추가 예정

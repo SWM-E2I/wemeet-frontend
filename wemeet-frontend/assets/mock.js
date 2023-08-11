@@ -2,7 +2,7 @@ export const roughCardData = [
   {
     region: "홍대",
     //대표 이미지 (?) 대표자 사진(?) - api따라 결정
-    imageURL: "https://t1.daumcdn.net/cfile/tistory/126DAE4650B72DC707", //임시
+    imageURL: "https://pbs.twimg.com/media/E9P1sh3VIAcFKCg.jpg", //임시
     memberNum: 3,
     //members의 경우 실제로는 모든 멤버의 정보를 보내줄것... 일단 mockData
     members: [
@@ -35,7 +35,7 @@ export const roughCardData = [
     //members의 경우 실제로는 모든 멤버의 정보를 보내줄것... 일단 mockData
     members: [
       {
-        college: "고려대학교",
+        college: "인천가톨릭대학교 (강화캠)",
         collegeType: "자연공학대",
         admissionYear: "21",
         mbti: "ISTJ",
