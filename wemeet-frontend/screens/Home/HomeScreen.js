@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Dimensions,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
@@ -13,12 +15,16 @@ import commonStyles from "../../styles/commonStyles";
 import Swiper from "react-native-deck-swiper";
 import { roughCardData } from "../../assets/mock.js";
 
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
+const swiperHeightPercentage = 0.78;
+const cardBorderRadius = 8;
 const Card = ({ card }) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.95}
+      activeOpacity={1}
       onPress={() => {
-        console.log("card pressed, 상세조회 페이지로 이동");
+        Alert.alert("상세조회 페이지로 이동");
       }}
       style={styles.card}
     >
@@ -61,20 +67,23 @@ const HomeScreen = () => {
   const [progress, setProgress] = useState(0);
   console.log(roughCardData[0]);
   return (
-    <SafeAreaView
+    <View
       style={[
-        commonStyles.safeAreaView,
-        { justifyContent: "space-around" },
+        { justifyContent: "space-around", flex: 1, backgroundColor: "white" },
         // { flex: 1, justifyContent: "center", alignItems: "center" },
       ]} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
     >
-      {/* <Image
-        source={{ uri: roughCardData[1].imageURL }}
-        style={{ width: 300, height: 300, backgroundColor: "black" }}
-        resizeMode={"cover"}
-      /> */}
+      {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
+
       <View style={styles.aboveContainer}>
-        <Text style={{ fontSize: 40, color: "white", fontWeight: "bold" }}>
+        <Text
+          style={{
+            fontSize: 40,
+            // fontFamily: "Pretendard",
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
           we:meet
         </Text>
       </View>
@@ -105,8 +114,9 @@ const HomeScreen = () => {
           }}
           animateCardOpacity
           infinite //임시
-          backgroundColor="transparent"
+          backgroundColor="white"
           // showSecondCard={false}
+          cardVerticalMargin={40}
         />
       </View>
 
@@ -127,52 +137,46 @@ const HomeScreen = () => {
           progress >= 1 ? setProgress(0) : setProgress(progress + 0.3);
         }}
       /> */}
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   aboveContainer: {
-    flex: 0.17,
+    flex: 1 - swiperHeightPercentage,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#3A3948",
   },
   swiperContainer: {
-    flex: 0.83,
+    flex: swiperHeightPercentage,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#3A3948",
-    // backgroundColor: "gray",
     backgroundColor: "white",
   },
   card: {
-    //Elevation도 추가해야됨!!!!
-    // flex: 1,
-    marginTop: -40,
-    height: 500,
-    width: 320,
-    borderRadius: 8,
-    borderWidth: 2, //임시
+    height: HEIGHT * swiperHeightPercentage * 0.8,
+    width: WIDTH * 0.88,
+    borderRadius: cardBorderRadius,
+    // borderWidth: 2, //임시
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    alignSelf: "center", //왜 이거해야만 되는거지..
-
-    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    overflow: "hidden",
+    alignSelf: "center",
   },
   cardImage: {
-    width: 320,
-    height: 320,
+    width: WIDTH * 0.88,
+    height: WIDTH * 0.88,
+    borderTopLeftRadius: cardBorderRadius,
+    borderTopRightRadius: cardBorderRadius,
     backgroundColor: "black",
   },
   infoBox: {
     width: "100%",
     height: 180,
-    // backgroundColor: "gray",
+    // backgroundColor: "white",
     justifyContent: "space-evenly",
     //추가 예정
   },
