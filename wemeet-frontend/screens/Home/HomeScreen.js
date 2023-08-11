@@ -13,12 +13,17 @@ import React, { useState } from "react";
 import * as Progress from "react-native-progress";
 import commonStyles from "../../styles/commonStyles";
 import Swiper from "react-native-deck-swiper";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { roughCardData } from "../../assets/mock.js";
+import Logo from "../../assets/vectors/Logo";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 const swiperHeightPercentage = 0.78;
 const cardBorderRadius = 8;
+const mainComponentColor = "#6C66FE";
+const subComponentColor = "#9C9C9C";
 const Card = ({ card }) => {
   return (
     <TouchableOpacity
@@ -28,42 +33,205 @@ const Card = ({ card }) => {
       }}
       style={styles.card}
     >
-      <Image
-        source={{ uri: card.imageURL }}
-        style={styles.cardImage}
-        resizeMode={"cover"} //or, cover?
-      />
+      <View>
+        <Image
+          source={{ uri: card.imageURL }}
+          style={styles.cardImage}
+          resizeMode={"cover"} //or, cover?
+        />
+        <View style={styles.mainLabel}>
+          <Text
+            style={{
+              fontSize: 11,
+              fontWeight: "bold",
+              color: "white",
+              opacity: 1,
+            }}
+          >
+            대표
+          </Text>
+        </View>
+        <View style={styles.verifiedLabel}>
+          <Text
+            style={{
+              fontSize: 11,
+              fontWeight: "bold",
+              color: "white",
+              opacity: 1,
+            }}
+          >
+            프로필 인증 완료
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.likeButton}>
+          <AntDesign name="heart" size={24} color={mainComponentColor} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.infoBox}>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <Text>{card.region}</Text>
-          <Text>{card.memberNum}</Text>
+        <View
+          style={{
+            flex: 0.3,
+            width: "88%",
+            // backgroundColor: "black",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 22, fontWeight: 600 }}>{card.region}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MaterialIcons
+              name="person"
+              size={22}
+              color={subComponentColor}
+              opacity={0.5}
+            />
+            <Text
+              style={{ marginLeft: 3, fontSize: 16, color: subComponentColor }}
+              opacity={0.5}
+            >
+              {card.memberNum}
+            </Text>
+          </View>
         </View>
-        <Text>팀원 정보</Text>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <Text>{card.members[0].mbti}</Text>
-          <Text>{card.members[0].college}</Text>
-          <Text>{card.members[0].collegeType}</Text>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <Text>{card.members[1].mbti}</Text>
-          <Text>{card.members[1].college}</Text>
-          <Text>{card.members[1].collegeType}</Text>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <Text>{card.members[2]?.mbti}</Text>
-          <Text>{card.members[2]?.college}</Text>
-          <Text>{card.members[2]?.collegeType}</Text>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <Text>{card.members[3]?.mbti}</Text>
-          <Text>{card.members[3]?.college}</Text>
-          <Text>{card.members[3]?.collegeType}</Text>
+        <View
+          style={{
+            flex: 0.7,
+            width: "100%",
+            paddingHorizontal: "6%",
+          }}
+        >
+          <View style={{ flex: 0.25, justifyContent: "center" }}>
+            <Text
+              style={{
+                color: "#8F8F8F",
+                fontSize: 15,
+                letterSpacing: -0.5,
+              }}
+            >
+              팀원 정보
+            </Text>
+          </View>
+          <View style={{ flex: 0.75 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 5,
+              }}
+            >
+              <MaterialIcons
+                name="person"
+                size={16}
+                color={mainComponentColor}
+              />
+              <Text style={{ marginLeft: 5, fontSize: 15 }}>
+                {card.members[0].mbti}
+              </Text>
+              <Text style={{ marginLeft: 8, fontSize: 15 }}>
+                {card.members[0].college}
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 8,
+                  fontSize: 15,
+                  color: subComponentColor,
+                }}
+              >
+                {card.members[0].collegeType}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 5,
+              }}
+            >
+              <MaterialIcons name="person" size={16} color={"black"} />
+              <Text style={{ marginLeft: 5, fontSize: 15 }}>
+                {card.members[1].mbti}
+              </Text>
+              <Text style={{ marginLeft: 8, fontSize: 15 }}>
+                {card.members[1].college}
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 8,
+                  fontSize: 15,
+                  color: subComponentColor,
+                }}
+              >
+                {card.members[1].collegeType}
+              </Text>
+            </View>
+            {card.members[2] && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: 5,
+                }}
+              >
+                <MaterialIcons name="person" size={16} color={"black"} />
+                <Text style={{ marginLeft: 5, fontSize: 15 }}>
+                  {card.members[2].mbti}
+                </Text>
+                <Text style={{ marginLeft: 8, fontSize: 15 }}>
+                  {card.members[2].college}
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    fontSize: 15,
+                    color: subComponentColor,
+                  }}
+                >
+                  {card.members[2].collegeType}
+                </Text>
+              </View>
+            )}
+            {card.members[3] && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  // marginBottom: 5, //마지막 entry
+                }}
+              >
+                <MaterialIcons name="person" size={16} color={"black"} />
+                <Text style={{ marginLeft: 5, fontSize: 15 }}>
+                  {card.members[3].mbti}
+                </Text>
+                <Text style={{ marginLeft: 8, fontSize: 15 }}>
+                  {card.members[3].college}
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    fontSize: 15,
+                    color: subComponentColor,
+                  }}
+                >
+                  {card.members[3].collegeType}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 const HomeScreen = () => {
+  //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경ㅇ우 빈 하트)
+  //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
   const [progress, setProgress] = useState(0);
   console.log(roughCardData[0]);
   return (
@@ -84,8 +252,9 @@ const HomeScreen = () => {
             fontWeight: "bold",
           }}
         >
-          we:meet
+          we:meet!!
         </Text>
+        <Logo width={20} height={10} />
       </View>
       <View style={styles.swiperContainer}>
         <Swiper
@@ -101,10 +270,12 @@ const HomeScreen = () => {
           cardIndex={0}
           stackSize={2}
           // horizontalSwipe={false}
-          disableLeftSwipe
-          disableRightSwipe
+          // disableLeftSwipe
+          // disableRightSwipe
           horizontalSwipe={false}
+          verticalSwipe
           disableBottomSwipe
+          // disableTopSwipe
           stackSeparation={20} //얼마로 해야할지 다시 무렁보기
           stackScale={1}
           containerStyle={{
@@ -116,7 +287,7 @@ const HomeScreen = () => {
           infinite //임시
           backgroundColor="white"
           // showSecondCard={false}
-          cardVerticalMargin={40}
+          cardVerticalMargin={30}
         />
       </View>
 
@@ -175,10 +346,38 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     width: "100%",
-    height: 180,
-    // backgroundColor: "white",
-    justifyContent: "space-evenly",
+    height: HEIGHT * swiperHeightPercentage * 0.8 - WIDTH * 0.88,
+    borderRadius: cardBorderRadius,
+    alignItems: "center",
     //추가 예정
+  },
+  mainLabel: {
+    width: 35,
+    height: 23,
+    backgroundColor: "rgba(171, 171, 171, 0.5)",
+    // opacity: 0.8,
+    position: "absolute",
+    top: 15,
+    right: 18,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  verifiedLabel: {
+    position: "absolute",
+    top: 15,
+    left: 20,
+    width: 90,
+    height: 23,
+    borderRadius: 5,
+    backgroundColor: "#6C66FE",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  likeButton: {
+    position: "absolute",
+    bottom: 15,
+    left: 30,
   },
 });
 

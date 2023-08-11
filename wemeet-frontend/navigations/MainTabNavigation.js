@@ -19,11 +19,12 @@ const MainTabNavigation = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "bold",
-          color: "gray",
-        },
+        // tabBarLabelStyle: {
+        //   fontSize: 12,
+        //   fontWeight: "bold",
+        //   color: "gray",
+        // },
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
