@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
-import { SafeAreaView, View, Image, Alert } from "react-native";
+import { SafeAreaView, View, Image, Alert, Dimensions } from "react-native";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import * as SecureStore from "expo-secure-store";
 import { RootStackNavigation } from "./navigations/RootStackNavigation.js";
 import { persistLoginApi } from "./api/persist.js";
+import { mainColor } from "./styles/commonStyles.js";
 
 // const Stack = createNativeStackNavigator();
 async function checkPersistType(
@@ -56,25 +57,33 @@ export default function App() {
   }, []);
   return (
     <Provider store={store}>
+      <StatusBar style="light" />
       {/* <StatusBar translucent={false} style="light" /> */}
       {/* 나중에 status bar도 customize하기 */}
       {!Loading ? (
         <RootStackNavigation
-          // persistType={persistType}
-          persistType={"MainTab"} //for Test only
+          persistType={persistType}
+          // persistType={"MainTab"} //for Test only
           // persistType={"Additional"} //for test only
           persistData={persistData}
         />
       ) : (
         //splash Screen 필요!
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            height: Dimensions.get("window").height,
+            width: Dimensions.get("window").width,
+            backgroundColor: mainColor,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Image
-            style={{ flex: 1 }}
+          {/* <Image
+            height={Dimensions.get("window").height}
+            width={Dimensions.get("window").width}
             resizeMode="cover"
-            source={require("./assets/images/splash.jpg")}
-          />
+            source={require("./assets/images/splash.png")}
+          /> */}
         </View>
       )}
     </Provider>

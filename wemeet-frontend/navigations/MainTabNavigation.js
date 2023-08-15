@@ -1,7 +1,8 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/Home/HomeScreen";
+// import HomeScreen from "../screens/Home/HomeScreen";
+import HomeStackNavigation from "./HomeStackNavigation";
 import MatchPage from "../screens/Match/MatchPage";
 import ProfileStackNavigation from "./ProfileStackNavigation";
 import MyTeamScreen from "../screens/Team/MyTeamScreen";
@@ -10,8 +11,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { mainColor, subColorPink } from "../styles/commonStyles";
+import Home from "../assets/vectors/Home";
 
 //MainScreen 여기로 옮기기
+const inactiveColor = "#C5C4C9";
 const MainTabNavigation = () => {
   const Tab = createBottomTabNavigator();
   return (
@@ -19,25 +23,20 @@ const MainTabNavigation = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        // tabBarLabelStyle: {
-        //   fontSize: 12,
-        //   fontWeight: "bold",
-        //   color: "gray",
-        // },
         tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: mainColor,
+          borderTopWidth: 0,
+        },
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeStack"
+        component={HomeStackNavigation}
         options={{
           tabBarLabel: "홈",
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="home"
-              size={24}
-              color={focused ? "orange" : "black"}
-            />
+            <Home color={focused ? subColorPink : inactiveColor} />
           ),
         }}
       />
@@ -48,10 +47,10 @@ const MainTabNavigation = () => {
         options={{
           tabBarLabel: "매칭",
           tabBarIcon: ({ focused }) => (
-            <FontAwesome
-              name="wechat"
+            <Ionicons
+              name="md-heart-sharp"
               size={24}
-              color={focused ? "orange" : "black"}
+              color={focused ? subColorPink : inactiveColor}
             />
           ),
         }}
@@ -66,22 +65,22 @@ const MainTabNavigation = () => {
             <Ionicons
               name="ios-people"
               size={27}
-              color={focused ? "orange" : "black"}
+              color={focused ? subColorPink : inactiveColor}
             />
           ),
           unmountOnBlur: true,
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileStackNavigation}
         options={{
           tabBarLabel: "프로필",
           tabBarIcon: ({ focused }) => (
-            <MaterialCommunityIcons
-              name="face-man-profile"
+            <Ionicons
+              name="person-sharp"
               size={24}
-              color={focused ? "orange" : "black"}
+              color={focused ? subColorPink : inactiveColor}
             />
           ),
         }}

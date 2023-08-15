@@ -69,7 +69,6 @@ const phoneVrfValidateApi = async (phone, code, controller) => {
   //테스트코드시작
   // return "NOT_REGISTERED";
   //테스트코드끝
-
   try {
     const response = await axiosDefault.post(
       PHONE_VRF_VALIDATE_URL,
@@ -81,8 +80,8 @@ const phoneVrfValidateApi = async (phone, code, controller) => {
     );
     if (response.data.status == "SUCCESS") {
       console.log("휴대폰 인증 성공");
-      if (response.data.registrationType == "APP" || "WEB") {
-        console.log("RegistrationType : APP or WEB, persist login API요청");
+      if (response.data.isRegistered) {
+        console.log("IsRegistered : true, persist login API요청");
         await storeAccessToken(response);
         //리턴값 추후 수정 필요
         return "REGISTERED";

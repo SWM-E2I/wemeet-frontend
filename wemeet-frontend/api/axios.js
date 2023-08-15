@@ -16,7 +16,7 @@ axiosDefault.interceptors.response.use(
   },
   async (error) => {
     // 2XX 외의 범위에 있는 상태 코드
-    console.log("axiosPrivate response error", error.message);
+    console.log("axiosDefault response error", error.message);
     if (error.message === "Network Error" && !error.response) {
       console.log("Network Error");
       Alert.alert("네트워크 에러", "네트워크 연결을 확인해주세요.");
