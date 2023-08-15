@@ -18,7 +18,7 @@ import Swiper from "react-native-deck-swiper";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 const swiperHeightPercentage = 0.8;
-const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.63;
+const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.7;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
@@ -39,7 +39,11 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View
       style={[
-        { justifyContent: "space-around", flex: 1, backgroundColor: mainColor },
+        {
+          justifyContent: "space-around",
+          flex: 1,
+          backgroundColor: mainColor,
+        },
         // { flex: 1, justifyContent: "center", alignItems: "center" },
       ]} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
     >
@@ -48,7 +52,6 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.swiperContainer}>
         {recommended ? (
           <Swiper
-            //swipeBack도 구현하기 -> 전에 카드로 돌아가기
             //몇번째 카드인지 보여주기!!
             cards={apiCardData}
             renderCard={(card) =>
@@ -64,35 +67,24 @@ const HomeScreen = ({ navigation }) => {
                 <HomeCard card={card} navigation={navigation} />
               )
             }
-            // cardStyle={{ height: 500, width: 500, borderRadius: 20 }}
-            // onSwiped={(cardIndex) => {
-            //   console.log(cardIndex);
-            // }}
-            // onSwipedAll={() => {
-            //   console.log("onSwipedAll");
-            // }}
             cardIndex={0}
             stackSize={2}
             horizontalSwipe
             verticalSwipe={false}
             swipeAnimationDuration={500}
-            // verticalThreshold={100}
             stackSeparation={20} //얼마로 해야할지 다시 무렁보기
             stackScale={5}
             containerStyle={{
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "gray",
             }}
             animateCardOpacity
             infinite //임시
             backgroundColor={mainColor}
             showSecondCard
-            cardVerticalMargin={10}
+            cardVerticalMargin={20}
             stackAnimationFriction={4}
             stackAnimationTension={10}
-            // outputCardOpacityRangeX={[-1, 1, 1, 1, -1]}
-            // outputCardOpacityRangeY={[-1, 1, 1, 1, -1]}
           />
         ) : (
           <TouchableOpacity

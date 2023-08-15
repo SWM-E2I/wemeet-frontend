@@ -62,8 +62,8 @@ export default function App() {
       {/* 나중에 status bar도 customize하기 */}
       {!Loading ? (
         <RootStackNavigation
-          persistType={persistType}
-          // persistType={"MainTab"} //for Test only
+          // persistType={persistType}
+          persistType={"MainTab"} //for Test only
           // persistType={"Additional"} //for test only
           persistData={persistData}
         />

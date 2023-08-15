@@ -14,12 +14,13 @@ import {
   subColorPink,
 } from "../../styles/commonStyles";
 import { BlurView } from "expo-blur";
+// import { BlurView } from "@react-native-community/blur";
 import { LinearGradient } from "expo-linear-gradient";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 const swiperHeightPercentage = 0.8;
-const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.63;
+const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.7;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
@@ -66,17 +67,21 @@ const HomeCard = ({ card, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={[styles.infoBox, { overflow: "hidden" }]}>
-        <BlurView intensity={20} style={{ width: "100%", height: "100%" }}>
+      <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
+        <BlurView
+          intensity={20}
+          tint={"dark"}
+          style={{ width: "100%", height: "100%" }}
+        >
           <LinearGradient
             colors={["rgba(39, 39, 39, 0.70)", "rgba(19, 20, 23, 0.70)"]}
             style={styles.gradientBox}
           >
             <Image
               source={{ uri: card.profileImageURL }}
-              height={CARD_HEIGHT - CARD_WIDTH - 22}
-              width={CARD_HEIGHT - CARD_WIDTH - 22} //임시
-              style={{ borderRadius: 50 }}
+              // height={CARD_HEIGHT - CARD_WIDTH - 22}
+              // width={CARD_HEIGHT - CARD_WIDTH - 22} //임시
+              style={styles.profileImage}
               resizeMode={"cover"}
             ></Image>
             <View
@@ -84,7 +89,7 @@ const HomeCard = ({ card, navigation }) => {
                 flex: 1,
                 paddingLeft: 10,
                 height: "100%",
-                justifyContent: "space-evenly",
+                justifyContent: "space-between",
               }}
             >
               <View
@@ -122,6 +127,7 @@ const HomeCard = ({ card, navigation }) => {
                   fontSize: 14,
                   color: "white",
                   fontWeight: 600,
+                  marginBottom: 5,
                 }}
               >
                 {card.leader.college}
@@ -141,8 +147,9 @@ const styles = StyleSheet.create({
     borderRadius: cardBorderRadius,
     alignItems: "center",
     backgroundColor: "transparent",
-    // backgroundColor: "white",
+    // backgroundColor: "yellow",
     alignSelf: "center",
+    elevation: 10, //for android
     shadowColor: "rgba(0, 0, 0, 0.79)",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 1,
@@ -169,13 +176,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: cardBorderRadius,
     borderColor: "#1F1F1F",
     borderWidth: 1,
-    // backgroundColor: "#272727",
+    backgroundColor: Platform.OS == "android" ? mainColor : null, //android는 blurview적용이 안됨
   },
   gradientBox: {
     width: "100%",
     height: CARD_HEIGHT - CARD_WIDTH,
     alignItems: "center",
     paddingHorizontal: "4%",
+    paddingVertical: "5%",
     flexDirection: "row",
   },
   verifiedLabel: {
@@ -185,6 +193,11 @@ const styles = StyleSheet.create({
     backgroundColor: subColorPink,
     justifyContent: "center",
     alignItems: "center",
+  },
+  profileImage: {
+    aspectRatio: 1,
+    height: "100%",
+    borderRadius: 50,
   },
 });
 

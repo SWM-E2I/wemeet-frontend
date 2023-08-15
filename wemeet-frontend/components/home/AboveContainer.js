@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, StatusBar } from "react-native";
 import React from "react";
 import {
   mainColor,
@@ -12,7 +12,7 @@ const notices = [
   "매일 밤 11:11분\n새로운 친구들을 만나봐!",
   "좋아요는 오늘 한번만!\n하트로 상대팀에게 우리를 알려봐!",
 ];
-const swiperHeightPercentage = 0.7;
+const swiperHeightPercentage = 0.65;
 const AboveContainer = () => {
   return (
     <View style={styles.container}>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
       Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
     backgroundColor: mainColor,
-    // backgroundColor: "white",
+    // backgroundColor: "yellow",
   },
   logoContainer: {
     flex: 0.2,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   guidance: {
     flex: 0.45,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   guidanceText: {
     color: "white",
