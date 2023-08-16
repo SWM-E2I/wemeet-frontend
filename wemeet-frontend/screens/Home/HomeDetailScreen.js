@@ -6,76 +6,230 @@ import {
   Image,
   Animated,
   StyleSheet,
+  ScrollView,
+  Dimensions,
+  Alert,
+  FlatList,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import commonStyles from "../../styles/commonStyles";
-import RegisterHeader from "../../components/register/RegisterHeader";
-import { mainColor } from "../../styles/commonStyles";
-import { Ionicons } from "@expo/vector-icons";
-const HomeDetailScreen = ({ navigation }) => {
-  const ads = [
-    "광고 1",
-    "광고 2",
-    "광고 3",
-    // ... 추가 광고 내용
-  ];
+import React, { useState, useEffect, useRef } from "react";
+import commonStyles, {
+  mainColor,
+  subColorPink,
+} from "../../styles/commonStyles";
+import PaginationDot from "react-native-animated-pagination-dot";
+import {
+  MaterialCommunityIcons,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import LeaderCard from "../../components/home/LeaderCard";
+import InfoSection from "../../components/home/InfoSection";
 
-  const [currentAdIndex, setCurrentAdIndex] = useState(0);
-
-  const slideAnimation = new Animated.Value(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // 다음 광고로 인덱스 갱신
-      setCurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
-
-      // 왼쪽으로 슬라이딩 애니메이션 실행
-      Animated.timing(slideAnimation, {
-        toValue: -1,
-        duration: 500, // 애니메이션 지속 시간
-        useNativeDriver: true,
-      }).start(() => {
-        // 애니메이션이 완료되면 원래 위치로 복원
-        slideAnimation.setValue(0);
-      });
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-  const translateX = slideAnimation.interpolate({
-    inputRange: [-1, 1],
-    outputRange: [-100, 1000], // 원하는 슬라이딩 거리
-  });
+const photos = [
+  {
+    id: "1",
+    uri: "https://storage.googleapis.com/pai-images/474c3e495d7e41cb8b1f02dc79250542.jpeg",
+  },
+  {
+    id: "2",
+    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
+  },
+  {
+    id: "3",
+    uri: "https://storage.googleapis.com/pai-images/474c3e495d7e41cb8b1f02dc79250542.jpeg",
+  },
+  {
+    id: "4",
+    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
+  },
+  {
+    id: "5",
+    uri: "https://storage.googleapis.com/pai-images/474c3e495d7e41cb8b1f02dc79250542.jpeg",
+  },
+  {
+    id: "6",
+    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
+  },
+];
+const renderItem = ({ item, index }) => {
   return (
-    // <SafeAreaView
-    //   style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
-    // >
-    //   <View style={{ flex: 1 }}>
-    //     <TouchableOpacity onPress={navigation.goBack}>
-    //       <Ionicons name="chevron-back" size={24} color="white" />
-    //     </TouchableOpacity>
-    //     <Text style={{ color: "white" }}>DetailScreen</Text>
-    //   </View>
-    // </SafeAreaView>
-    <View style={styles.banner}>
-      <Animated.View style={{ transform: [{ translateX }] }}>
-        <Text style={styles.adText}>{ads[currentAdIndex]}</Text>
-      </Animated.View>
-    </View>
+    <Image
+      key={index}
+      source={{
+        uri: item.uri,
+      }}
+      style={{
+        aspectRatio: 1,
+        width: Dimensions.get("window").width,
+        backgroundColor: "transparent",
+      }}
+      resizeMode={"cover"}
+    />
   );
 };
-const styles = StyleSheet.create({
-  banner: {
-    backgroundColor: "lightgray",
-    padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden", // 슬라이딩된 내용이 컨테이너 영역 밖으로 나가지 않도록
-  },
-  adText: {
-    fontSize: 16,
-  },
+
+const getItemLayout = (data, index) => ({
+  length: Dimensions.get("window").width,
+  offset: Dimensions.get("window").width * index,
+  index: index,
 });
+const HomeDetailScreen = ({ navigation }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isLike, setIsLike] = useState(false); //임시
+  const flatlistRef = useRef();
+  const handleScroll = (e) => {
+    const scrollPosition = e.nativeEvent.contentOffset.x;
+    setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
+  };
+  return (
+    <SafeAreaView
+      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    >
+      <ScrollView
+        style={{ flex: 1 }}
+        bounces={false} //FOR IOS
+        overScrollMode={"never"} //FOR ANDROID
+      >
+        <FlatList
+          //0. 끝에서도 스크롤되는문제
+          ref={flatlistRef}
+          data={photos}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled={true}
+          keyExtractor={(item) => item.id}
+          getItemLayout={getItemLayout}
+          scrollToOverflowEnabled={false}
+          onScroll={handleScroll}
+          showsHorizontalScrollIndicator={false}
+          bounces={false} //FOR IOS
+          overScrollMode={"never"} //FOR ANDROID
+        />
+
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            paddingVertical: 7,
+          }}
+        >
+          <TouchableOpacity onPress={navigation.goBack}>
+            <Ionicons name="chevron-back" size={26} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              //불량 유저 신고 -> 미구현
+              Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
+            }}
+          >
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={26}
+              color="white"
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingVertical: 10,
+          }}
+        >
+          <PaginationDot
+            activeDotColor={"#FC8368"}
+            curPage={activeIndex}
+            maxPage={5}
+            sizeRatio={1}
+            style={{ width: 200 }}
+          />
+        </View>
+        <View style={{ paddingHorizontal: 16 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 30,
+                fontWeight: 900,
+                color: "white",
+              }}
+            >
+              {/*지역 */}
+              건대입구
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <MaterialIcons name="person" size={30} color={"white"} />
+              <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
+                {4}
+                {/*인원 수 들어가기*/}
+              </Text>
+            </View>
+          </View>
+          <LeaderCard />
+          <InfoSection />
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          // position: "absolute",
+          // bottom: 0,
+          width: "100%",
+          height: 60,
+          paddingHorizontal: 16,
+          paddingBottom: 10,
+          backgroundColor: mainColor,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setIsLike(!isLike);
+          }}
+          style={{ marginRight: 20 }}
+        >
+          {isLike ? (
+            <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
+          ) : (
+            <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            height: "100%",
+            backgroundColor: subColorPink,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 5,
+          }}
+          onPress={() => {
+            navigation.navigate("RequestModal");
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            신청하기
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+const styles = StyleSheet.create({});
 export default HomeDetailScreen;

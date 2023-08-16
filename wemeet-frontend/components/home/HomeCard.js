@@ -19,13 +19,13 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-const swiperHeightPercentage = 0.8;
-const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.7;
+const swiperHeightPercentage = 0.7;
+const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation }) => {
-  return (
+const HomeCard = ({ card, navigation, end }) => {
+  return !end ? (
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
@@ -137,6 +137,29 @@ const HomeCard = ({ card, navigation }) => {
         </BlurView>
       </View>
     </TouchableOpacity>
+  ) : (
+    <View
+      style={[styles.card, { backgroundColor: mainColor, overflow: "hidden" }]}
+    >
+      <Text style={[styles.endText, { left: 30, bottom: 100 }]}>
+        오늘의 친구 추천은 여기까지야!
+      </Text>
+      <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
+        {"친구들한테 내 카드를\n보여줄 수 있는 좋아요는 어떄?"}
+      </Text>
+      <Image
+        source={require("../../assets/characters/EndCharacter.png")}
+        style={{
+          // aspectRatio: 1,
+          position: "absolute",
+          bottom: 60,
+          right: -30,
+          height: 185,
+          width: 150,
+        }}
+        resizeMode={"contain"}
+      ></Image>
+    </View>
   );
 };
 
@@ -147,7 +170,6 @@ const styles = StyleSheet.create({
     borderRadius: cardBorderRadius,
     alignItems: "center",
     backgroundColor: "transparent",
-    // backgroundColor: "yellow",
     alignSelf: "center",
     elevation: 10, //for android
     shadowColor: "rgba(0, 0, 0, 0.79)",
@@ -198,6 +220,11 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     height: "100%",
     borderRadius: 50,
+  },
+  endText: {
+    color: "white",
+    fontSize: 16,
+    position: "absolute",
   },
 });
 

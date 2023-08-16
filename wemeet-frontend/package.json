@@ -31,6 +31,7 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-autocomplete-dropdown": "^3.0.2",
     "react-native-deck-swiper": "^2.0.15",
     "react-native-dropdown-select-list": "^2.0.4",
