@@ -1,12 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import HomeScreen from "../screens/Home/HomeScreen";
 import HomeDetailScreen from "../screens/Home/HomeDetailScreen";
 import RequestModalScreen from "../screens/Home/RequestModalScreen";
 
 const HomeStackNavigation = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
   return (
     // <NavigationContainer independent={true}>
     <Stack.Navigator
@@ -25,13 +28,17 @@ const HomeStackNavigation = () => {
           //   headerShown: true,
           //   animation: "fade",
           //   presentation: "modal",
-          animation: "fade_from_bottom",
+          // animation: "fade_from_bottom",
+          ...TransitionPresets.RevealFromBottomAndroid,
         }}
       />
       <Stack.Screen
         name="RequestModal"
         component={RequestModalScreen}
-        options={{ presentation: "transparentModal" }}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
       />
 
       {/* <Stack.Screen name="MyTeam" component={MyTeamScreen} /> -> 팀관리는 마이페이지에서 빠짐*/}

@@ -63,6 +63,7 @@ export default function App() {
       {!Loading ? (
         <RootStackNavigation
           // persistType={persistType}
+          // persistType={"Nickname"} // for Test only
           persistType={"MainTab"} //for Test only
           // persistType={"Additional"} //for test only
           persistData={persistData}

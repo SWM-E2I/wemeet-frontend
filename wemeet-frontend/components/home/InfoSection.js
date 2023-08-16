@@ -77,7 +77,7 @@ const InfoSection = () => {
       <Text style={styles.descriptionText}>상관없어</Text>
       <Text style={styles.labelText}>팀 소개</Text>
       <Text
-        style={[styles.descriptionText, { lineHeight: 24, marginBottom: 15 }]}
+        style={[styles.descriptionText, { lineHeight: 24, marginBottom: 25 }]}
       >
         나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북
         멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야

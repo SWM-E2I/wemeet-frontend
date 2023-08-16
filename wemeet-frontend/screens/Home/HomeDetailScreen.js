@@ -81,6 +81,9 @@ const HomeDetailScreen = ({ navigation }) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
+  const onRequestPress = () => {
+    navigation.navigate("RequestModal");
+  };
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -186,8 +189,6 @@ const HomeDetailScreen = ({ navigation }) => {
       </ScrollView>
       <View
         style={{
-          // position: "absolute",
-          // bottom: 0,
           width: "100%",
           height: 60,
           paddingHorizontal: 16,
@@ -219,9 +220,7 @@ const HomeDetailScreen = ({ navigation }) => {
             alignItems: "center",
             borderRadius: 5,
           }}
-          onPress={() => {
-            navigation.navigate("RequestModal");
-          }}
+          onPress={onRequestPress}
         >
           <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
             신청하기

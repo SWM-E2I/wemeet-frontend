@@ -11,10 +11,12 @@ import {
   TextInput,
   Keyboard,
   Animated,
+  ScrollView,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 // import Animated, {
 //     useSharedValue,
 //     useAnimatedStyle,
@@ -53,9 +55,11 @@ const RequestModalScreen = ({ navigation }) => {
           else navigation.goBack();
         }}
       />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
+        {/* <KeyboardAwareScrollView> */}
         <Animated.View style={[styles.modalContainer, { height: heightValue }]}>
           <Pressable
             style={styles.pressableContainer}
@@ -162,6 +166,7 @@ const RequestModalScreen = ({ navigation }) => {
             </TouchableOpacity>
           </Pressable>
         </Animated.View>
+        {/* </KeyboardAwareScrollView> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    // backgroundColor: "rgba(0, 0, 0, 0.6)"
   },
   modalContainer: {
     // height: 390,
@@ -218,14 +223,15 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   inputTextBox: {
-    height: "100%",
-    width: "100%",
+    height: "95%",
+    width: "95%",
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderWidth: 0,
     fontSize: 16,
     letterSpacing: -0.4,
     lineHeight: 22,
+    textAlignVertical: "top", //for Android
     // color: "#717171",
     color: "white",
   },
