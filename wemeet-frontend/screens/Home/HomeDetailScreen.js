@@ -190,9 +190,9 @@ const HomeDetailScreen = ({ navigation }) => {
       <View
         style={{
           width: "100%",
-          height: 60,
+          height: 70,
           paddingHorizontal: 16,
-          paddingBottom: 10,
+          paddingVertical: 10,
           backgroundColor: mainColor,
           flexDirection: "row",
           justifyContent: "space-between",

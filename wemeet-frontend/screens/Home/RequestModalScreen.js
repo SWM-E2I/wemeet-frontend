@@ -16,7 +16,7 @@ import {
 import React, { useState, useRef } from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; //대책
 // import Animated, {
 //     useSharedValue,
 //     useAnimatedStyle,
@@ -45,7 +45,9 @@ const Signal = ({ amount, useInput }) => {
 const RequestModalScreen = ({ navigation }) => {
   const [useInput, setUseInput] = useState(true);
   const [letter, setLetter] = useState("");
-  const heightValue = useRef(new Animated.Value(350)).current;
+  const heightValue = useRef(
+    new Animated.Value(Platform.OS === "ios" ? 350 : 375) //for keyboardavoidingview issue in android
+  ).current;
   return (
     <SafeAreaView style={styles.container}>
       <Pressable
@@ -55,7 +57,6 @@ const RequestModalScreen = ({ navigation }) => {
           else navigation.goBack();
         }}
       />
-
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
@@ -90,7 +91,7 @@ const RequestModalScreen = ({ navigation }) => {
                 onPress={() => {
                   if (!useInput) {
                     Animated.timing(heightValue, {
-                      toValue: 350,
+                      toValue: Platform.OS === "ios" ? 350 : 375,
                       delay: 100,
                       duration: 500, // 애니메이션 지속 시간 (밀리초)
                       useNativeDriver: false, // 네이티브 드라이버 사용 여부 (true 또는 false)
@@ -215,12 +216,12 @@ const styles = StyleSheet.create({
   inputTextView: {
     justifyContent: "flex-start",
     alignItems: "center",
-    height: 80,
+    height: Platform.OS === "ios" ? 90 : 105,
     width: "100%",
     borderWidth: 1,
     borderRadius: 4,
     borderColor: "#2B2B2B",
-    marginVertical: 20,
+    marginVertical: 15,
   },
   inputTextBox: {
     height: "95%",

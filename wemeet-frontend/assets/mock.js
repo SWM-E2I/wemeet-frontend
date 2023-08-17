@@ -25,7 +25,7 @@ export const roughCardData = [
       mbti: "ISTJ",
     },
     mainImageURL:
-      "https://images.theconversation.com/files/102848/original/image-20151123-18264-j336wc.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=926&fit=clip", //임시
+      "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/200802/htm_2008022509254720002010-001.JPG", //임시
     memberNum: 2,
     //members의 경우 실제로는 모든 멤버의 정보를 보내줄것... 일단 mockData
   },
@@ -36,7 +36,7 @@ export const roughCardData = [
       "https://storage.googleapis.com/pai-images/474c3e495d7e41cb8b1f02dc79250542.jpeg", //임시
     profileNickName: "안산삼대장", //대표자 닉네임
     mainImageURL:
-      "https://i.pinimg.com/originals/97/eb/84/97eb847eb98bba4953eb1b225215601c.gif",
+      "https://image.ytn.co.kr/general/jpg/2023/0614/202306140700017206_h.jpg",
     memberNum: 4,
     leader: {
       college: "고려대학교",
