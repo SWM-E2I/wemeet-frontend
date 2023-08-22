@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import HomeScreen from "../screens/Home/HomeScreen";
 import HomeStackNavigation from "./HomeStackNavigation";
-import MatchPage from "../screens/Match/MatchPage";
+// import MatchPage from "../screens/Match/MatchPage";
 import ProfileStackNavigation from "./ProfileStackNavigation";
 import MyTeamScreen from "../screens/Team/MyTeamScreen";
 //temporary icons
@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { mainColor, subColorPink } from "../styles/commonStyles";
 import Home from "../assets/vectors/Home";
+import MatchTabNavigation from "./MatchTabNavigation";
 
 //MainScreen 여기로 옮기기
 const inactiveColor = "#C5C4C9";
@@ -42,8 +43,8 @@ const MainTabNavigation = () => {
       />
       {/*임시 -> nested navigator로 재구현*/}
       <Tab.Screen
-        name="Match"
-        component={MatchPage}
+        name="MatchTab"
+        component={MatchTabNavigation}
         options={{
           tabBarLabel: "매칭",
           tabBarIcon: ({ focused }) => (

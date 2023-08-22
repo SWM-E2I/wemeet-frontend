@@ -7,6 +7,7 @@ import {
 import HomeScreen from "../screens/Home/HomeScreen";
 import HomeDetailScreen from "../screens/Home/HomeDetailScreen";
 import RequestModalScreen from "../screens/Home/RequestModalScreen";
+import RequestDoneModalScreen from "../screens/Home/RequestDoneModalScreen";
 
 const HomeStackNavigation = () => {
   const Stack = createStackNavigator();
@@ -35,6 +36,14 @@ const HomeStackNavigation = () => {
       <Stack.Screen
         name="RequestModal"
         component={RequestModalScreen}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <Stack.Screen
+        name="RequestDoneModal"
+        component={RequestDoneModalScreen}
         options={{
           presentation: "transparentModal",
           ...TransitionPresets.ModalPresentationIOS,

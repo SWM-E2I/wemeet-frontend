@@ -24,7 +24,7 @@ const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation, end }) => {
+const HomeCard = ({ card, navigation, end, isHome }) => {
   return !end ? (
     <TouchableOpacity
       activeOpacity={1}

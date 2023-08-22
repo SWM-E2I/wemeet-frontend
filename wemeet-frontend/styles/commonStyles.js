@@ -9,6 +9,8 @@ const commonStyles = StyleSheet.create({
 });
 
 export const mainColor = "#191A21";
+export const subColorBlack = "#2A2B34"; //lighter than mainColor
+export const subColorBlack2 = "#141519"; //darker than mainColor
 export const subColorPink = "#FC8368";
 export const subColorBlue = "#5B66F6";
 export default commonStyles;

@@ -153,7 +153,12 @@ const RequestModalScreen = ({ navigation }) => {
                 ></TextInput>
               </View>
             )}
-            <TouchableOpacity style={styles.confirmButton}>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={() => {
+                navigation.navigate("RequestDoneModal");
+              }}
+            >
               <Text
                 style={{
                   color: "white",
