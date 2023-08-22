@@ -1,64 +1,79 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Touchable,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import {
   mainColor,
   subColorBlack,
   subColorBlack2,
   subColorPink,
 } from "../../styles/commonStyles";
-import { AntDesign } from "@expo/vector-icons";
-import Swiper from "react-native-deck-swiper";
-import HomeCard from "../../components/home/HomeCard";
+
+import Card from "../../components/home/Card";
 import { roughCardData } from "../../assets/mock.js"; //임시
 
 const LikeScreen = ({ navigation }) => {
+  const [arrived, setArrived] = useState(true);
   return (
     <View style={styles.container}>
       <View style={styles.toggleContainer}>
-        <Text style={styles.toggleButtonText}>받은좋아요</Text>
-        <Text style={[styles.toggleButtonText, { color: "gray" }]}>
-          보낸좋아요
-        </Text>
-      </View>
-      {/*받은 좋아요가 없는 경우 띄워줄 화면 필요!!!!!! (분기하기!!!)*/}
-      <View style={styles.infoContainer}>
-        <AntDesign name="exclamationcircleo" size={24} color="#575757" />
-        <Text style={styles.infoText}>카드 기록 삭제까지</Text>
-        <Text style={[styles.infoText, { color: subColorPink }]}>23:59:55</Text>
         {/*임시*/}
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            arrived ? { backgroundColor: "#575757" } : null,
+          ]}
+          onPress={() => setArrived(true)}
+        >
+          <Text
+            style={[
+              styles.toggleButtonText,
+              arrived ? null : { color: "#575757" },
+            ]}
+          >
+            받은 좋아요
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            !arrived ? { backgroundColor: "#575757" } : null,
+          ]}
+          onPress={() => setArrived(false)}
+        >
+          <Text
+            style={[
+              styles.toggleButtonText,
+              !arrived ? null : { color: "#575757" },
+            ]}
+          >
+            보낸 좋아요
+          </Text>
+        </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-        }}
+      {/* 받은 좋아요가 없는 경우 띄워줄 화면 필요!!!!!! (분기하기!!!) */}
+
+      <ScrollView
+        // style={{ marginVertical: 10 }}
+        bounces={false} //FOR IOS
+        overScrollMode={"never"} //FOR ANDROID
+        showsVerticalScrollIndicator={false}
       >
-        <Swiper
-          //몇번째 카드인지 알아야함 - 카드 기로 삭제까지 ㅇㅇ
-          cards={roughCardData}
-          renderCard={(card) => (
-            <HomeCard card={card} navigation={navigation} />
-          )}
-          cardIndex={0}
-          stackSize={2}
-          horizontalSwipe
-          verticalSwipe={false}
-          swipeAnimationDuration={500}
-          stackSeparation={20} //얼마로 해야할지 다시 무렁보기
-          stackScale={5}
-          containerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          animateCardOpacity
-          infinite
-          backgroundColor={subColorBlack}
-          showSecondCard
-          cardVerticalMargin={20}
-          stackAnimationFriction={4}
-          stackAnimationTension={10}
-        />
-      </View>
+        {roughCardData.map((card, index) => (
+          <Card
+            card={card}
+            navigation={navigation}
+            key={index}
+            style={{ width: "100%" }}
+            isLike
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -72,35 +87,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   toggleContainer: {
-    marginVertical: 24,
+    marginVertical: 16,
     width: 240,
-    height: 60,
-    borderRadius: 60,
-    padding: 10,
+    height: 50,
+    borderRadius: 20,
     backgroundColor: subColorBlack2,
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
+    overflow: "hidden",
+  },
+  toggleButton: {
+    height: "100%",
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   toggleButtonText: {
     color: "white",
     fontSize: 16,
-    fontWeight: 600,
-  },
-  infoContainer: {
-    width: "100%",
-    backgroundColor: mainColor,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    flexDirection: "row",
-    paddingVertical: 8,
-  },
-  infoText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: 600,
-    marginLeft: 8,
+    fontFamily: "pretendard600",
   },
 });
 

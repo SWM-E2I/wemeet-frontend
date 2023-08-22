@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   touchText: {
     color: "white",
     fontSize: 16,
+    fontFamily: "pretendard400",
   },
 });
 

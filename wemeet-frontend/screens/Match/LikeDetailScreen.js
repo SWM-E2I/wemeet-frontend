@@ -24,7 +24,6 @@ import {
 } from "@expo/vector-icons";
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
-
 const photos = [
   {
     id: "1",
@@ -73,7 +72,7 @@ const getItemLayout = (data, index) => ({
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const HomeDetailScreen = ({ navigation }) => {
+const LikeDetailScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLike, setIsLike] = useState(false); //임시
   const flatlistRef = useRef();
@@ -81,12 +80,8 @@ const HomeDetailScreen = ({ navigation }) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
   const onRequestPress = () => {
     navigation.navigate("RequestModal");
-    setTimeout(() => {
-      setRequested(true);
-    }, 2000);
   };
   return (
     <SafeAreaView
@@ -216,53 +211,24 @@ const HomeDetailScreen = ({ navigation }) => {
             <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
           )}
         </TouchableOpacity>
-        {!requested ? (
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: subColorPink,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-            onPress={onRequestPress}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "pretendard600",
-              }}
-            >
-              신청하기
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: "gray",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "pretendard600",
-              }}
-            >
-              신청완료
-            </Text>
-          </View>
-        )}
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            height: "100%",
+            backgroundColor: subColorPink,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 5,
+          }}
+          onPress={onRequestPress}
+        >
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            신청하기
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({});
-export default HomeDetailScreen;
+
+export default LikeDetailScreen;

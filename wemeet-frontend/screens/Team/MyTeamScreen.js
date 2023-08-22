@@ -1,7 +1,7 @@
 import { SafeAreaView, View, Text, Button, Alert, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { teamInquiryApi, teamGenerateApi } from "../../api/team";
-import commonStyles from "../../styles/commonStyles";
+import commonStyles, { mainColor } from "../../styles/commonStyles";
 import * as ImagePicker from "expo-image-picker";
 
 const sampleData = {
@@ -41,7 +41,7 @@ const MyTeamScreen = ({ navigation }) => {
         return null;
       }
     }
-    await teamInquiryApi(navigation, controller);
+    // await teamInquiryApi(navigation, controller); //임시로 주석!!
   };
   const pickImageAsync = async () => {
     if (!status?.granted) {
@@ -96,7 +96,9 @@ const MyTeamScreen = ({ navigation }) => {
     };
   }, []);
   return (
-    <SafeAreaView style={commonStyles.safeAreaView}>
+    <SafeAreaView
+      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    >
       <Text>
         MyTeamScreen(임시) : (팀이 있는 경우) 팀 생성 화면 , (팀이 없는 경우) 팀
         조회 & 팀 삭제

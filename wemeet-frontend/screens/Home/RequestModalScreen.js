@@ -164,7 +164,7 @@ const RequestModalScreen = ({ navigation }) => {
                   color: "white",
                   fontSize: 22,
                   letterSpacing: -0.4,
-                  fontWeight: 600,
+                  fontFamily: "pretendard600",
                 }}
               >
                 신청하기
@@ -202,12 +202,16 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 22,
-    fontWeight: 600,
+    fontFamily: "pretendard600",
     color: "white",
     lineHeight: 33,
     letterSpacing: -0.5,
   },
-  buttonText: { fontSize: 16, color: subColorPink, fontWeight: "bold" },
+  buttonText: {
+    fontSize: 16,
+    color: subColorPink,
+    fontFamily: "pretendard600",
+  },
   selectButton: {
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -235,6 +239,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderWidth: 0,
     fontSize: 16,
+    fontFamily: "pretendard400",
     letterSpacing: -0.4,
     lineHeight: 22,
     textAlignVertical: "top", //for Android

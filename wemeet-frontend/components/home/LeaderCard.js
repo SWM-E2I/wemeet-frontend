@@ -3,16 +3,16 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { subColorPink } from "../../styles/commonStyles";
 
-const LeaderCard = () => {
+const LeaderCard = ({ style }) => {
   return (
-    <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
+    <View style={[styles.infoBox, style]} opacity={1}>
       <LinearGradient
         colors={["rgba(27, 27, 27, 1)", "rgba(13, 14, 17, 1)"]}
         style={styles.gradientBox}
       >
         <Image
           source={{
-            uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7JSRii_41Xvrc6OL8oQiC0bStzp1HwbNHfA&usqp=CAU",
           }}
           style={styles.profileImage}
           resizeMode={"cover"}
@@ -24,6 +24,7 @@ const LeaderCard = () => {
             paddingLeft: 10,
             height: "100%",
             justifyContent: "space-between",
+            // backgroundColor: "yellow",
           }}
         >
           <View
@@ -38,7 +39,7 @@ const LeaderCard = () => {
                 marginLeft: 5,
                 fontSize: 14,
                 color: "white",
-                fontWeight: 600,
+                fontFamily: "pretendard600",
               }}
             >
               째리미추워 / ENFJ
@@ -47,7 +48,7 @@ const LeaderCard = () => {
               <Text
                 style={{
                   fontSize: 12,
-                  fontWeight: "bold",
+                  fontFamily: "pretendard600",
                   color: "white",
                 }}
               >
@@ -60,7 +61,7 @@ const LeaderCard = () => {
               marginLeft: 5,
               fontSize: 14,
               color: "white",
-              fontWeight: 600,
+              fontFamily: "pretendard600",
               marginBottom: 5,
             }}
           >
@@ -75,17 +76,18 @@ const LeaderCard = () => {
 const styles = StyleSheet.create({
   infoBox: {
     width: "100%",
-    height: 100,
+    height: 86,
     borderRadius: 10,
     borderColor: "#1F1F1F",
     borderWidth: 1,
     marginTop: 10,
+    overflow: "hidden",
   },
   gradientBox: {
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
     paddingHorizontal: "4%",
-    paddingVertical: "5%",
+    paddingVertical: "4%",
     flexDirection: "row",
   },
   profileImage: {

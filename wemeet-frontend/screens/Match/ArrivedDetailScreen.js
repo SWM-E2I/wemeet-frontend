@@ -4,8 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Animated,
-  StyleSheet,
   ScrollView,
   Dimensions,
   Alert,
@@ -15,6 +13,7 @@ import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
+  subColorBlack,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
@@ -73,25 +72,18 @@ const getItemLayout = (data, index) => ({
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const HomeDetailScreen = ({ navigation }) => {
+const ArrivedDetailScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLike, setIsLike] = useState(false); //임시
   const flatlistRef = useRef();
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
-  const onRequestPress = () => {
-    navigation.navigate("RequestModal");
-    setTimeout(() => {
-      setRequested(true);
-    }, 2000);
+  const onAcceptPress = () => {
+    navigation.navigate("MatchDoneModal");
   };
   return (
-    <SafeAreaView
-      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
-    >
+    <View style={{ backgroundColor: mainColor, flex: 1 }}>
       <ScrollView
         style={{ flex: 1 }}
         bounces={false} //FOR IOS
@@ -167,7 +159,7 @@ const HomeDetailScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 30,
-                fontWeight: 900,
+                fontFamily: "pretendard600",
                 color: "white",
               }}
             >
@@ -182,7 +174,14 @@ const HomeDetailScreen = ({ navigation }) => {
               }}
             >
               <MaterialIcons name="person" size={30} color={"white"} />
-              <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
+              <Text
+                style={{
+                  marginLeft: 3,
+                  fontSize: 30,
+                  color: "white",
+                  fontFamily: "pretendard400",
+                }}
+              >
                 {4}
                 {/*인원 수 들어가기*/}
               </Text>
@@ -205,64 +204,68 @@ const HomeDetailScreen = ({ navigation }) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => {
-            setIsLike(!isLike);
+          style={{
+            width: "48%",
+            height: "100%",
+            backgroundColor: subColorBlack,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 5,
           }}
-          style={{ marginRight: 20 }}
+          onPress={() => {}}
         >
-          {isLike ? (
-            <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
-          ) : (
-            <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
-          )}
+          <Text
+            style={{
+              color: "white",
+              fontSize: 16,
+              fontFamily: "pretendard600",
+            }}
+          >
+            거절
+          </Text>
         </TouchableOpacity>
-        {!requested ? (
-          <TouchableOpacity
+        <TouchableOpacity
+          style={{
+            width: "48%",
+            height: "100%",
+            backgroundColor: subColorPink,
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            borderRadius: 5,
+          }}
+          onPress={onAcceptPress}
+        >
+          <Text
             style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: subColorPink,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
+              color: "white",
+              fontSize: 16,
+              fontFamily: "pretendard600",
             }}
-            onPress={onRequestPress}
           >
+            수락
+          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <MaterialCommunityIcons
+              name="lightning-bolt"
+              size={22}
+              color={"rgba(255, 255, 255, 0.50)"}
+            />
             <Text
               style={{
-                color: "white",
-                fontSize: 18,
+                color: "rgba(255, 255, 255, 0.50)",
+                fontSize: 17,
                 fontFamily: "pretendard600",
               }}
             >
-              신청하기
+              4
             </Text>
-          </TouchableOpacity>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: "gray",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "pretendard600",
-              }}
-            >
-              신청완료
-            </Text>
+            {/* 임시 시그널수 */}
           </View>
-        )}
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
-const styles = StyleSheet.create({});
-export default HomeDetailScreen;
+
+export default ArrivedDetailScreen;

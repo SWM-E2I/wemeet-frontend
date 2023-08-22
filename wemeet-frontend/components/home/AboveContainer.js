@@ -52,7 +52,7 @@ const renderItem = ({ item, index }) => {
         style={{
           color: "white",
           fontSize: 15,
-          fontWeight: 500,
+          fontFamily: "pretendard500",
           letterSpacing: -0.47,
           lineHeight: 23.4,
         }}
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
   },
   guidanceText: {
     color: "white",
+    fontFamily: "pretendard700",
     fontSize: 24,
-    fontWeight: 900,
   },
 });
 

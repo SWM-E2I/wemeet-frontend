@@ -4,17 +4,17 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Animated,
-  StyleSheet,
   ScrollView,
   Dimensions,
   Alert,
   FlatList,
+  Linking,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
+  subColorBlack,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
@@ -24,7 +24,7 @@ import {
 } from "@expo/vector-icons";
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
-
+// import { WebView } from "react-native-webview";
 const photos = [
   {
     id: "1",
@@ -73,25 +73,23 @@ const getItemLayout = (data, index) => ({
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const HomeDetailScreen = ({ navigation }) => {
+const MatchedDetailScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLike, setIsLike] = useState(false); //임시
   const flatlistRef = useRef();
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
-  const onRequestPress = () => {
-    navigation.navigate("RequestModal");
-    setTimeout(() => {
-      setRequested(true);
-    }, 2000);
+  const onMoveToChat = () => {
+    Linking.openURL("https://open.kakao.com/o/gHCGMynf").catch((err) =>
+      console.error(
+        "MatchedDetailScreen : An error occurred while opening browswer",
+        err
+      )
+    );
   };
   return (
-    <SafeAreaView
-      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
-    >
+    <View style={{ flex: 1, backgroundColor: mainColor }}>
       <ScrollView
         style={{ flex: 1 }}
         bounces={false} //FOR IOS
@@ -167,7 +165,7 @@ const HomeDetailScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 30,
-                fontWeight: 900,
+                fontFamily: "pretendard600",
                 color: "white",
               }}
             >
@@ -182,7 +180,14 @@ const HomeDetailScreen = ({ navigation }) => {
               }}
             >
               <MaterialIcons name="person" size={30} color={"white"} />
-              <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
+              <Text
+                style={{
+                  marginLeft: 3,
+                  fontSize: 30,
+                  color: "white",
+                  fontFamily: "pretendard400",
+                }}
+              >
                 {4}
                 {/*인원 수 들어가기*/}
               </Text>
@@ -199,70 +204,35 @@ const HomeDetailScreen = ({ navigation }) => {
           paddingHorizontal: 16,
           paddingVertical: 10,
           backgroundColor: mainColor,
-          flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
         <TouchableOpacity
-          onPress={() => {
-            setIsLike(!isLike);
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: subColorPink,
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            borderRadius: 5,
           }}
-          style={{ marginRight: 20 }}
+          onPress={onMoveToChat}
         >
-          {isLike ? (
-            <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
-          ) : (
-            <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
-          )}
+          <Text
+            style={{
+              color: "white",
+              fontSize: 17,
+              fontFamily: "pretendard600",
+            }}
+          >
+            오픈 채팅방으로 이동
+          </Text>
         </TouchableOpacity>
-        {!requested ? (
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: subColorPink,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-            onPress={onRequestPress}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "pretendard600",
-              }}
-            >
-              신청하기
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              height: "100%",
-              backgroundColor: "gray",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "pretendard600",
-              }}
-            >
-              신청완료
-            </Text>
-          </View>
-        )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
-const styles = StyleSheet.create({});
-export default HomeDetailScreen;
+
+export default MatchedDetailScreen;

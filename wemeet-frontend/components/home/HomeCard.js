@@ -14,7 +14,6 @@ import {
   subColorPink,
 } from "../../styles/commonStyles";
 import { BlurView } from "expo-blur";
-// import { BlurView } from "@react-native-community/blur";
 import { LinearGradient } from "expo-linear-gradient";
 
 const HEIGHT = Dimensions.get("window").height;
@@ -24,14 +23,20 @@ const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation, end, isHome }) => {
+const HomeCard = ({ card, navigation, end, width, height }) => {
   return !end ? (
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
         navigation.navigate("HomeDetail");
       }}
-      style={styles.card}
+      style={[
+        styles.card,
+        {
+          width: width ? width : CARD_WIDTH,
+          height: height ? height : CARD_HEIGHT,
+        },
+      ]}
     >
       <View>
         <Image
@@ -41,8 +46,8 @@ const HomeCard = ({ card, navigation, end, isHome }) => {
         />
         <Text
           style={{
+            fontFamily: "pretendard600",
             fontSize: 30,
-            fontWeight: 900,
             left: "5%",
             bottom: "5%",
             position: "absolute",
@@ -62,7 +67,14 @@ const HomeCard = ({ card, navigation, end, isHome }) => {
           }}
         >
           <MaterialIcons name="person" size={30} color={"white"} />
-          <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
+          <Text
+            style={{
+              fontFamily: "pretendard500",
+              marginLeft: 3,
+              fontSize: 30,
+              color: "white",
+            }}
+          >
             {card.memberNum}
           </Text>
         </View>
@@ -101,10 +113,10 @@ const HomeCard = ({ card, navigation, end, isHome }) => {
               >
                 <Text
                   style={{
+                    fontFamily: "pretendard600",
                     marginLeft: 5,
                     fontSize: 14,
                     color: "white",
-                    fontWeight: 600,
                   }}
                 >
                   {`${card.leader.nickName} / ${card.leader.mbti}`}
@@ -112,6 +124,7 @@ const HomeCard = ({ card, navigation, end, isHome }) => {
                 <View style={styles.verifiedLabel}>
                   <Text
                     style={{
+                      fontFamily: "pretendard600",
                       fontSize: 12,
                       fontWeight: "bold",
                       color: "white",
@@ -126,7 +139,7 @@ const HomeCard = ({ card, navigation, end, isHome }) => {
                   marginLeft: 5,
                   fontSize: 14,
                   color: "white",
-                  fontWeight: 600,
+                  fontFamily: "pretendard600",
                   marginBottom: 5,
                 }}
               >
@@ -225,6 +238,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     position: "absolute",
+    fontFamily: "pretendard400",
   },
 });
 

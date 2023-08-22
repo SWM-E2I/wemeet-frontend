@@ -52,23 +52,23 @@ const InfoSection = () => {
       ))}
       <Text style={styles.labelText}>음주 수치</Text>
       <View style={styles.drinkingBarContainer}>
-        <View style={[styles.drinkingBar, { backgroundColor: subColorPink }]} />
+        <View style={[styles.drinkingBar, { backgroundColor: "#FC8368" }]} />
         <View
           style={[
             styles.drinkingBar,
-            { backgroundColor: drinkingRate >= 1 ? subColorPink : "white" },
+            { backgroundColor: drinkingRate >= 1 ? "#FF7354" : "white" },
           ]}
         />
         <View
           style={[
             styles.drinkingBar,
-            { backgroundColor: drinkingRate >= 2 ? subColorPink : "white" },
+            { backgroundColor: drinkingRate >= 2 ? "#FA5B37" : "white" },
           ]}
         />
         <View
           style={[
             styles.drinkingBar,
-            { backgroundColor: drinkingRate >= 3 ? subColorPink : "white" },
+            { backgroundColor: drinkingRate >= 3 ? "#FF4116" : "white" },
           ]}
         />
       </View>
@@ -88,6 +88,7 @@ const InfoSection = () => {
 };
 const styles = StyleSheet.create({
   labelText: {
+    fontFamily: "pretendard600",
     marginTop: 20,
     color: "#8F8F8F",
     fontSize: 16,
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   descriptionText: {
+    fontFamily: "pretendard400",
     color: "white",
     fontSize: 16,
     letterSpacing: -0.5,
