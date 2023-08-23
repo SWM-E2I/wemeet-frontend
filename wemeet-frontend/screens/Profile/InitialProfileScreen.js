@@ -40,13 +40,13 @@ const InitialProfileScreen = ({ navigation }) => {
         </Text>
         <Image
           source={{
-            uri: "https://i.pinimg.com/236x/6e/b1/96/6eb196aa02a8c64ea61d4f264219690f.jpg",
+            uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMzAg/MDAxNjkyODA1ODg2ODk5.ShuFDBM_Dvp_zvEEKyRaCX6hUIjlEM0U493UwwTnP20g.N4W1kp-Qh4QrGFXzQ8XFNlBbzKP6Yzpvw7A8q5IrgFYg.PNG.seyun1052/image_56.png?type=w966",
           }}
           style={{
-            marginVertical: 40,
+            marginVertical: 30,
             aspectRatio: 1,
-            width: 140,
-            borderRadius: 70,
+            height: 130,
+            borderRadius: 65,
           }} //borderRadius : width/2
         />
         <View

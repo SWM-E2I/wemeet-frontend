@@ -8,6 +8,7 @@ import {
 } from "../../styles/commonStyles";
 
 const LeaderCard = ({ style, nickName, mbti, college, profile }) => {
+  //profile -> require(local path)로 전달해줌
   return (
     <View style={[styles.infoBox, style]} opacity={1}>
       <LinearGradient
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     aspectRatio: 1,
-    height: "100%",
+    width: 60,
     borderRadius: 50,
   },
   verifiedLabel: {

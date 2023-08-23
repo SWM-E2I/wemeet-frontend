@@ -11,16 +11,13 @@ import {
 } from "react-native";
 import React from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
+import RequestDoneCharacter from "../../assets/characters/RequestDoneCharacter";
 
 const PopUp = ({ navigation }) => {
   return (
     <View style={styles.popUpContainer}>
-      <Text style={styles.popUpText}>매칭 신청 완료!</Text>
-      <Image
-        source={require("../../assets/characters/RequestDoneCharacter.png")}
-        style={styles.characterContainer}
-        resizeMode={"contain"}
-      />
+      <Text style={styles.popUpText}>매칭 성공!</Text>
+      <RequestDoneCharacter />
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {

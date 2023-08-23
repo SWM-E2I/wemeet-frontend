@@ -103,8 +103,8 @@ const LikeDetailScreen = ({ navigation }) => {
     >
       <ScrollView
         style={{ flex: 1 }}
-        bounces={false} //FOR IOS
-        overScrollMode={"never"} //FOR ANDROID
+        //bounces={false} //FOR IOS
+        //overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
       >
         <FlatList

@@ -24,27 +24,26 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-
 const photos = [
   {
     id: "1",
-    uri: "https://images.khan.co.kr/article/2022/08/10/news-p.v1.20220810.73a7e18ea04547fd923245f518ace0ff_P1.jpg",
+    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfNDYg/MDAxNjkyODA1ODg3ODk0.n6cRg9v9h7Ho_9iwpRsafMVa4Y5rHKjcGvEL9ocZ7oMg.V1YeJJzuqhWilgO0QTsUD8mnfltP40DfJ_MerQUpQ-kg.PNG.seyun1052/IMG_1753.png?type=w966",
   },
   {
     id: "2",
-    uri: "https://image.newsis.com/2022/01/23/NISI20220123_0000918934_web.jpg",
+    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjE1/MDAxNjkyODA1ODg3MjE3.UXElZj6UgRVXF21yLPHJ-XAz-vveNyOeW8F_kiM2rW0g.pWtg3NK1C28Bn54qCNFT1PLKjK1tQa_wqNhxcZjtyBog.PNG.seyun1052/IMG_6833_1.png?type=w966",
   },
   {
     id: "3",
-    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
+    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMzIg/MDAxNjkyODA1ODg3MTQ4.c4Li2zQ_F_ud7tO35SFd0s8G5_-8by0RbKeuy-0ghmcg.buhP6fJn15m0tI4TfvKAj07A8yxgXl3irZrMDvGjZCsg.PNG.seyun1052/IMG_5176_1_(1).png?type=w966",
   },
   {
     id: "4",
-    uri: "https://newsimg.sedaily.com/2023/07/26/29SA59WGN7_1.jpg",
+    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfNjYg/MDAxNjkyODA1ODg3NTM0.m23CZxkvpg-wOxYbO5uZ_k4io8f_qBPErybf_lMRFhAg.Xnxc5Bsptqd1LFi8a5eUnzaN4_WimNnkhbUbZ91sp4Yg.PNG.seyun1052/image_47.png?type=w966",
   },
   {
     id: "5",
-    uri: "https://m.aando.co.kr/web/product/big/202307/01389d9c2eda69fca38e9b480d0f3ff5.jpg",
+    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjM4/MDAxNjkyODA1ODg3NTkz.H-Xmg_BQzsgBadITXt0E7pc9AEyOERWW0ERII6XrnaEg.Vn8XzaIBpHY38-oVLDwZVy8bRAJxbPPGtgIlhXLn-OYg.PNG.seyun1052/image_71.png?type=w966",
   },
 ];
 const renderItem = ({ item, index }) => {
@@ -63,9 +62,9 @@ const renderItem = ({ item, index }) => {
         resizeMode={"cover"}
       />
       <LinearGradient
-        colors={["rgba(14,15,19,0.9)", "rgba(20, 21, 25, 0.00)"]}
+        colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
         start={[0, 0]}
-        end={[0, 1]}
+        end={[0, 0.5]}
         style={{
           position: "absolute",
           width: "100%",
@@ -96,8 +95,8 @@ const ArrivedDetailScreen = ({ navigation }) => {
     <View style={{ backgroundColor: mainColor, flex: 1 }}>
       <ScrollView
         style={{ flex: 1 }}
-        bounces={false} //FOR IOS
-        overScrollMode={"never"} //FOR ANDROID
+        //bounces={false} //FOR IOS
+        //overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
       >
         <FlatList
@@ -174,7 +173,7 @@ const ArrivedDetailScreen = ({ navigation }) => {
               }}
             >
               {/*지역 */}
-              건대입구
+              홍대
             </Text>
             <View
               style={{
@@ -192,17 +191,17 @@ const ArrivedDetailScreen = ({ navigation }) => {
                   fontFamily: "pretendard400",
                 }}
               >
-                {4}
+                {3}
                 {/*인원 수 들어가기*/}
               </Text>
             </View>
           </View>
           <LeaderCard
-            nickName={"욤요미"}
-            mbti={"ISTP"}
-            college={"단국대학교(죽전)"}
+            nickName={"유닝"}
+            mbti={"ESTJ"}
+            college={"고려대학교"}
             profile={
-              "https://img.seoul.co.kr/img/upload/2022/05/20/SSI_20220520005619_O2.jpg"
+              "https://postfiles.pstatic.net/MjAyMzA4MjRfMTAy/MDAxNjkyODA1ODg3NDk2.trjsam7Hy1G1DS3RZ_4FjLjeMeoKYyPH9eYsQLbzE7Yg.nFBvUSGPnhqr-MULctotoZOQRPasKxk6bFVgFSXj9Hog.PNG.seyun1052/IMG_9022.png?type=w966"
             }
           />
           <InfoSection />

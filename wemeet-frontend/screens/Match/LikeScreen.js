@@ -15,10 +15,10 @@ import {
 } from "../../styles/commonStyles";
 
 import Card from "../../components/home/Card";
-import { roughCardData } from "../../assets/mock.js"; //임시
+import { likeSentData } from "../../assets/mock.js"; //임시
 
 const LikeScreen = ({ navigation }) => {
-  const [arrived, setArrived] = useState(true);
+  const [arrived, setArrived] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.toggleContainer}>
@@ -64,7 +64,7 @@ const LikeScreen = ({ navigation }) => {
         overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
       >
-        {roughCardData.map((card, index) => (
+        {likeSentData.map((card, index) => (
           <Card
             card={card}
             navigation={navigation}

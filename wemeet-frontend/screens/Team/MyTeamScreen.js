@@ -114,6 +114,7 @@ const MyTeamScreen = ({ navigation }) => {
         }}
       >
         {images.map((image, index) => {
+          console.log(image.uri);
           return (
             <Image
               key={index}

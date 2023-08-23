@@ -26,7 +26,7 @@ const cardBorderRadius = 10;
 const HomeCard = ({ card, navigation, end, width, height }) => {
   return !end ? (
     <TouchableOpacity
-      activeOpacity={1}
+      activeOpacity={0.9}
       onPress={() => {
         navigation.navigate("HomeDetail");
       }}
