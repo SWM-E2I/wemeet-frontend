@@ -23,15 +23,16 @@ import {
 } from "@expo/vector-icons";
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
+import { LinearGradient } from "expo-linear-gradient";
 
 const photos = [
   {
     id: "1",
-    uri: "https://newsimg.sedaily.com/2023/07/26/29SA59WGN7_1.jpg",
+    uri: "https://images.khan.co.kr/article/2022/08/10/news-p.v1.20220810.73a7e18ea04547fd923245f518ace0ff_P1.jpg",
   },
   {
     id: "2",
-    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202208/05/newsen/20220805090353732jwuh.jpg",
+    uri: "https://image.newsis.com/2022/01/23/NISI20220123_0000918934_web.jpg",
   },
   {
     id: "3",
@@ -39,31 +40,40 @@ const photos = [
   },
   {
     id: "4",
-    uri: "https://image.newsis.com/2022/01/23/NISI20220123_0000918934_web.jpg",
+    uri: "https://newsimg.sedaily.com/2023/07/26/29SA59WGN7_1.jpg",
   },
   {
     id: "5",
     uri: "https://m.aando.co.kr/web/product/big/202307/01389d9c2eda69fca38e9b480d0f3ff5.jpg",
   },
-  {
-    id: "6",
-    uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7JSRii_41Xvrc6OL8oQiC0bStzp1HwbNHfA&usqp=CAU",
-  },
 ];
 const renderItem = ({ item, index }) => {
   return (
-    <Image
-      key={index}
-      source={{
-        uri: item.uri,
-      }}
-      style={{
-        aspectRatio: 1,
-        width: Dimensions.get("window").width,
-        backgroundColor: "transparent",
-      }}
-      resizeMode={"cover"}
-    />
+    <View>
+      <Image
+        key={index}
+        source={{
+          uri: item.uri,
+        }}
+        style={{
+          aspectRatio: 1,
+          width: Dimensions.get("window").width,
+          backgroundColor: "transparent",
+        }}
+        resizeMode={"cover"}
+      />
+      <LinearGradient
+        colors={["rgba(14,15,19,0.9)", "rgba(20, 21, 25, 0.00)"]}
+        start={[0, 0]}
+        end={[0, 1]}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "50%",
+          top: 0,
+        }}
+      />
+    </View>
   );
 };
 
@@ -187,7 +197,14 @@ const ArrivedDetailScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <LeaderCard />
+          <LeaderCard
+            nickName={"욤요미"}
+            mbti={"ISTP"}
+            college={"단국대학교(죽전)"}
+            profile={
+              "https://img.seoul.co.kr/img/upload/2022/05/20/SSI_20220520005619_O2.jpg"
+            }
+          />
           <InfoSection />
         </View>
       </ScrollView>

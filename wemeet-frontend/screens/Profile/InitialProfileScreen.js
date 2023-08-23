@@ -39,7 +39,9 @@ const InitialProfileScreen = ({ navigation }) => {
           마이페이지
         </Text>
         <Image
-          source={{ uri: "https://pbs.twimg.com/media/E9P1sh3VIAcFKCg.jpg" }}
+          source={{
+            uri: "https://i.pinimg.com/236x/6e/b1/96/6eb196aa02a8c64ea61d4f264219690f.jpg",
+          }}
           style={{
             marginVertical: 40,
             aspectRatio: 1,
@@ -61,7 +63,7 @@ const InitialProfileScreen = ({ navigation }) => {
               color: "white",
             }}
           >
-            유진씨
+            빠따코코낫
           </Text>
           <Text
             style={{
@@ -103,7 +105,7 @@ const InitialProfileScreen = ({ navigation }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              째리미추워 / ENFJ
+              빠따코코낫 / ESFP
             </Text>
             <View style={styles.verifiedLabel}>
               <Text

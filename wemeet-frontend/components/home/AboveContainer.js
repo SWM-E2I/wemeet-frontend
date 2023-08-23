@@ -11,6 +11,7 @@ import {
 import React, { useState, useRef, useEffect } from "react";
 import {
   mainColor,
+  subColorBlack,
   subColorBlue,
   subColorPink,
 } from "../../styles/commonStyles";
@@ -211,8 +212,8 @@ const styles = StyleSheet.create({
     paddingTop:
       Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
-    backgroundColor: mainColor,
-    // backgroundColor: "yellow",
+    // backgroundColor: mainColor,
+    backgroundColor: subColorBlack,
   },
   logoContainer: {
     flex: 0.2,

@@ -44,6 +44,17 @@ const HomeCard = ({ card, navigation, end, width, height }) => {
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
         />
+        <LinearGradient
+          colors={["#141519", "rgba(20, 21, 25, 0.00)"]}
+          start={[0, 1]}
+          end={[0, 0]}
+          style={{
+            position: "absolute",
+            width: CARD_WIDTH,
+            height: CARD_WIDTH / 2,
+            bottom: 0,
+          }}
+        />
         <Text
           style={{
             fontFamily: "pretendard600",
@@ -81,12 +92,16 @@ const HomeCard = ({ card, navigation, end, width, height }) => {
       </View>
       <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
         <BlurView
-          intensity={20}
+          intensity={35}
           tint={"dark"}
           style={{ width: "100%", height: "100%" }}
         >
           <LinearGradient
-            colors={["rgba(39, 39, 39, 0.70)", "rgba(19, 20, 23, 0.70)"]}
+            colors={
+              Platform.OS == "android"
+                ? ["rgba(71,72,73,0.7)", "rgba(11,12,14,1)"]
+                : ["rgba(39, 39, 39, 0.70)", "rgba(19, 20, 23, 0.70)"]
+            }
             style={styles.gradientBox}
           >
             <Image
@@ -184,6 +199,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     alignSelf: "center",
+    borderColor: "#2E2E32",
+    borderWidth: 1,
     elevation: 10, //for android
     shadowColor: "rgba(0, 0, 0, 0.79)",
     shadowOffset: { width: 0, height: 4 },

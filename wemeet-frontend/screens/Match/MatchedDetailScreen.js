@@ -24,6 +24,7 @@ import {
 } from "@expo/vector-icons";
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
+import { LinearGradient } from "expo-linear-gradient";
 // import { WebView } from "react-native-webview";
 const photos = [
   {
@@ -53,18 +54,31 @@ const photos = [
 ];
 const renderItem = ({ item, index }) => {
   return (
-    <Image
-      key={index}
-      source={{
-        uri: item.uri,
-      }}
-      style={{
-        aspectRatio: 1,
-        width: Dimensions.get("window").width,
-        backgroundColor: "transparent",
-      }}
-      resizeMode={"cover"}
-    />
+    <View>
+      <Image
+        key={index}
+        source={{
+          uri: item.uri,
+        }}
+        style={{
+          aspectRatio: 1,
+          width: Dimensions.get("window").width,
+          backgroundColor: "transparent",
+        }}
+        resizeMode={"cover"}
+      />
+      <LinearGradient
+        colors={["rgba(14,15,19,0.9)", "rgba(20, 21, 25, 0.00)"]}
+        start={[0, 0]}
+        end={[0, 1]}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "50%",
+          top: 0,
+        }}
+      />
+    </View>
   );
 };
 
@@ -193,7 +207,14 @@ const MatchedDetailScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <LeaderCard />
+          <LeaderCard
+            nickName={"욤요미"}
+            mbti={"ISTP"}
+            college={"단국대학교(죽전)"}
+            profile={
+              "https://img.seoul.co.kr/img/upload/2022/05/20/SSI_20220520005619_O2.jpg"
+            }
+          />
           <InfoSection />
         </View>
       </ScrollView>

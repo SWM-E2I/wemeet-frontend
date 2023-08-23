@@ -131,7 +131,7 @@ const MatchTabNavigation = () => {
         }, //device 크기 별로 분기 필요!!!
         tabBarAllowFontScaling: true,
         tabBarIndicatorStyle: { backgroundColor: "white" },
-        // swipeEnabled: false,
+        swipeEnabled: false,
       }}
       style={{
         backgroundColor: mainColor,

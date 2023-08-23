@@ -1,18 +1,22 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { subColorPink } from "../../styles/commonStyles";
+import {
+  mainColor,
+  subColorBlack,
+  subColorPink,
+} from "../../styles/commonStyles";
 
-const LeaderCard = ({ style }) => {
+const LeaderCard = ({ style, nickName, mbti, college, profile }) => {
   return (
     <View style={[styles.infoBox, style]} opacity={1}>
       <LinearGradient
-        colors={["rgba(27, 27, 27, 1)", "rgba(13, 14, 17, 1)"]}
+        colors={["rgba(71,72,73,0.7)", "rgba(11,12,14,1)"]}
         style={styles.gradientBox}
       >
         <Image
           source={{
-            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7JSRii_41Xvrc6OL8oQiC0bStzp1HwbNHfA&usqp=CAU",
+            uri: profile,
           }}
           style={styles.profileImage}
           resizeMode={"cover"}
@@ -42,7 +46,7 @@ const LeaderCard = ({ style }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              째리미추워 / ENFJ
+              {`${nickName} / ${mbti}`}
             </Text>
             <View style={styles.verifiedLabel}>
               <Text
@@ -65,7 +69,7 @@ const LeaderCard = ({ style }) => {
               marginBottom: 5,
             }}
           >
-            고려대학교 (서울)
+            {college}
           </Text>
         </View>
       </LinearGradient>

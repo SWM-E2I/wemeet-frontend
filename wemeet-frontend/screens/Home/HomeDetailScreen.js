@@ -34,6 +34,7 @@ const photos = [
     id: "2",
     uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202208/05/newsen/20220805090353732jwuh.jpg",
   },
+
   {
     id: "3",
     uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
@@ -188,7 +189,14 @@ const HomeDetailScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <LeaderCard />
+          <LeaderCard
+            nickName={"욤요미"}
+            mbti={"ISTP"}
+            college={"단국대학교(죽전)"}
+            profile={
+              "https://img.seoul.co.kr/img/upload/2022/05/20/SSI_20220520005619_O2.jpg"
+            }
+          />
           <InfoSection />
         </View>
       </ScrollView>

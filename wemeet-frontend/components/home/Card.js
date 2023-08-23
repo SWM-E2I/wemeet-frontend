@@ -50,6 +50,18 @@ const Card = ({
           style={[styles.cardImage, { width: "100%" }]}
           resizeMode={"cover"} //or, cover?
         />
+        <LinearGradient
+          colors={["#141519", "rgba(20, 21, 25, 0.00)"]}
+          start={[0, 1]}
+          end={[0, 0]}
+          style={{
+            position: "absolute",
+            width: CARD_WIDTH,
+            height: CARD_WIDTH / 2,
+            bottom: 0,
+            flexDirection: "row",
+          }}
+        />
         {isLike && (
           //임시!!
           <View style={styles.likeInfoContainer}>
@@ -213,6 +225,10 @@ const Card = ({
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
         }}
+        nickName={card.leader.nickName}
+        mbti={card.leader.mbti}
+        college={card.leader.college}
+        profile={card.profileImageURL}
       />
     </TouchableOpacity>
   );

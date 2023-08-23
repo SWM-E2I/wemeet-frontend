@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
-import { mainColor, subColorPink } from "../../styles/commonStyles";
+import {
+  mainColor,
+  subColorPink,
+  subColorBlack,
+} from "../../styles/commonStyles";
 import { roughCardData } from "../../assets/mock.js";
 import HomeCard from "../../components/home/HomeCard";
 import AboveContainer from "../../components/home/AboveContainer";
@@ -44,7 +48,8 @@ const HomeScreen = ({ navigation }) => {
         {
           justifyContent: "space-around",
           flex: 1,
-          backgroundColor: mainColor,
+          // backgroundColor: mainColor,
+          backgroundColor: subColorBlack,
         },
         // { flex: 1, justifyContent: "center", alignItems: "center" },
       ]} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
@@ -76,7 +81,7 @@ const HomeScreen = ({ navigation }) => {
             }}
             animateCardOpacity
             infinite //임시
-            backgroundColor={mainColor}
+            backgroundColor={subColorBlack}
             showSecondCard
             cardVerticalMargin={20}
             stackAnimationFriction={4}
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
   swiperContainer: {
     flex: swiperHeightPercentage,
     alignItems: "center",
-    backgroundColor: mainColor,
+    backgroundColor: subColorBlack,
   },
 });
 
