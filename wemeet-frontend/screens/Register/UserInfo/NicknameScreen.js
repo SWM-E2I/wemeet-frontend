@@ -88,12 +88,14 @@ const NicknameScreen = ({ navigation }) => {
             <TextInput
               value={nickName}
               onChangeText={(text) => {
-                setNickName(text);
+                setNickName(text.slice(0, 5));
+                console.log(nickName);
               }}
               style={[registerStyles.inputTextBox, registerStyles.inputText]}
               autoFocus
               enablesReturnKeyAutomatically
-              placeholder={"닉네임을 입력해줘"}
+              placeholder={"닉네임을 입력해줘 (5자 이내)"}
+              maxLength={6}
             ></TextInput>
           </View>
         )}

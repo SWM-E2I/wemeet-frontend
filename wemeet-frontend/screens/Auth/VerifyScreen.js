@@ -99,7 +99,7 @@ const VerifyScreen = ({ navigation, route }) => {
         setTimer(timer - 1);
       }, 1000);
     }
-    console.log("timer value : ", timer);
+    // console.log("timer value : ", timer);
     return () => clearTimeout(timeout);
   }, [timer]);
   useEffect(() => {

@@ -3,6 +3,7 @@ import React, { useState, useMemo } from "react";
 import registerStyles from "../../styles/registerStyles";
 import RegisterAnimatedView from "./RegisterAnimatedView";
 import { SelectList } from "react-native-dropdown-select-list";
+import { univNameList, univCodeList } from "../../assets/datasets";
 
 const labels = ["학교명", "단과대", "학번"];
 function getCurrentYear() {
@@ -21,24 +22,27 @@ const UnivSet = ({
   //임시
   const currentYear = getCurrentYear() % 100;
   //useMemo활용, 최적화필요!
-  const univList = [
-    { key: "1", value: "고려대학교(서울)" },
-    { key: "2", value: "고려대학교(세종)" },
-    { key: "3", value: "연새대학교(서울)" },
-    { key: "4", value: "참새대학교(원주)" },
-    { key: "5", value: "제주대학교" },
-    { key: "6", value: "MIT대학교(미국)" },
-    { key: "7", value: "Harvard대학교(미국)" },
-  ];
+  const univList = [];
+  univNameList.map((name, index) => {
+    univList.push({ key: univCodeList[index], value: name });
+  });
   const collegeList = [
-    { key: "1", value: "인문사회" },
-    { key: "2", value: "자연공학" },
-    { key: "3", value: "예술체육" },
-    { key: "4", value: "의료" },
-    { key: "5", value: "법률" },
-    { key: "6", value: "교육" },
-    { key: "7", value: "그 외" },
+    //ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE
+    { key: "SOCIAL", value: "인문사회" },
+    { key: "ENGINEERING", value: "자연공학" },
+    { key: "ARTS", value: "예술체육" },
+    { key: "MEDICINE", value: "의료" },
+    { key: "EDUCATION", value: "교육" },
+    { key: "ETC", value: "그 외" },
   ];
+  const collegeObj = {
+    SOCIAL: "인문사회",
+    ENGINEERING: "자연공학",
+    ARTS: "예술체육",
+    MEDICINE: "의료",
+    EDUCATION: "교육",
+    ETC: "그 외",
+  };
   const yearList = [
     { key: "1", value: currentYear },
     { key: "2", value: currentYear - 1 },
@@ -64,11 +68,9 @@ const UnivSet = ({
       {/* arrow 아이콘 검색 아이콘 변경 및 사이즈 바꾸기 + 바로 검색창 뜨게 가능한지? + 뒤로 가기 구현*/}
       {stage === 1 ? (
         <SelectList
-          setSelected={(val) => {
-            setUniv(val);
-          }}
+          setSelected={setUniv}
           data={univList}
-          save="value"
+          save="key"
           boxStyles={[
             registerStyles.inputTextView,
             {
@@ -101,14 +103,12 @@ const UnivSet = ({
       ) : stage === 2 ? (
         <>
           <SelectList
-            setSelected={(val) => {
-              setCollege(val);
-            }}
+            setSelected={setCollege}
             onSelect={async () => {
               await changeStage(3);
             }}
             data={collegeList}
-            save="value"
+            save="key"
             boxStyles={[
               registerStyles.inputTextView,
               {
@@ -137,7 +137,7 @@ const UnivSet = ({
       ) : (
         <SelectList
           setSelected={(val) => {
-            setAdmissionYear(val);
+            setAdmissionYear(val.toString());
           }}
           data={yearList}
           save="value"
@@ -181,7 +181,7 @@ const UnivSet = ({
       </Text>
       {stage === 2 ? (
         <RegisterAnimatedView
-          text={univ}
+          text={univNameList[univCodeList.indexOf(univ)]}
           textStyle={{ textAlign: "left" }}
           down
         />
@@ -189,11 +189,14 @@ const UnivSet = ({
       {stage === 3 ? (
         <>
           <RegisterAnimatedView
-            text={college}
+            text={collegeObj[college]}
             fade
             textStyle={{ textAlign: "left" }}
           />
-          <RegisterAnimatedView text={univ} textStyle={{ textAlign: "left" }} />
+          <RegisterAnimatedView
+            text={univNameList[univCodeList.indexOf(univ)]}
+            textStyle={{ textAlign: "left" }}
+          />
         </>
       ) : null}
     </>

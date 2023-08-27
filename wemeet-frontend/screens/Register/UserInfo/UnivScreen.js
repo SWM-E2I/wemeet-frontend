@@ -53,7 +53,7 @@ const UnivScreen = ({ navigation }) => {
           let registerData = {
             ...registerInfo,
             collegeInfo: {
-              college: univ,
+              collegeCode: univ,
               collegeType: college,
               admissionYear: admissionYear,
             },

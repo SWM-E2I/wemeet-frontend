@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialRegisterState = {
   nickname: "",
-  gender: "",
-  phoneNumber: "",
+  gender: "", //WOMAN or MAN
+  phoneNumber: "", //+82~
   collegeInfo: {
-    college: "",
-    collegeType: "",
-    admissionYear: "",
+    collegeCode: "", //CE-001
+    collegeType: "", //ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE 중 하나
+    admissionYear: "", //"19"
   },
-  mbti: "",
+  mbti: "", //"XXXX"
 }; //회원가입시 필요한 필수정보 state
 
 const registerSlice = createSlice({
