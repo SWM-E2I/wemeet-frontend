@@ -232,8 +232,9 @@ const styles = StyleSheet.create({
   },
   guidance: {
     flex: 0.45,
+    // backgroundColor: subColorBlue,
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   guidanceText: {
     color: "white",

@@ -11,6 +11,7 @@ import React from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
+  subColorBlack,
 } from "../../styles/commonStyles";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
@@ -21,6 +22,7 @@ const InitialProfileScreen = ({ navigation }) => {
         commonStyles.safeAreaView,
         {
           backgroundColor: mainColor,
+          // backgroundColor: subColorBlack,
         },
       ]}
     >

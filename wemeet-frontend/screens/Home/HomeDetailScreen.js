@@ -124,7 +124,6 @@ const HomeDetailScreen = ({ navigation }) => {
           bounces={false} //FOR IOS
           overScrollMode={"never"} //FOR ANDROID
         />
-
         <View
           style={{
             position: "absolute",
@@ -152,7 +151,6 @@ const HomeDetailScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-
         <View
           style={{
             justifyContent: "center",

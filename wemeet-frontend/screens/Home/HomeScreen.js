@@ -83,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
             infinite //임시
             backgroundColor={subColorBlack}
             showSecondCard
-            cardVerticalMargin={20}
+            cardVerticalMargin={5}
             stackAnimationFriction={4}
             stackAnimationTension={10}
           />

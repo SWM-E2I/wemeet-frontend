@@ -13,36 +13,32 @@ import {
   subColorBlue,
   subColorPink,
 } from "../../styles/commonStyles";
-import { BlurView } from "expo-blur";
+// import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import LeaderCard from "./LeaderCard";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 const swiperHeightPercentage = 0.7;
-const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
+// const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation, end, width, height }) => {
+const HomeCard = ({ card, navigation, end }) => {
   return !end ? (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={() => {
         navigation.navigate("HomeDetail");
       }}
-      style={[
-        styles.card,
-        {
-          width: width ? width : CARD_WIDTH,
-          height: height ? height : CARD_HEIGHT,
-        },
-      ]}
+      style={styles.card}
     >
       <View>
         <Image
           source={{ uri: card.mainImageURL }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
+          // blurRadius={10}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}
@@ -90,7 +86,20 @@ const HomeCard = ({ card, navigation, end, width, height }) => {
           </Text>
         </View>
       </View>
-      <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
+      <LeaderCard
+        style={{
+          marginTop: 0,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+        }}
+        nickName={"유닝"}
+        mbti={"ESTJ"}
+        college={"고려대학교"}
+        profile={
+          "https://postfiles.pstatic.net/MjAyMzA4MjRfMTAy/MDAxNjkyODA1ODg3NDk2.trjsam7Hy1G1DS3RZ_4FjLjeMeoKYyPH9eYsQLbzE7Yg.nFBvUSGPnhqr-MULctotoZOQRPasKxk6bFVgFSXj9Hog.PNG.seyun1052/IMG_9022.png?type=w966"
+        }
+      />
+      {/* <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
         <BlurView
           intensity={35}
           tint={"dark"}
@@ -163,11 +172,18 @@ const HomeCard = ({ card, navigation, end, width, height }) => {
             </View>
           </LinearGradient>
         </BlurView>
-      </View>
+      </View> */}
     </TouchableOpacity>
   ) : (
     <View
-      style={[styles.card, { backgroundColor: mainColor, overflow: "hidden" }]}
+      style={[
+        styles.card,
+        {
+          height: CARD_WIDTH + 86,
+          backgroundColor: mainColor,
+          overflow: "hidden",
+        },
+      ]}
     >
       <Text style={[styles.endText, { left: 30, bottom: 100 }]}>
         오늘의 친구 추천은 여기까지야!
@@ -193,7 +209,7 @@ const HomeCard = ({ card, navigation, end, width, height }) => {
 
 const styles = StyleSheet.create({
   card: {
-    height: CARD_HEIGHT,
+    // height: CARD_HEIGHT,
     width: CARD_WIDTH,
     borderRadius: cardBorderRadius,
     alignItems: "center",
@@ -223,7 +239,7 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     width: "100%",
-    height: CARD_HEIGHT - CARD_WIDTH,
+    height: 86,
     borderBottomLeftRadius: cardBorderRadius,
     borderBottomRightRadius: cardBorderRadius,
     borderColor: "#1F1F1F",
@@ -232,7 +248,7 @@ const styles = StyleSheet.create({
   },
   gradientBox: {
     width: "100%",
-    height: CARD_HEIGHT - CARD_WIDTH,
+    height: "100%",
     alignItems: "center",
     paddingHorizontal: "4%",
     paddingVertical: "5%",

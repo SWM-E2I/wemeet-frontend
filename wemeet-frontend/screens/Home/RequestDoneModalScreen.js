@@ -21,7 +21,7 @@ const PopUp = ({ navigation }) => {
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          navigation.pop(2);
+          navigation.pop(3);
         }}
       >
         <Text style={styles.popUpText}>확인</Text>
