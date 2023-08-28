@@ -4,6 +4,11 @@ import registerStyles from "../../styles/registerStyles";
 import RegisterAnimatedView from "./RegisterAnimatedView";
 import { SelectList } from "react-native-dropdown-select-list";
 import { univNameList, univCodeList } from "../../assets/datasets";
+import {
+  subColorBlack,
+  subColorBlack2,
+  subColorPink,
+} from "../../styles/commonStyles";
 
 const labels = ["학교명", "단과대", "학번"];
 function getCurrentYear() {
@@ -76,11 +81,21 @@ const UnivSet = ({
             {
               width: Dimensions.get("window").width * 0.85,
               justifyContent: "space-between",
+              backgroundColor: "#F2F2F2",
+              // backgroundColor: "white",
+              // backgroundColor: subColorBlack2,
+              borderWidth: 1,
             },
           ]}
           inputStyles={[
             registerStyles.inputText,
-            { fontSize: 18, textAlign: "left" },
+            {
+              fontFamily: "pretendard400",
+              fontSize: 18,
+              color: "black",
+              // color: subColorPink,
+              textAlign: "left",
+            },
           ]}
           dropdownTextStyles={{ fontSize: 15 }}
           placeholder={"대학교를 선택해줘"}
@@ -92,6 +107,7 @@ const UnivSet = ({
           }}
           maxHeight={160}
           dropdownStyles={{
+            backgroundColor: "#F2F2F2",
             marginTop: 0,
             borderWidth: 2,
           }}
@@ -114,17 +130,24 @@ const UnivSet = ({
               {
                 width: Dimensions.get("window").width * 0.85,
                 justifyContent: "space-between",
+                backgroundColor: "#f2f2f2",
               },
             ]}
             inputStyles={[
               registerStyles.inputText,
-              { fontSize: 18, textAlign: "left" },
+              {
+                fontFamily: "pretendard400",
+                fontSize: 18,
+                textAlign: "left",
+                color: "black",
+              },
             ]}
             dropdownTextStyles={{ fontSize: 15 }}
             placeholder={"단과대를 선택해줘"}
             search={false}
             maxHeight={160}
             dropdownStyles={{
+              backgroundColor: "#F2F2F2",
               marginTop: 0,
               borderWidth: 2,
             }}
@@ -146,11 +169,17 @@ const UnivSet = ({
             {
               width: Dimensions.get("window").width * 0.85,
               justifyContent: "space-between",
+              backgroundColor: "#f2f2f2",
             },
           ]}
           inputStyles={[
             registerStyles.inputText,
-            { fontSize: 18, textAlign: "left" },
+            {
+              fontFamily: "pretendard400",
+              fontSize: 18,
+              textAlign: "left",
+              color: "black",
+            },
           ]}
           dropdownTextStyles={{ fontSize: 15 }}
           placeholder={"학번을 선택해줘"}
@@ -159,6 +188,7 @@ const UnivSet = ({
           dropdownStyles={{
             marginTop: 0,
             borderWidth: 2,
+            backgroundColor: "#f2f2f2",
           }}
           dropdownItemStyles={{
             height: 35,
@@ -172,7 +202,7 @@ const UnivSet = ({
           registerStyles.warningText,
           {
             marginLeft: "10%",
-            color: "black",
+            color: "white",
             alignSelf: "flex-start",
           },
         ]}
@@ -182,7 +212,13 @@ const UnivSet = ({
       {stage === 2 ? (
         <RegisterAnimatedView
           text={univNameList[univCodeList.indexOf(univ)]}
-          textStyle={{ textAlign: "left" }}
+          textStyle={{
+            textAlign: "left",
+            fontSize: 20,
+            fontFamily: "pretendard400",
+            color: subColorPink,
+          }}
+          style={{ backgroundColor: subColorBlack2 }}
           down
         />
       ) : null}
@@ -191,11 +227,23 @@ const UnivSet = ({
           <RegisterAnimatedView
             text={collegeObj[college]}
             fade
-            textStyle={{ textAlign: "left" }}
+            textStyle={{
+              textAlign: "left",
+              fontSize: 20,
+              fontFamily: "pretendard400",
+              color: subColorPink,
+            }}
+            style={{ backgroundColor: subColorBlack2 }}
           />
           <RegisterAnimatedView
             text={univNameList[univCodeList.indexOf(univ)]}
-            textStyle={{ textAlign: "left" }}
+            textStyle={{
+              textAlign: "left",
+              fontSize: 20,
+              fontFamily: "pretendard400",
+              color: subColorPink,
+            }}
+            style={{ backgroundColor: subColorBlack2 }}
           />
         </>
       ) : null}

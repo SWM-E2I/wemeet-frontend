@@ -1,14 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { mainColor, subColorPink } from "../../styles/commonStyles";
 
 const RegisterCreditView = ({ currentCredit }) => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Ionicons name="ios-heart" size={20} color="black" />
+        <Ionicons name="ios-heart" size={20} color={subColorPink} />
         <Text style={styles.number}>{`+${currentCredit}`}</Text>
-        <Text style={[styles.number, { color: "gray" }]}>/25</Text>
+        <Text
+          style={[
+            styles.number,
+            { fontFamily: "pretendard400", color: "white" },
+          ]}
+        >
+          /25
+        </Text>
       </View>
     </View>
   );
@@ -24,8 +32,8 @@ const styles = StyleSheet.create({
   box: {
     width: 90,
     height: 40,
-    backgroundColor: "#E2E2E2",
-    borderRadius: 40,
+    backgroundColor: "black",
+    borderRadius: 15,
     marginRight: 20,
     flexDirection: "row",
     justifyContent: "center",
@@ -34,6 +42,8 @@ const styles = StyleSheet.create({
   number: {
     marginLeft: 3,
     fontSize: 15,
+    fontFamily: "pretendard600",
+    color: subColorPink,
     // letterSpacing: 1,
   },
 });

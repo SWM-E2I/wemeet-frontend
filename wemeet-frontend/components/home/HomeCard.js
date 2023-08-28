@@ -17,10 +17,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import LeaderCard from "./LeaderCard";
 
-const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-const swiperHeightPercentage = 0.7;
-// const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
@@ -38,7 +35,7 @@ const HomeCard = ({ card, navigation, end }) => {
           source={{ uri: card.mainImageURL }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
-          // blurRadius={10}
+          blurRadius={10}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}

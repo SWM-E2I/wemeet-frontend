@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   textEnabled: {
     fontSize: 15,
+    fontFamily: "pretendard500",
     color: "black",
   },
 });

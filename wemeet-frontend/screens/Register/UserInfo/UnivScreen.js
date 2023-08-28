@@ -66,11 +66,11 @@ const UnivScreen = ({ navigation }) => {
               "위밋 회원이 된 걸 환영해!",
               "이제 대학생 인증만 완료하면\n서비스를 정상적으로 이용할 수 있어"
             );
-            console.log("회원가입 성공!, 추가정보 분기 페이지로 이동");
+            console.log("회원가입 성공, 추가정보 분기 페이지로 이동");
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: "UnivMail" }],
+                routes: [{ name: "Additional" }],
               })
             );
           } else Alert.alert("회원가입에 실패했습니다. 다시 시도해주세요.");
@@ -94,7 +94,6 @@ const UnivScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* 여기에 body내용 입력 */}
-
         <UnivSet
           stage={stage}
           univ={univ}

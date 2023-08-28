@@ -5,7 +5,7 @@ import mime from "mime";
 
 //개인 프로필 사진 전송하는거
 // const SET_PROFILE_IMG_API_URL = "/profile_image";
-const SET_PROFILE_IMG_API_URL = "/profile_image?main=true"; //테스트용
+const SET_PROFILE_IMG_API_URL = "/member/profile-image"; //테스트용
 // const SET_PROFILE_IMG_API_URL = "/member/profile_image"; //실제 코드
 
 const setProfileImgApi = async (profileImg, controller, navigation) => {

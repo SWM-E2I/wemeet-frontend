@@ -19,7 +19,7 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import Logo from "../../assets/vectors/Logo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+const BANNER_WIDTH = WIDTH * 0.88;
 const bannerData = [
   //id -> string
   //최소 3개 이상 배너가 필요 -> 자연스러움
@@ -44,7 +44,7 @@ const renderItem = ({ item, index }) => {
       key={index}
       style={{
         paddingHorizontal: 20,
-        width: WIDTH * 0.88,
+        width: BANNER_WIDTH,
         height: "100%",
         justifyContent: "center",
       }}
@@ -84,11 +84,18 @@ const renderItem = ({ item, index }) => {
       </View>
     </View>
   ) : (
-    <View style={{ width: WIDTH * 0.88, height: "100%" }}>
+    <View
+      style={{
+        width: BANNER_WIDTH,
+        height: "100%",
+        backgroundColor: subColorBlack,
+        alignItems: "flex-end",
+      }}
+    >
       <Image
         key={index}
         source={{ uri: item.uri }}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: BANNER_WIDTH - 1, height: "100%" }}
         resizeMode={"cover"}
       ></Image>
       <View
@@ -126,8 +133,8 @@ const AboveContainer = () => {
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
   const getItemLayout = (data, index) => ({
-    length: WIDTH * 0.88, //padding 값 제외
-    offset: WIDTH * 0.88 * index,
+    length: BANNER_WIDTH, //padding 값 제외
+    offset: BANNER_WIDTH * index,
     index: index,
   });
 

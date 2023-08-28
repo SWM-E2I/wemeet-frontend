@@ -72,6 +72,7 @@ const UnivMailScreen = ({ navigation }) => {
             onSubmitEditing={onSubmit}
             editable={!loading}
             autoCapitalize={"none"}
+            placeholderTextColor={"#C4C4C4"}
           ></TextInput>
         </View>
         <View style={{ width: "100%" }}>

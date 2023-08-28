@@ -38,7 +38,7 @@ import NicknameScreen from "../screens/Register/UserInfo/NicknameScreen.js";
 const config = {
   animation: "timing",
   config: {
-    duration: 1000,
+    duration: 500,
   },
 };
 const Stack = createStackNavigator();

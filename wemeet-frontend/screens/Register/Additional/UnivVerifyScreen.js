@@ -127,6 +127,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
               Keyboard.dismiss();
             }}
             editable={!loading}
+            placeholderTextColor={"#C4C4C4"}
           ></TextInput>
           <View style={registerStyles.inputTimerView}>
             <Text style={{ fontSize: 20, color: "gray" }}>

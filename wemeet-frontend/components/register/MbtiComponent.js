@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import React from "react";
 import registerStyles from "../../styles/registerStyles";
+import { subColorBlack2, subColorPink } from "../../styles/commonStyles";
 
 const MbtiComponent = ({ mbti, setMbti, letters }) => {
   return letters.map((letter, idx) => {
@@ -11,7 +12,7 @@ const MbtiComponent = ({ mbti, setMbti, letters }) => {
             styles.mbtiComponent,
             mbti[idx] == letters[idx]
               ? null
-              : { backgroundColor: "#E9E9E9", borderWidth: 0 },
+              : { backgroundColor: subColorBlack2 },
           ]}
           onPress={() => {
             if (mbti == "XXXX") {
@@ -31,7 +32,7 @@ const MbtiComponent = ({ mbti, setMbti, letters }) => {
           <Text
             style={[
               registerStyles.inputText,
-              mbti[idx] == letters[idx] ? { color: "black" } : null,
+              mbti[idx] == letters[idx] ? { color: subColorPink } : null,
             ]}
           >
             {letter}
@@ -48,8 +49,8 @@ const styles = StyleSheet.create({
     width: 65,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
     borderRadius: 10,
+    backgroundColor: "black",
   },
 });
 

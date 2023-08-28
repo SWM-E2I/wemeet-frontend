@@ -88,10 +88,12 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     marginVertical: 16,
+    padding: 10,
     width: 240,
     height: 50,
     borderRadius: 20,
     backgroundColor: subColorBlack2,
+    // backgroundColor: "yellow",
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
     width: "50%",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 93,
   },
   toggleButtonText: {
     color: "white",

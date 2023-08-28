@@ -63,9 +63,10 @@ const PhoneNumScreen = ({ navigation }) => {
             returnKeyType={phone.length == 11 ? "done" : "none"}
             keyboardType={"number-pad"}
             maxLength={11}
-            placeholder={"휴대폰 번호를 입력하세요"}
+            placeholder={"숫자만 입력해줘"}
             onSubmitEditing={onSubmit}
             editable={!loading}
+            placeholderTextColor={"#C4C4C4"}
           ></TextInput>
         </View>
         <View style={{ width: "100%" }}>

@@ -129,7 +129,6 @@ const AdditionalScreen = ({ navigation }) => {
         text={"위밋 바로 시작하기"}
         onPress={() => {
           //*** Alert띄워서 정말 입력안할거양?!? 해주기 */
-          Alert.alert("위밋 시작!");
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

@@ -80,7 +80,7 @@ const phoneVrfValidateApi = async (phone, code, controller) => {
     );
     if (response.data.status == "SUCCESS") {
       console.log("휴대폰 인증 성공");
-      if (response.data.isRegistered) {
+      if (response.data.data.isRegistered) {
         console.log("IsRegistered : true, persist login API요청");
         await storeAccessToken(response);
         //리턴값 추후 수정 필요

@@ -4,6 +4,7 @@ import { Checkbox } from "react-native-paper";
 import { Alert } from "react-native";
 import NextButton from "../../components/NextButton";
 import { CommonActions } from "@react-navigation/native";
+import { subColorBlack, subColorBlack2 } from "../../styles/commonStyles";
 
 const TermsModalScreen = ({ navigation, route }) => {
   //임시 페이지, Naviagtion modal로 구현 -> 추후 bottomsheet library로 migrate필요.
@@ -34,33 +35,50 @@ const TermsModalScreen = ({ navigation, route }) => {
         })
       );
     } else {
-      Alert.alert("모두 동의해야 서비스 이용이 가능합니다.");
+      Alert.alert("모두 동의해야 서비스 이용이 가능해!");
     }
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}></View>
       <View
         style={{
-          flex: 1,
+          // flex: 1,
           justifyContent: "center",
           alignItems: "center",
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
           borderWidth: 1,
           borderBottomWidth: 0,
-          paddingTop: 15,
+          paddingTop: 20,
+          paddingBottom: 20,
+          backgroundColor: subColorBlack2,
         }}
       >
-        <Text>{title}</Text>
-        <Text>{subtitle}</Text>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 17,
+            fontFamily: "pretendard600",
+            marginBottom: 5,
+          }}
+        >
+          {title}
+        </Text>
+        <Text
+          style={{ color: "white", fontSize: 15, fontFamily: "pretendard500" }}
+        >
+          {subtitle}
+        </Text>
         <Checkbox.Item
           status={allChecked ? "checked" : "unchecked"}
           label={s_all}
           position={"leading"}
           mode={"android"}
           onPress={handleAllCheckboxToggle}
-          color={"black"}
+          color={"white"}
+          uncheckedColor={"white"}
+          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
         />
         <Checkbox.Item
           status={checked[0] ? "checked" : "unchecked"}
@@ -76,7 +94,9 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([!checked[0], checked[1], checked[2], checked[3]]);
           }}
-          color={"black"}
+          color={"white"}
+          uncheckedColor={"white"}
+          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
         />
         <Checkbox.Item
           status={checked[1] ? "checked" : "unchecked"}
@@ -92,7 +112,9 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], !checked[1], checked[2], checked[3]]);
           }}
-          color={"black"}
+          color={"white"}
+          uncheckedColor={"white"}
+          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
         />
         <Checkbox.Item
           status={checked[2] ? "checked" : "unchecked"}
@@ -108,7 +130,9 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], checked[1], !checked[2], checked[3]]);
           }}
-          color={"black"}
+          color={"white"}
+          uncheckedColor={"white"}
+          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
         />
         <Checkbox.Item
           status={checked[3] ? "checked" : "unchecked"}
@@ -124,16 +148,18 @@ const TermsModalScreen = ({ navigation, route }) => {
               setAllChecked(true);
             setChecked([checked[0], checked[1], checked[2], !checked[3]]);
           }}
-          color={"black"}
+          color={"white"}
+          uncheckedColor={"white"}
+          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
         />
         <NextButton
           text={"동의하고 진행하기"}
           onPress={toNext}
-          disabled={!allChecked}
+          // disabled={!allChecked}
           style={{ marginTop: 10 }}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

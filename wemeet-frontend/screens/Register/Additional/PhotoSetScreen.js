@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { FontAwesome5 } from "@expo/vector-icons";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorBlack2 } from "../../../styles/commonStyles";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
@@ -60,6 +60,7 @@ const PhotoSetScreen = ({ navigation }) => {
     } else console.log("사진을 선택하지 않음");
   };
   const onPress = async () => {
+    // loading 넣어야함
     //수정하기, 사진 등록하기 버튼 눌렀을 경우 -> API요청 보내야함
     //API에 result.assets[0]이 담긴 객체인 profileImg 객체 넘겨주기!!
     const res = await setProfileImgApi(profileImg, controller, navigation);
@@ -101,7 +102,7 @@ const PhotoSetScreen = ({ navigation }) => {
             alignSelf: "flex-start",
             marginLeft: 20,
             lineHeight: 20,
-            color: "gray",
+            color: "white",
           }}
         >
           {
@@ -110,7 +111,7 @@ const PhotoSetScreen = ({ navigation }) => {
         </Text>
         <TouchableOpacity
           style={{
-            backgroundColor: "white",
+            backgroundColor: subColorBlack2,
             // borderWidth: 1,
             marginTop: 45,
             height: 350,
@@ -146,12 +147,12 @@ const PhotoSetScreen = ({ navigation }) => {
             />
           ) : (
             <>
-              <FontAwesome5 name="camera" size={40} color="gray" />
+              <FontAwesome5 name="camera" size={40} color="white" />
 
               <Text
                 style={{
                   width: "90%",
-                  color: "gray",
+                  color: "white",
                   position: "absolute",
                   fontSize: 13,
                   bottom: 40,

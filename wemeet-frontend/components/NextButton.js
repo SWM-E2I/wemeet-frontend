@@ -1,5 +1,11 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+import {
+  mainColor,
+  subColorBlack,
+  subColorBlack2,
+  subColorPink,
+} from "../styles/commonStyles";
 
 const NextButton = ({ onPress, text, style, disabled }) => {
   return (
@@ -31,6 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
+    // backgroundColor: mainColor,
     borderRadius: 15,
     alignSelf: "center",
     marginTop: 10,
@@ -42,6 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F2F2F2",
+    // backgroundColor: subColorBlack2,
     borderRadius: 15,
     alignSelf: "center",
     marginTop: 10,
@@ -49,10 +57,13 @@ const styles = StyleSheet.create({
   },
   textDisabled: {
     fontSize: 20,
+    // color: "#F2F2F2",
+    fontFamily: "pretendard500",
     color: "gray",
   },
   textEnabled: {
     fontSize: 20,
+    fontFamily: "pretendard500",
     color: "#FFFFFF",
   },
 });

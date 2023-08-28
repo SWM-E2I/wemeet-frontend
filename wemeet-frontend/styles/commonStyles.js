@@ -10,7 +10,9 @@ const commonStyles = StyleSheet.create({
   safeAreaView: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
+    // backgroundColor: mainColor,
+    backgroundColor: subColorBlack,
   },
 });
 

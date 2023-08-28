@@ -13,15 +13,17 @@ const registerStyles = StyleSheet.create({
   instText: {
     marginLeft: "8%",
     fontSize: 30,
-    color: "black",
+    color: "white",
+    fontFamily: "pretendard500",
   },
   inputTextView: {
     justifyContent: "center",
     alignItems: "center",
-    height: 70,
+    height: 60,
     width: width * 0.85,
     borderWidth: 2,
     borderRadius: 10,
+    borderColor: "#434343",
     marginBottom: 5,
   },
   inputTextBox: {
@@ -42,6 +44,8 @@ const registerStyles = StyleSheet.create({
     alignItems: "center",
   },
   inputText: {
+    fontFamily: "pretendard400",
+    color: "white",
     fontSize: 22,
   },
   warningText: {
@@ -51,8 +55,9 @@ const registerStyles = StyleSheet.create({
   },
   labelText: {
     fontSize: 14,
-    fontWeight: "bold",
-    marginBottom: 5,
+    color: "white",
+    fontFamily: "pretendard500",
+    marginBottom: 10,
     marginLeft: "10%",
   },
 });

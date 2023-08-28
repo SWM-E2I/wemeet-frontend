@@ -9,7 +9,10 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, {
+  subColorBlack2,
+  subColorPink,
+} from "../../../styles/commonStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
@@ -26,7 +29,6 @@ const instruction = "MBTI는 필수지";
 const MbtiScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [mbti, setMbti] = useState("XXXX"); //redux state에 mbti 저장하기
-  const [open, setOpen] = useState(false);
   const toNext = () => {
     dispatch(setRegisterMbti(mbti));
     navigation.navigate("Univ");
@@ -38,82 +40,79 @@ const MbtiScreen = ({ navigation }) => {
         <Text style={registerStyles.instText}>{instruction}</Text>
         <RegisterCreditView currentCredit={5} />
       </View>
+      {/* <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
+        MBTI를 선택해줘
+      </Text> */}
       <View style={{ flex: 1, alignItems: "center" }}>
-        {/* 여기에 body내용 입력 */}
-        <RegisterSelectView
-          text={"MBTI"}
-          onPress={() => {
-            setOpen(!open);
+        <Animated.View
+          entering={FadeInUp.duration(220)}
+          exiting={FadeOutUp.duration(220)}
+          style={styles.rowContainer}
+        >
+          <MbtiComponent
+            mbti={mbti}
+            setMbti={setMbti}
+            letters={["E", "S", "T", "P"]}
+          />
+        </Animated.View>
+        <Animated.View
+          entering={FadeInUp.duration(260)}
+          exiting={FadeOutUp.duration(260)}
+          style={[styles.rowContainer, { marginTop: 10 }]}
+        >
+          <MbtiComponent
+            mbti={mbti}
+            setMbti={setMbti}
+            letters={["I", "N", "F", "J"]}
+          />
+        </Animated.View>
+        <Animated.View
+          entering={FadeInUp.duration(1000)}
+          exiting={FadeOutUp.duration(300)}
+          style={{
+            height: 35,
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
           }}
-          color={"white"}
-        />
-        {open ? (
-          <>
-            <Animated.View
-              entering={FadeInUp.duration(220)}
-              exiting={FadeOutUp.duration(220)}
-              style={styles.rowContainer}
-            >
-              <MbtiComponent
-                mbti={mbti}
-                setMbti={setMbti}
-                letters={["E", "S", "T", "P"]}
-              />
-            </Animated.View>
-            <Animated.View
-              entering={FadeInUp.duration(260)}
-              exiting={FadeOutUp.duration(260)}
-              style={[styles.rowContainer, { marginTop: 10 }]}
-            >
-              <MbtiComponent
-                mbti={mbti}
-                setMbti={setMbti}
-                letters={["I", "N", "F", "J"]}
-              />
-            </Animated.View>
-            <Animated.View
-              entering={FadeInUp.duration(300)}
-              exiting={FadeOutUp.duration(300)}
+        >
+          <TouchableOpacity
+            style={{
+              width: "85%",
+              height: 50,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#F2F2F2",
+              borderRadius: 8,
+              marginTop: 15,
+              backgroundColor: mbti == "XXXX" ? "black" : subColorBlack2,
+            }}
+            onPress={() => {
+              setMbti("XXXX");
+            }}
+          >
+            <Text
               style={{
-                height: 35,
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 10,
+                fontSize: 18,
+                fontFamily: "pretendard500",
+                color: mbti == "XXXX" ? subColorPink : "white",
               }}
             >
-              <SkipButton
-                text={"아직 잘 몰라"}
-                onPress={() => {
-                  setMbti("XXXX");
-                }}
-                style={
-                  mbti == "XXXX"
-                    ? {
-                        backgroundColor: "white",
-                        borderWidth: 2,
-                      }
-                    : null
-                }
-              />
-            </Animated.View>
-          </>
-        ) : null}
+              아직 잘 몰라
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
-      {/* 이부분 다시 생각 */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <NextButton
-          text={"다음"}
-          onPress={toNext}
-          style={{
-            alignSelf: "center",
-            marginTop: 10,
-            marginBottom: 20,
-          }}
-        />
-      </KeyboardAvoidingView>
+      <NextButton
+        text={"다음"}
+        onPress={toNext}
+        style={{
+          alignSelf: "center",
+          marginTop: 10,
+          marginBottom: 20,
+        }}
+      />
     </SafeAreaView>
   );
 };

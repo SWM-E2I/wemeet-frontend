@@ -135,9 +135,10 @@ const VerifyScreen = ({ navigation, route }) => {
             placeholder={"인증번호를 입력하세요"}
             onSubmitEditing={onSubmit}
             editable={!loading}
+            placeholderTextColor={"#C4C4C4"}
           ></TextInput>
           <View style={registerStyles.inputTimerView}>
-            <Text style={{ fontSize: 20, color: "gray" }}>
+            <Text style={{ fontSize: 20, color: "white" }}>
               {timer ? `${Math.floor(timer / 60)} : ${timer % 60}` : null}
             </Text>
           </View>
