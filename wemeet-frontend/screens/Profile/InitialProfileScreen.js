@@ -16,7 +16,11 @@ import commonStyles, {
   subColorBlack,
   subColorBlack2,
 } from "../../styles/commonStyles";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import { myProfileInquiryApi } from "../../api/myProfile";
 import { S3_PROFILE_BASE_URL } from "../../api/axios";
 
@@ -38,6 +42,9 @@ const InitialProfileScreen = ({ navigation }) => {
   const emailAuthenticated = useSelector(
     (state) => state.persist.emailAuthenticated
   );
+  const setPhoto = () => {
+    navigation.navigate("PhotoSet", { toProfile: true });
+  };
   const onMount = async () => {
     let result = await myProfileInquiryApi(navigation, controller);
     if (result) {
@@ -70,23 +77,26 @@ const InitialProfileScreen = ({ navigation }) => {
         >
           마이페이지
         </Text>
-        {profileData?.profileImage.basicUrl ? (
-          <Image
-            source={{
-              uri: profileData?.profileImage.basicUrl,
-            }}
-            style={styles.imageContainer} //borderRadius : width/2
-          />
-        ) : (
+        <View style={{ marginVertical: 30 }}>
+          {profileData?.profileImage.basicUrl ? (
+            <Image
+              source={{
+                uri: profileData?.profileImage.basicUrl,
+              }}
+              style={styles.imageContainer} //borderRadius : width/2
+            />
+          ) : (
+            <TouchableOpacity style={styles.imageContainer} onPress={setPhoto}>
+              <Text style={styles.imageText}>사진을 등록해줘!</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
-            style={styles.imageContainer}
-            onPress={() => {
-              navigation.navigate("PhotoSet", { toProfile: true });
-            }}
+            style={{ position: "absolute", bottom: 0, right: 0 }}
+            onPress={setPhoto}
           >
-            <Text style={styles.imageText}>사진을 등록해줘!</Text>
+            <MaterialIcons name="photo" size={30} color={"white"} />
           </TouchableOpacity>
-        )}
+        </View>
         <View
           style={{
             alignSelf: "flex-start",
@@ -326,13 +336,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    marginVertical: 30,
     aspectRatio: 1,
-    height: 130,
+    height: 120,
     borderRadius: 65,
     backgroundColor: subColorBlack2,
     justifyContent: "center",
     alignItems: "center",
+    borderColor: "white",
+    borderWidth: 0.5,
     // backgroundColor: "yellow",
   },
   imageText: {

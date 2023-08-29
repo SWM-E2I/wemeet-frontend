@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 
 const RegisterCreditView = ({ currentCredit }) => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Ionicons name="ios-heart" size={20} color={subColorPink} />
+        <MaterialCommunityIcons
+          name="lightning-bolt"
+          size={23}
+          color={subColorPink}
+        />
         <Text style={styles.number}>{`+${currentCredit}`}</Text>
         <Text
           style={[

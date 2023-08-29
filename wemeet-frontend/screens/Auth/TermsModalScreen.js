@@ -4,7 +4,11 @@ import { Checkbox } from "react-native-paper";
 import { Alert } from "react-native";
 import NextButton from "../../components/NextButton";
 import { CommonActions } from "@react-navigation/native";
-import { subColorBlack, subColorBlack2 } from "../../styles/commonStyles";
+import {
+  subColorBlack,
+  subColorBlack2,
+  subColorPink,
+} from "../../styles/commonStyles";
 
 const TermsModalScreen = ({ navigation, route }) => {
   //임시 페이지, Naviagtion modal로 구현 -> 추후 bottomsheet library로 migrate필요.

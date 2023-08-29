@@ -12,14 +12,22 @@ import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack2,
+  subColorBlack,
 } from "../../styles/commonStyles";
 import RegisterHeader from "../../components/register/RegisterHeader";
 import { S3_PROFILE_BASE_URL } from "../../api/axios";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 const MyAccountScreen = ({ navigation, route }) => {
   const profileData = route.params.profileData;
-  console.log(route.params.profileData);
+  const setPhoto = () => {
+    navigation.navigate("PhotoSet", { toProfile: true });
+  };
   return (
     <SafeAreaView
       style={[
@@ -49,18 +57,26 @@ const MyAccountScreen = ({ navigation, route }) => {
         >
           계정 관리
         </Text>
-        {profileData?.profileImage.basicUrl ? (
-          <Image
-            source={{
-              uri: profileData?.profileImage.basicUrl,
-            }}
-            style={styles.imageContainer} //borderRadius : width/2
-          />
-        ) : (
-          <View style={styles.imageContainer}>
-            <Text style={styles.imageText}>사진을 등록해줘!</Text>
-          </View>
-        )}
+        <View style={{ marginVertical: 30 }}>
+          {profileData?.profileImage.basicUrl ? (
+            <Image
+              source={{
+                uri: profileData?.profileImage.basicUrl,
+              }}
+              style={styles.imageContainer} //borderRadius : width/2
+            />
+          ) : (
+            <TouchableOpacity style={styles.imageContainer} onPress={setPhoto}>
+              <Text style={styles.imageText}>사진을 등록해줘!</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={{ position: "absolute", bottom: 0, right: 0 }}
+            onPress={setPhoto}
+          >
+            <MaterialIcons name="photo" size={30} color={"white"} />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -68,13 +84,15 @@ const MyAccountScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   imageContainer: {
-    marginVertical: 30,
     aspectRatio: 1,
-    height: 130,
+    height: 120,
     borderRadius: 65,
     backgroundColor: subColorBlack2,
     justifyContent: "center",
     alignItems: "center",
+    borderColor: "white",
+    borderWidth: 0.5,
+
     // backgroundColor: "yellow",
   },
   imageText: {

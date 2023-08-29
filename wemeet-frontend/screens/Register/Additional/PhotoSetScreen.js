@@ -71,12 +71,15 @@ const PhotoSetScreen = ({ navigation, route }) => {
     console.log("photoSetScreen, setProfileImgApi result :", res);
     if (res) {
       dispatch(setHasMainProfileImage(true));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: toProfile ? "InitialProfile" : "Additional" }],
-        })
-      );
+      if (toProfile) navigation.goBack();
+      else {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Additional" }],
+          })
+        );
+      }
     }
   };
   useEffect(() => {
@@ -117,7 +120,7 @@ const PhotoSetScreen = ({ navigation, route }) => {
           style={{
             backgroundColor: subColorBlack2,
             // borderWidth: 1,
-            marginTop: 45,
+            marginTop: 40, //SE에서는 10
             width: WIDTH * 0.88,
             height: WIDTH * 0.88,
             borderRadius: 15,
