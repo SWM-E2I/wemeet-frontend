@@ -7,7 +7,7 @@ import RegisterCreditView from "../../../components/register/RegisterCreditView"
 import { useSelector } from "react-redux";
 import { emailVrfIssueApi } from "../../../api/univAuth";
 const instruction = "학생인증을\n완료해줘";
-const UnivMailScreen = ({ navigation }) => {
+const UnivMailScreen = ({ navigation, route }) => {
   //college 정보 필요함.
   const college = useSelector((state) => {
     return state.register.collegeInfo.college; //학교 코드
@@ -17,7 +17,7 @@ const UnivMailScreen = ({ navigation }) => {
   const [warning, setWarning] = useState(null);
   const [loading, setLoading] = useState(false); //API응답대기여부
   const controller = new AbortController(); //abortcontroller
-
+  const toProfile = route.params?.toProfile;
   useEffect(() => {
     return () => {
       controller.abort();
@@ -38,7 +38,10 @@ const UnivMailScreen = ({ navigation }) => {
       if (result) {
         console.log("인증번호 발송, 다음 화면으로 이동");
         setWarning(null);
-        navigation.navigate("UnivVerify", { mail: mail });
+        navigation.navigate("UnivVerify", {
+          mail: mail,
+          toProfile: toProfile ? true : false,
+        });
       } else {
         setWarning("오류가 발생했습니다. 다시 시도해주세요.");
         setMail("");
@@ -51,7 +54,7 @@ const UnivMailScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        {!toProfile && <RegisterCreditView currentCredit={5} />}
       </View>
       <Text style={registerStyles.labelText}>학교 메일</Text>
       <View style={{ flex: 1, alignItems: "center" }}>

@@ -7,6 +7,8 @@ import {
   Alert,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -21,12 +23,14 @@ import { setHasMainProfileImage } from "../../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
 import { setProfileImgApi } from "../../../api/photoSet";
 
+const WIDTH = Dimensions.get("window").width;
 const instruction = "너의 사진을\n등록해줘";
-const PhotoSetScreen = ({ navigation }) => {
+const PhotoSetScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState(null);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const controller = new AbortController();
+  const toProfile = route.params?.toProfile;
   const onMount = async () => {
     if (!status?.granted) {
       const permission = await requestPermission();
@@ -70,7 +74,7 @@ const PhotoSetScreen = ({ navigation }) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: "Additional" }],
+          routes: [{ name: toProfile ? "InitialProfile" : "Additional" }],
         })
       );
     }
@@ -87,7 +91,7 @@ const PhotoSetScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        {!toProfile && <RegisterCreditView currentCredit={5} />}
       </View>
       {/* {status.granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
       <View
@@ -114,8 +118,8 @@ const PhotoSetScreen = ({ navigation }) => {
             backgroundColor: subColorBlack2,
             // borderWidth: 1,
             marginTop: 45,
-            height: 350,
-            width: 350,
+            width: WIDTH * 0.88,
+            height: WIDTH * 0.88,
             borderRadius: 15,
             justifyContent: "center",
             alignItems: "center",

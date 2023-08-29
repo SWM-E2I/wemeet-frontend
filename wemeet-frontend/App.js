@@ -81,7 +81,7 @@ export default function App() {
         <RootStackNavigation
           persistType={persistType}
           // persistType={"Initial"}
-          // persistType={"Gender"}
+          // persistType={"PhotoSet"}
           // persistType={"Nickname"} // for Test only
           // persistType={"MainTab"} //for Test only
           // persistType={"Additional"} //for test only

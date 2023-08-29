@@ -23,7 +23,8 @@ import { CommonActions } from "@react-navigation/native";
 const instruction = "학생인증을\n완료해줘";
 const UnivVerifyScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const mail = route.params.mail;
+  const mail = route.params?.mail;
+  const toProfile = route.params?.toProfile;
   const college = useSelector((state) => {
     return state.register.collegeInfo.college; //학교 코드
   });
@@ -45,7 +46,6 @@ const UnivVerifyScreen = ({ navigation, route }) => {
     else setWarning("인증번호 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
   };
   const onSubmit = async () => {
-    // navigation.navigate
     if (code.length < 6) {
       setWarning("6자리 인증번호를 입력해주세요.");
       setCode("");
@@ -65,7 +65,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{ name: "Additional" }],
+            routes: [{ name: toProfile ? "InitialProfile" : "Additional" }],
           })
         );
         // navigation.navigate("Main");
@@ -103,7 +103,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        {!toProfile && <RegisterCreditView currentCredit={5} />}
       </View>
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         인증번호

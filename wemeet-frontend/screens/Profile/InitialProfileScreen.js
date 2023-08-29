@@ -6,23 +6,53 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack,
+  subColorBlack2,
 } from "../../styles/commonStyles";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { myProfileInquiryApi } from "../../api/myProfile";
+import { S3_PROFILE_BASE_URL } from "../../api/axios";
 
+const defaultProfileData = {
+  profileImage: {
+    basicUrl: null,
+    lowUrl: null,
+  },
+  nickname: "-",
+  admissionYear: "-",
+  college: "-",
+  collegeType: "-",
+  gender: "WOMAN",
+  mbti: "-",
+};
 const InitialProfileScreen = ({ navigation }) => {
+  const [profileData, setProfileData] = useState(defaultProfileData); //리스트 형태
+  const controller = new AbortController();
+  const emailAuthenticated = useSelector(
+    (state) => state.persist.emailAuthenticated
+  );
+  const onMount = async () => {
+    let result = await myProfileInquiryApi(navigation, controller);
+    if (result) {
+      setProfileData(result);
+    }
+  };
+  useEffect(() => {
+    onMount();
+  }, []);
   return (
     <SafeAreaView
       style={[
         commonStyles.safeAreaView,
         {
           backgroundColor: mainColor,
-          // backgroundColor: subColorBlack,
         },
       ]}
     >
@@ -40,17 +70,23 @@ const InitialProfileScreen = ({ navigation }) => {
         >
           마이페이지
         </Text>
-        <Image
-          source={{
-            uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMzAg/MDAxNjkyODA1ODg2ODk5.ShuFDBM_Dvp_zvEEKyRaCX6hUIjlEM0U493UwwTnP20g.N4W1kp-Qh4QrGFXzQ8XFNlBbzKP6Yzpvw7A8q5IrgFYg.PNG.seyun1052/image_56.png?type=w966",
-          }}
-          style={{
-            marginVertical: 30,
-            aspectRatio: 1,
-            height: 130,
-            borderRadius: 65,
-          }} //borderRadius : width/2
-        />
+        {profileData?.profileImage.basicUrl ? (
+          <Image
+            source={{
+              uri: profileData?.profileImage.basicUrl,
+            }}
+            style={styles.imageContainer} //borderRadius : width/2
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.imageContainer}
+            onPress={() => {
+              navigation.navigate("PhotoSet", { toProfile: true });
+            }}
+          >
+            <Text style={styles.imageText}>사진을 등록해줘!</Text>
+          </TouchableOpacity>
+        )}
         <View
           style={{
             alignSelf: "flex-start",
@@ -65,7 +101,7 @@ const InitialProfileScreen = ({ navigation }) => {
               color: "white",
             }}
           >
-            빠따코코낫
+            {profileData?.nickname}
           </Text>
           <Text
             style={{
@@ -76,7 +112,7 @@ const InitialProfileScreen = ({ navigation }) => {
               //왜 밑에 정렬안되는지?
             }}
           >
-            ESFP
+            {profileData?.mbti}
           </Text>
         </View>
         <View
@@ -102,14 +138,27 @@ const InitialProfileScreen = ({ navigation }) => {
             <Text
               style={{
                 marginLeft: 5,
-                fontSize: 14,
+                fontSize: 15,
                 color: "white",
                 fontFamily: "pretendard600",
               }}
             >
-              빠따코코낫 / ESFP
+              {profileData?.college}
             </Text>
-            <View style={styles.verifiedLabel}>
+            <TouchableOpacity
+              style={[
+                styles.verifiedLabel,
+                {
+                  backgroundColor: emailAuthenticated
+                    ? subColorPink
+                    : "#7A7A7A",
+                },
+              ]}
+              onPress={() => {
+                navigation.navigate("UnivMail", { toProfile: true });
+              }}
+              disabled={emailAuthenticated}
+            >
               <Text
                 style={{
                   fontSize: 12,
@@ -117,9 +166,9 @@ const InitialProfileScreen = ({ navigation }) => {
                   color: "white",
                 }}
               >
-                대학 인증 완료
+                {emailAuthenticated ? "대학 인증 완료" : "대학 인증 필요"}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <Text
             style={{
@@ -130,7 +179,7 @@ const InitialProfileScreen = ({ navigation }) => {
               marginBottom: 5,
             }}
           >
-            고려대학교 (서울)
+            {`${profileData?.collegeType}  ${profileData?.admissionYear}학번`}
           </Text>
         </View>
         <View
@@ -170,9 +219,9 @@ const InitialProfileScreen = ({ navigation }) => {
               fontFamily: "pretendard600",
             }}
           >
-            25
+            -
           </Text>
-          <View
+          {/* <View
             style={{
               marginLeft: 15,
               borderColor: subColorPink,
@@ -193,9 +242,9 @@ const InitialProfileScreen = ({ navigation }) => {
             >
               충전하기
             </Text>
-          </View>
+          </View> */}
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             paddingVertical: 20,
             justifyContent: "space-between",
@@ -214,7 +263,7 @@ const InitialProfileScreen = ({ navigation }) => {
             내 프로필 미리보기
           </Text>
           <Ionicons name="chevron-forward-sharp" size={24} color="white" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={{
             paddingVertical: 20,
@@ -222,6 +271,9 @@ const InitialProfileScreen = ({ navigation }) => {
             alignItems: "center",
             width: "100%",
             flexDirection: "row",
+          }}
+          onPress={() => {
+            Alert.alert("준비중이야!");
           }}
         >
           <Text
@@ -237,11 +289,16 @@ const InitialProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            paddingVertical: 20,
+            paddingVertical: 10,
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
             flexDirection: "row",
+          }}
+          onPress={() => {
+            navigation.navigate("MyAccount", {
+              profileData: profileData,
+            });
           }}
         >
           <Text
@@ -268,5 +325,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  imageContainer: {
+    marginVertical: 30,
+    aspectRatio: 1,
+    height: 130,
+    borderRadius: 65,
+    backgroundColor: subColorBlack2,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "yellow",
+  },
+  imageText: {
+    color: "white",
+    lineHeight: 20,
+    fontFamily: "pretendard400",
+  },
 });
+
 export default InitialProfileScreen;

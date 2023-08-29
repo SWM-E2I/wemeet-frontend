@@ -47,7 +47,8 @@ const GenderScreen = ({ navigation }) => {
         <View
           style={{
             flexDirection: "row",
-            height: 60,
+            marginTop: 10,
+            height: 50,
             width: "100%",
             justifyContent: "space-around",
           }}
