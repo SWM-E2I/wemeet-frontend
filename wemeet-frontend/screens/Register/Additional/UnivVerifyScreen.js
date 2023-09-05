@@ -141,9 +141,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
           </Text>
         </View>
         <TouchableOpacity onPress={resend}>
-          <Text style={{ fontSize: 15, color: "gray" }}>
-            인증번호 재전송 (임시)
-          </Text>
+          <Text style={{ fontSize: 15, color: "gray" }}>인증번호 재전송</Text>
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView

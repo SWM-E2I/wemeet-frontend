@@ -22,11 +22,14 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
 
-const MyAccountScreen = ({ navigation, route }) => {
-  const profileData = route.params.profileData;
+const MyAccountScreen = ({ navigation }) => {
+  const profileData = useSelector((state) => state.profile.profileData);
   const setPhoto = () => {
-    navigation.navigate("PhotoSet", { toProfile: true });
+    navigation.navigate("PhotoSet", {
+      toProfile: true,
+    });
   };
   return (
     <SafeAreaView
@@ -38,12 +41,20 @@ const MyAccountScreen = ({ navigation, route }) => {
       ]}
     >
       <ScrollView
-        style={{ flex: 1, paddingHorizontal: 20 }}
-        contentContainerStyle={{ alignItems: "center" }}
+        style={{
+          // flex: 1,
+          paddingHorizontal: 30,
+          //backgroundColor: "yellow"
+        }}
+        contentContainerStyle={{ flex: 1, alignItems: "center" }}
       >
         <TouchableOpacity
           onPress={navigation.goBack}
-          style={{ position: "absolute", top: 20, left: 0 }}
+          style={{
+            position: "absolute",
+            top: 20,
+            left: -10,
+          }}
         >
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
@@ -77,6 +88,56 @@ const MyAccountScreen = ({ navigation, route }) => {
             <MaterialIcons name="photo" size={30} color={"white"} />
           </TouchableOpacity>
         </View>
+        <Text style={styles.labelText}>기본 정보</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>성별</Text>
+          <Text style={styles.infoText}>
+            {profileData.gender == "MAN" ? "남자" : "여자"}
+          </Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>닉네임</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={[styles.infoText, { marginRight: 5 }]}>
+              {profileData.nickname}
+            </Text>
+            <TouchableOpacity>
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={24}
+                color={subColorPink}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>MBTI</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={[styles.infoText, { marginRight: 5 }]}>
+              {profileData.mbti}
+            </Text>
+            <TouchableOpacity>
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={24}
+                color={subColorPink}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            bottom: 30,
+          }}
+        >
+          <TouchableOpacity style={styles.infoContainer}>
+            <Text style={styles.infoText}>로그 아웃</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infoContainer}>
+            <Text style={styles.infoText}>회원 탈퇴</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -92,13 +153,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "white",
     borderWidth: 0.5,
-
-    // backgroundColor: "yellow",
   },
   imageText: {
     color: "white",
     lineHeight: 20,
     fontFamily: "pretendard400",
+  },
+  labelText: {
+    color: "#8F8F8F",
+    fontFamily: "pretendard500",
+    fontSize: 16,
+    letterSpacing: -0.5,
+    alignSelf: "flex-start",
+    marginBottom: 10,
+  },
+  infoContainer: {
+    paddingVertical: 16,
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    flexDirection: "row",
+  },
+  infoText: {
+    fontSize: 17,
+    fontFamily: "pretendard600",
+    color: "white",
   },
 });
 

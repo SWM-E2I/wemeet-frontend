@@ -10,9 +10,30 @@ const commonStyles = StyleSheet.create({
   safeAreaView: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    // backgroundColor: "#FFFFFF",
-    // backgroundColor: mainColor,
     backgroundColor: subColorBlack,
+  },
+  teamGenerateInstruction: {
+    fontSize: 24,
+    fontFamily: "pretendard600",
+    paddingVertical: 10,
+    color: "white",
+  },
+  teamGenerateInstruction2: {
+    fontSize: 16,
+    fontFamily: "pretendard400",
+    letterSpacing: -0.5,
+    lineHeight: 24,
+    color: "white",
+  },
+  buttonContainer: {
+    alignSelf: "center",
+    marginVertical: 20,
+    width: "88%",
+    paddingVertical: 12,
+    backgroundColor: subColorPink,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
   },
 });
 

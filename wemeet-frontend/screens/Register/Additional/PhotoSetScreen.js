@@ -18,10 +18,11 @@ import registerStyles from "../../../styles/registerStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import NextButton from "../../../components/NextButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setHasMainProfileImage } from "../../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
 import { setProfileImgApi } from "../../../api/photoSet";
+import { setUpdate } from "../../../redux/profileSlice";
 
 const WIDTH = Dimensions.get("window").width;
 const instruction = "너의 사진을\n등록해줘";
@@ -71,8 +72,10 @@ const PhotoSetScreen = ({ navigation, route }) => {
     console.log("photoSetScreen, setProfileImgApi result :", res);
     if (res) {
       dispatch(setHasMainProfileImage(true));
-      if (toProfile) navigation.goBack();
-      else {
+      if (toProfile) {
+        dispatch(setUpdate(true));
+        navigation.goBack();
+      } else {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

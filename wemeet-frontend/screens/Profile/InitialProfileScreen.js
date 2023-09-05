@@ -9,7 +9,8 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setProfileData } from "../../redux/profileSlice";
 import commonStyles, {
   mainColor,
   subColorPink,
@@ -22,7 +23,6 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import { myProfileInquiryApi } from "../../api/myProfile";
-import { S3_PROFILE_BASE_URL } from "../../api/axios";
 
 const defaultProfileData = {
   profileImage: {
@@ -37,23 +37,29 @@ const defaultProfileData = {
   mbti: "-",
 };
 const InitialProfileScreen = ({ navigation }) => {
-  const [profileData, setProfileData] = useState(defaultProfileData); //리스트 형태
+  // const [profileData, setProfileData] = useState(defaultProfileData); //리스트 형태
   const controller = new AbortController();
+  const dispatch = useDispatch();
+  const profileData = useSelector((state) => state.profile.profileData);
+  const update = useSelector((state) => state.profile.update);
   const emailAuthenticated = useSelector(
     (state) => state.persist.emailAuthenticated
   );
   const setPhoto = () => {
-    navigation.navigate("PhotoSet", { toProfile: true });
+    navigation.navigate("PhotoSet", {
+      toProfile: true,
+    });
   };
   const onMount = async () => {
     let result = await myProfileInquiryApi(navigation, controller);
     if (result) {
-      setProfileData(result);
+      dispatch(setProfileData(result));
     }
   };
   useEffect(() => {
+    console.log("ProfileScreen updated/mounted");
     onMount();
-  }, []);
+  }, [update]);
   return (
     <SafeAreaView
       style={[
@@ -254,13 +260,16 @@ const InitialProfileScreen = ({ navigation }) => {
             </Text>
           </View> */}
         </View>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{
             paddingVertical: 20,
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
             flexDirection: "row",
+          }}
+          onPress={() => {
+            navigation.navigate("MyAccount");
           }}
         >
           <Text
@@ -270,13 +279,13 @@ const InitialProfileScreen = ({ navigation }) => {
               color: "white",
             }}
           >
-            내 프로필 미리보기
+            계정 관리
           </Text>
           <Ionicons name="chevron-forward-sharp" size={24} color="white" />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <TouchableOpacity
           style={{
-            paddingVertical: 20,
+            paddingVertical: 10,
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
@@ -294,31 +303,6 @@ const InitialProfileScreen = ({ navigation }) => {
             }}
           >
             시그널 스토어
-          </Text>
-          <Ionicons name="chevron-forward-sharp" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            paddingVertical: 10,
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            flexDirection: "row",
-          }}
-          onPress={() => {
-            navigation.navigate("MyAccount", {
-              profileData: profileData,
-            });
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 17,
-              fontFamily: "pretendard600",
-              color: "white",
-            }}
-          >
-            계정 관리
           </Text>
           <Ionicons name="chevron-forward-sharp" size={24} color="white" />
         </TouchableOpacity>

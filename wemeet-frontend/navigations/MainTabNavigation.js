@@ -14,6 +14,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { mainColor, subColorPink } from "../styles/commonStyles";
 import Home from "../assets/vectors/Home";
 import MatchTabNavigation from "./MatchTabNavigation";
+import NoTeamScreen from "../screens/Team/NoTeamScreen";
+import TeamStackNavigation from "./TeamStackNavigation";
 
 //MainScreen 여기로 옮기기
 const inactiveColor = "#C5C4C9";
@@ -59,7 +61,8 @@ const MainTabNavigation = () => {
       {/*임시 -> nested navigator로 재구현*/}
       <Tab.Screen
         name="MyTeam"
-        component={MyTeamScreen}
+        // component={MyTeamScreen}
+        component={TeamStackNavigation}
         options={{
           tabBarLabel: "팀 관리",
           tabBarIcon: ({ focused }) => (

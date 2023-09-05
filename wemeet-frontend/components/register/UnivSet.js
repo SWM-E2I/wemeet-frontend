@@ -9,6 +9,7 @@ import {
   subColorBlack2,
   subColorPink,
 } from "../../styles/commonStyles";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 const labels = ["학교명", "단과대", "학번"];
 function getCurrentYear() {
@@ -81,23 +82,27 @@ const UnivSet = ({
             {
               width: Dimensions.get("window").width * 0.85,
               justifyContent: "space-between",
-              backgroundColor: "#F2F2F2",
-              // backgroundColor: "white",
-              // backgroundColor: subColorBlack2,
+              backgroundColor: subColorBlack2,
               borderWidth: 1,
+              // marginBottom: 0,
             },
           ]}
           inputStyles={[
             registerStyles.inputText,
             {
+              marginLeft: 10,
               fontFamily: "pretendard400",
               fontSize: 18,
-              color: "black",
-              // color: subColorPink,
               textAlign: "left",
+              color: "white",
             },
           ]}
-          dropdownTextStyles={{ fontSize: 15 }}
+          dropdownTextStyles={{
+            fontSize: 15,
+            fontFamily: "pretendard400",
+            // color: subColorPink,
+            color: "white",
+          }}
           placeholder={"대학교를 선택해줘"}
           searchPlaceholder={"학교명으로 검색"}
           notFoundText={"검색 결과가 없습니다"}
@@ -107,14 +112,21 @@ const UnivSet = ({
           }}
           maxHeight={160}
           dropdownStyles={{
-            backgroundColor: "#F2F2F2",
+            // backgroundColor: "#F2F2F2",
+            backgroundColor: subColorBlack2,
             marginTop: 0,
-            borderWidth: 2,
+            borderWidth: 0.5,
+            marginBottom: 5,
           }}
           dropdownItemStyles={{
             height: 35,
             justifyContent: "center",
           }}
+          arrowicon={
+            <FontAwesome name="chevron-down" size={12} color={"white"} />
+          }
+          searchicon={<FontAwesome name="search" size={15} color={"white"} />}
+          closeicon={<AntDesign name="close" size={18} color={"white"} />}
         />
       ) : stage === 2 ? (
         <>
@@ -130,7 +142,9 @@ const UnivSet = ({
               {
                 width: Dimensions.get("window").width * 0.85,
                 justifyContent: "space-between",
-                backgroundColor: "#f2f2f2",
+                backgroundColor: subColorBlack2,
+                borderWidth: 1,
+                // marginBottom: 0,
               },
             ]}
             inputStyles={[
@@ -139,22 +153,32 @@ const UnivSet = ({
                 fontFamily: "pretendard400",
                 fontSize: 18,
                 textAlign: "left",
-                color: "black",
+                color: "white",
               },
             ]}
-            dropdownTextStyles={{ fontSize: 15 }}
+            dropdownTextStyles={{
+              fontSize: 15,
+              fontFamily: "pretendard400",
+              // color: subColorPink,
+              color: "white",
+            }}
             placeholder={"단과대를 선택해줘"}
             search={false}
             maxHeight={160}
             dropdownStyles={{
-              backgroundColor: "#F2F2F2",
+              // backgroundColor: "#F2F2F2",
+              backgroundColor: subColorBlack2,
               marginTop: 0,
-              borderWidth: 2,
+              borderWidth: 0.5,
+              marginBottom: 5,
             }}
             dropdownItemStyles={{
               height: 35,
               justifyContent: "center",
             }}
+            arrowicon={
+              <FontAwesome name="chevron-down" size={12} color={"white"} />
+            }
           />
         </>
       ) : (
@@ -169,7 +193,9 @@ const UnivSet = ({
             {
               width: Dimensions.get("window").width * 0.85,
               justifyContent: "space-between",
-              backgroundColor: "#f2f2f2",
+              backgroundColor: subColorBlack2,
+              borderWidth: 1,
+              // marginBottom: 0,
             },
           ]}
           inputStyles={[
@@ -178,22 +204,32 @@ const UnivSet = ({
               fontFamily: "pretendard400",
               fontSize: 18,
               textAlign: "left",
-              color: "black",
+              color: "white",
             },
           ]}
-          dropdownTextStyles={{ fontSize: 15 }}
+          dropdownTextStyles={{
+            fontSize: 15,
+            fontFamily: "pretendard400",
+            // color: subColorPink,
+            color: "white",
+          }}
           placeholder={"학번을 선택해줘"}
           search={false}
           maxHeight={160}
           dropdownStyles={{
             marginTop: 0,
             borderWidth: 2,
-            backgroundColor: "#f2f2f2",
+            backgroundColor: subColorBlack2,
           }}
           dropdownItemStyles={{
             height: 35,
             justifyContent: "center",
           }}
+          arrowicon={
+            <FontAwesome name="chevron-down" size={12} color={"white"} />
+          }
+          searchicon={<FontAwesome name="search" size={15} color={"white"} />}
+          closeicon={<AntDesign name="close" size={18} color={"white"} />}
         />
       )}
 

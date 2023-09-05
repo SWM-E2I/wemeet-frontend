@@ -216,8 +216,8 @@ const AboveContainer = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1 - swiperHeightPercentage,
-    paddingTop:
-      Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
+    // paddingTop:
+    //   Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
     // backgroundColor: mainColor,
     backgroundColor: subColorBlack,

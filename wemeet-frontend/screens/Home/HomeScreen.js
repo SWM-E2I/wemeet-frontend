@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
-import {
+import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack,
@@ -19,6 +19,7 @@ import HomeCard from "../../components/home/HomeCard";
 import AboveContainer from "../../components/home/AboveContainer";
 import Swiper from "react-native-deck-swiper";
 import InitialCard from "../../components/home/InitialCard";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -43,16 +44,8 @@ const HomeScreen = ({ navigation }) => {
   const [recommended, setRecommended] = useState(false);
   const [loading, setLoading] = useState(false);
   return (
-    <View
-      style={[
-        {
-          justifyContent: "space-around",
-          flex: 1,
-          // backgroundColor: mainColor,
-          backgroundColor: subColorBlack,
-        },
-        // { flex: 1, justifyContent: "center", alignItems: "center" },
-      ]} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
+    <SafeAreaView
+      style={commonStyles.safeAreaView} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
     >
       {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
       <AboveContainer />
@@ -91,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
           <InitialCard setRecommended={setRecommended} />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 // console.log(getStatusBarHeight(true));
