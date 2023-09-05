@@ -80,6 +80,7 @@ export default function App() {
       {!Loading ? (
         <RootStackNavigation
           persistType={persistType}
+          // persistType={"Univ"}
           // persistType={"PhoneNum"}
           // persistType={"Initial"}
           // persistType={"PhotoSet"}

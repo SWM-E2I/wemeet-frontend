@@ -23,7 +23,7 @@ const IntroScreen = ({ navigation }) => {
       </TouchableOpacity>
       <View style={{ flex: 1, paddingHorizontal: "6%" }}>
         <Text style={commonStyles.teamGenerateInstruction}>
-          어디서 만나는게 좋아?
+          너희 팀을 소개해줘
         </Text>
       </View>
       <TouchableOpacity

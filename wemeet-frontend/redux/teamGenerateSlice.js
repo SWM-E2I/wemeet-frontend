@@ -8,14 +8,14 @@ const initialTeamState = {
     introduction: "", // 150 제한
     members: [
       // 사이즈 최소 1, 최대 3
-      {
-        collegeInfo: {
-          collegeCode: "", // College CODE 값을 전달 ex) CE-001
-          collegeType: "", // ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE 중 하나
-          admissionYear: "",
-        },
-        mbti: "", // 잘 모를 경우 "XXXX"
-      },
+      // {
+      //   collegeInfo: {
+      //     collegeCode: "", // College CODE 값을 전달 ex) CE-001
+      //     collegeType: "", // ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE 중 하나
+      //     admissionYear: "",
+      //   },
+      //   mbti: "", // 잘 모를 경우 "XXXX"
+      // },
     ],
     chatLink: "", //임시!!
   },
@@ -30,6 +30,12 @@ const teamGenerateSlice = createSlice({
     },
     setRegion: (state, action) => {
       state.data.region = action.payload;
+    },
+    addMember: (state, action) => {
+      state.data.members.push(action.payload);
+    },
+    delMember: (state, action) => {
+      state.data.members.splice(action.payload, 1);
     },
     setMembers: (state, action) => {
       state.data.members = action.payload;
@@ -61,4 +67,6 @@ export const {
   setAdditionalActivity,
   setIntroduction,
   setChatLink,
+  addMember,
+  delMember,
 } = teamGenerateSlice.actions;

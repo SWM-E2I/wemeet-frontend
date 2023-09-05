@@ -1,4 +1,4 @@
-export const univNameList = [
+const univNameList = [
   "가천대학교",
   "가톨릭대학교 (성신교정 캠퍼스)",
   "가톨릭대학교 (성심교정 캠퍼스)",
@@ -138,7 +138,7 @@ export const univNameList = [
   "ICT폴리텍대학",
 ];
 
-export const univCodeList = [
+const univCodeList = [
   "CE-000",
   "CE-001",
   "CE-002",
@@ -278,7 +278,7 @@ export const univCodeList = [
   "CE-136",
 ];
 
-export const univAliasList = [
+const univAliasList = [
   "가천대",
   "가톨릭대(성신교정)",
   "가톨릭대(성심교정)",
@@ -417,3 +417,55 @@ export const univAliasList = [
   "홍익대",
   "ICT폴리텍대학",
 ];
+
+const univList = [];
+univNameList.map((name, index) => {
+  univList.push({ key: univCodeList[index], value: name });
+});
+const univList2 = [];
+univAliasList.map((name, index) => {
+  univList2.push({ key: univCodeList[index], value: name });
+});
+
+const now = new Date();
+const currentYear = now.getFullYear() % 100;
+const collegeList = [
+  //ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE
+  { key: "SOCIAL", value: "인문사회" },
+  { key: "ENGINEERING", value: "자연공학" },
+  { key: "ARTS", value: "예술체육" },
+  { key: "MEDICINE", value: "의료" },
+  { key: "EDUCATION", value: "교육" },
+  { key: "ETC", value: "그 외" },
+];
+const collegeObj = {
+  SOCIAL: "인문사회",
+  ENGINEERING: "자연공학",
+  ARTS: "예술체육",
+  MEDICINE: "의료",
+  EDUCATION: "교육",
+  ETC: "그 외",
+};
+const yearList = [
+  { key: "1", value: currentYear },
+  { key: "2", value: currentYear - 1 },
+  { key: "3", value: currentYear - 2 },
+  { key: "4", value: currentYear - 3 },
+  { key: "5", value: currentYear - 4 },
+  { key: "6", value: currentYear - 5 },
+  { key: "7", value: currentYear - 6 },
+  { key: "8", value: currentYear - 7 },
+  { key: "9", value: currentYear - 8 },
+  { key: "10", value: currentYear - 9 },
+];
+
+export {
+  univList,
+  univCodeList,
+  univNameList,
+  univAliasList,
+  collegeList,
+  collegeObj,
+  yearList,
+  univList2,
+};

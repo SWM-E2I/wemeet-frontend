@@ -1,6 +1,9 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import NoTeamScreen from "../screens/Team/NoTeamScreen";
 import InitialTeamScreen from "../screens/Team/InitialTeamScreen";
 import MyTeamScreen from "../screens/Team/MyTeamScreen";
@@ -11,9 +14,10 @@ import DrinkRateScreen from "../screens/Team/DrinkRateScreen";
 import DrinkGameScreen from "../screens/Team/DrinkGameScreen";
 import IntroScreen from "../screens/Team/IntroScreen";
 import ChatLinkScreen from "../screens/Team/ChatLinkScreen";
+import MemberModalScreen from "../screens/Team/MemberModalScreen";
 
 const TeamStackNavigation = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
   return (
     <Stack.Navigator
       initialRouteName="InitialTeam"
@@ -24,6 +28,14 @@ const TeamStackNavigation = () => {
       <Stack.Screen name="TeamPhoto" component={TeamPhotoScreen} />
       <Stack.Screen name="Region" component={RegionScreen} />
       <Stack.Screen name="Members" component={MembersScreen} />
+      <Stack.Screen
+        name="MemberModal"
+        component={MemberModalScreen}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
       <Stack.Screen name="DrinkRate" component={DrinkRateScreen} />
       <Stack.Screen name="DrinkGame" component={DrinkGameScreen} />
       <Stack.Screen name="Intro" component={IntroScreen} />

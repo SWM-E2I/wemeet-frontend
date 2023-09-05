@@ -3,7 +3,14 @@ import React, { useState, useMemo } from "react";
 import registerStyles from "../../styles/registerStyles";
 import RegisterAnimatedView from "./RegisterAnimatedView";
 import { SelectList } from "react-native-dropdown-select-list";
-import { univNameList, univCodeList } from "../../assets/datasets";
+import {
+  univNameList,
+  univCodeList,
+  univList,
+  collegeList,
+  collegeObj,
+  yearList,
+} from "../../assets/datasets";
 import {
   subColorBlack,
   subColorBlack2,
@@ -12,10 +19,7 @@ import {
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 const labels = ["학교명", "단과대", "학번"];
-function getCurrentYear() {
-  const now = new Date();
-  return now.getFullYear();
-}
+
 const UnivSet = ({
   stage,
   univ,
@@ -25,42 +29,6 @@ const UnivSet = ({
   setAdmissionYear,
   setStage,
 }) => {
-  //임시
-  const currentYear = getCurrentYear() % 100;
-  //useMemo활용, 최적화필요!
-  const univList = [];
-  univNameList.map((name, index) => {
-    univList.push({ key: univCodeList[index], value: name });
-  });
-  const collegeList = [
-    //ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE
-    { key: "SOCIAL", value: "인문사회" },
-    { key: "ENGINEERING", value: "자연공학" },
-    { key: "ARTS", value: "예술체육" },
-    { key: "MEDICINE", value: "의료" },
-    { key: "EDUCATION", value: "교육" },
-    { key: "ETC", value: "그 외" },
-  ];
-  const collegeObj = {
-    SOCIAL: "인문사회",
-    ENGINEERING: "자연공학",
-    ARTS: "예술체육",
-    MEDICINE: "의료",
-    EDUCATION: "교육",
-    ETC: "그 외",
-  };
-  const yearList = [
-    { key: "1", value: currentYear },
-    { key: "2", value: currentYear - 1 },
-    { key: "3", value: currentYear - 2 },
-    { key: "4", value: currentYear - 3 },
-    { key: "5", value: currentYear - 4 },
-    { key: "6", value: currentYear - 5 },
-    { key: "7", value: currentYear - 6 },
-    { key: "8", value: currentYear - 7 },
-    { key: "9", value: currentYear - 8 },
-    { key: "10", value: currentYear - 9 },
-  ];
   const changeStage = async (stage) => {
     setStage(stage);
   };

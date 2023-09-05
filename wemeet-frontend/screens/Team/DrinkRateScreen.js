@@ -6,8 +6,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles, { mainColor } from "../../styles/commonStyles";
+import commonStyles, {
+  mainColor,
+  subColorBlack,
+  subColorPink,
+} from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { setDrinkRate } from "../../redux/teamGenerateSlice";
 const codeList = ["HIGH", "MIDDLE", "LOW", "ZERO"];
 const showList = [
   "술에 진심이야",
@@ -16,6 +22,12 @@ const showList = [
   "술 없어도 즐거워",
 ];
 const DrinkRateScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const [drinkRateIdx, setDrinkRateIdx] = useState(3); //
+  const onNext = () => {
+    dispatch(setDrinkRate(codeList[drinkRateIdx]));
+    navigation.navigate("DrinkGame");
+  };
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -29,14 +41,43 @@ const DrinkRateScreen = ({ navigation }) => {
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
       <View style={{ flex: 1, paddingHorizontal: "6%" }}>
-        <Text style={commonStyles.teamGenerateInstruction}>
-          어디서 만나는게 좋아?
+        <Text
+          style={[commonStyles.teamGenerateInstruction, { marginBottom: 10 }]}
+        >
+          선호하는 음주 정도는?
         </Text>
+        {showList.map((item, index) => {
+          return (
+            <TouchableOpacity
+              style={[
+                styles.selectContainer,
+                {
+                  backgroundColor:
+                    drinkRateIdx == index ? "black" : subColorBlack,
+                },
+              ]}
+              key={index}
+              onPress={() => {
+                setDrinkRateIdx(index);
+              }}
+            >
+              <Text
+                style={[
+                  styles.selectText,
+                  {
+                    color: drinkRateIdx == index ? subColorPink : "#9C9C9C",
+                    fontFamily:
+                      drinkRateIdx == index ? "pretendard600" : "pretendard400",
+                  },
+                ]}
+              >
+                {item}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
-      <TouchableOpacity
-        style={commonStyles.buttonContainer}
-        //   onPress={onNext}
-      >
+      <TouchableOpacity style={commonStyles.buttonContainer} onPress={onNext}>
         <Text
           style={{
             color: "white",
@@ -51,4 +92,22 @@ const DrinkRateScreen = ({ navigation }) => {
   );
 };
 
+const styles = StyleSheet.create({
+  selectContainer: {
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: subColorBlack,
+    width: "95%",
+    paddingVertical: 20,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  selectText: {
+    fontSize: 18,
+    fontFamily: "pretendard400",
+    letterSpacing: -0.5,
+    color: "#9C9C9C",
+  },
+});
 export default DrinkRateScreen;

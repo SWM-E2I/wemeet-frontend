@@ -61,7 +61,6 @@ const UnivVerifyScreen = ({ navigation, route }) => {
         dispatch(setEmailAuthenticated(true));
         console.log("인증성공");
         setWarning(null);
-        Alert.alert("인증 완료,,,");
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
