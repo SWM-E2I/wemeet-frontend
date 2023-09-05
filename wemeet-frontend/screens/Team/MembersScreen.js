@@ -15,6 +15,7 @@ import commonStyles, {
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { delMember } from "../../redux/teamGenerateSlice";
+import { univDict, collegeObj } from "../../assets/datasets";
 const MemberCard = ({
   mbti,
   univ,
@@ -23,15 +24,16 @@ const MemberCard = ({
   index,
   dispatch,
 }) => {
-  console.log(index);
   return (
     <View style={styles.memberCard}>
       <Ionicons name="person" size={20} color="white" />
       <View style={{ flex: 1, paddingHorizontal: 15 }}>
-        <Text style={styles.infoText1}>{`${mbti}  ${univ}`}</Text>
+        <Text style={styles.infoText1}>{`${mbti == "XXXX" ? "????" : mbti}  ${
+          univDict[univ]
+        }`}</Text>
         <Text
           style={styles.infoText2}
-        >{`${college}  ${admissionYear}학번`}</Text>
+        >{`${collegeObj[college]}  ${admissionYear}학번`}</Text>
       </View>
       <TouchableOpacity
         onPress={() => {

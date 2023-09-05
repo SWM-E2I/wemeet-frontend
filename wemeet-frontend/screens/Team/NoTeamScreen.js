@@ -35,7 +35,7 @@ const NoTeamScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
-            navigation.navigate("TeamPhoto");
+            navigation.navigate("ChatLink");
           }}
         >
           <Text

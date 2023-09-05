@@ -19,31 +19,6 @@ import { useDispatch } from "react-redux";
 import { setRegisterNickName } from "../../../redux/registerSlice";
 
 const instruction = "원하는\n닉네임을 알려줘";
-//for random recommended nickname
-const adjectives = [
-  "강력한",
-  "용감한",
-  "밝은",
-  "기분 좋은",
-  "날카로운",
-  "재미있는",
-  "창의적인",
-];
-const nouns = [
-  "사자",
-  "호랑이",
-  "여우",
-  "곰",
-  "말",
-  "돌고래",
-  "펭귄",
-  "세윤",
-  "기우",
-  "채림",
-  "세희",
-  "이린",
-];
-
 const NicknameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [nickName, setNickName] = useState("");

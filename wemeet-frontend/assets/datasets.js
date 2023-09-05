@@ -426,6 +426,10 @@ const univList2 = [];
 univAliasList.map((name, index) => {
   univList2.push({ key: univCodeList[index], value: name });
 });
+const univDict = {};
+univList2.map((univ) => {
+  univDict[univ.key] = univ.value;
+});
 
 const now = new Date();
 const currentYear = now.getFullYear() % 100;
@@ -468,4 +472,5 @@ export {
   collegeObj,
   yearList,
   univList2,
+  univDict,
 };

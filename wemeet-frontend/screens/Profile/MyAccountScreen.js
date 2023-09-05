@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from "react-native";
 import React from "react";
 import commonStyles, {
@@ -53,7 +54,7 @@ const MyAccountScreen = ({ navigation }) => {
           style={{
             position: "absolute",
             top: 20,
-            left: -10,
+            left: Platform.OS === "ios" ? -10 : 0,
           }}
         >
           <Ionicons name="chevron-back" size={24} color="white" />

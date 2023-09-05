@@ -24,18 +24,6 @@ import {
 } from "@expo/vector-icons";
 import { myProfileInquiryApi } from "../../api/myProfile";
 
-const defaultProfileData = {
-  profileImage: {
-    basicUrl: null,
-    lowUrl: null,
-  },
-  nickname: "-",
-  admissionYear: "-",
-  college: "-",
-  collegeType: "-",
-  gender: "WOMAN",
-  mbti: "-",
-};
 const InitialProfileScreen = ({ navigation }) => {
   // const [profileData, setProfileData] = useState(defaultProfileData); //리스트 형태
   const controller = new AbortController();

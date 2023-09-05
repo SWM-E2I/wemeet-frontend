@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Alert,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { subColorBlack, subColorPink } from "../../styles/commonStyles";
@@ -24,7 +25,6 @@ import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import MbtiComponent from "../../components/team/MbtiComponent";
 import { useDispatch } from "react-redux";
 import { addMember } from "../../redux/teamGenerateSlice";
-import { add } from "react-native-reanimated";
 
 const MemberModalScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const MemberModalScreen = ({ navigation }) => {
       />
       <KeyboardAvoidingView
         style={styles.modalContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "position"}
+        behavior={Platform.OS === "ios" ? "padding" : null} //일단 안드로이드는 포기...
       >
         <ScrollView
           style={styles.modalContainer}
@@ -84,7 +84,7 @@ const MemberModalScreen = ({ navigation }) => {
               dropdownStyles={styles.dropdownBox}
               dropdownItemStyles={styles.dropdownItem}
               placeholder={"학교명 검색"}
-              searchPlaceholder={"입력해주세요"}
+              searchPlaceholder={""}
               notFoundText={"결과 없음"}
               search
               maxHeight={130}
