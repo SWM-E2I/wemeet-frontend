@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 // const BASE_URL = "https://we.meet.api.com/v1"; - 실제
 export const BASE_URL =
   "http://ec2-52-78-215-171.ap-northeast-2.compute.amazonaws.com:8080/v1/"; //for test only
@@ -28,13 +29,13 @@ axiosDefault.interceptors.response.use(
 const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
-  console.log(
-    "refresh 실행",
-    "accessToken :",
-    accessToken,
-    "refreshToken :",
-    refreshToken
-  );
+  // console.log(
+  //   "refresh 실행",
+  //   "accessToken :",
+  //   accessToken,
+  //   "refreshToken :",
+  //   refreshToken
+  // );
   try {
     const response = await axiosDefault.post(
       "/auth/refresh",
@@ -54,7 +55,10 @@ const refresh = async () => {
       console.log("token refresh : refresh token 만료");
       await SecureStore.deleteItemAsync("accessToken");
       await SecureStore.deleteItemAsync("refreshToken");
-    } else console.log("token refresh 중 에러 발생");
+    } else {
+      console.log("token refresh 중 에러 발생");
+      console.log(error.response, error.request, error.message);
+    }
     return null;
   }
 };
@@ -97,4 +101,40 @@ axiosPrivate.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const axiosCatch = (err, funcName, navigation) => {
+  if (err == "LOGOUT") {
+    Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "PhoneNum" }],
+      })
+    );
+  } else {
+    // Alert.alert("오류","팀 정보를 불러오는 중 오류가 발생했습니다."); //오류발생시 분기하는 페이지로 이동하게 수정...
+    if (err.response) {
+      console.log(
+        funcName,
+        ": ",
+        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
+        err.response
+      );
+    } else if (err.request) {
+      console.log(
+        funcName,
+        ": ",
+        "요청이 이루어 졌으나 응답을 받지 못했습니다.",
+        err.request._response
+      );
+    } else {
+      console.log(
+        funcName,
+        ": ",
+        "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
+        err.message
+      );
+    }
+  }
+};
 export { refresh, axiosDefault, axiosPrivate };

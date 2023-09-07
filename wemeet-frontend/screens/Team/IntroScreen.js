@@ -12,18 +12,41 @@ import {
 import React, { useState } from "react";
 import commonStyles, { mainColor } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { setIntroduction } from "../../redux/teamGenerateSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setIntroduction, resetState } from "../../redux/teamGenerateSlice";
+import { teamGenerateApi } from "../../api/team";
+import { CommonActions } from "@react-navigation/native";
+
 const IntroScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [intro, setIntro] = useState("");
-  const onNext = () => {
-    if (intro.length < 5) Alert.alert("소개글은 5자 이상 입력해줘!");
+  const images = useSelector((state) => state.teamGenerate.images);
+  const data = useSelector((state) => state.teamGenerate.data);
+  const controller = new AbortController();
+
+  const onPress = async () => {
+    if (intro.length < 10) Alert.alert("소개글은 10자 이상 입력해줘!");
     else {
       dispatch(setIntroduction(intro));
-      navigation.navigate("ChatLink");
+      const res = await teamGenerateApi(
+        images,
+        { ...data, introduction: intro },
+        navigation,
+        controller
+      );
+      console.log("IntroScreen, teamGenerateApi result :", res);
+      if (res) {
+        // dispatch(resetState(true));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "InitialTeam" }],
+          })
+        );
+      }
     }
   };
+
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -51,7 +74,7 @@ const IntroScreen = ({ navigation }) => {
             }}
             style={styles.textInput}
             autoFocus
-            placeholder={"최소 5자, 최대 150자 이내로 입력해줘!"}
+            placeholder={"최소 10자, 최대 150자 이내로 입력해줘!"}
             // enablesReturnKeyAutomatically
             maxLength={150}
             placeholderTextColor={"#C4C4C4"}
@@ -62,7 +85,10 @@ const IntroScreen = ({ navigation }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
-        <TouchableOpacity style={commonStyles.buttonContainer} onPress={onNext}>
+        <TouchableOpacity
+          style={commonStyles.buttonContainer}
+          onPress={onPress}
+        >
           <Text
             style={{
               color: "white",
@@ -80,7 +106,7 @@ const IntroScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   textInput: {
     width: "100%",
-    height: 200,
+    height: 150,
     borderRadius: 7,
     // backgroundColor: "#F2F2F2",
     marginTop: 20,

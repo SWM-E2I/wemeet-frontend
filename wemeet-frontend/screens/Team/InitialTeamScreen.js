@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { SafeAreaView, View, Text } from "react-native";
 import React, { useState, useEffect } from "react";
 import NoTeamScreen from "./NoTeamScreen";
 import { teamInquiryApi } from "../../api/team";
@@ -6,18 +6,23 @@ import { teamInquiryApi } from "../../api/team";
 const InitialTeamScreen = ({ navigation }) => {
   const [hasTeam, setHasTeam] = useState(false);
   const controller = new AbortController();
-  // useEffect(() => {
-  //inquiryApi 미완
-  //   let result = teamInquiryApi(navigation, controller);
-  //   console.log(result);
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, []);
+  const onMount = async () => {
+    let result = await teamInquiryApi(navigation, controller);
+    console.log(result);
+    if (result) setHasTeam(true);
+    else setHasTeam(false);
+  };
+  useEffect(() => {
+    //inquiryApi 미완
+    onMount();
+    return () => {
+      controller.abort();
+    };
+  }, []);
   return hasTeam ? (
-    <View>
+    <SafeAreaView>
       <Text>팀이 있음</Text>
-    </View>
+    </SafeAreaView>
   ) : (
     <NoTeamScreen navigation={navigation} />
   );

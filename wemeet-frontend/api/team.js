@@ -11,14 +11,10 @@ const teamInquiryApi = async (navigation, controller) => {
     const response = await axiosPrivate.get(TEAM_INQUIRY_URL, {
       signal: controller.signal,
     });
-    if (response.data.status == "SUCCESS" && response.data.data) {
-      Alert.alert("팀이 존재합니다.", "분기 페이지로 이동");
-      console.log("TeamInquiryApi response data :", response.data.data);
-    } else if (response.data.status == "SUCCESS" && !response.data.data) {
-      Alert.alert("팀이 존재하지 않습니다.", "분기 페이지로 이동");
-    } else {
-      Alert.alert("요청에 실패했습니다.", response.data.message);
-    }
+    console.log("TeamInquiryApi response data :", response.data);
+    if (response.data.status == "SUCCESS" && response.data.data.hasTeam) {
+      return true;
+    } else return false;
   } catch (err) {
     if (err == "LOGOUT") {
       Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
@@ -32,24 +28,25 @@ const teamInquiryApi = async (navigation, controller) => {
       // Alert.alert("오류","팀 정보를 불러오는 중 오류가 발생했습니다."); //오류발생시 분기하는 페이지로 이동하게 수정...
       if (err.response) {
         console.log(
-          "setProfileImgApi : ",
+          "teamInquiryApi : ",
           "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
           err.response
         );
       } else if (err.request) {
         console.log(
-          "setProfileImgApi : ",
+          "teamInquiryApi : ",
           "요청이 이루어 졌으나 응답을 받지 못했습니다.",
           err.request._response
         );
       } else {
         console.log(
-          "setProfileImgApi : ",
+          "teamInquiryApi : ",
           "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
           err.message
         );
       }
     }
+    return false;
   }
 };
 const teamGenerateApi = async (images, data, navigation, controller) => {
@@ -57,6 +54,14 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
   //images = 사진 데이터 객체 리스트 (pickImageAsync의 result.assets)
   //아 몰랑 내일할래
   const formData = new FormData();
+  // let list = [];
+  // images.forEach((image) => {
+  //   list.push({
+  //     uri: image.uri,
+  //     type: mime.getType(image.uri),
+  //     name: image.uri.split("/").pop(),
+  //   });
+  // });
   images.forEach((image) => {
     formData.append("images", {
       uri: image.uri,
@@ -64,13 +69,16 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       name: image.uri.split("/").pop(),
     });
   });
+  // formData.append("images", list);
+  // formData.append("data", JSON.stringify(data));
+  // formData.append("data", data);
+
   // formData.append("data", JSON.stringify(data));
   const stringified = JSON.stringify(data);
-  formData.append(
-    "data",
-    new Blob([stringified], { type: "application/json" })
-  ); //for SPRING/JAVA FRAMEWORK BACKEND SERVER
-  // console.log("teamGenerateApi, formData :", formData);
+  formData.append("data", { string: stringified, type: "application/json" });
+  // data
+  // ); //for SPRING/JAVA FRAMEWORK BACKEND SERVER
+  console.log("teamGenerateApi, formData :", formData);
   try {
     const response = await axiosPrivate.post(TEAM_GENERATE_URL, formData, {
       headers: {
@@ -78,12 +86,10 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       },
       signal: controller.signal,
     });
+    console.log("TeamGenerateApi response data :", response.data);
     if (response.data.status == "SUCCESS") {
-      Alert.alert("팀 생성에 성공했습니다.");
-      console.log("TeamGenerateApi response data :", response.data.data);
+      Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어");
       return true;
-    } else {
-      Alert.alert("팀 생성에 실패했습니다.", response.data.message);
     }
   } catch (err) {
     if (err == "LOGOUT") {
@@ -115,6 +121,7 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       );
     }
   }
+  Alert.alert("팀 생성 실패", "잠시 후 다시 시도해줘");
   return false;
 };
 

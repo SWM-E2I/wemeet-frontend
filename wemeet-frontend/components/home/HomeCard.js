@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   mainColor,
@@ -16,23 +16,33 @@ import {
 // import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import LeaderCard from "./LeaderCard";
+import { detailApi } from "../../api/home";
 
 const WIDTH = Dimensions.get("window").width;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
 const HomeCard = ({ card, navigation, end }) => {
+  console.log(card);
+  const controller = new AbortController();
+  const onPress = async () => {
+    let result = await detailApi(card.teamId, navigation, controller);
+    //임시
+    navigation.navigate("HomeDetail");
+  };
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  }, []);
   return !end ? (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={() => {
-        navigation.navigate("HomeDetail");
-      }}
-      style={styles.card}
-    >
+    <TouchableOpacity activeOpacity={0.9} onPress={onPress} style={styles.card}>
       <View>
         <Image
-          source={{ uri: card.mainImageURL }}
+          source={{
+            uri: "www.naver.com", //임시
+            // card.mainImageURL, //요게 진짜
+          }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
           // blurRadius={10}
@@ -89,12 +99,10 @@ const HomeCard = ({ card, navigation, end }) => {
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
         }}
-        nickName={"유닝"}
-        mbti={"ESTJ"}
-        college={"고려대학교"}
-        profile={
-          "https://postfiles.pstatic.net/MjAyMzA4MjRfMTAy/MDAxNjkyODA1ODg3NDk2.trjsam7Hy1G1DS3RZ_4FjLjeMeoKYyPH9eYsQLbzE7Yg.nFBvUSGPnhqr-MULctotoZOQRPasKxk6bFVgFSXj9Hog.PNG.seyun1052/IMG_9022.png?type=w966"
-        }
+        nickName={card.leader.nickname}
+        mbti={card.leader.mbti}
+        college={card.leader.college}
+        profile={card.profileImageURL}
       />
       {/* <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
         <BlurView

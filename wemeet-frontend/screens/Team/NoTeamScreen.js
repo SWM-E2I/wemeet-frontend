@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
+  Alert,
 } from "react-native";
 import React from "react";
 import commonStyles, {
@@ -15,8 +16,31 @@ import commonStyles, {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Logo from "../../assets/vectors/Logo";
 import NoTeamCharacter from "../../assets/characters/NoTeamCharacter";
+import { useSelector } from "react-redux";
 
 const NoTeamScreen = ({ navigation }) => {
+  const emailAuthenticated = useSelector(
+    (state) => state.persist.emailAuthenticated
+  );
+  const hasMainProfileImage = useSelector(
+    (state) => state.persist.hasMainProfileImage
+  );
+  const onNext = () => {
+    if (emailAuthenticated && hasMainProfileImage)
+      navigation.navigate("ChatLink");
+    else {
+      Alert.alert(
+        "프로필 사진, 이메일\n인증을 완료해줘",
+        "마이페이지에서 완료 후에 다시 시도해줘",
+        [
+          {
+            text: "확인", // 버튼 텍스트
+            onPress: () => navigation.navigate("ProfileStack"),
+          },
+        ]
+      );
+    }
+  };
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -32,12 +56,7 @@ const NoTeamScreen = ({ navigation }) => {
             "위밋은 팀이 있어야 미팅을 신청할 수 있어\n함께 미팅에 나갈 팀을 생성해줘"
           }
         </Text>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => {
-            navigation.navigate("ChatLink");
-          }}
-        >
+        <TouchableOpacity style={styles.buttonContainer} onPress={onNext}>
           <Text
             style={{
               color: "white",

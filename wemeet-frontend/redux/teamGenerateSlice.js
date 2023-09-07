@@ -4,7 +4,7 @@ const initialTeamState = {
     region: "", // HONGDAE, GANGNAM, SINCHON, GUNDAE 중 하나
     drinkRate: "", // ZERO, LOW, MIDDLE, HIGH
     drinkWithGame: "", // ANY, MASTER, BEGINNER, HATER 중 하나
-    additionalActivity: "", // nullable // SHOW, SPORTS, UNIQUE_EXPERIENCE, OUTDOOR_ACTIVITY, CAFE 중 하나
+    additionalActivity: null, // nullable // SHOW, SPORTS, UNIQUE_EXPERIENCE, OUTDOOR_ACTIVITY, CAFE 중 하나
     introduction: "", // 150 제한
     members: [
       // 사이즈 최소 1, 최대 3
@@ -55,6 +55,9 @@ const teamGenerateSlice = createSlice({
     setChatLink: (state, action) => {
       state.data.chatLink = action.payload;
     },
+    resetState: (state, action) => {
+      state = initialTeamState;
+    },
   },
 });
 export default teamGenerateSlice;
@@ -69,4 +72,5 @@ export const {
   setChatLink,
   addMember,
   delMember,
+  resetState,
 } = teamGenerateSlice.actions;

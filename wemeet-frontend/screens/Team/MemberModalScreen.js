@@ -51,7 +51,7 @@ const MemberModalScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Pressable
-        style={{ flex: 0.8 }}
+        style={{ flex: 0.6 }}
         onPress={() => {
           navigation.goBack();
         }}

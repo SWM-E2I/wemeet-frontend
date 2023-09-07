@@ -18,8 +18,10 @@ import commonStyles, {
 import { Ionicons, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
+import { setImages } from "../../redux/teamGenerateSlice";
 
 const TeamPhotoScreen = ({ navigation }) => {
+  dispatch = useDispatch();
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [mainPhoto, setMainPhoto] = useState(null); // uri
   const [addPhoto, setAddPhoto] = useState([]); // true or false
@@ -28,6 +30,7 @@ const TeamPhotoScreen = ({ navigation }) => {
       Alert.alert("대표 사진 1장은 필수로 등록해줘!");
       return;
     }
+    dispatch(setImages([mainPhoto, ...addPhoto]));
     navigation.navigate("Region");
   };
   const onMount = async () => {
@@ -81,7 +84,7 @@ const TeamPhotoScreen = ({ navigation }) => {
       aspect: [1, 1],
       allowsMultipleSelection: true,
       orderedSelection: true, //only for iOS
-      selectionLimit: 10, //최대 10장까지만 선택가능하다고 알려주기
+      selectionLimit: 5, //최대 5장까지만 선택가능하다고 알려주기
     });
     if (!result.canceled) {
       console.log(result.assets);
@@ -109,7 +112,7 @@ const TeamPhotoScreen = ({ navigation }) => {
         </Text>
         <Text style={commonStyles.teamGenerateInstruction2}>
           {
-            "팀의 분위기를 잘 나타낼 수 있는 사진을 등록해줘\n(최소 1장, 최대 10장)"
+            "팀의 분위기를 잘 나타낼 수 있는 사진을 등록해줘\n(최소 1장, 최대 6장)"
           }
         </Text>
         <View
