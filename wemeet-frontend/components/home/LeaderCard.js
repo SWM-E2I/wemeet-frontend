@@ -8,7 +8,14 @@ import {
 } from "../../styles/commonStyles";
 import { BlurView } from "expo-blur";
 
-const LeaderCard = ({ style, nickName, mbti, college, profile }) => {
+const LeaderCard = ({
+  style,
+  nickName,
+  mbti,
+  college,
+  collegeType,
+  profile,
+}) => {
   //profile -> require(local path)로 전달해줌
   return (
     <View style={[styles.infoBox, style]} opacity={1}>
@@ -76,7 +83,7 @@ const LeaderCard = ({ style, nickName, mbti, college, profile }) => {
                 marginBottom: 5,
               }}
             >
-              {college}
+              {collegeType ? `${college}  (${collegeType})` : college}
             </Text>
           </View>
         </LinearGradient>

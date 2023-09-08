@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
 } from "react-native";
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   mainColor,
@@ -91,6 +92,7 @@ const renderItem = ({ item, index }) => {
         backgroundColor: subColorBlack,
         alignItems: "flex-end",
       }}
+      key={index}
     >
       <Image
         key={index}

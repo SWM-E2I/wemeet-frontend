@@ -29,13 +29,6 @@ axiosDefault.interceptors.response.use(
 const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
-  // console.log(
-  //   "refresh 실행",
-  //   "accessToken :",
-  //   accessToken,
-  //   "refreshToken :",
-  //   refreshToken
-  // );
   try {
     const response = await axiosDefault.post(
       "/auth/refresh",
@@ -43,10 +36,11 @@ const refresh = async () => {
       { headers: { AccessToken: accessToken, RefreshToken: refreshToken } }
     );
     //SecureStore에 새로운 accessToken, refreshToken 저장
-    await SecureStore.setItemAsync("accessToken", response.headers.AccessToken);
+    console.log(response.headers);
+    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
     await SecureStore.setItemAsync(
       "refreshToken",
-      response.headers.RefreshToken
+      response.headers.refreshtoken
     );
     return accessToken;
   } catch (error) {

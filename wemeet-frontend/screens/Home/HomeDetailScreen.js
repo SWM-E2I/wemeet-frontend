@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Animated,
   StyleSheet,
   ScrollView,
   Dimensions,
@@ -25,33 +24,18 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-
-const photos = [
-  {
-    id: "1",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjM4/MDAxNjkyODA1ODg3NTQ5.PqXNvO5KUEgiYjGI9TschHjveyNd9ImUkSU3NqWdutYg.uLAjaTeCXV8FsH92H0uToM6l4qWZbjgMo3VnEe_0oFog.PNG.seyun1052/IMG_0436_1.png?type=w966",
-  },
-  {
-    id: "2",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjE1/MDAxNjkyODA1ODg3MjE3.UXElZj6UgRVXF21yLPHJ-XAz-vveNyOeW8F_kiM2rW0g.pWtg3NK1C28Bn54qCNFT1PLKjK1tQa_wqNhxcZjtyBog.PNG.seyun1052/IMG_6833_1.png?type=w966",
-  },
-  {
-    id: "3",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMzIg/MDAxNjkyODA1ODg3MTQ4.c4Li2zQ_F_ud7tO35SFd0s8G5_-8by0RbKeuy-0ghmcg.buhP6fJn15m0tI4TfvKAj07A8yxgXl3irZrMDvGjZCsg.PNG.seyun1052/IMG_5176_1_(1).png?type=w966",
-  },
-  {
-    id: "4",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfNjYg/MDAxNjkyODA1ODg3NTM0.m23CZxkvpg-wOxYbO5uZ_k4io8f_qBPErybf_lMRFhAg.Xnxc5Bsptqd1LFi8a5eUnzaN4_WimNnkhbUbZ91sp4Yg.PNG.seyun1052/image_47.png?type=w966",
-  },
-  {
-    id: "5",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjM4/MDAxNjkyODA1ODg3NTkz.H-Xmg_BQzsgBadITXt0E7pc9AEyOERWW0ERII6XrnaEg.Vn8XzaIBpHY38-oVLDwZVy8bRAJxbPPGtgIlhXLn-OYg.PNG.seyun1052/image_71.png?type=w966",
-  },
-];
+import { detailApi, likeApi } from "../../api/home";
+import {
+  regionDict,
+  collegeObj,
+  drinkRateDict,
+  drinkWithGameDict,
+} from "../../assets/datasets";
 
 const renderItem = ({ item, index }) => {
+  // console.log(index);
   return (
-    <View>
+    <View key={index}>
       <Image
         key={index}
         source={{
@@ -85,21 +69,82 @@ const getItemLayout = (data, index) => ({
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const HomeDetailScreen = ({ navigation }) => {
+
+const defaultTeamInfo = {
+  teamId: null,
+  isDeleted: true,
+  memberNum: null,
+  region: null,
+  drinkRate: null,
+  drinkWithGame: null,
+  additionalActivity: null,
+  introduction: "-",
+  teamImageUrls: ["www.naver.com"],
+  teamMembers: [
+    {
+      college: null,
+      collegeType: null,
+      admissionYear: null,
+      mbti: null,
+    },
+  ],
+  leader: {
+    leaderId: null,
+    nickname: null,
+    mbti: null,
+    collegeName: null,
+    collegeType: null,
+    admissionYear: null,
+    leaderLowProfileImageUrl: "www.naver.com",
+    imageAuth: false,
+  },
+};
+const HomeDetailScreen = ({ navigation, route }) => {
+  const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
+  const teamId = route.params.teamId;
+  const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLike, setIsLike] = useState(false); //임시
   const flatlistRef = useRef();
+  const onMount = async () => {
+    let result = await detailApi(teamId, navigation, controller);
+    if (result) {
+      const photos = [];
+      result.teamImageUrls.map((url, index) => {
+        photos.push({ id: index.toString(), uri: url });
+      });
+      setTeamInfo({ ...result, teamImageUrls: photos });
+      console.log("HomeDetailScreen :", { ...result, teamImageUrls: photos });
+    } else {
+      setTeamInfo(defaultTeamInfo);
+    }
+    setIsLike(result.isLiked); //api완성되면 ㄱㄱㄱ
+    // console.log(result.isLiked);
+  };
+  useEffect(() => {
+    onMount();
+    return () => controller.abort();
+  }, []);
+  const onLike = async () => {
+    if (isLike) Alert.alert("이미 좋아요를 보낸 상대야");
+    else {
+      let result = await likeApi(teamId, navigation, controller);
+      setIsLike(result);
+    }
+  };
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
   const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
+
   const onRequestPress = () => {
-    navigation.navigate("RequestModal");
+    navigation.navigate("RequestModal", { teamId: teamInfo.teamId });
     setTimeout(() => {
       setRequested(true);
     }, 2000);
   };
+
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -113,7 +158,7 @@ const HomeDetailScreen = ({ navigation }) => {
         <FlatList
           //0. 끝에서도 스크롤되는문제
           ref={flatlistRef}
-          data={photos}
+          data={teamInfo.teamImageUrls}
           renderItem={renderItem}
           horizontal
           pagingEnabled={true}
@@ -162,7 +207,11 @@ const HomeDetailScreen = ({ navigation }) => {
           <PaginationDot
             activeDotColor={"#FC8368"}
             curPage={activeIndex}
-            maxPage={5}
+            maxPage={
+              teamInfo.teamImageUrls.length == 1
+                ? 0
+                : teamInfo.teamImageUrls.length
+            }
             sizeRatio={1}
             style={{ width: 200 }}
           />
@@ -182,7 +231,7 @@ const HomeDetailScreen = ({ navigation }) => {
               }}
             >
               {/*지역 */}
-              건대입구
+              {regionDict[teamInfo.region]}
             </Text>
             <View
               style={{
@@ -193,20 +242,24 @@ const HomeDetailScreen = ({ navigation }) => {
             >
               <MaterialIcons name="person" size={30} color={"white"} />
               <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
-                {4}
+                {teamInfo.memberNum}
                 {/*인원 수 들어가기*/}
               </Text>
             </View>
           </View>
           <LeaderCard
-            nickName={"욤요미"}
-            mbti={"ISTP"}
-            college={"단국대학교(죽전)"}
-            profile={
-              "https://postfiles.pstatic.net/MjAyMzA4MjRfMTI3/MDAxNjkyODA1ODg3OTc5.PjV31MP1DYvmXaGEOoAxfbMGf18ZyuvO00ueqxJMzIgg.pzQdB2a0C6BjmnbTRoIfesmcSkpZdzY-AhmA1tKqnXQg.PNG.seyun1052/image_74.png?type=w966"
-            }
+            nickName={teamInfo.leader.nickname}
+            mbti={teamInfo.leader.mbti}
+            college={teamInfo.leader.collegeName}
+            collegeType={collegeObj[teamInfo.leader.collegeType]}
+            profile={teamInfo.leader.leaderLowProfileImageUrl}
           />
-          <InfoSection />
+          <InfoSection
+            memberInfo={teamInfo.teamMembers}
+            drinkingRate={drinkRateDict[teamInfo.drinkRate]}
+            drinkWithGame={drinkWithGameDict[teamInfo.drinkWithGame]}
+            intro={teamInfo.introduction}
+          />
         </View>
       </ScrollView>
       <View
@@ -221,12 +274,7 @@ const HomeDetailScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            setIsLike(!isLike);
-          }}
-          style={{ marginRight: 20 }}
-        >
+        <TouchableOpacity onPress={onLike} style={{ marginRight: 20 }}>
           {isLike ? (
             <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
           ) : (

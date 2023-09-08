@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
   // const [progress, setProgress] = useState(0);
   const cardData = useSelector((state) => state.suggest.cards);
-  console.log([...cardData, { end: true }]);
+  console.log([...cardData, { end: true, teamId: -1 }]);
   const apiCardData = [...cardData, { end: true }];
 
   const dispatch = useDispatch();
@@ -68,6 +68,7 @@ const HomeScreen = ({ navigation }) => {
                 card={card}
                 navigation={navigation}
                 end={card.end ? true : false}
+                key={card.teamId}
               />
             )}
             cardIndex={0}

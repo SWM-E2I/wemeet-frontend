@@ -6,6 +6,7 @@ import {
   Platform,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles from "../../../styles/commonStyles";
@@ -23,8 +24,15 @@ const NicknameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [nickName, setNickName] = useState("");
   const toNext = () => {
-    dispatch(setRegisterNickName(nickName)); //redux state에 성별 저장하기
-    navigation.navigate("Mbti");
+    var koreanRegExp = /^[가-힣]+$/;
+    if (koreanRegExp.test(nickName)) {
+      dispatch(setRegisterNickName(nickName)); //redux state에 성별 저장하기
+      navigation.navigate("Mbti");
+    } else
+      Alert.alert(
+        "닉네임은 한글만 입력 가능해",
+        "공백을 포함한 특수문자 없이 입력해줘!"
+      );
   };
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>

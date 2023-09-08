@@ -18,6 +18,7 @@ import { teamGenerateApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 
 const IntroScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [intro, setIntro] = useState("");
   const images = useSelector((state) => state.teamGenerate.images);
@@ -28,6 +29,7 @@ const IntroScreen = ({ navigation }) => {
     if (intro.length < 10) Alert.alert("소개글은 10자 이상 입력해줘!");
     else {
       dispatch(setIntroduction(intro));
+      setLoading(true);
       const res = await teamGenerateApi(
         images,
         { ...data, introduction: intro },
@@ -44,6 +46,7 @@ const IntroScreen = ({ navigation }) => {
           })
         );
       }
+      setLoading(false);
     }
   };
 
@@ -80,6 +83,14 @@ const IntroScreen = ({ navigation }) => {
             placeholderTextColor={"#C4C4C4"}
             multiline
           />
+          <Text
+            style={{
+              color: "#C4C4C4",
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+            }}
+          >{`${intro.length} / 150`}</Text>
         </View>
       </View>
       <KeyboardAvoidingView
@@ -88,6 +99,7 @@ const IntroScreen = ({ navigation }) => {
         <TouchableOpacity
           style={commonStyles.buttonContainer}
           onPress={onPress}
+          disabled={loading}
         >
           <Text
             style={{
@@ -96,7 +108,7 @@ const IntroScreen = ({ navigation }) => {
               fontFamily: "pretendard600",
             }}
           >
-            팀 만들기
+            {loading ? "생성 중.. (최대 1분 소요)" : "팀 만들기"}
           </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

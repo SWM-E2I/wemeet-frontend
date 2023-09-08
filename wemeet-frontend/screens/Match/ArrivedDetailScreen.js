@@ -153,7 +153,7 @@ const ArrivedDetailScreen = ({ navigation }) => {
           <PaginationDot
             activeDotColor={"#FC8368"}
             curPage={activeIndex}
-            maxPage={5}
+            maxPage={photos.length}
             sizeRatio={1}
             style={{ width: 200 }}
           />

@@ -2,35 +2,34 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { subColorPink, mainColor } from "../../styles/commonStyles";
-
-const memberInfo = [
-  {
-    mbti: "ENFJ",
-    univ: "고려대",
-    college: "인문사회대",
-    admissionYear: "19",
-  },
-  {
-    mbti: "ENFJ",
-    univ: "경동대 (메트로폴캠)",
-    college: "인문사회대",
-    admissionYear: "19",
-  },
-  {
-    mbti: "ENFJ",
-    univ: "고려대",
-    college: "인문사회대",
-    admissionYear: "19",
-  },
-];
+import { collegeObj, drinkRateDict } from "../../assets/datasets";
+// const memberInfo = [
+//   {
+//     mbti: "ENFJ",
+//     univ: "고려대",
+//     college: "인문사회대",
+//     admissionYear: "19",
+//   },
+//   {
+//     mbti: "ENFJ",
+//     univ: "경동대 (메트로폴캠)",
+//     college: "인문사회대",
+//     admissionYear: "19",
+//   },
+//   {
+//     mbti: "ENFJ",
+//     univ: "고려대",
+//     college: "인문사회대",
+//     admissionYear: "19",
+//   },
+// ];
 const drinkType = [
   "술 없이도 즐거워",
   "술은 기분 좋을 정도로만",
   "술자리를 즐겨",
   "술에 진심이야",
 ];
-const InfoSection = () => {
-  let drinkingRate = 3; //임시, 0 1 2 3
+const InfoSection = ({ memberInfo, drinkingRate, drinkWithGame, intro }) => {
   return (
     <>
       <Text style={[styles.labelText, { marginBottom: 0 }]}>팀원 정보</Text>
@@ -44,10 +43,10 @@ const InfoSection = () => {
           <View style={{ paddingHorizontal: 8 }}>
             <Text style={styles.descriptionText}>{member.mbti}</Text>
           </View>
-          <Text style={styles.descriptionText}>{member.univ}</Text>
-          <Text
-            style={{ color: "#8F8F8F", fontSize: 14 }}
-          >{`  ${member.college}  ${member.admissionYear}학번`}</Text>
+          <Text style={styles.descriptionText}>{member.college}</Text>
+          <Text style={{ color: "#8F8F8F", fontSize: 14 }}>{`  ${
+            collegeObj[member.collegeType]
+          }  ${member.admissionYear}학번`}</Text>
         </View>
       ))}
       <Text style={styles.labelText}>음주 수치</Text>
@@ -74,14 +73,12 @@ const InfoSection = () => {
       </View>
       <Text style={styles.descriptionText}>{drinkType[drinkingRate]}</Text>
       <Text style={styles.labelText}>술게임 여부</Text>
-      <Text style={styles.descriptionText}>상관없어</Text>
+      <Text style={styles.descriptionText}>{drinkWithGame}</Text>
       <Text style={styles.labelText}>팀 소개</Text>
       <Text
         style={[styles.descriptionText, { lineHeight: 24, marginBottom: 25 }]}
       >
-        나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북
-        멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이 나는야
-        강북 멋쟁이 나는야 강북 멋쟁이 나는야 강북 멋쟁이
+        {intro}
       </Text>
     </>
   );

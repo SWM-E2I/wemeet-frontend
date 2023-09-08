@@ -26,9 +26,8 @@ const HomeCard = ({ card, navigation, end }) => {
   console.log(card);
   const controller = new AbortController();
   const onPress = async () => {
-    let result = await detailApi(card.teamId, navigation, controller);
-    //임시
-    navigation.navigate("HomeDetail");
+    //HomeDetail Screen으로 이동하면서 parameter로 teamId를 전달
+    navigation.navigate("HomeDetail", { teamId: card.teamId });
   };
   useEffect(() => {
     return () => {
@@ -40,8 +39,8 @@ const HomeCard = ({ card, navigation, end }) => {
       <View>
         <Image
           source={{
-            uri: "www.naver.com", //임시
-            // card.mainImageURL, //요게 진짜
+            // uri: "www.naver.com", //임시
+            uri: card.mainImageURL, //요게 진짜
           }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?

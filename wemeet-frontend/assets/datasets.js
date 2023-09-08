@@ -432,6 +432,7 @@ univList2.map((univ) => {
 });
 
 const now = new Date();
+
 const currentYear = now.getFullYear() % 100;
 const collegeList = [
   //ETC, SOCIAL, ENGINEERING, ARTS, EDUCATION, MEDICINE
@@ -462,6 +463,25 @@ const yearList = [
   { key: "9", value: currentYear - 8 },
   { key: "10", value: currentYear - 9 },
 ];
+
+export const regionDict = {
+  HONGDAE: "홍대입구",
+  GANGNAM: "강남",
+  SINCHON: "신촌",
+  GUNDAE: "건대입구",
+};
+export const drinkRateDict = {
+  ZERO: 0,
+  LOW: 1,
+  MIDDLE: 2,
+  HIGH: 3,
+};
+export const drinkWithGameDict = {
+  ANY: "상관없어",
+  MASTER: "나는야 술게임 고수",
+  BEGINNER: "술게임 잘 몰라",
+  HATER: "술게임 싫어해",
+};
 
 export {
   univList,

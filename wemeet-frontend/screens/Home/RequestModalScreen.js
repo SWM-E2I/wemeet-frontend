@@ -17,10 +17,7 @@ import React, { useState, useRef } from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; //대책
-// import Animated, {
-//     useSharedValue,
-//     useAnimatedStyle,
-//   } from 'react-native-reanimated';
+import { requestApi, requestMessageApi } from "../../api/home";
 
 const Signal = ({ amount, useInput }) => {
   return (
@@ -42,7 +39,8 @@ const Signal = ({ amount, useInput }) => {
     </View>
   );
 };
-const RequestModalScreen = ({ navigation }) => {
+const RequestModalScreen = ({ navigation, route }) => {
+  const teamId = route.params.teamId;
   const [useInput, setUseInput] = useState(true);
   const [letter, setLetter] = useState("");
   const heightValue = useRef(

@@ -54,14 +54,6 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
   //images = 사진 데이터 객체 리스트 (pickImageAsync의 result.assets)
   //아 몰랑 내일할래
   const formData = new FormData();
-  // let list = [];
-  // images.forEach((image) => {
-  //   list.push({
-  //     uri: image.uri,
-  //     type: mime.getType(image.uri),
-  //     name: image.uri.split("/").pop(),
-  //   });
-  // });
   images.forEach((image) => {
     formData.append("images", {
       uri: image.uri,
@@ -69,16 +61,9 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       name: image.uri.split("/").pop(),
     });
   });
-  // formData.append("images", list);
-  // formData.append("data", JSON.stringify(data));
-  // formData.append("data", data);
-
-  // formData.append("data", JSON.stringify(data));
   const stringified = JSON.stringify(data);
   formData.append("data", { string: stringified, type: "application/json" });
-  // data
-  // ); //for SPRING/JAVA FRAMEWORK BACKEND SERVER
-  console.log("teamGenerateApi, formData :", formData);
+  // console.log("teamGenerateApi, formData :", formData);
   try {
     const response = await axiosPrivate.post(TEAM_GENERATE_URL, formData, {
       headers: {
