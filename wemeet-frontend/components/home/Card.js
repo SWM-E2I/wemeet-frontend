@@ -32,6 +32,7 @@ const Card = ({
   isSent,
   isArrived,
   isMatched,
+  myTeam,
 }) => {
   return (
     <TouchableOpacity
@@ -40,6 +41,8 @@ const Card = ({
         //임시,  like, sent, arrived, matched따라 모두 분기해야함
         if (isArrived) navigation.navigate("ArrivedDetail");
         else if (isMatched) navigation.navigate("MatchedDetail");
+        else if (myTeam)
+          navigation.navigate("MyTeamDetail", { myTeamData: card.myTeamData });
         else console.log("isLike or isSent clicked");
       }}
       style={[styles.card, style]}
@@ -262,11 +265,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     marginBottom: 24,
-    // elevation: 10, //for android
-    // shadowColor: "rgba(0, 0, 0, 0.79)",
-    // shadowOffset: { width: 0, height: 4 },
-    // shadowOpacity: 1,
-    // shadowRadius: 25,
+    elevation: 5, //for android
+    shadowColor: "rgba(0, 0, 0, 0.79)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 3,
     // overflow: "hidden",
     // borderColor: "white",
     // borderWidth: 1,
@@ -279,6 +282,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderTopLeftRadius: cardBorderRadius,
     borderTopRightRadius: cardBorderRadius,
+    backgroundColor: "black",
   },
 });
 

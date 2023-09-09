@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,6 +34,7 @@ const InitialProfileScreen = ({ navigation }) => {
   const emailAuthenticated = useSelector(
     (state) => state.persist.emailAuthenticated
   );
+
   const setPhoto = () => {
     navigation.navigate("PhotoSet", {
       toProfile: true,
@@ -43,6 +45,14 @@ const InitialProfileScreen = ({ navigation }) => {
     if (result) {
       dispatch(setProfileData(result));
     }
+  };
+  const [refreshing, setRefreshing] = useState(false); // 새로고침 상태를 나타내는 상태 변수
+  // 새로고침 작업을 수행하는 함수
+  const onRefresh = async () => {
+    // 이 예제에서는 간단히 2초 후에 새로고침을 완료하는 것으로 가정합니다.
+    setRefreshing(true);
+    await onMount();
+    setRefreshing(false);
   };
   useEffect(() => {
     console.log("ProfileScreen updated/mounted");
@@ -60,6 +70,18 @@ const InitialProfileScreen = ({ navigation }) => {
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 20 }}
         contentContainerStyle={{ alignItems: "center" }}
+        refreshControl={
+          // RefreshControl을 ScrollView에 추가
+          <RefreshControl
+            refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+            onRefresh={onRefresh} // 당겨서 새로고침 작업을 수행하는 함수
+            progressViewOffset={30} // 로딩 바가 어느 위치에서 시작할지 설정
+            colors={["white"]} // 로딩 바의 색상 설정
+            tintColor={"white"} // 로딩 바의 색상 설정
+            title={"새로고침 중..."}
+            titleColor={"white"}
+          />
+        }
       >
         <Text
           style={{

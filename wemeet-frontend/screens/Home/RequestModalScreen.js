@@ -41,6 +41,7 @@ const Signal = ({ amount, useInput }) => {
 };
 const RequestModalScreen = ({ navigation, route }) => {
   const teamId = route.params.teamId;
+  //api보낼때활용!!
   const [useInput, setUseInput] = useState(true);
   const [letter, setLetter] = useState("");
   const heightValue = useRef(

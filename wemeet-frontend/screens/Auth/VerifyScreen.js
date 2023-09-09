@@ -72,10 +72,10 @@ const VerifyScreen = ({ navigation, route }) => {
               nextPage = "MainTab";
             else nextPage = "Additional"; //추가정보 분기 페이지
           } else {
-            Alert.alert(
-              "User Data를 가져오는 중 오류가 발생했습니다.",
-              "다시 시도해주세요."
-            );
+            // Alert.alert(
+            //   "User Data를 가져오는 중 오류가 발생했습니다.",
+            //   "다시 시도해주세요."
+            // );
             console.log("peristLoginApi Error");
             nextPage = "Additional"; //임시!!!!! 수정해야함 - pesistLoginApi나오면
           }

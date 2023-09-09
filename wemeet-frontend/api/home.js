@@ -95,15 +95,14 @@ export const requestApi = async (teamId, navigation, controller) => {
     const response = await axiosPrivate.post(
       REQUEST_URL,
       { partnerTeamId: teamId },
-      {
-        signal: controller.signal,
-      }
+      { signal: controller.signal }
     );
     if (response.data.status == "SUCCESS") {
       return true;
     } else if ((response.data.status = "FAIL" && response.data.code == 40029)) {
       Alert.alert("팀을 생성해줘", "본인 팀이 없으면 좋아요를 보낼 수 없어");
-    }
+    } else if ((response.data.status = "FAIL"))
+      Alert.alert("요청 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "requestApi", navigation);
     return false;

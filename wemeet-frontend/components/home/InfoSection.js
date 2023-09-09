@@ -3,33 +3,21 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { subColorPink, mainColor } from "../../styles/commonStyles";
 import { collegeObj, drinkRateDict } from "../../assets/datasets";
-// const memberInfo = [
-//   {
-//     mbti: "ENFJ",
-//     univ: "고려대",
-//     college: "인문사회대",
-//     admissionYear: "19",
-//   },
-//   {
-//     mbti: "ENFJ",
-//     univ: "경동대 (메트로폴캠)",
-//     college: "인문사회대",
-//     admissionYear: "19",
-//   },
-//   {
-//     mbti: "ENFJ",
-//     univ: "고려대",
-//     college: "인문사회대",
-//     admissionYear: "19",
-//   },
-// ];
+
 const drinkType = [
   "술 없이도 즐거워",
   "술은 기분 좋을 정도로만",
   "술자리를 즐겨",
   "술에 진심이야",
 ];
-const InfoSection = ({ memberInfo, drinkingRate, drinkWithGame, intro }) => {
+const InfoSection = ({
+  memberInfo,
+  drinkingRate,
+  drinkWithGame,
+  intro,
+  myTeam,
+  chatLink,
+}) => {
   return (
     <>
       <Text style={[styles.labelText, { marginBottom: 0 }]}>팀원 정보</Text>
@@ -45,7 +33,7 @@ const InfoSection = ({ memberInfo, drinkingRate, drinkWithGame, intro }) => {
           </View>
           <Text style={styles.descriptionText}>{member.college}</Text>
           <Text style={{ color: "#8F8F8F", fontSize: 14 }}>{`  ${
-            collegeObj[member.collegeType]
+            myTeam ? member.collegeType : collegeObj[member.collegeType]
           }  ${member.admissionYear}학번`}</Text>
         </View>
       ))}
@@ -76,10 +64,21 @@ const InfoSection = ({ memberInfo, drinkingRate, drinkWithGame, intro }) => {
       <Text style={styles.descriptionText}>{drinkWithGame}</Text>
       <Text style={styles.labelText}>팀 소개</Text>
       <Text
-        style={[styles.descriptionText, { lineHeight: 24, marginBottom: 25 }]}
+        style={[
+          styles.descriptionText,
+          { lineHeight: 24, marginBottom: myTeam ? 0 : 25 },
+        ]}
       >
         {intro}
       </Text>
+      {myTeam && (
+        <>
+          <Text style={styles.labelText}>오픈 채팅 링크</Text>
+          <Text style={[styles.descriptionText, { marginBottom: 25 }]}>
+            {chatLink}
+          </Text>
+        </>
+      )}
     </>
   );
 };

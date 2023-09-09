@@ -28,6 +28,9 @@ const persistSlice = createSlice({
     setHasMainProfileImage: (state, action) => {
       state.hasMainProfileImage = action.payload;
     },
+    setHasTeam: (state, action) => {
+      state.hasTeam = action.payload;
+    },
   },
 });
 
@@ -36,4 +39,5 @@ export const {
   setPersistState,
   setEmailAuthenticated,
   setHasMainProfileImage,
+  setHasTeam,
 } = persistSlice.actions;

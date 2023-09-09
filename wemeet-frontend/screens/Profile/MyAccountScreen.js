@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
@@ -24,13 +25,48 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import { accountDeleteApi, logoutApi } from "../../api/myProfile";
 
 const MyAccountScreen = ({ navigation }) => {
   const profileData = useSelector((state) => state.profile.profileData);
+  const controller = new AbortController();
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  }, []);
   const setPhoto = () => {
     navigation.navigate("PhotoSet", {
       toProfile: true,
     });
+  };
+  const onDeleteAccount = async () => {
+    Alert.alert(
+      "위밋 계정 삭제",
+      "정말로 탈퇴하시겠습니까?",
+      [
+        {
+          text: "취소",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "탈퇴",
+          onPress: async () => {
+            let result = await accountDeleteApi(navigation, controller);
+            if (result) {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "Initial" }],
+                })
+              );
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
   return (
     <SafeAreaView
@@ -132,10 +168,18 @@ const MyAccountScreen = ({ navigation }) => {
             bottom: 30,
           }}
         >
-          <TouchableOpacity style={styles.infoContainer}>
+          <TouchableOpacity
+            style={styles.infoContainer}
+            onPress={() => {
+              logoutApi(navigation);
+            }}
+          >
             <Text style={styles.infoText}>로그 아웃</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.infoContainer}>
+          <TouchableOpacity
+            style={styles.infoContainer}
+            onPress={onDeleteAccount}
+          >
             <Text style={styles.infoText}>회원 탈퇴</Text>
           </TouchableOpacity>
         </View>

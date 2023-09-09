@@ -1,10 +1,12 @@
-import { axiosPrivate } from "./axios";
+import { axiosPrivate, axiosCatch } from "./axios";
 import { Alert } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 import mime from "mime";
+import * as SecureStore from "expo-secure-store";
 
 const TEAM_INQUIRY_URL = "/team";
 const TEAM_GENERATE_URL = "/team";
+const TEAM_DELETE_URL = "/team";
 
 const teamInquiryApi = async (navigation, controller) => {
   try {
@@ -13,40 +15,25 @@ const teamInquiryApi = async (navigation, controller) => {
     });
     console.log("TeamInquiryApi response data :", response.data);
     if (response.data.status == "SUCCESS" && response.data.data.hasTeam) {
-      return true;
+      return response.data.data;
     } else return false;
   } catch (err) {
-    if (err == "LOGOUT") {
-      Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "PhoneNum" }],
-        })
-      );
-    } else {
-      // Alert.alert("오류","팀 정보를 불러오는 중 오류가 발생했습니다."); //오류발생시 분기하는 페이지로 이동하게 수정...
-      if (err.response) {
-        console.log(
-          "teamInquiryApi : ",
-          "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
-          err.response
-        );
-      } else if (err.request) {
-        console.log(
-          "teamInquiryApi : ",
-          "요청이 이루어 졌으나 응답을 받지 못했습니다.",
-          err.request._response
-        );
-      } else {
-        console.log(
-          "teamInquiryApi : ",
-          "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
-          err.message
-        );
-      }
-    }
+    axiosCatch(err, "teamInquiryApi", navigation);
     return false;
+  }
+};
+//axios로 부터 받은 응답의 header에 들어있는 accesstoken값을 expo secure store에 저장하는 함수
+const storeAccessToken = async (response) => {
+  console.log("storeAccessToken :", response.headers);
+  try {
+    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
+    await SecureStore.setItemAsync(
+      "refreshToken",
+      response.headers.refreshtoken
+    );
+    console.log("팀생성 : 재발급된 accessToken, refreshToken 저장완료");
+  } catch (err) {
+    console.log(err);
   }
 };
 const teamGenerateApi = async (images, data, navigation, controller) => {
@@ -73,41 +60,34 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
     });
     console.log("TeamGenerateApi response data :", response.data);
     if (response.data.status == "SUCCESS") {
+      await storeAccessToken(response);
       Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어");
       return true;
     }
   } catch (err) {
-    if (err == "LOGOUT") {
-      Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "PhoneNum" }],
-        })
-      );
-    } else if (err.response) {
-      console.log(
-        "teamGenerateApi : ",
-        "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다."
-        // err.response._response
-        //  Object.keys(err.response)
-      );
-    } else if (err.request) {
-      console.log(
-        "teamGenerateApi : ",
-        "요청이 이루어 졌으나 응답을 받지 못했습니다.",
-        err.request._response
-      );
-    } else {
-      console.log(
-        "teamGenerateApi : ",
-        "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
-        err.message
-      );
-    }
+    axiosCatch(err, "teamGenerateApi", navigation);
+    Alert.alert("팀 생성 실패", "잠시 후 다시 시도해줘");
   }
-  Alert.alert("팀 생성 실패", "잠시 후 다시 시도해줘");
   return false;
 };
 
-export { teamInquiryApi, teamGenerateApi };
+const teamDeleteApi = async (navigation, controller) => {
+  try {
+    const response = await axiosPrivate.delete(TEAM_DELETE_URL, {
+      signal: controller.signal,
+    });
+    console.log("TeamDeleteApi response data :", response.data);
+    if (response.data.status == "SUCCESS") {
+      Alert.alert("팀이 삭제되었어", "언제라도 새로운 팀을 생성해줘!");
+      return true;
+    } else if (response.data.status == "FAIL") {
+      Alert.alert("팀 삭제 실패", "잠시 후 다시 시도해줘");
+    }
+  } catch (err) {
+    axiosCatch(err, "teamDeleteApi", navigation);
+    Alert.alert("팀 삭제 실패", "잠시 후 다시 시도해줘");
+  }
+  return false;
+};
+
+export { teamInquiryApi, teamGenerateApi, teamDeleteApi };

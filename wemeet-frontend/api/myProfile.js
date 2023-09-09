@@ -1,9 +1,11 @@
-import { axiosPrivate } from "./axios";
+import { axiosPrivate, axiosCatch } from "./axios";
 import { Alert } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 import mime from "mime";
+import * as SecureStore from "expo-secure-store";
 
 const PROFILE_INQUIRY_URL = "/member";
+const DELETE_ACCOUNT_URL = "/member";
 
 export const myProfileInquiryApi = async (navigation, controller) => {
   try {
@@ -21,36 +23,36 @@ export const myProfileInquiryApi = async (navigation, controller) => {
       return null;
     }
   } catch (err) {
-    if (err == "LOGOUT") {
-      Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "PhoneNum" }],
-        })
-      );
-    } else {
-      Alert.alert("오류", "내 정보를 불러오는 중 오류가 발생했습니다.");
-      if (err.response) {
-        console.log(
-          "myProfileInquiryApi : ",
-          "요청이 이루어 졌으나 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.",
-          err.response
-        );
-      } else if (err.request) {
-        console.log(
-          "myProfileInquiryApi : ",
-          "요청이 이루어 졌으나 응답을 받지 못했습니다.",
-          err.request._response
-        );
-      } else {
-        console.log(
-          "myProfileInquiryApi : ",
-          "오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.",
-          err.message
-        );
-      }
-    }
+    axiosCatch(err, "myProfileInquiryApi", navigation);
     return null;
   }
+};
+
+export const accountDeleteApi = async (navigation, controller) => {
+  try {
+    const response = await axiosPrivate.delete(DELETE_ACCOUNT_URL, {
+      signal: controller.signal,
+    });
+    console.log("accountDeleteApi :", response.data);
+    if (response.data.status == "SUCCESS") {
+      Alert.alert("회원탈퇴가 완료되었습니다.");
+      return true;
+    } else Alert.alert("회원탈퇴 실패", response.data.message);
+    return false;
+  } catch (err) {
+    axiosCatch(err, "accountDeleteApi", navigation);
+    Alert.alert("회원 탈퇴 실패", "잠시 후 다시 시도해주세요");
+    return false;
+  }
+};
+
+export const logoutApi = async (navigation) => {
+  await SecureStore.deleteItemAsync("accessToken");
+  await SecureStore.deleteItemAsync("refreshToken");
+  navigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: "PhoneNum" }],
+    })
+  );
 };

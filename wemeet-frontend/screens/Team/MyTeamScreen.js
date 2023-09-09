@@ -1,131 +1,102 @@
-import { SafeAreaView, View, Text, Button, Alert, Image } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Button,
+  Alert,
+  Image,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { teamInquiryApi, teamGenerateApi } from "../../api/team";
-import commonStyles, { mainColor } from "../../styles/commonStyles";
-import * as ImagePicker from "expo-image-picker";
+import commonStyles, {
+  mainColor,
+  subColorBlack,
+  subColorPink,
+} from "../../styles/commonStyles";
+import Logo from "../../assets/vectors/Logo";
+import Card from "../../components/home/Card";
 
-const sampleData = {
-  memberNum: 3,
-  region: "HONGDAE",
-  drinkRate: "HIGH",
-  drinkWithGame: "MASTER",
-  additionalActivity: "SHOW",
-  introduction: "안녕안녕 나는 나야",
-  members: [
-    {
-      college: "CE-001",
-      collegeType: "Social",
-      admissionYear: "19",
-      mbti: "XXXX",
+const MyTeamScreen = ({ navigation, team }) => {
+  // const controller = new AbortController();
+  // useEffect(() => {
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, []);
+  console.log(team);
+  const card = {
+    mainImageURL: team.images[0].url,
+    region: team.region,
+    memberNum: team.memberNum,
+    leader: {
+      nickName: team.leader.nickname,
+      mbti: team.leader.mbti,
+      college: team.leader.college,
     },
-    {
-      college: "CE-002",
-      collegeType: "Arts",
-      admissionYear: "19",
-      mbti: "XXXX",
-    },
-  ],
-}; //for Test only, 임시
-const MyTeamScreen = ({ navigation }) => {
-  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [images, setImages] = useState([]); //리스트 형태
-  const controller = new AbortController();
-  const onMount = async () => {
-    if (!status?.granted) {
-      const permission = await requestPermission();
-      if (!permission.granted) {
-        Alert.alert(
-          "사진 라이브러리 접근이 거부됨",
-          "설정>we-meet에서 사진 권한을 설정해주세요."
-        );
-        return null;
-      }
-    }
-    // await teamInquiryApi(navigation, controller); //임시로 주석!!
+    profile: team.profileImageURL,
+    chatLink: team.chatLink,
+    myTeamData: team,
   };
-  const pickImageAsync = async () => {
-    if (!status?.granted) {
-      const permission = await requestPermission();
-      if (!permission.granted) {
-        Alert.alert(
-          "사진 라이브러리 접근이 거부됨",
-          "설정>we-meet에서 사진 권한을 설정해주세요."
-        );
-        return null;
-      }
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({
-      //finetune필요
-      quality: 1,
-      aspect: [1, 1],
-      allowsMultipleSelection: true,
-      orderedSelection: true, //only for iOS
-      selectionLimit: 10, //최대 10장까지만 선택가능하다고 알려주기
-    });
-    if (!result.canceled) {
-      console.log(result.assets);
-      setImages(result.assets);
-    } else console.log("사진을 선택하지 않음");
-  };
-  const onPress = async () => {
-    //수정하기, 사진 등록하기 버튼 눌렀을 경우 -> API요청 보내야함
-    //API에 result.assets[0]이 담긴 객체인 profileImg 객체 넘겨주기!!
-    const res = await teamGenerateApi(
-      images,
-      sampleData,
-      navigation,
-      controller
-    );
-    console.log("MyTeamScreen, teamGenerateApi result :", res);
-    if (res) {
-      // dispatch(setHasMainProfileImage(true));
-      // navigation.dispatch(
-      //   CommonActions.reset({
-      //     index: 0,
-      //     routes: [{ name: "Additional" }],
-      //   })
-      // );
-    }
-  };
-  useEffect(() => {
-    console.log("MyTeamScreen mounted");
-    onMount();
-    return () => {
-      console.log("MyTeamScreen unmounted");
-      controller.abort();
-    };
-  }, []);
+  console.log(card);
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
     >
-      <Text>
-        MyTeamScreen(임시) : (팀이 있는 경우) 팀 생성 화면 , (팀이 없는 경우) 팀
-        조회 & 팀 삭제
-      </Text>
-      <Button title={"임시 사진등록"} onPress={pickImageAsync} />
-      {/* {status.granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
-      <Button title={"팀 생성하기"} onPress={onPress} />
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
-        {images.map((image, index) => {
-          console.log(image.uri);
-          return (
-            <Image
-              key={index}
-              source={{ uri: image.uri }}
-              style={{ width: 100, height: 100 }}
-            />
-          );
-        })}
+      <View style={styles.logoContainer}>
+        <Logo width={90} height={20} />
+      </View>
+
+      <View style={styles.infoContainer}>
+        <Text style={styles.text1}>미팅 준비 완료🔥</Text>
+        <Text style={styles.text2}>
+          다른 팀에게는 아래 카드로 소개되고 있어!
+        </Text>
+      </View>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Card card={card} navigation={navigation} myTeam />
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    paddingHorizontal: "6%",
+    paddingVertical: 10,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  infoContainer: {
+    // flex: 1,
+    // justifyContent: "center",
+    paddingHorizontal: "6%",
+    // alignItems: "center",
+  },
+  text1: {
+    paddingVertical: 15,
+    fontSize: 24,
+    fontFamily: "pretendard600",
+    color: "white",
+  },
+  text2: {
+    paddingVertical: 5,
+    fontSize: 17,
+    fontFamily: "pretendard400",
+    color: "#8E8E8E",
+    // textAlign: "center",
+  },
+  buttonContainer: {
+    marginTop: 20,
+    width: "88%",
+    paddingVertical: 12,
+    backgroundColor: subColorPink,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+});
 
 export default MyTeamScreen;

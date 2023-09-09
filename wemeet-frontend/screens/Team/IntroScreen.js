@@ -14,6 +14,7 @@ import commonStyles, { mainColor } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setIntroduction, resetState } from "../../redux/teamGenerateSlice";
+import { setHasTeam } from "../../redux/persistSlice";
 import { teamGenerateApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 
@@ -39,6 +40,7 @@ const IntroScreen = ({ navigation }) => {
       console.log("IntroScreen, teamGenerateApi result :", res);
       if (res) {
         // dispatch(resetState(true));
+        dispatch(setHasTeam(true));
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

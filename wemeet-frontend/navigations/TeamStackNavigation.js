@@ -15,7 +15,7 @@ import DrinkGameScreen from "../screens/Team/DrinkGameScreen";
 import IntroScreen from "../screens/Team/IntroScreen";
 import ChatLinkScreen from "../screens/Team/ChatLinkScreen";
 import MemberModalScreen from "../screens/Team/MemberModalScreen";
-
+import MyTeamDetailScreen from "../screens/Team/MyTeamDetailScreen";
 const TeamStackNavigation = () => {
   const Stack = createStackNavigator();
   return (
@@ -40,7 +40,9 @@ const TeamStackNavigation = () => {
       <Stack.Screen name="DrinkGame" component={DrinkGameScreen} />
       <Stack.Screen name="Intro" component={IntroScreen} />
       <Stack.Screen name="ChatLink" component={ChatLinkScreen} />
-      {/* <Stack.Screen name="tmp" component={MyTeamScreen} /> */}
+      <Stack.Screen name="MyGroup" component={MyTeamScreen} />
+      <Stack.Screen name="MyTeamDetail" component={MyTeamDetailScreen} />
+      {/* navigation쓸때조심!!! */}
     </Stack.Navigator>
   );
 };
