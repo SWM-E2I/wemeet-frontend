@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions, Alert } from "react-native";
+import { View, StyleSheet, Dimensions, Alert, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
 import commonStyles, {
@@ -27,6 +27,7 @@ const swiperHeightPercentage = 0.7;
 // console.log(WIDTH, HEIGHT);
 
 const HomeScreen = ({ navigation }) => {
+  console.log("Device height : ", HEIGHT, "Device width : ", WIDTH);
   //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경ㅇ우 빈 하트)
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
   // const [progress, setProgress] = useState(0);
@@ -54,7 +55,10 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   return (
     <SafeAreaView
-      style={commonStyles.safeAreaView} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
+      style={[
+        commonStyles.safeAreaView,
+        Platform.OS == "android" ? { paddingTop: 0 } : null,
+      ]} //안드로이드 버그 해결 -> why?
     >
       {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
       <AboveContainer navigation={navigation} />

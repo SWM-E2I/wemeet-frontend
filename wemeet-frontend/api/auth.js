@@ -58,7 +58,7 @@ const storeAccessToken = async (response) => {
       "refreshToken",
       response.headers.refreshtoken
     );
-    console.log("accessToken, refreshToken 저장완료");
+    console.log("accessToken, refreshToken 저장완료 :", response.headers);
   } catch (err) {
     console.log(err);
   }

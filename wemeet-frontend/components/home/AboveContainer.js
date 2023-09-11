@@ -7,6 +7,8 @@ import {
   FlatList,
   Dimensions,
   Image,
+  TouchableOpacity,
+  Linking,
 } from "react-native";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -26,24 +28,171 @@ import { creditInquiryApi } from "../../api/signal";
 const WIDTH = Dimensions.get("window").width;
 const BANNER_WIDTH = WIDTH * 0.88;
 const bannerData = [
-  //id -> string
-  //최소 3개 이상 배너가 필요 -> 자연스러움
+  // id -> string
+  // 최소 3개 이상 배너가 필요 -> 자연스러움
   {
     id: "1",
-    text: "매일 밤 11:11분\n새로운 친구들을 만나봐!",
+    // source: "../../assets/banners/banner1.png",
+    onPress: () => {},
   },
   {
     id: "2",
-    text: "좋아요는 오늘 한번만!\n하트로 상대팀에게 우리를 알려봐!",
+    // source: "../../assets/banners/banner2.png",
+    onPress: () => {
+      Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
+        console.error(
+          "AboveContainer : An error occurred while opening browswer",
+          err
+        )
+      );
+    },
   },
   {
-    //임시 - 광고 배너 예시
     id: "3",
-    uri: "https://blog.rocketpunch.com/wp-content/uploads/2020/04/%EA%B8%B0%EC%97%85%EA%B4%91%EA%B3%A0%EB%B0%B0%EB%84%88-scaled.jpg",
+    // source: "../../assets/banners/banner3.png",
+    onPress: () => {
+      Linking.openURL("https://www.instagram.com/wemeet__official/").catch(
+        (err) =>
+          console.error(
+            "AboveContainer : An error occurred while opening browswer",
+            err
+          )
+      );
+    },
   },
 ];
-
 const renderItem = ({ item, index }) => {
+  switch (index + 1) {
+    case 1:
+      return (
+        <TouchableOpacity
+          style={{
+            width: BANNER_WIDTH,
+            height: "100%",
+            backgroundColor: subColorBlack,
+            alignItems: "flex-end",
+          }}
+          key={index}
+          disabled={true}
+        >
+          <Image
+            key={index}
+            source={require("../../assets/banners/banner1.png")}
+            style={{ width: BANNER_WIDTH - 1, height: "100%" }}
+            resizeMode={"cover"}
+          ></Image>
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              width: 35,
+              height: 22,
+              borderTopLeftRadius: 4,
+              backgroundColor: "rgba(19, 19, 19, 0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 10,
+              }}
+            >
+              {index + 1}/{bannerData.length}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+      break;
+    case 2:
+      return (
+        <TouchableOpacity
+          style={{
+            width: BANNER_WIDTH,
+            height: "100%",
+            backgroundColor: subColorBlack,
+            alignItems: "flex-end",
+          }}
+          key={index}
+          onPress={item.onPress}
+        >
+          <Image
+            key={index}
+            source={require("../../assets/banners/banner2.png")}
+            style={{ width: BANNER_WIDTH - 1, height: "100%" }}
+            resizeMode={"cover"}
+          ></Image>
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              width: 35,
+              height: 22,
+              borderTopLeftRadius: 4,
+              backgroundColor: "rgba(19, 19, 19, 0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 10,
+              }}
+            >
+              {index + 1}/{bannerData.length}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+      break;
+    case 3:
+      return (
+        <TouchableOpacity
+          style={{
+            width: BANNER_WIDTH,
+            height: "100%",
+            backgroundColor: subColorBlack,
+            alignItems: "flex-end",
+          }}
+          key={index}
+          onPress={item.onPress}
+        >
+          <Image
+            key={index}
+            source={require("../../assets/banners/banner3.png")}
+            style={{ width: BANNER_WIDTH - 1, height: "100%" }}
+            resizeMode={"cover"}
+          ></Image>
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              width: 35,
+              height: 22,
+              borderTopLeftRadius: 4,
+              backgroundColor: "rgba(19, 19, 19, 0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 10,
+              }}
+            >
+              {index + 1}/{bannerData.length}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+      break;
+  }
   return item.text ? (
     <View
       key={index}
@@ -89,44 +238,7 @@ const renderItem = ({ item, index }) => {
       </View>
     </View>
   ) : (
-    <View
-      style={{
-        width: BANNER_WIDTH,
-        height: "100%",
-        backgroundColor: subColorBlack,
-        alignItems: "flex-end",
-      }}
-      key={index}
-    >
-      <Image
-        key={index}
-        source={{ uri: item.uri }}
-        style={{ width: BANNER_WIDTH - 1, height: "100%" }}
-        resizeMode={"cover"}
-      ></Image>
-      <View
-        style={{
-          position: "absolute",
-          right: 0,
-          bottom: 0,
-          width: 35,
-          height: 22,
-          borderTopLeftRadius: 4,
-          backgroundColor: "rgba(19, 19, 19, 0.5)",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontSize: 10,
-          }}
-        >
-          {index + 1}/{bannerData.length}
-        </Text>
-      </View>
-    </View>
+    <></>
   );
 };
 const swiperHeightPercentage = 0.7;
@@ -234,11 +346,11 @@ const AboveContainer = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1 - swiperHeightPercentage,
-    // paddingTop:
-    //   Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
+    // paddingTop:  Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
     // backgroundColor: mainColor,
     justifyContent: "space-around",
+    // justifyContent: "flex-start",
     backgroundColor: subColorBlack,
   },
   logoContainer: {
@@ -247,6 +359,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    // backgroundColor: "black",
   },
   banner: {
     marginTop: 10,

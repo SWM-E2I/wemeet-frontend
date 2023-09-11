@@ -22,7 +22,7 @@ const WIDTH = Dimensions.get("window").width;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation, end }) => {
+const HomeCard = ({ card, navigation, end, short }) => {
   console.log(card);
   const controller = new AbortController();
   const onPress = async () => {
@@ -32,6 +32,7 @@ const HomeCard = ({ card, navigation, end }) => {
   useEffect(() => {
     return () => {
       controller.abort();
+      //dfs
     };
   }, []);
   return !end ? (

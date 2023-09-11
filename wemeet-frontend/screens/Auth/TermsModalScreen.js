@@ -62,7 +62,7 @@ const TermsModalScreen = ({ navigation, route }) => {
         <Text
           style={{
             color: "white",
-            fontSize: 17,
+            fontSize: 25,
             fontFamily: "pretendard600",
             marginBottom: 5,
             alignSelf: "center",
@@ -72,8 +72,8 @@ const TermsModalScreen = ({ navigation, route }) => {
         </Text>
         <Text
           style={{
-            color: "white",
-            fontSize: 15,
+            color: "#9C9C9C",
+            fontSize: 17,
             fontFamily: "pretendard500",
             alignSelf: "center",
           }}
@@ -88,7 +88,11 @@ const TermsModalScreen = ({ navigation, route }) => {
           onPress={handleAllCheckboxToggle}
           color={"white"}
           uncheckedColor={"white"}
-          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
+          labelStyle={{
+            fontFamily: "pretendard500",
+            color: "white",
+            textAlign: "left",
+          }}
         />
         <Checkbox.Item
           status={checked[0] ? "checked" : "unchecked"}

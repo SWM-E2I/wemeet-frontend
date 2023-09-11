@@ -54,7 +54,12 @@ const MyTeamScreen = ({ navigation, team }) => {
           다른 팀에게는 아래 카드로 소개되고 있어!
         </Text>
       </View>
-      <View style={{ flex: 1, justifyContent: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
         <Card card={card} navigation={navigation} myTeam />
       </View>
     </SafeAreaView>
@@ -77,7 +82,8 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   text1: {
-    paddingVertical: 15,
+    paddingTop: 15,
+    paddingBottom: 5,
     fontSize: 24,
     fontFamily: "pretendard600",
     color: "white",

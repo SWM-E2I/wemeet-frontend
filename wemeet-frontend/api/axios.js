@@ -29,6 +29,11 @@ axiosDefault.interceptors.response.use(
 const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
+  console.log(
+    "refresh 실행, accessToken, refreshToken :",
+    accessToken,
+    refreshToken
+  );
   try {
     const response = await axiosDefault.post(
       "/auth/refresh",

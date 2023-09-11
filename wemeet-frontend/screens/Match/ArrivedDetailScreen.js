@@ -181,7 +181,10 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView
-      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+      style={[
+        commonStyles.safeAreaView,
+        { backgroundColor: mainColor, paddingTop: 0 },
+      ]}
     >
       <ScrollView
         style={{ flex: 1 }}

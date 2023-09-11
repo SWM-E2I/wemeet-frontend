@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
     borderRadius: cardBorderRadius,
-    alignItems: "center",
+    // alignItems: "center",
     alignSelf: "center",
     marginBottom: 24,
     elevation: 5, //for android

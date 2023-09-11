@@ -35,7 +35,6 @@ const LeaderCard = ({
             style={styles.profileImage}
             resizeMode={"cover"}
           />
-
           <View
             style={{
               flex: 1,
