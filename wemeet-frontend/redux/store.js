@@ -5,6 +5,7 @@ import preferSlice from "./preferSlice.js";
 import profileSlice from "./profileSlice.js";
 import teamGenerateSlice from "./teamGenerateSlice.js";
 import suggestSlice from "./suggestSlice.js";
+import signalSlice from "./signalSlice.js";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     profile: profileSlice.reducer,
     teamGenerate: teamGenerateSlice.reducer,
     suggest: suggestSlice.reducer,
+    signal: signalSlice.reducer,
   },
 });
 

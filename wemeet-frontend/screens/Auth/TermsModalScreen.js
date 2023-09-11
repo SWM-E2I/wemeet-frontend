@@ -49,7 +49,7 @@ const TermsModalScreen = ({ navigation, route }) => {
         style={{
           // flex: 1,
           justifyContent: "center",
-          alignItems: "center",
+          // alignItems: "center",
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
           borderWidth: 1,
@@ -65,12 +65,18 @@ const TermsModalScreen = ({ navigation, route }) => {
             fontSize: 17,
             fontFamily: "pretendard600",
             marginBottom: 5,
+            alignSelf: "center",
           }}
         >
           {title}
         </Text>
         <Text
-          style={{ color: "white", fontSize: 15, fontFamily: "pretendard500" }}
+          style={{
+            color: "white",
+            fontSize: 15,
+            fontFamily: "pretendard500",
+            alignSelf: "center",
+          }}
         >
           {subtitle}
         </Text>
@@ -100,7 +106,11 @@ const TermsModalScreen = ({ navigation, route }) => {
           }}
           color={"white"}
           uncheckedColor={"white"}
-          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
+          labelStyle={{
+            fontFamily: "pretendard500",
+            color: "white",
+            textAlign: "left",
+          }}
         />
         <Checkbox.Item
           status={checked[1] ? "checked" : "unchecked"}
@@ -118,7 +128,11 @@ const TermsModalScreen = ({ navigation, route }) => {
           }}
           color={"white"}
           uncheckedColor={"white"}
-          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
+          labelStyle={{
+            fontFamily: "pretendard500",
+            color: "white",
+            textAlign: "left",
+          }}
         />
         <Checkbox.Item
           status={checked[2] ? "checked" : "unchecked"}
@@ -136,7 +150,11 @@ const TermsModalScreen = ({ navigation, route }) => {
           }}
           color={"white"}
           uncheckedColor={"white"}
-          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
+          labelStyle={{
+            fontFamily: "pretendard500",
+            color: "white",
+            textAlign: "left",
+          }}
         />
         <Checkbox.Item
           status={checked[3] ? "checked" : "unchecked"}
@@ -154,7 +172,11 @@ const TermsModalScreen = ({ navigation, route }) => {
           }}
           color={"white"}
           uncheckedColor={"white"}
-          labelStyle={{ fontFamily: "pretendard500", color: "white" }}
+          labelStyle={{
+            fontFamily: "pretendard500",
+            color: "white",
+            textAlign: "left",
+          }}
         />
         <NextButton
           text={"동의하고 진행하기"}

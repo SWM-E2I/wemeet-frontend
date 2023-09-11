@@ -34,7 +34,8 @@ export const suggestionApi = async (navigation, controller) => {
       return response.data.data;
     } else if (response.data.code == 40035) {
       console.log("suggestionApi :", response.data.message);
-      return 40035;
+      Alert.alert("오류", "\n이미 오늘의 추천을 모두 받았어!");
+      return false;
     } else console.log("suggestionApi :", response.data.message);
   } catch (err) {
     axiosCatch(err, "suggestionApi", navigation);
@@ -72,21 +73,22 @@ export const likeApi = async (teamId, navigation, controller) => {
     if (response.data.status == "SUCCESS") {
       Alert.alert("좋아요 전송 성공", "오늘의 좋아요는 여기까지야!");
       return true;
-    } else if ((response.data.status = "FAIL" && response.data.code == 40029)) {
+    } else if (response.data.status == "FAIL" && response.data.code == 40029) {
       Alert.alert("팀을 생성해줘", "본인 팀이 없으면 좋아요를 보낼 수 없어");
-    } else if ((response.data.status = "FAIL" && response.data.code == 40034)) {
+    } else if (response.data.status == "FAIL" && response.data.code == 40034) {
       Alert.alert("본인 팀에게는 좋아요를 보낼 수 없어");
-    } else if ((response.data.status = "FAIL" && response.data.code == 40033)) {
+    } else if (response.data.status == "FAIL" && response.data.code == 40033) {
       Alert.alert(
         "이미 오늘의 좋아요를 모두 소진했어!",
         "좋아요는 하루에 한번만 보낼 수 있어"
       );
-    }
+    } else Alert.alert("좋아요 전송 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "likeApi", navigation);
+    Alert.alert("좋아요 전송 실패", "잠시 후에 다시 시도해줘");
     return false;
   }
-  Alert.alert("좋아요 실패", "잠시 후에 다시 시도해줘!");
+
   return false;
 };
 
@@ -99,10 +101,11 @@ export const requestApi = async (teamId, navigation, controller) => {
     );
     if (response.data.status == "SUCCESS") {
       return true;
-    } else if ((response.data.status = "FAIL" && response.data.code == 40029)) {
+    } else if (response.data.status == "FAIL" && response.data.code == 40029) {
       Alert.alert("팀을 생성해줘", "본인 팀이 없으면 좋아요를 보낼 수 없어");
-    } else if ((response.data.status = "FAIL"))
-      Alert.alert("요청 실패", response.data?.message);
+    } else if (response.data.status == "FAIL" && response.data.code == 40304)
+      Alert.alert("요청 실패", "사용 가능한 크레딧이 부족해!");
+    else Alert.alert("요청 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "requestApi", navigation);
     return false;
@@ -116,5 +119,22 @@ export const requestMessageApi = async (
   navigation,
   controller
 ) => {
-  return true;
+  try {
+    const response = await axiosPrivate.post(
+      REQUEST_MESSAGE_URL,
+      { partnerTeamId: teamId, message: message },
+      { signal: controller.signal }
+    );
+    if (response.data.status == "SUCCESS") {
+      return true;
+    } else if (response.data.code == 40029) {
+      Alert.alert("팀을 생성해줘", "본인 팀이 없으면 좋아요를 보낼 수 없어");
+    } else if (response.data.code == 40304)
+      Alert.alert("요청 실패", "사용 가능한 크레딧이 부족해!");
+    else Alert.alert("요청 실패", response.data?.message);
+  } catch (err) {
+    axiosCatch(err, "requestMessageApi", navigation);
+    return false;
+  }
+  return false;
 };

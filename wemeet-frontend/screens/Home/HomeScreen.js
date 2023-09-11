@@ -31,8 +31,8 @@ const HomeScreen = ({ navigation }) => {
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
   // const [progress, setProgress] = useState(0);
   const cardData = useSelector((state) => state.suggest.cards);
-  console.log([...cardData, { end: true, teamId: -1 }]);
-  const apiCardData = [...cardData, { end: true }];
+  // const [apiCardData, setApiCardData] = useState([]) // 이후 useEffect로 관리 -> 아래 코드는 일회성, 추가로 추천을 받거나 하면..ㅇㅇ 필요
+  const apiCardData = [...cardData, { end: true, teamId: -1 }]; //수정필요함!! cardData의 업데이트 내용을 반영하지 못해!!
 
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
       style={commonStyles.safeAreaView} //주석 친 부분을 사용하면 이상하게 배치 되는 이유?
     >
       {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
-      <AboveContainer />
+      <AboveContainer navigation={navigation} />
       <View style={styles.swiperContainer}>
         {recommended ? (
           <Swiper
@@ -72,8 +72,8 @@ const HomeScreen = ({ navigation }) => {
               />
             )}
             cardIndex={0}
-            stackSize={2}
-            horizontalSwipe
+            stackSize={apiCardData.length == 1 ? 1 : 2}
+            horizontalSwipe={apiCardData.length == 1 ? false : true}
             verticalSwipe={false}
             swipeAnimationDuration={500}
             stackSeparation={20} //얼마로 해야할지 다시 무렁보기
@@ -86,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
             infinite //임시
             backgroundColor={subColorBlack}
             showSecondCard
-            cardVerticalMargin={5}
+            cardVerticalMargin={20} //작은 화면일땐 어떨지... SE로 확인 ㅠ
             stackAnimationFriction={4}
             stackAnimationTension={10}
           />

@@ -16,6 +16,7 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import MatchDoneModalScreen from "../screens/Match/MatchDoneModalScreen";
+import LikeMatchRequestModalScreen from "../screens/Match/LikeMatchRequestModalScreen";
 
 const LikeStackNavigation = () => {
   const Stack = createStackNavigator();
@@ -31,6 +32,14 @@ const LikeStackNavigation = () => {
         component={LikeDetailScreen}
         options={{
           ...TransitionPresets.RevealFromBottomAndroid,
+        }}
+      />
+      <Stack.Screen
+        name="LikeMatchRequestModal"
+        component={LikeMatchRequestModalScreen}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
         }}
       />
     </Stack.Navigator>

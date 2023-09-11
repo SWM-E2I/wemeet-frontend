@@ -19,6 +19,10 @@ import {
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import Logo from "../../assets/vectors/Logo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setSignal } from "../../redux/signalSlice";
+import { creditInquiryApi } from "../../api/signal";
+
 const WIDTH = Dimensions.get("window").width;
 const BANNER_WIDTH = WIDTH * 0.88;
 const bannerData = [
@@ -127,7 +131,10 @@ const renderItem = ({ item, index }) => {
 };
 const swiperHeightPercentage = 0.7;
 
-const AboveContainer = () => {
+const AboveContainer = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const controller = new AbortController();
+  const signal = useSelector((state) => state.signal.signal);
   const flatlistRef = useRef();
   const [activeIndex, setActiveIndex] = useState(0);
   const handleScroll = (e) => {
@@ -139,7 +146,16 @@ const AboveContainer = () => {
     offset: BANNER_WIDTH * index,
     index: index,
   });
-
+  const onMount = async () => {
+    let res = await creditInquiryApi(navigation, controller);
+    if (res) {
+      dispatch(setSignal(res));
+    }
+  };
+  useEffect(() => {
+    onMount();
+    return () => controller.abort();
+  }, []);
   useEffect(() => {
     if (activeIndex === null) return;
     let interval = setInterval(() => {
@@ -181,7 +197,7 @@ const AboveContainer = () => {
           <Text
             style={{ fontSize: 15, color: subColorPink, fontWeight: "bold" }}
           >
-            25
+            {signal}
           </Text>
           {/* 임시 시그널수 */}
         </View>
@@ -222,10 +238,11 @@ const styles = StyleSheet.create({
     //   Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
     // backgroundColor: mainColor,
+    justifyContent: "space-around",
     backgroundColor: subColorBlack,
   },
   logoContainer: {
-    flex: 0.2,
+    // flex: 0.2,
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
@@ -233,14 +250,15 @@ const styles = StyleSheet.create({
   },
   banner: {
     marginTop: 10,
-    flex: 0.35,
+    // flex: 0.35,
+    height: (70 * BANNER_WIDTH) / 345,
     width: "100%",
     backgroundColor: "rgba(255,255,255,0.1)",
     borderRadius: 8,
     overflow: "hidden",
   },
   guidance: {
-    flex: 0.45,
+    // flex: 0.45,
     // backgroundColor: subColorBlue,
     width: "100%",
     justifyContent: "center",

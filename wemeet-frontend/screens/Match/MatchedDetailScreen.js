@@ -4,10 +4,12 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  StyleSheet,
   ScrollView,
   Dimensions,
   Alert,
   FlatList,
+  Button,
   Linking,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
@@ -25,34 +27,20 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-// import { WebView } from "react-native-webview";
-const photos = [
-  {
-    id: "1",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfNDYg/MDAxNjkyODA1ODg3ODk0.n6cRg9v9h7Ho_9iwpRsafMVa4Y5rHKjcGvEL9ocZ7oMg.V1YeJJzuqhWilgO0QTsUD8mnfltP40DfJ_MerQUpQ-kg.PNG.seyun1052/IMG_1753.png?type=w966",
-  },
-  {
-    id: "2",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjE1/MDAxNjkyODA1ODg3MjE3.UXElZj6UgRVXF21yLPHJ-XAz-vveNyOeW8F_kiM2rW0g.pWtg3NK1C28Bn54qCNFT1PLKjK1tQa_wqNhxcZjtyBog.PNG.seyun1052/IMG_6833_1.png?type=w966",
-  },
-  {
-    id: "3",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMzIg/MDAxNjkyODA1ODg3MTQ4.c4Li2zQ_F_ud7tO35SFd0s8G5_-8by0RbKeuy-0ghmcg.buhP6fJn15m0tI4TfvKAj07A8yxgXl3irZrMDvGjZCsg.PNG.seyun1052/IMG_5176_1_(1).png?type=w966",
-  },
-  {
-    id: "4",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfNjYg/MDAxNjkyODA1ODg3NTM0.m23CZxkvpg-wOxYbO5uZ_k4io8f_qBPErybf_lMRFhAg.Xnxc5Bsptqd1LFi8a5eUnzaN4_WimNnkhbUbZ91sp4Yg.PNG.seyun1052/image_47.png?type=w966",
-  },
-  {
-    id: "5",
-    uri: "https://postfiles.pstatic.net/MjAyMzA4MjRfMjM4/MDAxNjkyODA1ODg3NTkz.H-Xmg_BQzsgBadITXt0E7pc9AEyOERWW0ERII6XrnaEg.Vn8XzaIBpHY38-oVLDwZVy8bRAJxbPPGtgIlhXLn-OYg.PNG.seyun1052/image_71.png?type=w966",
-  },
-];
+import { detailApi } from "../../api/home";
+import {
+  regionDict,
+  collegeObj,
+  drinkRateDict,
+  drinkWithGameDict,
+} from "../../assets/datasets";
+import { acceptApi, rejectApi } from "../../api/match";
+import { CommonActions } from "@react-navigation/native";
+
 const renderItem = ({ item, index }) => {
   return (
-    <View>
+    <View key={item.id}>
       <Image
-        key={index}
         source={{
           uri: item.uri,
         }}
@@ -77,21 +65,72 @@ const renderItem = ({ item, index }) => {
     </View>
   );
 };
-
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const MatchedDetailScreen = ({ navigation }) => {
+
+const defaultTeamInfo = {
+  chatLink: "https://www.naver.com", //임시
+  teamId: 0,
+  isDeleted: true,
+  memberNum: null,
+  region: null,
+  drinkRate: null,
+  drinkWithGame: null,
+  additionalActivity: null,
+  introduction: "-",
+  teamImageUrls: ["www.naver.com"],
+  teamMembers: [
+    {
+      college: null,
+      collegeType: null,
+      admissionYear: null,
+      mbti: null,
+    },
+  ],
+  leader: {
+    leaderId: null,
+    nickname: null,
+    mbti: null,
+    collegeName: null,
+    collegeType: null,
+    admissionYear: null,
+    leaderLowProfileImageUrl: "www.naver.com",
+    imageAuth: false,
+  },
+};
+const MatchedDetailScreen = ({ navigation, route }) => {
+  const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
+  const teamId = route.params.teamId;
+  const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
   const flatlistRef = useRef();
+  const onMount = async () => {
+    let result = await detailApi(teamId, navigation, controller);
+    if (result) {
+      const photos = [];
+      result.teamImageUrls.map((url, index) => {
+        photos.push({ id: index.toString(), uri: url });
+      });
+      setTeamInfo({ ...result, teamImageUrls: photos });
+      console.log("SentDetailScreen :", { ...result, teamImageUrls: photos });
+    } else {
+      setTeamInfo(defaultTeamInfo);
+      // navigation.goBack();
+    }
+  };
+  useEffect(() => {
+    onMount();
+    return () => controller.abort();
+  }, []);
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
   const onMoveToChat = () => {
-    Linking.openURL("https://open.kakao.com/o/gHCGMynf").catch((err) =>
+    Linking.openURL(teamInfo.chatLink).catch((err) =>
       console.error(
         "MatchedDetailScreen : An error occurred while opening browswer",
         err
@@ -99,17 +138,19 @@ const MatchedDetailScreen = ({ navigation }) => {
     );
   };
   return (
-    <View style={{ flex: 1, backgroundColor: mainColor }}>
+    <SafeAreaView
+      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    >
       <ScrollView
         style={{ flex: 1 }}
         // bounces={false} //FOR IOS
-        //overScrollMode={"never"} ///FOR ANDROID
+        //overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
       >
         <FlatList
           //0. 끝에서도 스크롤되는문제
           ref={flatlistRef}
-          data={photos}
+          data={teamInfo.teamImageUrls}
           renderItem={renderItem}
           horizontal
           pagingEnabled={true}
@@ -121,7 +162,6 @@ const MatchedDetailScreen = ({ navigation }) => {
           bounces={false} //FOR IOS
           overScrollMode={"never"} //FOR ANDROID
         />
-
         <View
           style={{
             position: "absolute",
@@ -149,7 +189,6 @@ const MatchedDetailScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-
         <View
           style={{
             justifyContent: "center",
@@ -160,7 +199,11 @@ const MatchedDetailScreen = ({ navigation }) => {
           <PaginationDot
             activeDotColor={"#FC8368"}
             curPage={activeIndex}
-            maxPage={5}
+            maxPage={
+              teamInfo.teamImageUrls.length == 1
+                ? 0
+                : teamInfo.teamImageUrls.length
+            }
             sizeRatio={1}
             style={{ width: 200 }}
           />
@@ -175,12 +218,12 @@ const MatchedDetailScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 30,
-                fontFamily: "pretendard600",
+                fontWeight: 900,
                 color: "white",
               }}
             >
               {/*지역 */}
-              홍대
+              {regionDict[teamInfo.region]}
             </Text>
             <View
               style={{
@@ -190,28 +233,25 @@ const MatchedDetailScreen = ({ navigation }) => {
               }}
             >
               <MaterialIcons name="person" size={30} color={"white"} />
-              <Text
-                style={{
-                  marginLeft: 3,
-                  fontSize: 30,
-                  color: "white",
-                  fontFamily: "pretendard400",
-                }}
-              >
-                {3}
+              <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
+                {teamInfo.memberNum}
                 {/*인원 수 들어가기*/}
               </Text>
             </View>
           </View>
           <LeaderCard
-            nickName={"유닝"}
-            mbti={"ESTJ"}
-            college={"고려대학교"}
-            profile={
-              "https://postfiles.pstatic.net/MjAyMzA4MjRfMTAy/MDAxNjkyODA1ODg3NDk2.trjsam7Hy1G1DS3RZ_4FjLjeMeoKYyPH9eYsQLbzE7Yg.nFBvUSGPnhqr-MULctotoZOQRPasKxk6bFVgFSXj9Hog.PNG.seyun1052/IMG_9022.png?type=w966"
-            }
+            nickName={teamInfo.leader.nickname}
+            mbti={teamInfo.leader.mbti}
+            college={teamInfo.leader.collegeName}
+            collegeType={collegeObj[teamInfo.leader.collegeType]}
+            profile={teamInfo.leader.leaderLowProfileImageUrl}
           />
-          <InfoSection />
+          <InfoSection
+            memberInfo={teamInfo.teamMembers}
+            drinkingRate={drinkRateDict[teamInfo.drinkRate]}
+            drinkWithGame={drinkWithGameDict[teamInfo.drinkWithGame]}
+            intro={teamInfo.introduction}
+          />
         </View>
       </ScrollView>
       <View
@@ -244,11 +284,11 @@ const MatchedDetailScreen = ({ navigation }) => {
               fontFamily: "pretendard600",
             }}
           >
-            오픈 채팅방으로 이동
+            오픈 채팅으로 이동
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

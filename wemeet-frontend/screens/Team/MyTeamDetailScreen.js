@@ -28,9 +28,8 @@ import { teamDeleteApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 const renderItem = ({ item, index }) => {
   return (
-    <View>
+    <View key={item.id}>
       <Image
-        key={index}
         source={{
           uri: item.url,
         }}
@@ -62,7 +61,7 @@ const getItemLayout = (data, index) => ({
 });
 const MyTeamDetailScreen = ({ navigation, route }) => {
   const myTeamData = route.params.myTeamData;
-  console.log(myTeamData);
+  console.log("myTeamDetailScreen :", myTeamData);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatlistRef = useRef();
   const controller = new AbortController();
@@ -193,7 +192,7 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
             mbti={myTeamData.leader.mbti}
             college={myTeamData.leader.college}
             collegeType={""}
-            profile={myTeamData.profileimageURL}
+            profile={myTeamData.profileImageURL}
           />
           <InfoSection
             memberInfo={myTeamData.members}

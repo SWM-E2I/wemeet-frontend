@@ -33,18 +33,32 @@ const Card = ({
   isArrived,
   isMatched,
   myTeam,
+  onPress,
 }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      onPress={() => {
-        //임시,  like, sent, arrived, matched따라 모두 분기해야함
-        if (isArrived) navigation.navigate("ArrivedDetail");
-        else if (isMatched) navigation.navigate("MatchedDetail");
-        else if (myTeam)
-          navigation.navigate("MyTeamDetail", { myTeamData: card.myTeamData });
-        else console.log("isLike or isSent clicked");
-      }}
+      onPress={
+        () => {
+          if (isSent) onPress(card.teamId);
+          else if (isArrived) onPress(card.teamId, card.meetingRequestId);
+          else if (isMatched) onPress(card.teamId);
+          else if (card.teamId) onPress(card.teamId);
+          else if (myTeam)
+            navigation.navigate("MyTeamDetail", {
+              myTeamData: card.myTeamData,
+            });
+        }
+
+        // () => {
+        //   //임시,  like, sent, arrived, matched따라 모두 분기해야함
+        //   if (isArrived) navigation.navigate("ArrivedDetail");
+        //   else if (isMatched) navigation.navigate("MatchedDetail");
+        //   else if (myTeam)
+        //     navigation.navigate("MyTeamDetail", { myTeamData: card.myTeamData });
+        //   else console.log("isLike or isSent clicked");
+        // }
+      }
       style={[styles.card, style]}
     >
       <View style={{ overflow: "hidden" }}>
@@ -65,6 +79,7 @@ const Card = ({
             flexDirection: "row",
           }}
         />
+
         {isLike && (
           //임시!!
           <View style={styles.likeInfoContainer}>
@@ -75,7 +90,9 @@ const Card = ({
               // color={"#575757"}
               color={"white"}
             />
-            <Text style={styles.infoText}>만료까지 23시간</Text>
+            <Text
+              style={styles.infoText}
+            >{`만료까지 ${card.timeLeft}시간 남음`}</Text>
           </View>
         )}
         {isSent && (
@@ -85,7 +102,8 @@ const Card = ({
                 position: "absolute",
                 left: "5%",
                 top: "3%",
-                backgroundColor: subColorBlack,
+                backgroundColor:
+                  card.daysLeft == 0 ? subColorPink : subColorBlack,
                 paddingHorizontal: 10,
                 paddingVertical: 6,
                 borderRadius: 4,
@@ -106,7 +124,8 @@ const Card = ({
                 position: "absolute",
                 right: "5%",
                 top: "3%",
-                backgroundColor: subColorBlack,
+                backgroundColor:
+                  card.daysLeft == 0 ? subColorPink : subColorBlack,
                 paddingHorizontal: 10,
                 paddingVertical: 6,
                 borderRadius: 4,
@@ -119,7 +138,7 @@ const Card = ({
                   color: "white",
                 }}
               >
-                D-3
+                {`D-${card.daysLeft}`}
               </Text>
             </View>
           </>
@@ -132,7 +151,8 @@ const Card = ({
                 position: "absolute",
                 left: "5%",
                 top: "3%",
-                backgroundColor: subColorBlack,
+                backgroundColor:
+                  card.daysLeft == 0 ? subColorPink : subColorBlack,
                 paddingHorizontal: 10,
                 paddingVertical: 6,
                 borderRadius: 4,
@@ -153,7 +173,8 @@ const Card = ({
                 position: "absolute",
                 right: "5%",
                 top: "3%",
-                backgroundColor: subColorBlack,
+                backgroundColor:
+                  card.daysLeft == 0 ? subColorPink : subColorBlack,
                 paddingHorizontal: 10,
                 paddingVertical: 6,
                 borderRadius: 4,
@@ -166,7 +187,7 @@ const Card = ({
                   color: "white",
                 }}
               >
-                D-3
+                {`D-${card.daysLeft}`}
               </Text>
             </View>
           </>
@@ -178,7 +199,7 @@ const Card = ({
               position: "absolute",
               left: "5%",
               top: "3%",
-              backgroundColor: subColorBlack,
+              backgroundColor: subColorPink,
               paddingHorizontal: 10,
               paddingVertical: 6,
               borderRadius: 4,
@@ -276,7 +297,7 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
     // backgroundColor: mainColor
     // marginVertical: "10%",
-    //   "linear-gradient(180deg, rgba(39, 39, 39, 0.70) 0%, rgba(19, 20, 23, 0.70) 100%)",
+    // "linear-gradient(180deg, rgba(39, 39, 39, 0.70) 0%, rgba(19, 20, 23, 0.70) 100%)",
   },
   cardImage: {
     aspectRatio: 1,

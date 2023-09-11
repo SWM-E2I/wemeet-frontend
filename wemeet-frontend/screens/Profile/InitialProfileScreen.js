@@ -24,7 +24,8 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import { myProfileInquiryApi } from "../../api/myProfile";
-
+import { creditInquiryApi } from "../../api/signal";
+import { setSignal } from "../../redux/signalSlice";
 const InitialProfileScreen = ({ navigation }) => {
   // const [profileData, setProfileData] = useState(defaultProfileData); //리스트 형태
   const controller = new AbortController();
@@ -34,7 +35,7 @@ const InitialProfileScreen = ({ navigation }) => {
   const emailAuthenticated = useSelector(
     (state) => state.persist.emailAuthenticated
   );
-
+  const signal = useSelector((state) => state.signal.signal);
   const setPhoto = () => {
     navigation.navigate("PhotoSet", {
       toProfile: true,
@@ -44,6 +45,10 @@ const InitialProfileScreen = ({ navigation }) => {
     let result = await myProfileInquiryApi(navigation, controller);
     if (result) {
       dispatch(setProfileData(result));
+    }
+    let res = await creditInquiryApi(navigation, controller);
+    if (res) {
+      dispatch(setSignal(res));
     }
   };
   const [refreshing, setRefreshing] = useState(false); // 새로고침 상태를 나타내는 상태 변수
@@ -103,7 +108,7 @@ const InitialProfileScreen = ({ navigation }) => {
             />
           ) : (
             <TouchableOpacity style={styles.imageContainer} onPress={setPhoto}>
-              <Text style={styles.imageText}>사진을 등록해줘!</Text>
+              <Text style={styles.imageText}>사진 등록하기</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
@@ -245,7 +250,7 @@ const InitialProfileScreen = ({ navigation }) => {
               fontFamily: "pretendard600",
             }}
           >
-            -
+            {signal}
           </Text>
           {/* <View
             style={{
@@ -273,6 +278,7 @@ const InitialProfileScreen = ({ navigation }) => {
         <TouchableOpacity
           style={{
             paddingVertical: 20,
+            paddingTop: 10,
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",

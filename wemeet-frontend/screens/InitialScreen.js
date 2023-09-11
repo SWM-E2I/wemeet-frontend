@@ -6,8 +6,9 @@ import commonStyles from "../styles/commonStyles.js";
 
 const title = "위치기반\n대학생 미팅 매칭 서비스,\n위밋";
 const body = "회원가입하고 시그널받기!";
-const bottom = "회원가입하고 시그널받기!";
-const InitialScreen = ({ navigation }) => {
+// const bottom = "회원가입하고 시그널받기!";
+const bottom = "";
+function InitialScreen({ navigation }) {
   const onPress = () => {
     //수정 필요 -> 분기하기!
     navigation.replace("PhoneNum");
@@ -32,7 +33,7 @@ const InitialScreen = ({ navigation }) => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   containerTitle: {

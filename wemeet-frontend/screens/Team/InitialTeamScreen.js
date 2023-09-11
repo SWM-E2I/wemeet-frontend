@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import NoTeamScreen from "./NoTeamScreen";
 import { teamInquiryApi } from "../../api/team";
 import MyTeamScreen from "./MyTeamScreen";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setHasTeam } from "../../redux/persistSlice";
 const defaultTeam = {
   memberNum: "-",
   region: "-",
@@ -34,13 +35,17 @@ const defaultTeam = {
   },
 };
 const InitialTeamScreen = ({ navigation }) => {
-  const [hasTeam, setHasTeam] = useState(false);
+  const dispatch = useDispatch();
+  const [myTeam, setMyTeam] = useState(false); //임시, hasTeam
   const [team, setTeam] = useState(defaultTeam);
   const controller = new AbortController();
   const onMount = async () => {
     let result = await teamInquiryApi(navigation, controller);
-    setHasTeam(result.hasTeam);
-    setTeam(result.team);
+    if (result) {
+      dispatch(setHasTeam(result.hasTeam));
+      setTeam(result.team);
+      setMyTeam(true);
+    } else setMyTeam(false);
   };
   useEffect(() => {
     //inquiryApi 미완
@@ -49,7 +54,7 @@ const InitialTeamScreen = ({ navigation }) => {
       controller.abort();
     };
   }, []);
-  return hasTeam ? (
+  return myTeam ? (
     <MyTeamScreen navigation={navigation} team={team} />
   ) : (
     <NoTeamScreen navigation={navigation} />

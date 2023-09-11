@@ -24,7 +24,8 @@ const MyTeamScreen = ({ navigation, team }) => {
   //     controller.abort();
   //   };
   // }, []);
-  console.log(team);
+  console.log("MyTeamScreen :", team);
+
   const card = {
     mainImageURL: team.images[0].url,
     region: team.region,
@@ -34,7 +35,7 @@ const MyTeamScreen = ({ navigation, team }) => {
       mbti: team.leader.mbti,
       college: team.leader.college,
     },
-    profile: team.profileImageURL,
+    profileImageURL: team.profileImageURL,
     chatLink: team.chatLink,
     myTeamData: team,
   };

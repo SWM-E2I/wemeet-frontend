@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Animated,
   StyleSheet,
   ScrollView,
   Dimensions,
@@ -25,37 +24,19 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-const photos = [
-  {
-    id: "1",
-    uri: "https://newsimg.sedaily.com/2023/07/26/29SA59WGN7_1.jpg",
-  },
-  {
-    id: "2",
-    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202208/05/newsen/20220805090353732jwuh.jpg",
-  },
-  {
-    id: "3",
-    uri: "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/28/newsen/20230428124427010wmwd.jpg",
-  },
-  {
-    id: "4",
-    uri: "https://image.newsis.com/2022/01/23/NISI20220123_0000918934_web.jpg",
-  },
-  {
-    id: "5",
-    uri: "https://m.aando.co.kr/web/product/big/202307/01389d9c2eda69fca38e9b480d0f3ff5.jpg",
-  },
-  {
-    id: "6",
-    uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7JSRii_41Xvrc6OL8oQiC0bStzp1HwbNHfA&usqp=CAU",
-  },
-];
+import { detailApi, likeApi } from "../../api/home";
+import {
+  regionDict,
+  collegeObj,
+  drinkRateDict,
+  drinkWithGameDict,
+} from "../../assets/datasets";
+
 const renderItem = ({ item, index }) => {
+  // console.log(index);
   return (
-    <View>
+    <View key={item.id}>
       <Image
-        key={index}
         source={{
           uri: item.uri,
         }}
@@ -65,11 +46,12 @@ const renderItem = ({ item, index }) => {
           backgroundColor: "transparent",
         }}
         resizeMode={"cover"}
+        // blurRadius={10}
       />
       <LinearGradient
-        colors={["rgba(14,15,19,0.9)", "rgba(20, 21, 25, 0.00)"]}
+        colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
         start={[0, 0]}
-        end={[0, 1]}
+        end={[0, 0.5]}
         style={{
           position: "absolute",
           width: "100%",
@@ -86,31 +68,88 @@ const getItemLayout = (data, index) => ({
   offset: Dimensions.get("window").width * index,
   index: index,
 });
-const LikeDetailScreen = ({ navigation }) => {
+
+const defaultTeamInfo = {
+  teamId: 0,
+  isDeleted: true,
+  memberNum: null,
+  region: null,
+  drinkRate: null,
+  drinkWithGame: null,
+  additionalActivity: null,
+  introduction: "-",
+  teamImageUrls: ["www.naver.com"],
+  teamMembers: [
+    {
+      college: null,
+      collegeType: null,
+      admissionYear: null,
+      mbti: null,
+    },
+  ],
+  leader: {
+    leaderId: null,
+    nickname: null,
+    mbti: null,
+    collegeName: null,
+    collegeType: null,
+    admissionYear: null,
+    leaderLowProfileImageUrl: "www.naver.com",
+    imageAuth: false,
+  },
+};
+const LikeDetailScreen = ({ navigation, route }) => {
+  const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
+  const teamId = route.params.teamId;
+  const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLike, setIsLike] = useState(false); //임시
   const flatlistRef = useRef();
+  const onMount = async () => {
+    let result = await detailApi(teamId, navigation, controller);
+    if (result) {
+      const photos = [];
+      result.teamImageUrls.map((url, index) => {
+        photos.push({ id: index.toString(), uri: url });
+      });
+      setTeamInfo({ ...result, teamImageUrls: photos });
+      console.log("LikeDetailScreen :", { ...result, teamImageUrls: photos });
+    } else {
+      setTeamInfo(defaultTeamInfo);
+      // navigation.goBack();
+    }
+  };
+  useEffect(() => {
+    onMount();
+    return () => controller.abort();
+  }, []);
+
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
+  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
+
   const onRequestPress = () => {
-    navigation.navigate("RequestModal");
+    navigation.navigate("LikeMatchRequestModal", { teamId: teamInfo.teamId });
+    setTimeout(() => {
+      setRequested(true);
+    }, 2000);
   };
+
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
     >
       <ScrollView
         style={{ flex: 1 }}
-        //bounces={false} //FOR IOS
+        // bounces={false} //FOR IOS
         //overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
       >
         <FlatList
           //0. 끝에서도 스크롤되는문제
           ref={flatlistRef}
-          data={photos}
+          data={teamInfo.teamImageUrls}
           renderItem={renderItem}
           horizontal
           pagingEnabled={true}
@@ -122,7 +161,6 @@ const LikeDetailScreen = ({ navigation }) => {
           bounces={false} //FOR IOS
           overScrollMode={"never"} //FOR ANDROID
         />
-
         <View
           style={{
             position: "absolute",
@@ -150,7 +188,6 @@ const LikeDetailScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-
         <View
           style={{
             justifyContent: "center",
@@ -161,7 +198,11 @@ const LikeDetailScreen = ({ navigation }) => {
           <PaginationDot
             activeDotColor={"#FC8368"}
             curPage={activeIndex}
-            maxPage={5}
+            maxPage={
+              teamInfo.teamImageUrls.length == 1
+                ? 0
+                : teamInfo.teamImageUrls.length
+            }
             sizeRatio={1}
             style={{ width: 200 }}
           />
@@ -181,7 +222,7 @@ const LikeDetailScreen = ({ navigation }) => {
               }}
             >
               {/*지역 */}
-              건대입구
+              {regionDict[teamInfo.region]}
             </Text>
             <View
               style={{
@@ -192,13 +233,24 @@ const LikeDetailScreen = ({ navigation }) => {
             >
               <MaterialIcons name="person" size={30} color={"white"} />
               <Text style={{ marginLeft: 3, fontSize: 30, color: "white" }}>
-                {4}
+                {teamInfo.memberNum}
                 {/*인원 수 들어가기*/}
               </Text>
             </View>
           </View>
-          <LeaderCard />
-          <InfoSection />
+          <LeaderCard
+            nickName={teamInfo.leader.nickname}
+            mbti={teamInfo.leader.mbti}
+            college={teamInfo.leader.collegeName}
+            collegeType={collegeObj[teamInfo.leader.collegeType]}
+            profile={teamInfo.leader.leaderLowProfileImageUrl}
+          />
+          <InfoSection
+            memberInfo={teamInfo.teamMembers}
+            drinkingRate={drinkRateDict[teamInfo.drinkRate]}
+            drinkWithGame={drinkWithGameDict[teamInfo.drinkWithGame]}
+            intro={teamInfo.introduction}
+          />
         </View>
       </ScrollView>
       <View
@@ -213,36 +265,53 @@ const LikeDetailScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            setIsLike(!isLike);
-          }}
-          style={{ marginRight: 20 }}
-        >
-          {isLike ? (
-            <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
-          ) : (
-            <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            height: "100%",
-            backgroundColor: subColorPink,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-          onPress={onRequestPress}
-        >
-          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
-            신청하기
-          </Text>
-        </TouchableOpacity>
+        {!requested ? (
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              height: "100%",
+              backgroundColor: subColorPink,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 5,
+            }}
+            onPress={onRequestPress}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontFamily: "pretendard600",
+              }}
+            >
+              신청하기
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              backgroundColor: "gray",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 5,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontFamily: "pretendard600",
+              }}
+            >
+              신청완료
+            </Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
 };
-
+const styles = StyleSheet.create({});
 export default LikeDetailScreen;

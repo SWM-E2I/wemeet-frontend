@@ -37,7 +37,13 @@ export const accountDeleteApi = async (navigation, controller) => {
     if (response.data.status == "SUCCESS") {
       Alert.alert("회원탈퇴가 완료되었습니다.");
       return true;
-    } else Alert.alert("회원탈퇴 실패", response.data.message);
+    } else if (response.data?.code == 40014)
+      Alert.alert("회원탈퇴 실패", "팀을 삭제한 후 회원탈퇴를 진행해주세요.");
+    else
+      Alert.alert(
+        "회원탈퇴 실패",
+        response.data.message + "\n잠시 후 다시 시도해주세요"
+      );
     return false;
   } catch (err) {
     axiosCatch(err, "accountDeleteApi", navigation);

@@ -115,7 +115,7 @@ const MyAccountScreen = ({ navigation }) => {
             />
           ) : (
             <TouchableOpacity style={styles.imageContainer} onPress={setPhoto}>
-              <Text style={styles.imageText}>사진을 등록해줘!</Text>
+              <Text style={styles.imageText}>사진 등록하기</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity

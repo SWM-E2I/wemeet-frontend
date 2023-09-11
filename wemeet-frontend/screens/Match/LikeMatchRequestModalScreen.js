@@ -14,15 +14,12 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; //대책
 import { requestApi, requestMessageApi } from "../../api/home";
 import { CommonActions } from "@react-navigation/native";
-import { creditInquiryApi } from "../../api/signal";
-import { useDispatch, useSelector } from "react-redux";
-import { setSignal } from "../../redux/signalSlice";
 
 const Signal = ({ amount, useInput }) => {
   return (
@@ -44,26 +41,17 @@ const Signal = ({ amount, useInput }) => {
     </View>
   );
 };
-const RequestModalScreen = ({ navigation, route }) => {
-  const signal = useSelector((state) => state.signal.signal);
-  const dispatch = useDispatch();
-  const controller = new AbortController();
+const LikeMatchRequestModalScreen = ({ navigation, route }) => {
   const teamId = route.params.teamId;
+  console.log("likematch :", teamId);
+  const controller = new AbortController();
   //api보낼때활용!!
   const [useInput, setUseInput] = useState(true);
   const [letter, setLetter] = useState("");
   const heightValue = useRef(
     new Animated.Value(Platform.OS === "ios" ? 350 : 375) //for keyboardavoidingview issue in android
   ).current;
-  const onMount = async () => {
-    let res = await creditInquiryApi(navigation, controller);
-    if (res) {
-      dispatch(setSignal(res));
-    }
-  };
-  useEffect(() => {
-    onMount();
-  }, []);
+
   const onRequestPress = async () => {
     let result = false;
     if (!useInput) result = await requestApi(teamId, navigation, controller);
@@ -77,7 +65,7 @@ const RequestModalScreen = ({ navigation, route }) => {
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: "Home" }],
+                routes: [{ name: "Sent" }],
               })
             );
           },
@@ -116,7 +104,7 @@ const RequestModalScreen = ({ navigation, route }) => {
               <Text style={styles.titleText}>
                 {"친구들에게 \n같이 놀자고 해볼까?"}
               </Text>
-              <Signal amount={signal} useInput />
+              <Signal amount={25} useInput />
             </View>
             <View
               style={{
@@ -294,4 +282,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestModalScreen;
+export default LikeMatchRequestModalScreen;

@@ -30,8 +30,8 @@ const NicknameScreen = ({ navigation }) => {
       navigation.navigate("Mbti");
     } else
       Alert.alert(
-        "닉네임은 한글만 입력 가능해",
-        "공백을 포함한 특수문자 없이 입력해줘!"
+        "유효하지 않은 닉네임이야!",
+        "닉네임은 한글만 입력 가능해\n공백,특수문자 없이 입력해줘!"
       );
   };
   return (

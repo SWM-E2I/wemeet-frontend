@@ -31,13 +31,14 @@ import {
   drinkRateDict,
   drinkWithGameDict,
 } from "../../assets/datasets";
+import { useDispatch, useSelector } from "react-redux";
+import { setHasTeam } from "../../redux/persistSlice";
 
 const renderItem = ({ item, index }) => {
   // console.log(index);
   return (
-    <View key={index}>
+    <View key={item.id}>
       <Image
-        key={index}
         source={{
           uri: item.uri,
         }}
@@ -100,15 +101,18 @@ const defaultTeamInfo = {
   },
 };
 const HomeDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
   const teamId = route.params.teamId;
   const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLike, setIsLike] = useState(false); //임시
+  const hasTeam = useSelector((state) => state.persist.hasTeam);
   const flatlistRef = useRef();
   const onMount = async () => {
     let result = await detailApi(teamId, navigation, controller);
     if (result) {
+      dispatch(setHasTeam(result.memberHasTeam));
       const photos = [];
       result.teamImageUrls.map((url, index) => {
         photos.push({ id: index.toString(), uri: url });

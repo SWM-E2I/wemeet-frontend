@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   textDisabled: {
-    fontSize: 20,
+    fontSize: 22,
     // color: "#F2F2F2",
     fontFamily: "pretendard500",
     color: "gray",
   },
   textEnabled: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "pretendard500",
     color: "#FFFFFF",
   },

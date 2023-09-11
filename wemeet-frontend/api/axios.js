@@ -42,7 +42,7 @@ const refresh = async () => {
       "refreshToken",
       response.headers.refreshtoken
     );
-    return accessToken;
+    return response.headers.accessToken;
   } catch (error) {
     if (error.response?.status === 401) {
       //로그아웃 시키기 -> 인증 페이지로 돌아가기
