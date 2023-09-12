@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, Linking, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Checkbox } from "react-native-paper";
 import { Alert } from "react-native";
@@ -9,9 +9,11 @@ import {
   subColorBlack2,
   subColorPink,
 } from "../../styles/commonStyles";
+import { useDispatch } from "react-redux";
+import { setAllowMarketing } from "../../redux/registerSlice";
 
 const TermsModalScreen = ({ navigation, route }) => {
-  //임시 페이지, Naviagtion modal로 구현 -> 추후 bottomsheet library로 migrate필요.
+  const dispatch = useDispatch();
   const nextPage = route.params.next;
   const [allChecked, setAllChecked] = useState(false);
   const [checked, setChecked] = useState([false, false, false, false]);
@@ -25,13 +27,14 @@ const TermsModalScreen = ({ navigation, route }) => {
   };
   const title = "서비스 이용을 위한 동의 안내";
   const subtitle = "여러분의 개인정보와 서비스 이용 권리 잘 지켜 드릴게요.";
-  const s_all = "서비스 이용을 위해 아래 약관에 모두 동의합니다.";
-  const s_age = "(필수) 만 14세 이상입니다.";
+  const s_all = "아래 약관에 모두 동의합니다.";
+  const s_age = "(필수) 만 18세 이상입니다.";
   const s_terms = "(필수) 서비스 이용약관 동의";
   const s_privacy = "(필수) 개인정보 처리 방침 동의";
-  const s_info = "(필수) 민감정보 수집 및 이용 동의";
+  const s_info = "(선택) 혜택 및 마케팅 정보 수신 동의";
   const toNext = () => {
-    if (allChecked) {
+    if (checked[0] && checked[1] && checked[2]) {
+      if (checked[3]) dispatch(setAllowMarketing(true));
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -39,8 +42,31 @@ const TermsModalScreen = ({ navigation, route }) => {
         })
       );
     } else {
-      Alert.alert("모두 동의해야 서비스 이용이 가능해!");
+      Alert.alert(
+        "알림",
+        "필수정보에 대해 모두 동의하셔야\n서비스 이용이 가능합니다."
+      );
     }
+  };
+  const onMoveToAgreement = () => {
+    Linking.openURL(
+      "https://hungry-galette-a76.notion.site/We-meet-ad22cdd1adb74bee8a6283c9cf8cf405"
+    ).catch((err) =>
+      console.error(
+        "TermsModalScreen : An error occurred while opening browswer",
+        err
+      )
+    );
+  };
+  const onMoveToPrivacy = () => {
+    Linking.openURL(
+      "https://hungry-galette-a76.notion.site/We-meet-f842efb5bda44d59ba846be0f12f586d"
+    ).catch((err) =>
+      console.error(
+        "TermsModalScreen : An error occurred while opening browswer",
+        err
+      )
+    );
   };
   return (
     <View style={{ flex: 1 }}>
@@ -62,24 +88,28 @@ const TermsModalScreen = ({ navigation, route }) => {
         <Text
           style={{
             color: "white",
-            fontSize: 25,
+            fontSize: 27,
             fontFamily: "pretendard600",
             marginBottom: 5,
-            alignSelf: "center",
+            alignSelf: "flex-start",
+            marginLeft: "6%",
           }}
         >
           {title}
         </Text>
         <Text
           style={{
-            color: "#9C9C9C",
-            fontSize: 17,
+            // color: "#9C9C9C",
+            color: subColorPink,
+            fontSize: 13,
             fontFamily: "pretendard500",
-            alignSelf: "center",
+            alignSelf: "flex-start",
+            marginLeft: "6%",
           }}
         >
           {subtitle}
         </Text>
+
         <Checkbox.Item
           status={allChecked ? "checked" : "unchecked"}
           label={s_all}
@@ -92,8 +122,20 @@ const TermsModalScreen = ({ navigation, route }) => {
             fontFamily: "pretendard500",
             color: "white",
             textAlign: "left",
+            fontSize: 20,
           }}
         />
+        <View
+          style={{
+            height: 10,
+            width: "93%",
+            backgroundColor: subColorBlack2,
+            borderTopWidth: 1,
+            borderTopColor: "white",
+            marginLeft: "5%",
+          }}
+        />
+
         <Checkbox.Item
           status={checked[0] ? "checked" : "unchecked"}
           label={s_age}
@@ -116,50 +158,77 @@ const TermsModalScreen = ({ navigation, route }) => {
             textAlign: "left",
           }}
         />
-        <Checkbox.Item
-          status={checked[1] ? "checked" : "unchecked"}
-          label={s_terms}
-          position={"leading"}
-          mode={"android"}
-          onPress={() => {
-            if (allChecked && checked[1]) setAllChecked(false);
-            else if (
-              !allChecked &&
-              checked.toString() == [true, false, true, true].toString()
-            )
-              setAllChecked(true);
-            setChecked([checked[0], !checked[1], checked[2], checked[3]]);
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-          color={"white"}
-          uncheckedColor={"white"}
-          labelStyle={{
-            fontFamily: "pretendard500",
-            color: "white",
-            textAlign: "left",
+        >
+          <Checkbox.Item
+            status={checked[1] ? "checked" : "unchecked"}
+            label={s_terms}
+            position={"leading"}
+            mode={"android"}
+            onPress={() => {
+              if (allChecked && checked[1]) setAllChecked(false);
+              else if (
+                !allChecked &&
+                checked.toString() == [true, false, true, true].toString()
+              )
+                setAllChecked(true);
+              setChecked([checked[0], !checked[1], checked[2], checked[3]]);
+            }}
+            color={"white"}
+            uncheckedColor={"white"}
+            labelStyle={{
+              fontFamily: "pretendard500",
+              color: "white",
+              textAlign: "left",
+            }}
+          />
+
+          <TouchableOpacity onPress={onMoveToAgreement}>
+            <Text style={{ color: subColorPink, marginRight: "6%" }}>
+              [보기]
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-        />
-        <Checkbox.Item
-          status={checked[2] ? "checked" : "unchecked"}
-          label={s_privacy}
-          position={"leading"}
-          mode={"android"}
-          onPress={() => {
-            if (allChecked && checked[2]) setAllChecked(false);
-            else if (
-              !allChecked &&
-              checked.toString() == [true, true, false, true].toString()
-            )
-              setAllChecked(true);
-            setChecked([checked[0], checked[1], !checked[2], checked[3]]);
-          }}
-          color={"white"}
-          uncheckedColor={"white"}
-          labelStyle={{
-            fontFamily: "pretendard500",
-            color: "white",
-            textAlign: "left",
-          }}
-        />
+        >
+          <Checkbox.Item
+            status={checked[2] ? "checked" : "unchecked"}
+            label={s_privacy}
+            position={"leading"}
+            mode={"android"}
+            onPress={() => {
+              if (allChecked && checked[2]) setAllChecked(false);
+              else if (
+                !allChecked &&
+                checked.toString() == [true, true, false, true].toString()
+              )
+                setAllChecked(true);
+              setChecked([checked[0], checked[1], !checked[2], checked[3]]);
+            }}
+            color={"white"}
+            uncheckedColor={"white"}
+            labelStyle={{
+              fontFamily: "pretendard500",
+              color: "white",
+              textAlign: "left",
+            }}
+          />
+          <TouchableOpacity onPress={onMoveToPrivacy}>
+            <Text style={{ color: subColorPink, marginRight: "6%" }}>
+              [보기]
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Checkbox.Item
           status={checked[3] ? "checked" : "unchecked"}
           label={s_info}
@@ -186,7 +255,7 @@ const TermsModalScreen = ({ navigation, route }) => {
           text={"동의하고 진행하기"}
           onPress={toNext}
           // disabled={!allChecked}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, backgroundColor: subColorPink }}
         />
       </View>
     </View>

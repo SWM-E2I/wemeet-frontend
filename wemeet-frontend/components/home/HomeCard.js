@@ -104,80 +104,6 @@ const HomeCard = ({ card, navigation, end, short }) => {
         college={card.leader.college}
         profile={card.profileImageURL}
       />
-      {/* <View style={[styles.infoBox, { overflow: "hidden" }]} opacity={1}>
-        <BlurView
-          intensity={35}
-          tint={"dark"}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <LinearGradient
-            colors={
-              Platform.OS == "android"
-                ? ["rgba(71,72,73,0.7)", "rgba(11,12,14,1)"]
-                : ["rgba(39, 39, 39, 0.70)", "rgba(19, 20, 23, 0.70)"]
-            }
-            style={styles.gradientBox}
-          >
-            <Image
-              source={{ uri: card.profileImageURL }}
-              // height={CARD_HEIGHT - CARD_WIDTH - 22}
-              // width={CARD_HEIGHT - CARD_WIDTH - 22} //임시
-              style={styles.profileImage}
-              resizeMode={"cover"}
-            ></Image>
-            <View
-              style={{
-                flex: 1,
-                paddingLeft: 10,
-                height: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "pretendard600",
-                    marginLeft: 5,
-                    fontSize: 14,
-                    color: "white",
-                  }}
-                >
-                  {`${card.leader.nickName} / ${card.leader.mbti}`}
-                </Text>
-                <View style={styles.verifiedLabel}>
-                  <Text
-                    style={{
-                      fontFamily: "pretendard600",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    대학 인증 완료
-                  </Text>
-                </View>
-              </View>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 14,
-                  color: "white",
-                  fontFamily: "pretendard600",
-                  marginBottom: 5,
-                }}
-              >
-                {card.leader.college}
-              </Text>
-            </View>
-          </LinearGradient>
-        </BlurView>
-      </View> */}
     </TouchableOpacity>
   ) : (
     <View
@@ -227,7 +153,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 1,
     shadowRadius: 25,
-    // overflow: "hidden",
+    // overflow: "hidden", //Device 크기 따라 분기 -> 작으면 hidden, 크면 visible
     // borderColor: "white",
     // borderWidth: 1,
     // overflow: "hidden",

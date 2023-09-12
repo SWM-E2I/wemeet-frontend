@@ -175,13 +175,13 @@ const MyAccountScreen = ({ navigation }) => {
               logoutApi(navigation);
             }}
           >
-            <Text style={styles.infoText}>로그 아웃</Text>
+            <Text style={[styles.infoText, { color: "white" }]}>로그 아웃</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.infoContainer}
+            style={[styles.infoContainer]}
             onPress={onDeleteAccount}
           >
-            <Text style={styles.infoText}>회원 탈퇴</Text>
+            <Text style={[styles.infoText, { color: "white" }]}>회원 탈퇴</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "pretendard600",
     color: "white",
-    // color: subColorPink,
+    color: subColorPink,
   },
   infoText2: {
     fontSize: 17,

@@ -20,23 +20,55 @@ const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 const swiperHeightPercentage = 0.7;
 
+console.log("HEIGHT : ", HEIGHT, "WIDTH : ", WIDTH);
+
 //3초마다 넘어감
 //매일 밤 11:11분\n새로운 친구들을 만나봐! -> 1/2 , 2/2 // 3초마다 넘어감
-//Status Bar 흰색으로하기
+// 700이하인경우?
 
-// console.log(WIDTH, HEIGHT);
-
+const timeLeft = () => {
+  const activationTime = 23 * 3600 + 11 * 60 + 0; //11시 11분 0초
+  let currentTime = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Seoul",
+  });
+  // 문자열에서 각 요소 추출
+  const currentTimeString = currentTime.split(", ")[1].split(" ")[0];
+  let currentHour =
+    currentTime.split(", ")[1].split(" ")[1] == "PM"
+      ? Number(currentTimeString.split(":")[0]) + 12
+      : Number(currentTimeString.split(":")[0]); //24시간제로 변환
+  const currentMinute = Number(currentTimeString.split(":")[1]);
+  const currentSecond = Number(currentTimeString.split(":")[2]);
+  currentTime = currentHour * 3600 + currentMinute * 60 + currentSecond;
+  // currentTime = 83461; //for Test only
+  let timeUntilActivation =
+    currentTime > activationTime
+      ? 24 * 3600 - currentTime + activationTime
+      : activationTime - currentTime;
+  // console.log(
+  //   "현재시간! :",
+  //   Math.floor(currentTime / 3600),
+  //   Math.floor((currentTime % 3600) / 60),
+  //   (currentTime % 3600) % 60
+  // );
+  // console.log(
+  //   "남은시간! :",
+  //   Math.floor(timeUntilActivation / 3600),
+  //   Math.floor((timeUntilActivation % 3600) / 60),
+  //   (timeUntilActivation % 3600) % 60
+  // );
+  return timeUntilActivation;
+};
+console.log("Device height : ", HEIGHT, "Device width : ", WIDTH); //700이하인경우
 const HomeScreen = ({ navigation }) => {
-  console.log("Device height : ", HEIGHT, "Device width : ", WIDTH);
-  //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경ㅇ우 빈 하트)
+  //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경우 빈 하트)
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
-  // const [progress, setProgress] = useState(0);
   const cardData = useSelector((state) => state.suggest.cards);
   // const [apiCardData, setApiCardData] = useState([]) // 이후 useEffect로 관리 -> 아래 코드는 일회성, 추가로 추천을 받거나 하면..ㅇㅇ 필요
   const apiCardData = [...cardData, { end: true, teamId: -1 }]; //수정필요함!! cardData의 업데이트 내용을 반영하지 못해!!
-
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
+  const [timeUntilActivation, setTimeUntilActivation] = useState(timeLeft());
   const controller = new AbortController();
   const onMount = async () => {
     let result = await suggestionCheckApi(navigation, controller);
@@ -47,12 +79,21 @@ const HomeScreen = ({ navigation }) => {
       } else setRecommended(false);
     }
   };
+
+  // console.log(timeUntilActivation); //잘 동작함. 단 mount되기 전까지 계속 실행된다는 점 인지
   useEffect(() => {
     onMount();
     return () => {
       controller.abort();
     };
   }, []);
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      setTimeUntilActivation(timeLeft());
+    }, 1000);
+    // console.log(timeUntilActivation);
+    return () => clearTimeout(timeOutId);
+  }, [timeUntilActivation]);
   return (
     <SafeAreaView
       style={[
@@ -61,7 +102,10 @@ const HomeScreen = ({ navigation }) => {
       ]} //안드로이드 버그 해결 -> why?
     >
       {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
-      <AboveContainer navigation={navigation} />
+      <AboveContainer
+        navigation={navigation}
+        timeUntilActivation={timeUntilActivation}
+      />
       <View style={styles.swiperContainer}>
         {recommended ? (
           <Swiper

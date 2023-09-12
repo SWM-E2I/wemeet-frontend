@@ -15,13 +15,19 @@ import NextButton from "../../../components/NextButton";
 import UnivSet from "../../../components/register/UnivSet";
 import { CommonActions } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { setRegisterCollegeInfo } from "../../../redux/registerSlice";
+import {
+  setRegisterCollegeInfo,
+  setRegisterPhoneNum,
+} from "../../../redux/registerSlice";
 import { registerApi } from "../../../api/register";
 
 const instruction = "너의 학교가\n궁금해";
+
 const UnivScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  // dispatch(setRegisterPhoneNum("+821083761996")); //임시
   const registerInfo = useSelector((state) => state.register);
+  // console.log(registerInfo);
   const [stage, setStage] = useState(1); //1 : 학교선택 -> 2 : 단과대선택 -> 3 : 학번입력
   const [univ, setUniv] = useState(""); //대학
   const [college, setCollege] = useState(""); //단과대
@@ -64,7 +70,7 @@ const UnivScreen = ({ navigation }) => {
           if (result) {
             Alert.alert(
               "위밋 회원이 된 걸 환영해!",
-              "이제 대학생 인증만 완료하면\n서비스를 정상적으로 이용할 수 있어"
+              "추가 정보를 입력하면\n서비스를 정상적으로 이용할 수 있어"
             );
             console.log("회원가입 성공, 추가정보 분기 페이지로 이동");
             navigation.dispatch(

@@ -37,7 +37,7 @@ import { setHasTeam } from "../../redux/persistSlice";
 const renderItem = ({ item, index }) => {
   // console.log(index);
   return (
-    <View key={item.id}>
+    <View>
       <Image
         source={{
           uri: item.uri,
@@ -100,6 +100,7 @@ const defaultTeamInfo = {
     imageAuth: false,
   },
 };
+
 const HomeDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);

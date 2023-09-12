@@ -18,7 +18,7 @@ import {
 } from "../../styles/commonStyles";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
-const labels = ["학교명", "단과대", "학번"];
+const labels = ["학교명", "계열", "학번"];
 
 const UnivSet = ({
   stage,
@@ -132,7 +132,7 @@ const UnivSet = ({
               // color: subColorPink,
               color: "white",
             }}
-            placeholder={"단과대를 선택해줘"}
+            placeholder={"계열을 선택해줘"}
             search={false}
             maxHeight={160}
             dropdownStyles={{

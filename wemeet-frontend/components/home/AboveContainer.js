@@ -15,6 +15,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   mainColor,
   subColorBlack,
+  subColorBlack2,
   subColorBlue,
   subColorPink,
 } from "../../styles/commonStyles";
@@ -24,6 +25,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setSignal } from "../../redux/signalSlice";
 import { creditInquiryApi } from "../../api/signal";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+
+const formatTime = (value) => {
+  return value < 10 ? `0${value}` : value.toString();
+};
 
 const WIDTH = Dimensions.get("window").width;
 const BANNER_WIDTH = WIDTH * 0.88;
@@ -243,7 +249,12 @@ const renderItem = ({ item, index }) => {
 };
 const swiperHeightPercentage = 0.7;
 
-const AboveContainer = ({ navigation }) => {
+const AboveContainer = ({
+  navigation,
+  timeUntilActivation,
+  activateButton,
+}) => {
+  // console.log(timeUntilActivation); //잘 동작함
   const dispatch = useDispatch();
   const controller = new AbortController();
   const signal = useSelector((state) => state.signal.signal);
@@ -333,12 +344,45 @@ const AboveContainer = ({ navigation }) => {
           overScrollMode={"never"} //FOR ANDROID
         />
       </View>
-
-      <View style={styles.guidance}>
-        <Text style={[styles.guidanceText, { marginBottom: 4 }]}>
-          오늘의 친구들을
-        </Text>
-        <Text style={styles.guidanceText}>만나봐!</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={styles.guidance}>
+          <Text style={[styles.guidanceText, { lineHeight: 33 }]}>
+            {"오늘의 친구들을\n만나봐!"}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={{
+            alignSelf: "flex-end",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            // backgroundColor: subColorPink,
+            backgroundColor: subColorPink,
+            borderRadius: 5,
+            paddingVertical: 3,
+            paddingHorizontal: 8,
+          }}
+          disabled={!activateButton}
+        >
+          {/* <AntDesign name="clockcircleo" size={16} color="white" /> */}
+          <FontAwesome5 name="clock" size={14} color="white" />
+          <Text
+            style={{
+              marginLeft: 5,
+              color: "white",
+              fontFamily: "pretendard500",
+              fontSize: 14,
+              textAlignVertical: "center",
+              // marginBottom: 2, //왜 해야대지..
+            }}
+          >
+            {`${formatTime(
+              Math.floor(timeUntilActivation / 3600)
+            )}:${formatTime(
+              Math.floor((timeUntilActivation % 3600) / 60)
+            )}:${formatTime((timeUntilActivation % 3600) % 60)}`}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -348,10 +392,11 @@ const styles = StyleSheet.create({
     flex: 1 - swiperHeightPercentage,
     // paddingTop:  Platform.OS == "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight,
     paddingHorizontal: "6%",
-    // backgroundColor: mainColor,
+    // justifyContent: "space-between",
     justifyContent: "space-around",
     // justifyContent: "flex-start",
     backgroundColor: subColorBlack,
+    // backgroundColor: mainColor,
   },
   logoContainer: {
     // flex: 0.2,
@@ -373,7 +418,8 @@ const styles = StyleSheet.create({
   guidance: {
     // flex: 0.45,
     // backgroundColor: subColorBlue,
-    width: "100%",
+    // width: "100%",
+    // justifyContent: "center",
     justifyContent: "center",
   },
   guidanceText: {

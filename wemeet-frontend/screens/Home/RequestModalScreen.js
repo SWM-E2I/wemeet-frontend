@@ -63,6 +63,9 @@ const RequestModalScreen = ({ navigation, route }) => {
   };
   useEffect(() => {
     onMount();
+    return () => {
+      controller.abort();
+    };
   }, []);
   const onRequestPress = async () => {
     let result = false;

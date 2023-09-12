@@ -20,6 +20,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; //대책
 import { requestApi, requestMessageApi } from "../../api/home";
 import { CommonActions } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setSignal } from "../../redux/signalSlice";
 
 const Signal = ({ amount, useInput }) => {
   return (
@@ -42,6 +44,8 @@ const Signal = ({ amount, useInput }) => {
   );
 };
 const LikeMatchRequestModalScreen = ({ navigation, route }) => {
+  const signal = useSelector((state) => state.signal.signal);
+  const dispatch = useDispatch();
   const teamId = route.params.teamId;
   console.log("likematch :", teamId);
   const controller = new AbortController();
@@ -51,7 +55,18 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
   const heightValue = useRef(
     new Animated.Value(Platform.OS == "ios" ? 350 : 375) //for keyboardavoidingview issue in android
   ).current;
-
+  const onMount = async () => {
+    let res = await creditInquiryApi(navigation, controller);
+    if (res) {
+      dispatch(setSignal(res));
+    }
+  };
+  useEffect(() => {
+    onMount();
+    return () => {
+      controller.abort();
+    };
+  }, []);
   const onRequestPress = async () => {
     let result = false;
     if (!useInput) result = await requestApi(teamId, navigation, controller);
@@ -100,7 +115,7 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
               <Text style={styles.titleText}>
                 {"친구들에게 \n같이 놀자고 해볼까?"}
               </Text>
-              <Signal amount={25} useInput />
+              <Signal amount={signal} useInput />
             </View>
             <View
               style={{

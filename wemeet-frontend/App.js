@@ -85,9 +85,9 @@ export default function App() {
           // persistType={"PhoneNum"}
           // persistType={"Initial"}
           // persistType={"PhotoSet"}
-          // persistType={"Nickname"} // for Test only
-          // persistType={"MainTab"} //for Test only
-          // persistType={"Additional"} //for test only
+          // persistType={"Nickname"}
+          // persistType={"MainTab"}
+          // persistType={"Additional"}
           persistData={persistData}
         />
       ) : (
