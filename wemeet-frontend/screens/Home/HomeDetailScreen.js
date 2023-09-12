@@ -99,6 +99,7 @@ const defaultTeamInfo = {
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
   },
+  meetingRequestStatus: null,
 };
 
 const HomeDetailScreen = ({ navigation, route }) => {
@@ -109,6 +110,8 @@ const HomeDetailScreen = ({ navigation, route }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLike, setIsLike] = useState(false); //임시
   const hasTeam = useSelector((state) => state.persist.hasTeam);
+  const [loading, setLoading] = useState(false); //좋아요 누르는 중일때 true로
+  const [meetingRequestStatus, setMeetingRequestStatus] = useState(null); //null 혹은 EXPIRED인 경우만 enable, 나머지는 이미 신청함 (disable)
   const flatlistRef = useRef();
   const onMount = async () => {
     let result = await detailApi(teamId, navigation, controller);
@@ -131,11 +134,13 @@ const HomeDetailScreen = ({ navigation, route }) => {
     return () => controller.abort();
   }, []);
   const onLike = async () => {
+    setLoading(true);
     if (isLike) Alert.alert("이미 좋아요를 보낸 상대야");
     else {
       let result = await likeApi(teamId, navigation, controller);
       setIsLike(result);
     }
+    setLoading(false);
   };
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
@@ -279,24 +284,37 @@ const HomeDetailScreen = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={onLike} style={{ marginRight: 20 }}>
+        <TouchableOpacity
+          onPress={onLike}
+          style={{ marginRight: 20 }}
+          disabled={loading || !hasTeam}
+        >
           {isLike ? (
-            <Ionicons name="ios-heart-sharp" size={30} color={subColorPink} />
+            <Ionicons
+              name="ios-heart-sharp"
+              size={30}
+              color={hasTeam ? subColorPink : "#9C9C9C"}
+            />
           ) : (
-            <Ionicons name="ios-heart-outline" size={30} color={subColorPink} />
+            <Ionicons
+              name="ios-heart-outline"
+              size={30}
+              color={hasTeam ? subColorPink : "#9C9C9C"}
+            />
           )}
         </TouchableOpacity>
-        {!requested ? (
+        {!meetingRequestStatus || meetingRequestStatus == "EXPIRED" ? (
           <TouchableOpacity
             style={{
               flex: 1,
               height: "100%",
-              backgroundColor: subColorPink,
+              backgroundColor: hasTeam ? subColorPink : "#9C9C9C",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
             }}
             onPress={onRequestPress}
+            disabled={!hasTeam}
           >
             <Text
               style={{
@@ -305,7 +323,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              신청하기
+              {hasTeam ? "신청하기" : "내 팀 생성 후 신청 가능"}
             </Text>
           </TouchableOpacity>
         ) : (
@@ -313,7 +331,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
             style={{
               flex: 1,
               height: "100%",
-              backgroundColor: "gray",
+              backgroundColor: "#9C9C9C",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
@@ -326,7 +344,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              신청완료
+              이미 신청한 팀이야
             </Text>
           </View>
         )}
