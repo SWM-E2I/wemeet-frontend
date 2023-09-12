@@ -41,12 +41,19 @@ const IntroScreen = ({ navigation }) => {
       if (res) {
         // dispatch(resetState(true));
         dispatch(setHasTeam(true));
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: "InitialTeam" }],
-          })
-        );
+        Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어", [
+          {
+            text: "확인",
+            onPress: () => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "InitialTeam" }],
+                })
+              );
+            },
+          },
+        ]);
       }
       setLoading(false);
     }

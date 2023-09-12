@@ -14,6 +14,7 @@ const NextButton = ({ onPress, text, style, disabled }) => {
         <TouchableOpacity
           style={[styles.buttonDisabled, style]}
           activeOpacity={0.5}
+          disabled={disabled}
         >
           <Text style={styles.textDisabled}>{text}</Text>
         </TouchableOpacity>

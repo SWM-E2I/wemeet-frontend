@@ -36,7 +36,8 @@ const ArrivedScreen = ({ navigation }) => {
   const onMount = async () => {
     // return true;
     let result = await receivedMatchApi(navigation, controller);
-    if (result) {
+    if (result == 40029) dispatch(setHasTeam(false));
+    else if (result) {
       const cards = [];
       result.forEach((card) => {
         const date = new Date(card.requestTime);
@@ -60,7 +61,7 @@ const ArrivedScreen = ({ navigation }) => {
       });
       setMatchArrivedData(cards);
       dispatch(setHasTeam(true));
-    } else if (result == 40029) dispatch(setHasTeam(false));
+    }
   };
 
   useEffect(() => {

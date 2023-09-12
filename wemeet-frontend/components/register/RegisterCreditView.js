@@ -19,7 +19,7 @@ const RegisterCreditView = ({ currentCredit }) => {
             { fontFamily: "pretendard400", color: "white" },
           ]}
         >
-          /25
+          /40
         </Text>
       </View>
     </View>

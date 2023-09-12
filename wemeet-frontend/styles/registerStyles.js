@@ -52,6 +52,7 @@ const registerStyles = StyleSheet.create({
     fontSize: 12,
     color: "red",
     marginBottom: 5,
+    fontFamily: "pretendard400",
   },
   labelText: {
     fontSize: 14,

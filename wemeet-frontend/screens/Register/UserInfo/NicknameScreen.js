@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../../styles/commonStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
@@ -39,7 +39,7 @@ const NicknameScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        <RegisterCreditView currentCredit={20} />
       </View>
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         닉네임
@@ -73,6 +73,7 @@ const NicknameScreen = ({ navigation }) => {
             alignSelf: "center",
             marginTop: 10,
             marginBottom: 20,
+            backgroundColor: nickName.length > 0 ? subColorPink : "black",
           }}
           disabled={nickName.length > 0 ? false : true}
         />

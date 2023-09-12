@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import commonStyles from "../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../styles/commonStyles";
 import RegisterHeader from "../../components/register/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
@@ -17,10 +17,11 @@ import { persistLoginApi } from "../../api/persist";
 import { useDispatch } from "react-redux";
 import { setPersistState } from "../../redux/persistSlice";
 
-const instruction = "인증번호는\n자동완성이지";
+const instruction = "인증번호를\n입력해줘";
 const VerifyScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const phone = route.params.phone;
+  const isRegister = route.params?.isRegister;
   const [code, setCode] = useState("");
   const [warning, setWarning] = useState(null);
   const [timer, setTimer] = useState(90);
@@ -36,12 +37,13 @@ const VerifyScreen = ({ navigation, route }) => {
     let result = await phoneVrfIssueApi(phone, controller, navigation);
     setLoading(false);
     if (result) {
-      setWarning("인증번호가 재전송되었습니다.");
+      setWarning("인증 번호가 재전송되었습니다.");
     } else {
       setWarning("인증번호 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   const onSubmit = async () => {
+    console.log(code);
     if (code.length < 6) {
       setWarning("6자리 인증번호를 입력해주세요.");
       setCode("");
@@ -57,7 +59,7 @@ const VerifyScreen = ({ navigation, route }) => {
         setCode("");
         setWarning("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else {
-        console.log("인증성공", res);
+        console.log("인증 성공", res);
         setWarning(null);
         //여기서 PersistLogin 요청하기
         let nextPage = "MainTab";
@@ -107,12 +109,15 @@ const VerifyScreen = ({ navigation, route }) => {
       controller.abort();
     };
   }, []);
+  useEffect(() => {
+    if (code.length == 6) onSubmit();
+  }, [code]);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        {isRegister && <RegisterCreditView currentCredit={5} />}
       </View>
 
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
@@ -144,12 +149,16 @@ const VerifyScreen = ({ navigation, route }) => {
           </View>
         </View>
         <View style={{ width: "100%" }}>
-          <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
-            {warning}
-          </Text>
+          {warning && (
+            <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
+              {warning}
+            </Text>
+          )}
         </View>
         <TouchableOpacity onPress={resend}>
-          <Text style={{ fontSize: 15, color: "gray" }}>인증번호 재전송</Text>
+          <Text style={{ fontSize: 15, color: subColorPink }}>
+            인증번호 재전송
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

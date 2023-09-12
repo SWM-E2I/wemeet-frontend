@@ -26,6 +26,7 @@ import {
 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { accountDeleteApi, logoutApi } from "../../api/myProfile";
+import { CommonActions } from "@react-navigation/native";
 
 const MyAccountScreen = ({ navigation }) => {
   const profileData = useSelector((state) => state.profile.profileData);
@@ -128,37 +129,37 @@ const MyAccountScreen = ({ navigation }) => {
         <Text style={styles.labelText}>기본 정보</Text>
         <View style={styles.infoContainer}>
           <Text style={styles.infoText}>성별</Text>
-          <Text style={styles.infoText}>
+          <Text style={styles.infoText2}>
             {profileData.gender == "MAN" ? "남자" : "여자"}
           </Text>
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.infoText}>닉네임</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={[styles.infoText, { marginRight: 5 }]}>
+            <Text style={[styles.infoText2, { marginRight: 5 }]}>
               {profileData.nickname}
             </Text>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <MaterialCommunityIcons
                 name="account-edit"
                 size={24}
                 color={subColorPink}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.infoText}>MBTI</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={[styles.infoText, { marginRight: 5 }]}>
+            <Text style={[styles.infoText2, { marginRight: 5 }]}>
               {profileData.mbti}
             </Text>
             <TouchableOpacity>
-              <MaterialCommunityIcons
+              {/* <MaterialCommunityIcons
                 name="account-edit"
                 size={24}
                 color={subColorPink}
-              />
+              /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -223,6 +224,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "pretendard600",
     color: "white",
+    // color: subColorPink,
+  },
+  infoText2: {
+    fontSize: 17,
+    fontFamily: "pretendard600",
+    color: "white",
+    marginRight: 5,
   },
 });
 

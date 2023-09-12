@@ -39,7 +39,7 @@ const GenderScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        <RegisterCreditView currentCredit={10} />
       </View>
       <Text style={registerStyles.labelText}>성별을 선택해줘</Text>
       <View style={{ flex: 1, alignItems: "center", paddingHorizontal: "7%" }}>
@@ -47,7 +47,7 @@ const GenderScreen = ({ navigation }) => {
         <View
           style={{
             flexDirection: "row",
-            marginTop: 10,
+            // marginTop: 0,
             height: 50,
             width: "100%",
             justifyContent: "space-around",
@@ -112,6 +112,7 @@ const GenderScreen = ({ navigation }) => {
             alignSelf: "center",
             marginTop: 10,
             marginBottom: 20,
+            backgroundColor: subColorPink,
           }}
         />
       </KeyboardAvoidingView>

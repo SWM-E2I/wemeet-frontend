@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import NextButton from "../../../components/NextButton";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../../styles/commonStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import { emailVrfIssueApi, emailVrfValidateApi } from "../../../api/univAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
   const college = useSelector((state) => {
     return state.register.collegeInfo.college; //학교 코드
   });
-  const [timer, setTimer] = useState(90);
+  const [timer, setTimer] = useState(150);
   const [code, setCode] = useState("");
   const [warning, setWarning] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
   const resend = async () => {
     //재전송 버튼 눌렀을 때
     setCode("");
-    setTimer(90);
+    setTimer(150);
     console.log("인증번호 발송, 다음 화면으로 이동");
     setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
     setLoading(true);
@@ -102,7 +102,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        {!toProfile && <RegisterCreditView currentCredit={5} />}
+        {/* {!toProfile && <RegisterCreditView currentCredit={5} />} */}
       </View>
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         인증번호
@@ -134,19 +134,27 @@ const UnivVerifyScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-        <View style={{ width: "100%" }}>
-          <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
-            {warning}
-          </Text>
-        </View>
+        {warning && (
+          <View style={{ width: "100%" }}>
+            <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
+              {warning}
+            </Text>
+          </View>
+        )}
         <TouchableOpacity onPress={resend}>
-          <Text style={{ fontSize: 15, color: "gray" }}>인증번호 재전송</Text>
+          <Text style={{ fontSize: 15, color: subColorPink }}>
+            인증번호 재전송
+          </Text>
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
-        <NextButton text={"학생인증 완료하기"} onPress={onSubmit} />
+        <NextButton
+          text={"학생인증 완료하기"}
+          onPress={onSubmit}
+          style={{ backgroundColor: subColorPink }}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

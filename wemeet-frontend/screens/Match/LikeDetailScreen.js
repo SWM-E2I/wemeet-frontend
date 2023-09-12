@@ -35,7 +35,7 @@ import {
 const renderItem = ({ item, index }) => {
   // console.log(index);
   return (
-    <View key={item.id}>
+    <View>
       <Image
         source={{
           uri: item.uri,

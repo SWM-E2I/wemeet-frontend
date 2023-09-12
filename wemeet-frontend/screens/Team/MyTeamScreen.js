@@ -65,7 +65,6 @@ const MyTeamScreen = ({ navigation, team }) => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   logoContainer: {
     paddingHorizontal: "6%",

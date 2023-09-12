@@ -39,8 +39,18 @@ const RegionScreen = ({ navigation }) => {
         <Text style={commonStyles.teamGenerateInstruction}>
           어디서 만나는게 좋아?
         </Text>
-        <Text style={commonStyles.teamGenerateInstruction2}>
+        {/* <Text style={commonStyles.teamGenerateInstruction2}>
           {"가장 만나고 싶은 장소 하나를 골라줘"}
+        </Text> */}
+        <Text
+          style={[
+            commonStyles.teamGenerateInstruction2,
+            { fontSize: 13, color: subColorPink, lineHeight: 20 },
+          ]}
+        >
+          {
+            "🚨 더 많은 장소를 추가해 나갈 예정이야\n🚨 지금은 가장 끌리는 장소 하나만 골라줘"
+          }
         </Text>
         {showList.map((item, index) => {
           return (

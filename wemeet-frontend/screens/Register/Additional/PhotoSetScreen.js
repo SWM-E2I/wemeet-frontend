@@ -13,7 +13,10 @@ import {
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { FontAwesome5 } from "@expo/vector-icons";
-import commonStyles, { subColorBlack2 } from "../../../styles/commonStyles";
+import commonStyles, {
+  subColorBlack2,
+  subColorPink,
+} from "../../../styles/commonStyles";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
@@ -97,7 +100,7 @@ const PhotoSetScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        {!toProfile && <RegisterCreditView currentCredit={5} />}
+        {/* {!toProfile && <RegisterCreditView currentCredit={5} />} */}
       </View>
       {/* {status.granted && <Text>'설정'의 'we-meet'에서 사진 권한을 설정해주세요.</Text>} */}
       <View
@@ -110,20 +113,21 @@ const PhotoSetScreen = ({ navigation, route }) => {
         <Text
           style={{
             alignSelf: "flex-start",
-            marginLeft: 20,
+            marginLeft: "8%",
             lineHeight: 20,
-            color: "white",
+            // color: "white",
+            color: subColorPink,
           }}
         >
           {
-            "다른 사람에게 보여지는 내 프로필 화면이야!\n미팅 신청을 위해 필수로 등록해줘야해"
+            "다른 사람에게 보여지는 내 프로필 화면이야!\n미팅 신청을 위해 필수로 등록해줘야 해"
           }
         </Text>
         <TouchableOpacity
           style={{
             backgroundColor: subColorBlack2,
             // borderWidth: 1,
-            marginTop: 40, //SE에서는 10
+            marginTop: 10,
             width: WIDTH * 0.88,
             height: WIDTH * 0.88,
             borderRadius: 15,
@@ -180,6 +184,11 @@ const PhotoSetScreen = ({ navigation, route }) => {
         text={"사진 등록하기"}
         onPress={onPress}
         disabled={!profileImg}
+        style={
+          !profileImg
+            ? { backgroundColor: "#C9C9C9" }
+            : { backgroundColor: subColorPink }
+        }
       />
     </SafeAreaView>
   );

@@ -189,10 +189,10 @@ const HomeDetailScreen = ({ navigation, route }) => {
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              //불량 유저 신고 -> 미구현
-              Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
-            }}
+          // onPress={() => {
+          //   //불량 유저 신고 -> 미구현
+          //   Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
+          // }}
           >
             <MaterialCommunityIcons
               name="dots-vertical"

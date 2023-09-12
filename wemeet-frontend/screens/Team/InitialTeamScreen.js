@@ -1,10 +1,13 @@
-import { SafeAreaView, View, Text } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import NoTeamScreen from "./NoTeamScreen";
 import { teamInquiryApi } from "../../api/team";
 import MyTeamScreen from "./MyTeamScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
+import Logo from "../../assets/vectors/Logo";
+import commonStyles, { mainColor } from "../../styles/commonStyles";
+
 const defaultTeam = {
   memberNum: "-",
   region: "-",
@@ -39,13 +42,16 @@ const InitialTeamScreen = ({ navigation }) => {
   const [myTeam, setMyTeam] = useState(false); //임시, hasTeam
   const [team, setTeam] = useState(defaultTeam);
   const controller = new AbortController();
+  const [loading, setLoading] = useState(false);
   const onMount = async () => {
+    setLoading(true);
     let result = await teamInquiryApi(navigation, controller);
     if (result) {
       dispatch(setHasTeam(result.hasTeam));
       setTeam(result.team);
       setMyTeam(true);
     } else setMyTeam(false);
+    setLoading(false);
   };
   useEffect(() => {
     //inquiryApi 미완
@@ -54,7 +60,11 @@ const InitialTeamScreen = ({ navigation }) => {
       controller.abort();
     };
   }, []);
-  return myTeam ? (
+  return loading ? (
+    <SafeAreaView
+      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    />
+  ) : myTeam ? (
     <MyTeamScreen navigation={navigation} team={team} />
   ) : (
     <NoTeamScreen navigation={navigation} />

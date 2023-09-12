@@ -13,24 +13,6 @@ import RequestDoneCharacter from "../../assets/characters/RequestDoneCharacter";
 
 //임시 데이터
 
-const tmp = {
-  mainImageURL:
-    "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
-  region: "-",
-  memberNum: 3,
-  leader: {
-    nickname: "ㅇㅇㅇㄹ",
-    mbti: "xxxx",
-    college: "ggㅎ",
-  },
-  profileImageURL:
-    "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
-  meetingRequestId: 10,
-  teamId: 100,
-  daysLeft: 2, //0 > D-0, 1 > D-1 ... 최대 D-3
-  acceptStatus: "PENDING", //상대방의 거절, 수락 여부 -> 실제로는 PENDING상태인것만 들어온다!!
-};
-
 const MatchedScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const hasTeam = useSelector((state) => state.persist.hasTeam);
@@ -39,7 +21,8 @@ const MatchedScreen = ({ navigation }) => {
   const onMount = async () => {
     // return true;
     let result = await acceptedApi(navigation, controller);
-    if (result) {
+    if (result == 40029) dispatch(setHasTeam(false));
+    else if (result) {
       const cards = [];
       result.forEach((card) => {
         cards.push({
@@ -56,10 +39,9 @@ const MatchedScreen = ({ navigation }) => {
           chatLink: card.chatLink, //되는지 확인하기!!
         });
       });
-
       setMatchedData(cards);
       dispatch(setHasTeam(true));
-    } else if (result == 40029) dispatch(setHasTeam(false));
+    }
   };
   useEffect(() => {
     onMount();

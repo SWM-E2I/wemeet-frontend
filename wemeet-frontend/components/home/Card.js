@@ -92,7 +92,7 @@ const Card = ({
             />
             <Text
               style={styles.infoText}
-            >{`만료까지 ${card.timeLeft}시간 남음`}</Text>
+            >{`만료까지 ${card.timeLeft}시간`}</Text>
           </View>
         )}
         {isSent && (

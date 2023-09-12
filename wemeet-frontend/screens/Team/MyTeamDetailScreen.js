@@ -28,7 +28,7 @@ import { teamDeleteApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 const renderItem = ({ item, index }) => {
   return (
-    <View key={item.id}>
+    <View>
       <Image
         source={{
           uri: item.url,
@@ -104,7 +104,9 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
           renderItem={renderItem}
           horizontal
           pagingEnabled={true}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           getItemLayout={getItemLayout}
           scrollToOverflowEnabled={false}
           onScroll={handleScroll}

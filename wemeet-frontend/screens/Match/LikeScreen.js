@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Touchable,
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -21,12 +20,10 @@ import NoTeamCharacter from "../../assets/characters/NoTeamCharacter";
 import RequestDoneCharacter from "../../assets/characters/RequestDoneCharacter";
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
-import { detailApi } from "../../api/home";
 
 const LikeScreen = ({ navigation }) => {
   // 현재 시간을 얻기
   const now = new Date();
-
   const dispatch = useDispatch();
   const hasTeam = useSelector((state) => state.persist.hasTeam);
   const [arrived, setArrived] = useState(true);
@@ -35,16 +32,18 @@ const LikeScreen = ({ navigation }) => {
   const controller = new AbortController();
 
   const onMount = async () => {
+    console.log("onMount");
     if (arrived) {
       let result = await receivedLikeApi(navigation, controller);
       // let result = false;
-      if (result) {
+      if (result == 40029) dispatch(setHasTeam(false));
+      else if (result) {
         const cards = [];
         result.forEach((card) => {
           const date = new Date(card.receivedTime);
           // 시간 차이 계산
           const timeDifference = now - date; // 밀리초 단위로 시간 차이를 얻습니다.
-          const hours = Math.floor(timeDifference / 1000 / 60 / 60);
+          const hours = Math.floor(timeDifference / (1000 * 60 * 60));
           cards.push({
             mainImageURL: card.mainImageURL,
             region: card.region,
@@ -56,27 +55,24 @@ const LikeScreen = ({ navigation }) => {
             },
             profileImageURL: card.profileImageURL,
             teamId: card.teamId,
-            timeLeft: hours % 24,
+            timeLeft: 24 - hours,
           });
         });
         setLikeReceivedData(cards);
         // if (cards.length == 0) setArrived(false);
         dispatch(setHasTeam(true));
-      } else if (result == 40029) {
-        dispatch(setHasTeam(false));
       }
     } else {
       let result = await sentLikeApi(navigation, controller);
-      if (result) {
+      if (result == 40029) dispatch(setHasTeam(false));
+      else if (result) {
         const cards = [];
         result.forEach((card) => {
           // Alert.alert(card.sentTime);
           const date = new Date(card.sentTime);
           // 시간 차이 계산
           const timeDifference = now - date; // 밀리초 단위로 시간 차이를 얻습니다.
-          const seconds = Math.floor(timeDifference / 1000);
-          const minutes = Math.floor(seconds / 60);
-          const hours = Math.floor(minutes / 60);
+          const hours = Math.floor(timeDifference / (1000 * 60 * 60));
           cards.push({
             mainImageURL: card.mainImageURL,
             region: card.region,
@@ -88,13 +84,11 @@ const LikeScreen = ({ navigation }) => {
             },
             profileImageURL: card.profileImageURL,
             teamId: card.teamId,
-            timeLeft: 24 - (hours % 24),
+            timeLeft: 24 - hours,
           });
         });
         setLikeSentData(cards);
         dispatch(setHasTeam(true));
-      } else if (result == 40029) {
-        dispatch(setHasTeam(false));
       }
       //card에 필요데이터 저장하기, 상황에 맞게 분기하기
       //내 팀이 없는 경우 팀이 없다고 보여주는 화면 필요!!!!

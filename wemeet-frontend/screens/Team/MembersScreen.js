@@ -73,8 +73,17 @@ const MembersScreen = ({ navigation }) => {
           친구들을 소개해줘
         </Text>
         <Text style={commonStyles.teamGenerateInstruction2}>
-          함께 나갈 친구 정보를 입력해줘 (최대 3명)
+          함께할 친구 정보를 입력해줘
         </Text>
+        <Text
+          style={[
+            commonStyles.teamGenerateInstruction2,
+            { color: subColorPink, fontSize: 13 },
+          ]}
+        >
+          🚨최소 1명, 최대 3명까지 가능해
+        </Text>
+
         {members.map((member, index) => (
           <MemberCard
             mbti={member.mbti}

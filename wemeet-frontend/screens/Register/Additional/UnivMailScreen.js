@@ -54,7 +54,7 @@ const UnivMailScreen = ({ navigation, route }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        {!toProfile && <RegisterCreditView currentCredit={5} />}
+        {/* {!toProfile && <RegisterCreditView currentCredit={5} />} */}
       </View>
       <Text style={registerStyles.labelText}>학교 메일</Text>
       <View style={{ flex: 1, alignItems: "center" }}>

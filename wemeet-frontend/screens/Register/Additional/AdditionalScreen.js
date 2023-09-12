@@ -8,10 +8,12 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import RegisterHeader from "../../../components/register/RegisterHeader";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../../styles/commonStyles";
 import registerStyles from "../../../styles/registerStyles";
 import NextButton from "../../../components/NextButton";
 import { CommonActions } from "@react-navigation/native";
+import NoTeamCharacter from "../../../assets/characters/NoTeamCharacter";
+import RequestDoneCharacter from "../../../assets/characters/RequestDoneCharacter";
 
 const ButtonContainer = ({ text, done, onPress }) => {
   return (
@@ -40,7 +42,7 @@ const ButtonContainer = ({ text, done, onPress }) => {
       </Text>
       <TouchableOpacity
         style={{
-          backgroundColor: done ? "#FFB800" : "#C9C9C9",
+          backgroundColor: done ? subColorPink : "#C9C9C9",
           justifyContent: "center",
           alignItems: "center",
           borderRadius: 8,
@@ -65,7 +67,7 @@ const ButtonContainer = ({ text, done, onPress }) => {
   );
 };
 
-const instruction = "추가 정보를 입력하면\n더 많은 친구들을\n만날 수 있어!";
+const instruction = "추가 정보를\n입력해줘";
 const AdditionalScreen = ({ navigation }) => {
   //persist Data 받아서 분기하기!
   const emailAuthenticated = useSelector(
@@ -77,11 +79,25 @@ const AdditionalScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} />
-      <View style={[registerStyles.instContainer, { height: 200 }]}>
-        <Text style={[registerStyles.instText, { width: "70%" }]}>
-          {instruction}
-        </Text>
+      <View
+        style={[
+          registerStyles.instContainer,
+          // { height: 100, backgroundColor: "yellow" },
+          { marginBottom: 10 },
+        ]}
+      >
+        <Text style={[registerStyles.instText, {}]}>{instruction}</Text>
       </View>
+      <Text
+        style={{
+          marginLeft: "8%",
+          marginBottom: 10,
+          color: subColorPink,
+          fontFamily: "pretendard600",
+        }}
+      >
+        건너뛰고 바로 시작해도 좋아!
+      </Text>
       <View
         style={{
           flex: 1,
@@ -125,6 +141,7 @@ const AdditionalScreen = ({ navigation }) => {
           </>
         )}
       </View>
+
       <NextButton
         text={"위밋 바로 시작하기"}
         onPress={() => {
@@ -140,6 +157,7 @@ const AdditionalScreen = ({ navigation }) => {
           alignSelf: "center",
           marginTop: 10,
           marginBottom: 20,
+          backgroundColor: subColorPink,
         }}
       />
     </SafeAreaView>

@@ -26,6 +26,7 @@ const UnivSet = ({
   setUniv,
   college,
   setCollege,
+  admissionYear,
   setAdmissionYear,
   setStage,
 }) => {
@@ -59,7 +60,7 @@ const UnivSet = ({
           inputStyles={[
             registerStyles.inputText,
             {
-              marginLeft: 10,
+              // marginLeft: 10,
               fontFamily: "pretendard400",
               fontSize: 18,
               textAlign: "left",
@@ -94,7 +95,7 @@ const UnivSet = ({
           arrowicon={
             <FontAwesome name="chevron-down" size={12} color={"white"} />
           }
-          searchicon={<FontAwesome name="search" size={15} color={"white"} />}
+          searchicon={<></>}
           closeicon={<AntDesign name="close" size={18} color={"white"} />}
         />
       ) : stage === 2 ? (
@@ -173,7 +174,8 @@ const UnivSet = ({
               fontFamily: "pretendard400",
               fontSize: 18,
               textAlign: "left",
-              color: "white",
+              // color: "white",
+              color: admissionYear.length > 0 ? subColorPink : "white",
             },
           ]}
           dropdownTextStyles={{
@@ -195,25 +197,22 @@ const UnivSet = ({
             justifyContent: "center",
           }}
           arrowicon={
-            <FontAwesome name="chevron-down" size={12} color={"white"} />
+            admissionYear.length == 0 ? (
+              <FontAwesome name="chevron-down" size={12} color={"white"} />
+            ) : (
+              <></>
+            )
           }
           searchicon={<FontAwesome name="search" size={15} color={"white"} />}
-          closeicon={<AntDesign name="close" size={18} color={"white"} />}
+          closeicon={
+            <AntDesign
+              name="close"
+              size={18}
+              color={admissionYear.length > 0 ? subColorPink : "white"}
+            />
+          }
         />
       )}
-
-      <Text
-        style={[
-          registerStyles.warningText,
-          {
-            marginLeft: "10%",
-            color: "white",
-            alignSelf: "flex-start",
-          },
-        ]}
-      >
-        {"한번 입력된 대학 정보는 수정이 불가능해!"}
-      </Text>
       {stage === 2 ? (
         <RegisterAnimatedView
           text={univNameList[univCodeList.indexOf(univ)]}
@@ -238,7 +237,10 @@ const UnivSet = ({
               fontFamily: "pretendard400",
               color: subColorPink,
             }}
-            style={{ backgroundColor: subColorBlack2 }}
+            style={{
+              backgroundColor: subColorBlack2,
+              marginBottom: 0,
+            }}
           />
           <RegisterAnimatedView
             text={univNameList[univCodeList.indexOf(univ)]}
@@ -248,10 +250,25 @@ const UnivSet = ({
               fontFamily: "pretendard400",
               color: subColorPink,
             }}
-            style={{ backgroundColor: subColorBlack2 }}
+            style={{
+              backgroundColor: subColorBlack2,
+              marginBottom: 0,
+            }}
           />
         </>
       ) : null}
+      <Text
+        style={[
+          registerStyles.warningText,
+          {
+            marginLeft: "10%",
+            color: "white",
+            alignSelf: "flex-start",
+          },
+        ]}
+      >
+        {"한번 입력된 대학 정보는 수정이 불가능해!"}
+      </Text>
     </>
   );
 };

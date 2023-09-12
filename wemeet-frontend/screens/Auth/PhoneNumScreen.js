@@ -9,8 +9,9 @@ import { phoneVrfIssueApi } from "../../api/auth.js";
 import { useDispatch } from "react-redux";
 import { setRegisterPhoneNum } from "../../redux/registerSlice";
 
-const instruction = "휴대폰 번호를\n알려줘";
-const PhoneNumScreen = ({ navigation }) => {
+const instruction = "휴대폰 번호를\n입력해줘";
+const PhoneNumScreen = ({ navigation, route }) => {
+  const isRegister = route.params?.isRegister;
   const [phone, setPhone] = useState("010");
   const [warning, setWarning] = useState(null); //잘못 입력했을시 안내 멘트
   const [loading, setLoading] = useState(false); //API응답대기여부
@@ -34,7 +35,10 @@ const PhoneNumScreen = ({ navigation }) => {
         console.log("인증번호 발송, 다음 화면으로 이동");
         setWarning(null);
         dispatch(setRegisterPhoneNum(`+82${phone.slice(1)}`));
-        navigation.navigate("Verify", { phone: phone });
+        navigation.navigate("Verify", {
+          phone: phone,
+          isRegister: isRegister,
+        });
       } else {
         setWarning("오류가 발생했습니다. 다시 시도해주세요.");
         setPhone("010");
@@ -46,7 +50,7 @@ const PhoneNumScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        {isRegister && <RegisterCreditView currentCredit={5} />}
       </View>
       <Text style={registerStyles.labelText}>휴대폰 번호</Text>
       <View style={{ flex: 1, alignItems: "center" }}>

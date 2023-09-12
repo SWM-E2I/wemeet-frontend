@@ -49,7 +49,7 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
   const [useInput, setUseInput] = useState(true);
   const [letter, setLetter] = useState("");
   const heightValue = useRef(
-    new Animated.Value(Platform.OS === "ios" ? 350 : 375) //for keyboardavoidingview issue in android
+    new Animated.Value(Platform.OS == "ios" ? 350 : 375) //for keyboardavoidingview issue in android
   ).current;
 
   const onRequestPress = async () => {
@@ -62,12 +62,7 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
         {
           text: "확인",
           onPress: () => {
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: "Sent" }],
-              })
-            );
+            navigation.goBack();
           },
         },
       ]);
@@ -82,8 +77,9 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
           else navigation.goBack();
         }}
       />
+
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "position"}
+        behavior={Platform.OS == "ios" ? "padding" : "position"}
       >
         {/* <KeyboardAwareScrollView> */}
         <Animated.View style={[styles.modalContainer, { height: heightValue }]}>

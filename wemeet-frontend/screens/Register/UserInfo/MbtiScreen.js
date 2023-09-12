@@ -38,7 +38,7 @@ const MbtiScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} back />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        <RegisterCreditView currentCredit={30} />
       </View>
       {/* <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         MBTI를 선택해줘
@@ -111,6 +111,7 @@ const MbtiScreen = ({ navigation }) => {
           alignSelf: "center",
           marginTop: 10,
           marginBottom: 20,
+          backgroundColor: subColorPink,
         }}
       />
     </SafeAreaView>

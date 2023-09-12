@@ -36,6 +36,7 @@ const storeAccessToken = async (response) => {
     console.log(err);
   }
 };
+
 const teamGenerateApi = async (images, data, navigation, controller) => {
   //이미지와 Object Data를 받아서 multipart/ form으로 보내기
   //images = 사진 데이터 객체 리스트 (pickImageAsync의 result.assets)
@@ -61,7 +62,7 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
     console.log("TeamGenerateApi response data :", response.data);
     if (response.data.status == "SUCCESS") {
       await storeAccessToken(response);
-      Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어");
+
       return true;
     }
   } catch (err) {
@@ -78,6 +79,7 @@ const teamDeleteApi = async (navigation, controller) => {
     });
     console.log("TeamDeleteApi response data :", response.data);
     if (response.data.status == "SUCCESS") {
+      await storeAccessToken(response);
       Alert.alert("팀이 삭제되었어", "언제라도 새로운 팀을 생성해줘!");
       return true;
     } else if (response.data.status == "FAIL") {

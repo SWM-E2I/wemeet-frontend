@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../../styles/commonStyles";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
@@ -90,7 +90,9 @@ const UnivScreen = ({ navigation }) => {
       <RegisterHeader navigation={navigation} back onBack={onBack} />
       <View style={registerStyles.instContainer}>
         <Text style={registerStyles.instText}>{instruction}</Text>
-        <RegisterCreditView currentCredit={5} />
+        <RegisterCreditView
+          currentCredit={stage == 1 ? 34 : stage == 2 ? 37 : 40}
+        />
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* 여기에 body내용 입력 */}
@@ -117,7 +119,9 @@ const UnivScreen = ({ navigation }) => {
             alignSelf: "center",
             marginTop: 10,
             marginBottom: 20,
+            backgroundColor: subColorPink,
           }}
+          // disabled={admissionYear.length > 0 ? false : true}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
