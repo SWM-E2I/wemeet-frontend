@@ -112,7 +112,10 @@ const HomeCard = ({ card, navigation, end, short }) => {
       style={[
         styles.card,
         {
-          height: CARD_WIDTH,
+          height:
+            Dimensions.get("window").height > 695
+              ? CARD_WIDTH + 86
+              : CARD_WIDTH,
           backgroundColor: mainColor,
           overflow: "hidden",
         },
