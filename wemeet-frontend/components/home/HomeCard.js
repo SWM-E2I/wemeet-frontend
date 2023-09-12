@@ -93,24 +93,26 @@ const HomeCard = ({ card, navigation, end, short }) => {
           </Text>
         </View>
       </View>
-      <LeaderCard
-        style={{
-          marginTop: 0,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-        }}
-        nickName={card.leader.nickname}
-        mbti={card.leader.mbti}
-        college={card.leader.college}
-        profile={card.profileImageURL}
-      />
+      {Dimensions.get("window").height > 695 && (
+        <LeaderCard
+          style={{
+            marginTop: 0,
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          }}
+          nickName={card.leader.nickname}
+          mbti={card.leader.mbti}
+          college={card.leader.college}
+          profile={card.profileImageURL}
+        />
+      )}
     </TouchableOpacity>
   ) : (
     <View
       style={[
         styles.card,
         {
-          height: CARD_WIDTH + 86,
+          height: CARD_WIDTH,
           backgroundColor: mainColor,
           overflow: "hidden",
         },
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 1,
     shadowRadius: 25,
-    // overflow: "hidden", //Device 크기 따라 분기 -> 작으면 hidden, 크면 visible
+    overflow: Dimensions.get("window").height <= 695 ? "hidden" : null, //Device 크기 따라 분기 -> 작으면 hidden, 크면 visible
     // borderColor: "white",
     // borderWidth: 1,
     // overflow: "hidden",
