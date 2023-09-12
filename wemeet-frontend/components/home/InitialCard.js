@@ -31,10 +31,12 @@ const InitialCard = ({ setRecommended, navigation }) => {
       if (result == 40035) {
         Alert.alert("이미 오늘의 추천을 모두 받았어!");
         setRecommended(true);
+        setTimeUntilActivation(timeLeft());
       } else if (result) {
         dispatch(setSuggestState(result)); //추천받은 카드데이터 들고있기!
         console.log(result);
         setRecommended(true);
+        setTimeUntilActivation(timeLeft());
       }
       isLoading(false);
     }, 2000);

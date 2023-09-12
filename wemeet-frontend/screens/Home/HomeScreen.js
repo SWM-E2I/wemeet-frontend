@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { suggestionCheckApi } from "../../api/home";
 import { useDispatch, useSelector } from "react-redux";
 import { setSuggestState } from "../../redux/suggestSlice";
+// import { refresh } from "../../api/axios";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -27,7 +28,8 @@ console.log("HEIGHT : ", HEIGHT, "WIDTH : ", WIDTH);
 // 700이하인경우?
 
 const timeLeft = () => {
-  const activationTime = 23 * 3600 + 11 * 60 + 0; //11시 11분 0초
+  const activationTime = 23 * 3600 + 11 * 60 + 59; //11시 11분 59초
+  // const activationTime = 5 * 3600 + 21 * 60 + 0; //for test only
   let currentTime = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Seoul",
   });
@@ -59,7 +61,7 @@ const timeLeft = () => {
   // );
   return timeUntilActivation;
 };
-console.log("Device height : ", HEIGHT, "Device width : ", WIDTH); //700이하인경우
+// console.log("Device height : ", HEIGHT, "Device width : ", WIDTH); //700이하인경우
 const HomeScreen = ({ navigation }) => {
   //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경우 빈 하트)
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
@@ -76,24 +78,55 @@ const HomeScreen = ({ navigation }) => {
       if (result.isReceivedSuggestion) {
         dispatch(setSuggestState(result.teams)); //추천받은 카드데이터 들고있기!
         setRecommended(true);
-      } else setRecommended(false);
+        setTimeUntilActivation(timeLeft());
+      } else {
+        setRecommended(false);
+        setTimeUntilActivation(0);
+      }
+    } else {
+      //조회에 실패한경우!!!
+      Alert.alert("조회에 실패했습니다.", "잠시 후 다시 시도해주세요");
     }
   };
-
-  // console.log(timeUntilActivation); //잘 동작함. 단 mount되기 전까지 계속 실행된다는 점 인지
+  const onRefresh = async () => {
+    let result = await suggestionCheckApi(navigation, controller);
+    if (result) {
+      if (!result.isReceivedSuggestion) {
+        setRecommended(false);
+        setTimeUntilActivation(0);
+      }
+    } else {
+      //조회에 실패한경우!!!
+      Alert.alert("조회에 실패했습니다.", "잠시 후 다시 시도해주세요");
+    }
+  };
   useEffect(() => {
+    // refresh();
     onMount();
     return () => {
       controller.abort();
     };
   }, []);
   useEffect(() => {
-    const timeOutId = setTimeout(() => {
-      setTimeUntilActivation(timeLeft());
-    }, 1000);
-    // console.log(timeUntilActivation);
-    return () => clearTimeout(timeOutId);
+    let timeOutId = null;
+    // timeOutId = setTimeout(() => {
+    //   setTimeUntilActivation(timeLeft());
+    // }, 1000);
+    if (!recommended) setTimeUntilActivation(0);
+    else if (recommended && timeUntilActivation == 0) {
+      // onMount();
+      setTimeUntilActivation(0);
+    } else {
+      timeOutId = setTimeout(() => {
+        setTimeUntilActivation(timeLeft());
+      }, 1000);
+    }
+    // console.log("recommended:", recommended, timeUntilActivation);
+    return () => {
+      if (timeOutId) clearTimeout(timeOutId);
+    };
   }, [timeUntilActivation]);
+
   return (
     <SafeAreaView
       style={[
@@ -105,6 +138,8 @@ const HomeScreen = ({ navigation }) => {
       <AboveContainer
         navigation={navigation}
         timeUntilActivation={timeUntilActivation}
+        activateButton={!recommended || timeUntilActivation == 0}
+        onPress={onRefresh}
       />
       <View style={styles.swiperContainer}>
         {recommended ? (
@@ -142,6 +177,8 @@ const HomeScreen = ({ navigation }) => {
           <InitialCard
             setRecommended={setRecommended}
             navigation={navigation}
+            timeLeft={timeLeft}
+            setTimeUntilActivation={setTimeUntilActivation}
           />
         )}
       </View>

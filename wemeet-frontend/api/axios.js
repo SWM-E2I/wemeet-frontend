@@ -30,7 +30,7 @@ const refresh = async () => {
   const accessToken = await SecureStore.getItemAsync("accessToken");
   const refreshToken = await SecureStore.getItemAsync("refreshToken");
   console.log(
-    "refresh 실행, accessToken, refreshToken :",
+    "refresh 실행 전, accessToken, refreshToken :",
     accessToken,
     refreshToken
   );
@@ -41,13 +41,24 @@ const refresh = async () => {
       { headers: { AccessToken: accessToken, RefreshToken: refreshToken } }
     );
     //SecureStore에 새로운 accessToken, refreshToken 저장
-    console.log(response.headers);
-    await SecureStore.setItemAsync("accessToken", response.headers.accesstoken);
-    await SecureStore.setItemAsync(
-      "refreshToken",
-      response.headers.refreshtoken
-    );
-    return response.headers.accessToken;
+    if (response.data.status == "SUCCESS") {
+      console.log(
+        "token refresh 성공, 발급된 refreshtoken : ",
+        response.headers.refreshtoken
+      );
+      await SecureStore.setItemAsync(
+        "accessToken",
+        response.headers.accesstoken
+      );
+      await SecureStore.setItemAsync(
+        "refreshToken",
+        response.headers.refreshtoken
+      );
+      return response.headers.accessToken;
+    } else {
+      console.log("token refresh : ", response.data?.message);
+      return null;
+    }
   } catch (error) {
     if (error.response?.status === 401) {
       //로그아웃 시키기 -> 인증 페이지로 돌아가기

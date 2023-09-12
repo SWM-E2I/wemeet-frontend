@@ -25,7 +25,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setSignal } from "../../redux/signalSlice";
 import { creditInquiryApi } from "../../api/signal";
-import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 
 const formatTime = (value) => {
   return value < 10 ? `0${value}` : value.toString();
@@ -253,6 +253,7 @@ const AboveContainer = ({
   navigation,
   timeUntilActivation,
   activateButton,
+  onPress,
 }) => {
   // console.log(timeUntilActivation); //잘 동작함
   const dispatch = useDispatch();
@@ -357,31 +358,55 @@ const AboveContainer = ({
             justifyContent: "center",
             alignItems: "center",
             // backgroundColor: subColorPink,
-            backgroundColor: subColorPink,
+            // backgroundColor: subColorPink,
+            backgroundColor: subColorBlack2,
             borderRadius: 5,
-            paddingVertical: 3,
+            paddingVertical: 5,
             paddingHorizontal: 8,
           }}
           disabled={!activateButton}
+          onPress={onPress}
         >
           {/* <AntDesign name="clockcircleo" size={16} color="white" /> */}
-          <FontAwesome5 name="clock" size={14} color="white" />
-          <Text
-            style={{
-              marginLeft: 5,
-              color: "white",
-              fontFamily: "pretendard500",
-              fontSize: 14,
-              textAlignVertical: "center",
-              // marginBottom: 2, //왜 해야대지..
-            }}
-          >
-            {`${formatTime(
-              Math.floor(timeUntilActivation / 3600)
-            )}:${formatTime(
-              Math.floor((timeUntilActivation % 3600) / 60)
-            )}:${formatTime((timeUntilActivation % 3600) % 60)}`}
-          </Text>
+          {!activateButton ? (
+            <>
+              <FontAwesome5 name="clock" size={14} color="white" />
+              <Text
+                style={{
+                  marginLeft: 5,
+                  // color: "white",
+                  color: subColorPink,
+                  fontFamily: "pretendard500",
+                  fontSize: 14,
+                  textAlignVertical: "center",
+                  // marginBottom: 2, //왜 해야대지..
+                }}
+              >
+                {`${formatTime(
+                  Math.floor(timeUntilActivation / 3600)
+                )}:${formatTime(
+                  Math.floor((timeUntilActivation % 3600) / 60)
+                )}:${formatTime((timeUntilActivation % 3600) % 60)}`}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Ionicons name="ios-refresh" size={17} color={"white"} />
+              <Text
+                style={{
+                  // marginLeft: 5,
+                  color: "white",
+                  // color: subColorPink,
+                  fontFamily: "pretendard500",
+                  fontSize: 14,
+                  textAlignVertical: "center",
+                  // marginBottom: 2, //왜 해야대지..
+                }}
+              >
+                새로고침
+              </Text>
+            </>
+          )}
         </TouchableOpacity>
       </View>
     </View>
