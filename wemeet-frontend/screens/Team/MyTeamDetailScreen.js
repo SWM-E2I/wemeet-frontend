@@ -26,6 +26,8 @@ import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
 import { teamDeleteApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setHasTeam } from "../../redux/persistSlice";
 const renderItem = ({ item, index }) => {
   return (
     <View>
@@ -80,12 +82,15 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
   }; //확인필요!!!!!
   const onDeletePress = async () => {
     let result = await teamDeleteApi(navigation, controller);
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "InitialTeam" }],
-      })
-    );
+    if (result) {
+      dispatch(setHasTeam(false));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "InitialTeam" }],
+        })
+      );
+    }
   };
   return (
     <SafeAreaView

@@ -14,7 +14,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; //대책
@@ -70,8 +70,13 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
   const onRequestPress = async () => {
     let result = false;
     if (!useInput) result = await requestApi(teamId, navigation, controller);
-    else
+    else {
+      if (letter.length == 0) {
+        Alert.alert("쪽지를 입력해줘");
+        return;
+      }
       result = await requestMessageApi(teamId, letter, navigation, controller);
+    }
     if (result) {
       Alert.alert("신청 완료", "상대방이 수락하면 문자 메세지를 보내줄게!", [
         {
@@ -186,6 +191,7 @@ const LikeMatchRequestModalScreen = ({ navigation, route }) => {
                   placeholderTextColor={"#717171"}
                   editable={useInput}
                   multiline
+                  maxLength={50}
                 ></TextInput>
               </View>
             )}

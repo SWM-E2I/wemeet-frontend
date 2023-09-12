@@ -117,6 +117,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
     let result = await detailApi(teamId, navigation, controller);
     if (result) {
       dispatch(setHasTeam(result.memberHasTeam));
+      setMeetingRequestStatus(result.meetingRequestStatus);
       const photos = [];
       result.teamImageUrls.map((url, index) => {
         photos.push({ id: index.toString(), uri: url });
@@ -303,18 +304,21 @@ const HomeDetailScreen = ({ navigation, route }) => {
             />
           )}
         </TouchableOpacity>
-        {!meetingRequestStatus || meetingRequestStatus == "EXPIRED" ? (
+        {hasTeam ? (
           <TouchableOpacity
             style={{
               flex: 1,
               height: "100%",
-              backgroundColor: hasTeam ? subColorPink : "#9C9C9C",
+              backgroundColor:
+                !meetingRequestStatus || meetingRequestStatus == "EXPIRED"
+                  ? subColorPink
+                  : "#9C9C9C",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
             }}
             onPress={onRequestPress}
-            disabled={!hasTeam}
+            disabled={meetingRequestStatus && meetingRequestStatus != "EXPIRED"}
           >
             <Text
               style={{
@@ -323,7 +327,9 @@ const HomeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              {hasTeam ? "신청하기" : "내 팀 생성 후 신청 가능"}
+              {!meetingRequestStatus || meetingRequestStatus == "EXPIRED"
+                ? "신청하기"
+                : "이미 신청한 팀이야"}
             </Text>
           </TouchableOpacity>
         ) : (
@@ -344,7 +350,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              이미 신청한 팀이야
+              내 팀 생성 후 신청 가능
             </Text>
           </View>
         )}

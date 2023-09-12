@@ -70,8 +70,13 @@ const RequestModalScreen = ({ navigation, route }) => {
   const onRequestPress = async () => {
     let result = false;
     if (!useInput) result = await requestApi(teamId, navigation, controller);
-    else
+    else {
+      if (letter.length == 0) {
+        Alert.alert("쪽지를 입력해줘");
+        return;
+      }
       result = await requestMessageApi(teamId, letter, navigation, controller);
+    }
     if (result) {
       Alert.alert("신청 완료", "상대방이 수락하면 문자 메세지를 보내줄게!", [
         {
@@ -190,6 +195,7 @@ const RequestModalScreen = ({ navigation, route }) => {
                   placeholderTextColor={"#717171"}
                   editable={useInput}
                   multiline
+                  maxLength={50}
                 ></TextInput>
               </View>
             )}
