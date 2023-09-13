@@ -152,7 +152,7 @@ const MyAccountScreen = ({ navigation }) => {
           <Text style={styles.infoText}>MBTI</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={[styles.infoText2, { marginRight: 5 }]}>
-              {profileData.mbti}
+              {profileData.mbti == "XXXX" ? "아직 잘 몰라" : profileData.mbti}
             </Text>
             <TouchableOpacity>
               {/* <MaterialCommunityIcons
@@ -175,13 +175,13 @@ const MyAccountScreen = ({ navigation }) => {
               logoutApi(navigation);
             }}
           >
-            <Text style={[styles.infoText, { color: "white" }]}>로그 아웃</Text>
+            <Text style={styles.grayText}>로그 아웃</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.infoContainer]}
             onPress={onDeleteAccount}
           >
-            <Text style={[styles.infoText, { color: "white" }]}>회원 탈퇴</Text>
+            <Text style={styles.grayText}>회원 탈퇴</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 17,
     fontFamily: "pretendard600",
-    color: "white",
+    // color: "white",
     color: subColorPink,
   },
   infoText2: {
@@ -231,6 +231,11 @@ const styles = StyleSheet.create({
     fontFamily: "pretendard600",
     color: "white",
     marginRight: 5,
+  },
+  grayText: {
+    color: "#9C9C9C",
+    fontSize: 16,
+    fontFamily: "pretendard500",
   },
 });
 

@@ -6,6 +6,8 @@ import {
   Alert,
   Image,
   StyleSheet,
+  ScrollView,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { teamInquiryApi, teamGenerateApi } from "../../api/team";
@@ -17,7 +19,7 @@ import commonStyles, {
 import Logo from "../../assets/vectors/Logo";
 import Card from "../../components/home/Card";
 
-const MyTeamScreen = ({ navigation, team }) => {
+const MyTeamScreen = ({ navigation, team, onRefresh }) => {
   // const controller = new AbortController();
   // useEffect(() => {
   //   return () => {
@@ -25,6 +27,12 @@ const MyTeamScreen = ({ navigation, team }) => {
   //   };
   // }, []);
   console.log("MyTeamScreen :", team);
+  const [refreshing, setRefreshing] = useState(false); // 새로고침 상태를 나타내는 상태 변수
+  const onRefreshing = async () => {
+    setRefreshing(true);
+    await onRefresh();
+    setRefreshing(false);
+  };
 
   const card = {
     mainImageURL: team.images[0].url,
@@ -41,13 +49,28 @@ const MyTeamScreen = ({ navigation, team }) => {
   };
   console.log(card);
   return (
-    <SafeAreaView
-      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    // <SafeAreaView
+    //   style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    // >
+    //   <View style={styles.logoContainer}>
+    //     <Logo width={90} height={20} />
+    //   </View>
+    <ScrollView
+      // style={{ flex: 1 }}
+      // contentContainerStyle={{ flex: 1 }}
+      refreshControl={
+        // RefreshControl을 ScrollView에 추가
+        <RefreshControl
+          refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+          onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+          progressViewOffset={30} // 로딩 바가 어느 위치에서 시작할지 설정
+          colors={["white"]} // 로딩 바의 색상 설정
+          tintColor={"white"} // 로딩 바의 색상 설정
+          title={"새로고침 중..."}
+          titleColor={"white"}
+        />
+      }
     >
-      <View style={styles.logoContainer}>
-        <Logo width={90} height={20} />
-      </View>
-
       <View style={styles.infoContainer}>
         <Text style={styles.text1}>미팅 준비 완료🔥</Text>
         <Text style={styles.text2}>
@@ -62,7 +85,8 @@ const MyTeamScreen = ({ navigation, team }) => {
       >
         <Card card={card} navigation={navigation} myTeam />
       </View>
-    </SafeAreaView>
+    </ScrollView>
+    // </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

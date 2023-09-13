@@ -26,8 +26,13 @@ const MainTabNavigation = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
+        // tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: { fontFamily: "pretendard500", fontSize: 10 },
+        tabBarActiveTintColor: subColorPink,
+        tabBarInactiveTintColor: inactiveColor,
         tabBarStyle: {
+          paddingTop: 5,
           backgroundColor: mainColor,
           borderTopWidth: 0,
         },
@@ -41,6 +46,7 @@ const MainTabNavigation = () => {
           tabBarIcon: ({ focused }) => (
             <Home color={focused ? subColorPink : inactiveColor} />
           ),
+          // unmountOnBlur: true, //추후 api관련 사용예정
         }}
       />
       {/*임시 -> nested navigator로 재구현*/}

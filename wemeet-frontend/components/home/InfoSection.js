@@ -28,10 +28,19 @@ const InfoSection = ({
             size={18}
             color={index == 0 ? subColorPink : "white"}
           />
-          <View style={{ paddingHorizontal: 8 }}>
-            <Text style={styles.descriptionText}>{member.mbti}</Text>
-          </View>
-          <Text style={styles.descriptionText}>{member.college}</Text>
+          {member.mbti != "XXXX" && (
+            <View style={{ paddingHorizontal: 8 }}>
+              <Text style={styles.descriptionText}>{member.mbti}</Text>
+            </View>
+          )}
+          <Text
+            style={[
+              styles.descriptionText,
+              { paddingLeft: member.mbti == "XXXX" ? 8 : 0 },
+            ]}
+          >
+            {member.college}
+          </Text>
           <Text style={{ color: "#8F8F8F", fontSize: 14 }}>{`  ${
             myTeam ? member.collegeType : collegeObj[member.collegeType]
           }  ${member.admissionYear}학번`}</Text>

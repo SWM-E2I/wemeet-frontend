@@ -143,7 +143,7 @@ const InitialProfileScreen = ({ navigation }) => {
               //왜 밑에 정렬안되는지?
             }}
           >
-            {profileData?.mbti}
+            {profileData?.mbti == "XXXX" ? "" : profileData?.mbti}
           </Text>
         </View>
         <View

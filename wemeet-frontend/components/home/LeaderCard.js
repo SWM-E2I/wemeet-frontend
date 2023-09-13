@@ -59,7 +59,9 @@ const LeaderCard = ({
                   fontFamily: "pretendard600",
                 }}
               >
-                {`${nickName} / ${mbti}`}
+                {`${nickName} ${mbti == "XXXX" ? "" : "/"} ${
+                  mbti == "XXXX" ? "" : mbti
+                }`}
               </Text>
               <View style={styles.verifiedLabel}>
                 <Text

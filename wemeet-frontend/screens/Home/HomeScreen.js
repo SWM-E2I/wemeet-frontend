@@ -17,24 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSuggestState } from "../../redux/suggestSlice";
 // import { refresh } from "../../api/axios";
 
-const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
 const swiperHeightPercentage = 0.7;
-
-console.log("HEIGHT : ", HEIGHT, "WIDTH : ", WIDTH);
-
-//3초마다 넘어감
-//매일 밤 11:11분\n새로운 친구들을 만나봐! -> 1/2 , 2/2 // 3초마다 넘어감
-// 700이하인경우?
 
 const timeLeft = () => {
   const activationTime = 23 * 3600 + 11 * 60 + 59; //11시 11분 59초
-  // const activationTime = 5 * 3600 + 21 * 60 + 0; //for test only
+  // const activationTime = 18 * 3600 + 44 * 60 + 10; //for test only
   let currentTime = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Seoul",
   });
-  // 문자열에서 각 요소 추출
-  const currentTimeString = currentTime.split(", ")[1].split(" ")[0];
+  const currentTimeString = currentTime.split(", ")[1].split(" ")[0]; // 문자열에서 각 요소 추출
   let currentHour =
     currentTime.split(", ")[1].split(" ")[1] == "PM"
       ? Number(currentTimeString.split(":")[0]) + 12
@@ -47,32 +38,19 @@ const timeLeft = () => {
     currentTime > activationTime
       ? 24 * 3600 - currentTime + activationTime
       : activationTime - currentTime;
-  // console.log(
-  //   "현재시간! :",
-  //   Math.floor(currentTime / 3600),
-  //   Math.floor((currentTime % 3600) / 60),
-  //   (currentTime % 3600) % 60
-  // );
-  // console.log(
-  //   "남은시간! :",
-  //   Math.floor(timeUntilActivation / 3600),
-  //   Math.floor((timeUntilActivation % 3600) / 60),
-  //   (timeUntilActivation % 3600) % 60
-  // );
   return timeUntilActivation;
 };
-// console.log("Device height : ", HEIGHT, "Device width : ", WIDTH); //700이하인경우
 const HomeScreen = ({ navigation }) => {
   //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경우 빈 하트)
   //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
   const cardData = useSelector((state) => state.suggest.cards);
-  // const [apiCardData, setApiCardData] = useState([]) // 이후 useEffect로 관리 -> 아래 코드는 일회성, 추가로 추천을 받거나 하면..ㅇㅇ 필요
-  const apiCardData = [...cardData, { end: true, teamId: -1 }]; //수정필요함!! cardData의 업데이트 내용을 반영하지 못해!!
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
   const [timeUntilActivation, setTimeUntilActivation] = useState(timeLeft());
+
   const controller = new AbortController();
   const onMount = async () => {
+    // return true;
     let result = await suggestionCheckApi(navigation, controller);
     if (result) {
       if (result.isReceivedSuggestion) {
@@ -94,6 +72,17 @@ const HomeScreen = ({ navigation }) => {
       if (!result.isReceivedSuggestion) {
         setRecommended(false);
         setTimeUntilActivation(0);
+      } else {
+        //이미 추천이 받아졌던 경우 : 즉, 계산한 시간이 서버보다 빨라서 타이머가 0이 되었던 경우 => 계속해서 '새로고침'가능하게 해줘야함
+        // dispatch(
+        //   setSuggestState([
+        //     { end: true, teamId: -3 },
+        //     { end: true, teamId: -4 },
+        //     ...result.teams,
+        //     { end: true, teamId: -2 },
+        //   ])
+        // ); //추천받은 카드데이터 들고있기!, for test only -> update되는지 확인
+        dispatch(setSuggestState(result.teams)); //추천받은 카드데이터 들고있기!
       }
     } else {
       //조회에 실패한경우!!!
@@ -143,9 +132,10 @@ const HomeScreen = ({ navigation }) => {
       />
       <View style={styles.swiperContainer}>
         {recommended ? (
+          //cardData.length == 1 (end 밖에 없는경우)=> 분기해서 만들기?!
           <Swiper
             //몇번째 카드인지 보여주기!!
-            cards={apiCardData}
+            cards={cardData}
             renderCard={(card) => (
               <HomeCard
                 card={card}
@@ -155,8 +145,8 @@ const HomeScreen = ({ navigation }) => {
               />
             )}
             cardIndex={0}
-            stackSize={apiCardData.length == 1 ? 1 : 2}
-            horizontalSwipe={apiCardData.length == 1 ? false : true}
+            stackSize={cardData.length == 1 ? 1 : 2}
+            horizontalSwipe={cardData.length == 1 ? false : true}
             verticalSwipe={false}
             swipeAnimationDuration={500}
             stackSeparation={20} //얼마로 해야할지 다시 무렁보기
@@ -185,7 +175,6 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-// console.log(getStatusBarHeight(true));
 const styles = StyleSheet.create({
   swiperContainer: {
     flex: swiperHeightPercentage,

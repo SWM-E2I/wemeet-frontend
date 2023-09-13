@@ -10,6 +10,7 @@ import {
   Alert,
   FlatList,
 } from "react-native";
+
 import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
@@ -31,6 +32,8 @@ import {
   drinkRateDict,
   drinkWithGameDict,
 } from "../../assets/datasets";
+import { useDispatch, useSelector } from "react-redux";
+import { setHasTeam } from "../../redux/persistSlice";
 
 const renderItem = ({ item, index }) => {
   // console.log(index);
@@ -97,8 +100,14 @@ const defaultTeamInfo = {
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
   },
+  meetingRequestStatus: null,
 };
 const LikeDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const hasTeam = useSelector((state) => state.persist.hasTeam);
+  const [loading, setLoading] = useState(false);
+  const [meetingRequestStatus, setMeetingRequestStatus] = useState(null);
+
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
   const teamId = route.params.teamId;
   const controller = new AbortController();
@@ -107,6 +116,8 @@ const LikeDetailScreen = ({ navigation, route }) => {
   const onMount = async () => {
     let result = await detailApi(teamId, navigation, controller);
     if (result) {
+      dispatch(setHasTeam(result.memberHasTeam));
+      setMeetingRequestStatus(result.meetingRequestStatus);
       const photos = [];
       result.teamImageUrls.map((url, index) => {
         photos.push({ id: index.toString(), uri: url });
@@ -179,10 +190,10 @@ const LikeDetailScreen = ({ navigation, route }) => {
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              //불량 유저 신고 -> 미구현
-              Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
-            }}
+          // onPress={() => {
+          //   //불량 유저 신고 -> 미구현
+          //   Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
+          // }}
           >
             <MaterialCommunityIcons
               name="dots-vertical"
@@ -268,17 +279,21 @@ const LikeDetailScreen = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        {!requested ? (
+        {hasTeam ? (
           <TouchableOpacity
             style={{
               flex: 1,
               height: "100%",
-              backgroundColor: subColorPink,
+              backgroundColor:
+                !meetingRequestStatus || meetingRequestStatus == "EXPIRED"
+                  ? subColorPink
+                  : "#9C9C9C",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
             }}
             onPress={onRequestPress}
+            disabled={meetingRequestStatus && meetingRequestStatus != "EXPIRED"}
           >
             <Text
               style={{
@@ -287,7 +302,9 @@ const LikeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              신청하기
+              {!meetingRequestStatus || meetingRequestStatus == "EXPIRED"
+                ? "신청하기"
+                : "이미 신청한 팀이야"}
             </Text>
           </TouchableOpacity>
         ) : (
@@ -295,7 +312,7 @@ const LikeDetailScreen = ({ navigation, route }) => {
             style={{
               flex: 1,
               height: "100%",
-              backgroundColor: "gray",
+              backgroundColor: "#9C9C9C",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
@@ -308,7 +325,7 @@ const LikeDetailScreen = ({ navigation, route }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              신청완료
+              내 팀 생성 후 신청 가능
             </Text>
           </View>
         )}

@@ -22,7 +22,7 @@ const suggestSlice = createSlice({
   initialState: initialSuggestState,
   reducers: {
     setSuggestState: (state, action) => {
-      state.cards = action.payload;
+      state.cards = [...action.payload, { end: true, teamId: -1 }];
     },
     addCard: (state, action) => {
       state.cards.push(action.payload);

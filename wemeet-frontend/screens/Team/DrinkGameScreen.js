@@ -15,16 +15,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { setDrinkWithGame } from "../../redux/teamGenerateSlice";
 
-const codeList = ["ANY", "MASTER", "BEGINNER", "HATER"];
+const codeList = ["MASTER", "BEGINNER", "HATER", "ANY"];
 const showList = [
-  "상관없어",
   "나는야 술게임 고수",
   "술게임 잘 몰라",
   "술게임 싫어해",
+  "상관없어",
 ];
 const DrinkGameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [drinkWithGameIdx, setDrinkWithGameIdx] = useState(0); //
+  const [drinkWithGameIdx, setDrinkWithGameIdx] = useState(3); //
   const onNext = () => {
     dispatch(setDrinkWithGame(codeList[drinkWithGameIdx]));
     navigation.navigate("Intro");

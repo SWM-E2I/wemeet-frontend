@@ -14,8 +14,8 @@ import commonStyles, {
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { setRegion } from "../../redux/teamGenerateSlice";
-const codeList = ["HONGDAE", "GANGNAM", "SINCHON", "GUNDAE"];
-const showList = ["홍대 입구", "강남", "신촌", "건대 입구"];
+const codeList = ["HONGDAE", "GUNDAE", "GANGNAM", "SINCHON"];
+const showList = ["홍대 입구", "건대 입구", "강남", "신촌"];
 const RegionScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [regionIdx, setRegionIdx] = useState(0); // [latitude, longitude

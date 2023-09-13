@@ -105,7 +105,10 @@ export const requestApi = async (teamId, navigation, controller) => {
       Alert.alert("팀을 생성해줘", "본인 팀이 없으면 좋아요를 보낼 수 없어");
     } else if (response.data.status == "FAIL" && response.data.code == 40304)
       Alert.alert("요청 실패", "사용 가능한 크레딧이 부족해!");
-    else Alert.alert("요청 실패", response.data?.message);
+    else {
+      console.log("요청 실패, code :", response.data.code);
+      Alert.alert("요청 실패", response.data?.message);
+    }
   } catch (err) {
     axiosCatch(err, "requestApi", navigation);
     return false;

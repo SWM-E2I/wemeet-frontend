@@ -161,6 +161,7 @@ const PhotoSetScreen = ({ navigation, route }) => {
                   // backgroundColor: "black",
                 }}
                 // blurRadius={30}
+                // resizeMode={"contain"}
                 resizeMode={"contain"}
               />
             ) : (
@@ -186,7 +187,7 @@ const PhotoSetScreen = ({ navigation, route }) => {
         </View>
       </ScrollView>
       <NextButton
-        text={"사진 등록하기"}
+        text={loading ? "사진 업로드 중" : "사진 등록하기"}
         onPress={onPress}
         disabled={!profileImg || loading}
         style={

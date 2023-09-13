@@ -20,7 +20,11 @@ const CARD_HEIGHT = HEIGHT * swiperHeightPercentage * 0.73;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const InitialCard = ({ setRecommended, navigation }) => {
+const InitialCard = ({
+  setRecommended,
+  setTimeUntilActivation,
+  navigation,
+}) => {
   const dispatch = useDispatch();
   const controller = new AbortController();
   const [loading, isLoading] = useState(false);

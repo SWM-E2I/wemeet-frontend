@@ -10,7 +10,10 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import commonStyles, { mainColor } from "../../styles/commonStyles";
+import commonStyles, {
+  mainColor,
+  subColorPink,
+} from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setIntroduction, resetState } from "../../redux/teamGenerateSlice";
@@ -29,8 +32,9 @@ const IntroScreen = ({ navigation }) => {
   const onPress = async () => {
     if (intro.length < 10) Alert.alert("소개글은 10자 이상 입력해줘!");
     else {
-      dispatch(setIntroduction(intro));
       setLoading(true);
+      dispatch(setIntroduction(intro));
+
       const res = await teamGenerateApi(
         images,
         { ...data, introduction: intro },
@@ -39,8 +43,8 @@ const IntroScreen = ({ navigation }) => {
       );
       console.log("IntroScreen, teamGenerateApi result :", res);
       if (res) {
-        // dispatch(resetState(true));
         dispatch(setHasTeam(true));
+        dispatch(resetState(true));
         Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어", [
           {
             text: "확인",
@@ -68,6 +72,7 @@ const IntroScreen = ({ navigation }) => {
         onPress={() => {
           navigation.goBack();
         }}
+        disabled={loading}
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
@@ -91,6 +96,7 @@ const IntroScreen = ({ navigation }) => {
             maxLength={150}
             placeholderTextColor={"#C4C4C4"}
             multiline
+            editable={!loading}
           />
           <Text
             style={{
@@ -106,7 +112,10 @@ const IntroScreen = ({ navigation }) => {
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
         <TouchableOpacity
-          style={commonStyles.buttonContainer}
+          style={[
+            commonStyles.buttonContainer,
+            { backgroundColor: loading ? "#9C9C9C" : subColorPink },
+          ]}
           onPress={onPress}
           disabled={loading}
         >

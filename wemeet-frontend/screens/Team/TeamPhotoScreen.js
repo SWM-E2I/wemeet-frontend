@@ -25,6 +25,7 @@ const TeamPhotoScreen = ({ navigation }) => {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [mainPhoto, setMainPhoto] = useState(null); // uri
   const [addPhoto, setAddPhoto] = useState([]); // true or false
+  const [loading, setLoading] = useState(false);
   const onNext = () => {
     if (!mainPhoto) {
       Alert.alert("대표 사진 1장은 필수로 등록해줘!");
@@ -56,6 +57,7 @@ const TeamPhotoScreen = ({ navigation }) => {
         return null;
       }
     }
+    setLoading(true);
     let result = await ImagePicker.launchImageLibraryAsync({
       //option finetune필요
       allowsEditing: true,
@@ -66,6 +68,7 @@ const TeamPhotoScreen = ({ navigation }) => {
       console.log(result.assets[0]);
       setMainPhoto(result.assets[0]);
     } else console.log("사진을 선택하지 않음");
+    setLoading(false);
   };
   const pickAddPhotoAsync = async () => {
     if (!status?.granted) {
@@ -78,6 +81,7 @@ const TeamPhotoScreen = ({ navigation }) => {
         return null;
       }
     }
+    setLoading(true);
     let result = await ImagePicker.launchImageLibraryAsync({
       //finetune필요
       quality: 1,
@@ -90,6 +94,7 @@ const TeamPhotoScreen = ({ navigation }) => {
       console.log(result.assets);
       setAddPhoto(result.assets);
     } else console.log("사진을 선택하지 않음");
+    setLoading(false);
   };
   useEffect(() => {
     onMount();
@@ -186,7 +191,14 @@ const TeamPhotoScreen = ({ navigation }) => {
         </View>
       </ScrollView>
       {/* 버튼 */}
-      <TouchableOpacity style={commonStyles.buttonContainer} onPress={onNext}>
+      <TouchableOpacity
+        style={[
+          commonStyles.buttonContainer,
+          { backgroundColor: loading ? "#9C9C9C" : subColorPink },
+        ]}
+        onPress={onNext}
+        disabled={loading}
+      >
         <Text
           style={{
             color: "white",
@@ -194,7 +206,7 @@ const TeamPhotoScreen = ({ navigation }) => {
             fontFamily: "pretendard600",
           }}
         >
-          다음
+          {loading ? "사진 업로드 중" : "다음"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

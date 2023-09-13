@@ -5,8 +5,10 @@ import {
   Text,
   StyleSheet,
   Alert,
+  ScrollView,
+  RefreshControl,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import commonStyles, {
   subColorBlack2,
   subColorBlack,
@@ -18,7 +20,7 @@ import Logo from "../../assets/vectors/Logo";
 import NoTeamCharacter from "../../assets/characters/NoTeamCharacter";
 import { useSelector } from "react-redux";
 
-const NoTeamScreen = ({ navigation }) => {
+const NoTeamScreen = ({ navigation, onRefresh }) => {
   const emailAuthenticated = useSelector(
     (state) => state.persist.emailAuthenticated
   );
@@ -44,13 +46,35 @@ const NoTeamScreen = ({ navigation }) => {
     }
     // navigation.navigate("ProfileStack"); // 임시
   };
+  const [refreshing, setRefreshing] = useState(false); // 새로고침 상태를 나타내는 상태 변수
+  const onRefreshing = async () => {
+    setRefreshing(true);
+    await onRefresh();
+    setRefreshing(false);
+  };
   return (
-    <SafeAreaView
-      style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    // <SafeAreaView
+    //   style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
+    // >
+    //   <View style={styles.logoContainer}>
+    //     <Logo width={90} height={20} />
+    //   </View>
+    <ScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1, justifyContent: "center" }}
+      refreshControl={
+        // RefreshControl을 ScrollView에 추가
+        <RefreshControl
+          refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+          onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+          progressViewOffset={30} // 로딩 바가 어느 위치에서 시작할지 설정
+          colors={["white"]} // 로딩 바의 색상 설정
+          tintColor={"white"} // 로딩 바의 색상 설정
+          title={"새로고침 중..."}
+          titleColor={"white"}
+        />
+      }
     >
-      <View style={styles.logoContainer}>
-        <Logo width={90} height={20} />
-      </View>
       <View style={styles.infoContainer}>
         <NoTeamCharacter />
         <Text style={styles.text1}>아직 소속된 팀이 없네 😲</Text>
@@ -71,7 +95,8 @@ const NoTeamScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ScrollView>
+    // </SafeAreaView>
   );
 };
 

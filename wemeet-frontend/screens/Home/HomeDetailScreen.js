@@ -147,13 +147,9 @@ const HomeDetailScreen = ({ navigation, route }) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
 
   const onRequestPress = () => {
     navigation.navigate("RequestModal", { teamId: teamInfo.teamId });
-    setTimeout(() => {
-      setRequested(true);
-    }, 2000);
   };
 
   return (
@@ -287,7 +283,11 @@ const HomeDetailScreen = ({ navigation, route }) => {
       >
         <TouchableOpacity
           onPress={onLike}
-          style={{ marginRight: 20 }}
+          style={{
+            marginRight: 20,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           disabled={loading || !hasTeam}
         >
           {isLike ? (
@@ -303,6 +303,15 @@ const HomeDetailScreen = ({ navigation, route }) => {
               color={hasTeam ? subColorPink : "#9C9C9C"}
             />
           )}
+          <Text
+            style={{
+              color: hasTeam ? subColorPink : "#9C9C9C",
+              fontSize: 10,
+              fontFamily: "pretendard400",
+            }}
+          >
+            좋아요
+          </Text>
         </TouchableOpacity>
         {hasTeam ? (
           <TouchableOpacity
