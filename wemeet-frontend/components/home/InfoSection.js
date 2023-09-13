@@ -17,7 +17,9 @@ const InfoSection = ({
   intro,
   myTeam,
   chatLink,
+  message,
 }) => {
+  console.log(message);
   return (
     <>
       <Text style={[styles.labelText, { marginBottom: 0 }]}>팀원 정보</Text>
@@ -75,11 +77,24 @@ const InfoSection = ({
       <Text
         style={[
           styles.descriptionText,
-          { lineHeight: 24, marginBottom: myTeam ? 0 : 25 },
+          { lineHeight: 24, marginBottom: myTeam || message ? 0 : 25 },
         ]}
       >
         {intro}
       </Text>
+      {message && (
+        <>
+          <Text style={styles.labelText}>내게 보낸 쪽지</Text>
+          <Text
+            style={[
+              styles.descriptionText,
+              { lineHeight: 24, marginBottom: 25 },
+            ]}
+          >
+            {message}
+          </Text>
+        </>
+      )}
       {myTeam && (
         <>
           <Text style={styles.labelText}>오픈 채팅 링크</Text>

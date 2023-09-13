@@ -110,6 +110,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
   const teamId = route.params.teamId;
   const meetingRequestId = route.params.meetingRequestId;
+  const message = route.params.message;
   const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
   const flatlistRef = useRef();
@@ -329,6 +330,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
             drinkingRate={drinkRateDict[teamInfo.drinkRate]}
             drinkWithGame={drinkWithGameDict[teamInfo.drinkWithGame]}
             intro={teamInfo.introduction}
+            message={message}
           />
         </View>
       </ScrollView>

@@ -20,10 +20,10 @@ export const sentLikeApi = async (navigation, controller) => {
       return response.data.data;
     } else if (response.data.code == 40029) {
       //팀이 존재하지 않는경우!!
-      console.log("sentLikeApi :", response.data.message);
+      // console.log("sentLikeApi :", response.data.message);
       return 40029;
     } else {
-      Alert.alert("조회 실패", response.data?.message);
+      // Alert.alert("조회 실패", response.data?.message);
     }
   } catch (err) {
     axiosCatch(err, "sentLikeApi", navigation);
@@ -43,10 +43,10 @@ export const receivedLikeApi = async (navigation, controller) => {
       return response.data.data;
     } else if (response.data.code == 40029) {
       //팀이 존재하지 않는경우!!
-      console.log("receivedLikeApi :", response.data.message);
+      // console.log("receivedLikeApi :", response.data.message);
       return 40029;
     } else {
-      Alert.alert("조회 실패", response.data?.message);
+      // Alert.alert("조회 실패", response.data?.message);
     }
   } catch (err) {
     axiosCatch(err, "receivedLikeApi", navigation);
@@ -65,9 +65,10 @@ export const sentMatchApi = async (navigation, controller) => {
       return response.data.data;
     } else if (response.data.code == 40029) {
       //팀이 존재하지 않는 경우
-      console.log("sentMatchApi :", response.data.message);
+      // console.log("sentMatchApi :", response.data.message);
       return 40029;
-    } else Alert.alert("조회 실패", response.data?.message);
+    }
+    // else Alert.alert("조회 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "sentMatchApi", navigation);
     return false;
@@ -85,9 +86,10 @@ export const receivedMatchApi = async (navigation, controller) => {
       return response.data.data;
     } else if (response.data.code == 40029) {
       //팀이 존재하지 않는 경우
-      console.log("receivedMatchApi :", response.data.message);
-      return false;
-    } else console.log("receivedMatchApi :", response.data?.message);
+      // console.log("receivedMatchApi :", response.data.message);
+      return 40029;
+    }
+    // else console.log("receivedMatchApi :", response.data?.message);
   } catch (err) {
     axiosCatch(err, "receivedMatchApi", navigation);
     return false;

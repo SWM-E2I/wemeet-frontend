@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   RefreshControl,
+  Linking,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,6 +37,26 @@ const InitialProfileScreen = ({ navigation }) => {
     (state) => state.persist.emailAuthenticated
   );
   const signal = useSelector((state) => state.signal.signal);
+  const onMoveToAgreement = () => {
+    Linking.openURL(
+      "https://hungry-galette-a76.notion.site/We-meet-ad22cdd1adb74bee8a6283c9cf8cf405"
+    ).catch((err) =>
+      console.error(
+        "TermsModalScreen : An error occurred while opening browswer",
+        err
+      )
+    );
+  };
+  const onMoveToPrivacy = () => {
+    Linking.openURL(
+      "https://hungry-galette-a76.notion.site/We-meet-f842efb5bda44d59ba846be0f12f586d"
+    ).catch((err) =>
+      console.error(
+        "TermsModalScreen : An error occurred while opening browswer",
+        err
+      )
+    );
+  };
   const setPhoto = () => {
     navigation.navigate("PhotoSet", {
       toProfile: true,
@@ -74,7 +95,9 @@ const InitialProfileScreen = ({ navigation }) => {
     >
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 20 }}
-        contentContainerStyle={{ alignItems: "center" }}
+        contentContainerStyle={{
+          alignItems: "center",
+        }}
         refreshControl={
           // RefreshControl을 ScrollView에 추가
           <RefreshControl
@@ -278,7 +301,7 @@ const InitialProfileScreen = ({ navigation }) => {
         <TouchableOpacity
           style={{
             paddingVertical: 20,
-            paddingTop: 10,
+            paddingTop: 20,
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
@@ -308,7 +331,7 @@ const InitialProfileScreen = ({ navigation }) => {
             flexDirection: "row",
           }}
           onPress={() => {
-            Alert.alert("준비중이야!");
+            navigation.navigate("Guide");
           }}
         >
           <Text
@@ -318,11 +341,57 @@ const InitialProfileScreen = ({ navigation }) => {
               color: "white",
             }}
           >
-            시그널 스토어
+            위밋 가이드
           </Text>
           <Ionicons name="chevron-forward-sharp" size={24} color="white" />
         </TouchableOpacity>
       </ScrollView>
+      <View style={{ position: "absolute", bottom: 10, left: 20 }}>
+        <TouchableOpacity
+          style={{
+            // paddingVertical: 10,
+            paddingTop: 10,
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            flexDirection: "row",
+          }}
+          onPress={onMoveToPrivacy}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: "pretendard600",
+              color: "#C9C9C9",
+            }}
+          >
+            개인정보 처리방침
+          </Text>
+          {/* <Ionicons name="chevron-forward-sharp" size={20} color="white" /> */}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 10,
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            flexDirection: "row",
+          }}
+          onPress={onMoveToAgreement}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: "pretendard600",
+              color: "white",
+              color: "#C9C9C9",
+            }}
+          >
+            이용약관
+          </Text>
+          {/* <Ionicons name="chevron-forward-sharp" size={20} color="white" /> */}
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

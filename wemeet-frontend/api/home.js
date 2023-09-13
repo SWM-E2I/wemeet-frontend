@@ -53,11 +53,23 @@ export const detailApi = async (teamId, navigation, controller) => {
     if (response.data.status == "SUCCESS") {
       return response.data.data;
     }
+    Alert.alert("팀 상세 정보 조회에 실패했어", "잠시 후에 다시 시도해줘!", [
+      {
+        text: "확인",
+        onPress: () => navigation.goBack(),
+      },
+    ]);
   } catch (err) {
     axiosCatch(err, "detailApi", navigation);
+    Alert.alert("팀 상세 정보 조회에 실패했어", "잠시 후에 다시 시도해줘!", [
+      {
+        text: "확인",
+        onPress: () => navigation.goBack(),
+      },
+    ]);
     return false;
   }
-  Alert.alert("팀 상세 정보 조회에 실패했어", "잠시 후에 다시 시도해줘!");
+
   return false;
 };
 

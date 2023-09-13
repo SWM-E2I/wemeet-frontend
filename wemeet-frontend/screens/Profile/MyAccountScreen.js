@@ -27,8 +27,10 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { accountDeleteApi, logoutApi } from "../../api/myProfile";
 import { CommonActions } from "@react-navigation/native";
+import { resetState } from "../../redux/persistSlice";
 
 const MyAccountScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const profileData = useSelector((state) => state.profile.profileData);
   const controller = new AbortController();
   useEffect(() => {
@@ -56,6 +58,7 @@ const MyAccountScreen = ({ navigation }) => {
           onPress: async () => {
             let result = await accountDeleteApi(navigation, controller);
             if (result) {
+              dispatch(resetState(true));
               navigation.dispatch(
                 CommonActions.reset({
                   index: 0,

@@ -8,6 +8,7 @@ import HomeScreen from "../screens/Home/HomeScreen";
 import HomeDetailScreen from "../screens/Home/HomeDetailScreen";
 import RequestModalScreen from "../screens/Home/RequestModalScreen";
 import RequestDoneModalScreen from "../screens/Home/RequestDoneModalScreen";
+import HelpModal from "../screens/HelpModal";
 
 const HomeStackNavigation = () => {
   const Stack = createStackNavigator();
@@ -21,6 +22,14 @@ const HomeStackNavigation = () => {
         name="Home"
         component={HomeScreen}
         //   options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Help"
+        component={HelpModal}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
       />
       <Stack.Screen
         name="HomeDetail"

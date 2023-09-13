@@ -23,12 +23,12 @@ import RequestDoneCharacter from "../../assets/characters/RequestDoneCharacter";
 const tmp = {
   mainImageURL:
     "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
-  region: "-",
+  region: "홍대입구",
   memberNum: 3,
   leader: {
-    nickname: "ㅇㅇㅇㄹ",
-    mbti: "xxxx",
-    college: "ggㅎ",
+    nickName: "할아부징",
+    mbti: "XXXX",
+    college: "할부지대",
   },
   profileImageURL:
     "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
@@ -36,12 +36,13 @@ const tmp = {
   teamId: 100,
   daysLeft: 2, //0 > D-0, 1 > D-1 ... 최대 D-3
   acceptStatus: "PENDING", //상대방의 거절, 수락 여부 -> 실제로는 PENDING상태인것만 들어온다!!
+  message: "안녕 나랑 틴더할래??",
 };
 const ArrivedScreen = ({ navigation }) => {
   const now = new Date();
   const dispatch = useDispatch();
   const hasTeam = useSelector((state) => state.persist.hasTeam);
-  const [matchArrivedData, setMatchArrivedData] = useState([]);
+  const [matchArrivedData, setMatchArrivedData] = useState([]); //for test onlky
   const controller = new AbortController();
   const [refreshing, setRefreshing] = useState(false);
   const onRefreshing = async () => {
@@ -50,7 +51,7 @@ const ArrivedScreen = ({ navigation }) => {
     setRefreshing(false);
   };
   const onMount = async () => {
-    // return true;
+    // return true; //for test only
     let result = await receivedMatchApi(navigation, controller);
     if (result == 40029) dispatch(setHasTeam(false));
     else if (result) {
@@ -73,6 +74,7 @@ const ArrivedScreen = ({ navigation }) => {
           acceptStatus: card.acceptStatus, //상대방의 거절, 수락 여부 -> 실제로는 PENDING상태인것만 들어온다!!
           meetingRequestId: card.meetingRequestId,
           teamId: card.teamId,
+          message: card.message,
         });
       });
       setMatchArrivedData(cards);
@@ -85,10 +87,11 @@ const ArrivedScreen = ({ navigation }) => {
       controller.abort();
     };
   }, []);
-  const onArrivedPress = (teamId, meetingRequestId) => {
+  const onArrivedPress = (teamId, meetingRequestId, message) => {
     navigation.navigate("ArrivedDetail", {
       teamId: teamId,
       meetingRequestId: meetingRequestId,
+      message: message,
     });
   };
   return !hasTeam ? (
@@ -153,6 +156,7 @@ const ArrivedScreen = ({ navigation }) => {
               style={{ width: "100%" }}
               isArrived
               onPress={onArrivedPress}
+              message={card.message}
             />
           ))
         ) : (

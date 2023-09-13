@@ -80,6 +80,7 @@ export default function App() {
       {!Loading ? (
         <RootStackNavigation
           persistType={persistType}
+          // persistType={"UnivMail"}
           // persistType={"Initial"}
           // persistType={"PhotoSet"}
           // persistType={"MainTab"}

@@ -80,6 +80,7 @@ const MyTeamScreen = ({ navigation, team, onRefresh }) => {
       <View
         style={{
           flex: 1,
+          paddingTop: 20,
           justifyContent: "center",
         }}
       >

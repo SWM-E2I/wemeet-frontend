@@ -56,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
   const controller = new AbortController();
   const onMount = async () => {
     // return true;
+    navigation.navigate("Help");
     let result = await suggestionCheckApi(navigation, controller);
     if (result) {
       if (result.isReceivedSuggestion) {

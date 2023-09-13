@@ -43,9 +43,9 @@ const refresh = async () => {
     //SecureStore에 새로운 accessToken, refreshToken 저장
     if (response.data.status == "SUCCESS") {
       console.log(
-        "refresh 실행 전, accessToken, refreshToken :",
-        accessToken,
-        refreshToken
+        "refresh 실행 후, accessToken, refreshToken :",
+        response.headers.accesstoken,
+        response.headers.refreshtoken
       );
       await SecureStore.setItemAsync(
         "accessToken",
@@ -55,7 +55,7 @@ const refresh = async () => {
         "refreshToken",
         response.headers.refreshtoken
       );
-      return response.headers.accessToken;
+      return response.headers.accesstoken;
     } else {
       console.log("token refresh : ", response.data?.message);
       return null;

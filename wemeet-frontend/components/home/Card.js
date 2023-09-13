@@ -34,6 +34,7 @@ const Card = ({
   isMatched,
   myTeam,
   onPress,
+  message,
 }) => {
   return (
     <TouchableOpacity
@@ -41,7 +42,8 @@ const Card = ({
       onPress={
         () => {
           if (isSent) onPress(card.teamId);
-          else if (isArrived) onPress(card.teamId, card.meetingRequestId);
+          else if (isArrived)
+            onPress(card.teamId, card.meetingRequestId, message);
           else if (isMatched) onPress(card.teamId);
           else if (card.teamId) onPress(card.teamId);
           else if (myTeam)

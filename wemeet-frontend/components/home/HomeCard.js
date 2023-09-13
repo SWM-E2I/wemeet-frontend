@@ -107,7 +107,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         />
       )}
     </TouchableOpacity>
-  ) : noData ? (
+  ) : !noData ? (
     <View
       style={[
         styles.card,
@@ -154,7 +154,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         },
       ]}
     >
-      <Text style={[styles.endText, { left: 30, bottom: 100 }]}>
+      <Text style={[styles.endText, { fontSize: 22, left: 30, top: 30 }]}>
         오늘의 친구 추천은 여기까지야!
       </Text>
       <Text style={[styles.endText, { left: 30, bottom: 50 }]}>

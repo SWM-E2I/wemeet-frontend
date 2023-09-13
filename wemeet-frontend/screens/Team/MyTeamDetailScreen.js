@@ -82,16 +82,32 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
     "술에 진심이야": 3,
   }; //확인필요!!!!!
   const onDeletePress = async () => {
-    let result = await teamDeleteApi(navigation, controller);
-    if (result) {
-      dispatch(setHasTeam(false));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "InitialTeam" }],
-        })
-      );
-    }
+    Alert.alert(
+      "팀 삭제",
+      "팀을 삭제하면 다시 생성할때까지\n매칭 신청, 좋아요가 불가능해",
+      [
+        {
+          text: "취소",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "삭제",
+          onPress: async () => {
+            let result = await teamDeleteApi(navigation, controller);
+            if (result) {
+              dispatch(setHasTeam(false));
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "InitialTeam" }],
+                })
+              );
+            }
+          },
+        },
+      ]
+    );
   };
   return (
     <SafeAreaView
