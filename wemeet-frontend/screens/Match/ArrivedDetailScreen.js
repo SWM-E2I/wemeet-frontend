@@ -35,11 +35,13 @@ import {
 } from "../../assets/datasets";
 import { acceptApi, rejectApi } from "../../api/match";
 import { CommonActions } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setHasTeam } from "../../redux/persistSlice";
 
 const renderItem = ({ item, index }) => {
   // console.log(index);
   return (
-    <View key={item.id}>
+    <View>
       <Image
         source={{
           uri: item.uri,
@@ -101,17 +103,21 @@ const defaultTeamInfo = {
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
   },
+  meetingRequestStatus: null,
 };
 const ArrivedDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
   const teamId = route.params.teamId;
   const meetingRequestId = route.params.meetingRequestId;
   const controller = new AbortController();
   const [activeIndex, setActiveIndex] = useState(0);
   const flatlistRef = useRef();
+  const [loading, setLoading] = useState(false);
   const onMount = async () => {
     let result = await detailApi(teamId, navigation, controller);
     if (result) {
+      dispatch(setHasTeam(true));
       const photos = [];
       result.teamImageUrls.map((url, index) => {
         photos.push({ id: index.toString(), uri: url });
@@ -133,16 +139,25 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
   };
   const onAcceptPress = async () => {
     //수락 Api 연결하기!!
+    setLoading(true);
     let result = await acceptApi(meetingRequestId, navigation, controller);
     if (result) {
-      Alert.alert("매칭 성공", "이제 상대방의 오픈 카톡방에 참여해봐!");
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "MatchedStack" }],
-        })
-      );
+      setLoading(false);
+      Alert.alert("매칭 성공", "이제 상대방의 오픈 카톡으로 대화해봐!", [
+        {
+          text: "확인",
+          onPress: () => {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: "MatchedStack" }],
+              })
+            );
+          },
+        },
+      ]);
     }
+    setLoading(false);
   };
   const onDeclinePress = async () => {
     //거절 Api 연결하기!!
@@ -159,12 +174,14 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
         {
           text: "거절할래", // 버튼 텍스트
           onPress: async () => {
+            setLoading(true);
             let result = await rejectApi(
               meetingRequestId,
               navigation,
               controller
             );
             if (result) {
+              setLoading(false);
               Alert.alert("거절 완료", "더 좋은 친구들을 추천해줄게!");
               navigation.dispatch(
                 CommonActions.reset({
@@ -173,6 +190,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
                 })
               );
             }
+            setLoading(false);
           },
         },
       ]
@@ -222,10 +240,10 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              //불량 유저 신고 -> 미구현
-              Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
-            }}
+          // onPress={() => {
+          //   //불량 유저 신고 -> 미구현
+          //   Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
+          // }}
           >
             <MaterialCommunityIcons
               name="dots-vertical"
@@ -321,6 +339,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
             borderRadius: 5,
           }}
           onPress={onDeclinePress}
+          disabled={loading}
         >
           <Text
             style={{
@@ -343,6 +362,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
             borderRadius: 5,
           }}
           onPress={onAcceptPress}
+          disabled={loading}
         >
           <Text
             style={{

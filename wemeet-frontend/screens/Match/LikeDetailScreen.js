@@ -105,7 +105,6 @@ const defaultTeamInfo = {
 const LikeDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const hasTeam = useSelector((state) => state.persist.hasTeam);
-  const [loading, setLoading] = useState(false);
   const [meetingRequestStatus, setMeetingRequestStatus] = useState(null);
 
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
@@ -138,13 +137,9 @@ const LikeDetailScreen = ({ navigation, route }) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const [requested, setRequested] = useState(false); //임시, redux로 전역으로 들고있어야함!!(각 카드 별로!!)
 
   const onRequestPress = () => {
     navigation.navigate("LikeMatchRequestModal", { teamId: teamInfo.teamId });
-    setTimeout(() => {
-      setRequested(true);
-    }, 2000);
   };
 
   return (
