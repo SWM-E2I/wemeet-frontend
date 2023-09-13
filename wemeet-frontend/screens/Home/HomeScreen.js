@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { suggestionCheckApi } from "../../api/home";
 import { useDispatch, useSelector } from "react-redux";
 import { setSuggestState } from "../../redux/suggestSlice";
+import * as SecureStore from "expo-secure-store";
 // import { refresh } from "../../api/axios";
 
 const swiperHeightPercentage = 0.7;
@@ -52,11 +53,12 @@ const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
   const [timeUntilActivation, setTimeUntilActivation] = useState(timeLeft());
-
   const controller = new AbortController();
   const onMount = async () => {
     // return true;
-    navigation.navigate("Help");
+    const nomore = await SecureStore.getItemAsync("nomore");
+    if (nomore == null) navigation.navigate("Help");
+
     let result = await suggestionCheckApi(navigation, controller);
     if (result) {
       if (result.isReceivedSuggestion) {
@@ -69,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
       }
     } else {
       //조회에 실패한경우!!!
-      Alert.alert("조회에 실패했습니다.", "잠시 후 다시 시도해주세요");
+      // Alert.alert("조회에 실패했습니다.", "잠시 후 다시 시도해주세요");
     }
   };
   const onRefresh = async () => {
@@ -98,6 +100,7 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     // refresh();
     onMount();
+
     return () => {
       controller.abort();
     };
