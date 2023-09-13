@@ -130,7 +130,7 @@ axiosPrivate.interceptors.response.use(
 
 export const axiosCatch = (err, funcName, navigation) => {
   if (err == "LOGOUT") {
-    Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+    // Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

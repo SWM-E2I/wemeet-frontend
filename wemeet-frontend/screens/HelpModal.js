@@ -41,19 +41,27 @@ const HelpModal = ({ navigation }) => {
   const photos = [
     {
       id: "1",
-      uri: "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
     },
     {
       id: "2",
-      uri: "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
     },
     {
       id: "3",
-      uri: "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
     },
     {
       id: "4",
-      uri: "https://image.ajunews.com//content/image/2021/09/17/20210917142548746180.jpg",
+    },
+    {
+      id: "5",
+    },
+    {
+      id: "6",
+    },
+    {
+      id: "7",
+    },
+    {
+      id: "8",
     },
   ];
   const swipeRight = () => {
@@ -154,7 +162,23 @@ const HelpModal = ({ navigation }) => {
           renderItem={({ item, index }) => {
             return (
               <Image
-                source={{ uri: item.uri }}
+                source={
+                  item.id == 1
+                    ? require("../assets/images/help/Help1.png")
+                    : item.id == 2
+                    ? require("../assets/images/help/Help2.png")
+                    : item.id == 3
+                    ? require("../assets/images/help/Help3.png")
+                    : item.id == 4
+                    ? require("../assets/images/help/Help4.png")
+                    : item.id == 5
+                    ? require("../assets/images/help/Help5.png")
+                    : item.id == 6
+                    ? require("../assets/images/help/Help6.png")
+                    : item.id == 7
+                    ? require("../assets/images/help/Help7.png")
+                    : require("../assets/images/help/Help8.png")
+                }
                 style={{
                   width: Dimensions.get("window").width,
                   aspectRatio: 1,
@@ -225,7 +249,7 @@ const HelpModal = ({ navigation }) => {
               color: "white",
             }}
           >
-            건너뛰기
+            {activeIndex == photos.length - 1 ? "  닫기  " : "건너뛰기"}
           </Text>
           {/* <MaterialCommunityIcons
             name="close-circle"

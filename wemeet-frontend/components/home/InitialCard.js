@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { mainColor } from "../../styles/commonStyles";
+import { mainColor, subColorPink } from "../../styles/commonStyles";
 import { useDispatch } from "react-redux";
 import { setSuggestState } from "../../redux/suggestSlice";
 import { suggestionApi } from "../../api/home";
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT * 0.75,
   },
   touchText: {
-    color: "white",
+    // color: "white",
+    color: subColorPink,
     fontSize: 16,
     fontFamily: "pretendard400",
   },

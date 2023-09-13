@@ -12,7 +12,7 @@ const SwiperContainer = ({ cardData, navigation }) => {
   const animation = useRef(null); //for Lottie
   const [showLottie, setShowLottie] = useState(false);
   useEffect(() => {
-    if (cardData.length != 1) {
+    if (cardData.length == 1) {
       setShowLottie(false);
     } else {
       setShowLottie(true);
