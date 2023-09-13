@@ -1,6 +1,16 @@
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  RefreshControl,
+} from "react-native";
 import React, { useState, useEffect } from "react";
-import { mainColor, subColorBlack } from "../../styles/commonStyles";
+import {
+  mainColor,
+  subColorBlack,
+  subColorBlack2,
+} from "../../styles/commonStyles";
 import { AntDesign } from "@expo/vector-icons";
 import { arrivedData } from "../../assets/mock";
 import Card from "../../components/home/Card";
@@ -33,6 +43,12 @@ const ArrivedScreen = ({ navigation }) => {
   const hasTeam = useSelector((state) => state.persist.hasTeam);
   const [matchArrivedData, setMatchArrivedData] = useState([]);
   const controller = new AbortController();
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefreshing = async () => {
+    setRefreshing(true);
+    await onMount();
+    setRefreshing(false);
+  };
   const onMount = async () => {
     // return true;
     let result = await receivedMatchApi(navigation, controller);
@@ -63,7 +79,6 @@ const ArrivedScreen = ({ navigation }) => {
       dispatch(setHasTeam(true));
     }
   };
-
   useEffect(() => {
     onMount();
     return () => {
@@ -77,7 +92,29 @@ const ArrivedScreen = ({ navigation }) => {
     });
   };
   return !hasTeam ? (
-    <View style={[styles.container, { justifyContent: "center" }]}>
+    <ScrollView
+      style={{
+        backgroundColor: subColorBlack2,
+        paddingHorizontal: 24,
+      }}
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      refreshControl={
+        // RefreshControl을 ScrollView에 추가
+        <RefreshControl
+          refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+          onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+          progressViewOffset={40} // 로딩 바가 어느 위치에서 시작할지 설정
+          colors={["white"]} // 로딩 바의 색상 설정
+          tintColor={"white"} // 로딩 바의 색상 설정
+          title={"새로 불러오기"}
+          titleColor={"white"}
+        />
+      }
+    >
       {/* <NoTeamCharacter /> */}
       <RequestDoneCharacter />
       <Text style={styles.text1}>아직 소속된 팀이 없네 😲</Text>
@@ -86,14 +123,26 @@ const ArrivedScreen = ({ navigation }) => {
           '"팀 관리" 탭에서 팀을 만들면 \n다른 팀에게 좋아요, 매칭 신청을 보낼 수 있어!'
         }
       </Text>
-    </View>
+    </ScrollView>
   ) : (
     <View style={styles.container}>
       <ScrollView
         style={{ marginTop: 24 }}
-        bounces={false} //FOR IOS
-        overScrollMode={"never"} //FOR ANDROID
+        // bounces={false} //FOR IOS
+        // overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          // RefreshControl을 ScrollView에 추가
+          <RefreshControl
+            refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+            onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+            progressViewOffset={40} // 로딩 바가 어느 위치에서 시작할지 설정
+            colors={["white"]} // 로딩 바의 색상 설정
+            tintColor={"white"} // 로딩 바의 색상 설정
+            title={"새로 불러오기"}
+            titleColor={"white"}
+          />
+        }
       >
         {matchArrivedData.length >= 1 ? (
           matchArrivedData.map((card, index) => (
@@ -123,7 +172,7 @@ const ArrivedScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: subColorBlack,
+    backgroundColor: subColorBlack2,
     // backgroundColor: "black",
     alignItems: "center",
     paddingHorizontal: 24,

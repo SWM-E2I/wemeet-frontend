@@ -62,6 +62,7 @@ const getItemLayout = (data, index) => ({
   index: index,
 });
 const MyTeamDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const myTeamData = route.params.myTeamData;
   console.log("myTeamDetailScreen :", myTeamData);
   const [activeIndex, setActiveIndex] = useState(0);

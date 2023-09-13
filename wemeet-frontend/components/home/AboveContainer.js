@@ -19,13 +19,13 @@ import {
   subColorBlue,
   subColorPink,
 } from "../../styles/commonStyles";
-import { getStatusBarHeight } from "react-native-status-bar-height";
+// import { getStatusBarHeight } from "react-native-status-bar-height";
 import Logo from "../../assets/vectors/Logo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setSignal } from "../../redux/signalSlice";
 import { creditInquiryApi } from "../../api/signal";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, FontAwesome } from "@expo/vector-icons";
 
 const formatTime = (value) => {
   return value < 10 ? `0${value}` : value.toString();
@@ -351,6 +351,15 @@ const AboveContainer = ({
             {"오늘의 친구들을\n만나봐!"}
           </Text>
         </View>
+        {/* <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 0,
+          }}
+        >
+          <FontAwesome name="question-circle-o" size={20} color="white" />
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={{
             alignSelf: "flex-end",
@@ -371,6 +380,7 @@ const AboveContainer = ({
           {!activateButton ? (
             <>
               <FontAwesome5 name="clock" size={14} color="white" />
+
               <Text
                 style={{
                   marginLeft: 5,

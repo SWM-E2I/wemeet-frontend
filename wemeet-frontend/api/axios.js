@@ -43,8 +43,9 @@ const refresh = async () => {
     //SecureStore에 새로운 accessToken, refreshToken 저장
     if (response.data.status == "SUCCESS") {
       console.log(
-        "token refresh 성공, 발급된 refreshtoken : ",
-        response.headers.refreshtoken
+        "refresh 실행 전, accessToken, refreshToken :",
+        accessToken,
+        refreshToken
       );
       await SecureStore.setItemAsync(
         "accessToken",
@@ -104,6 +105,21 @@ axiosPrivate.interceptors.response.use(
       const prevRequest = error?.config;
       const accessToken = await refresh();
       if (accessToken) {
+        console.log(
+          "accesstoken 재발급 성공, 이전 요청의 headers : ",
+          prevRequest.headers
+        );
+        console.log(
+          "1:",
+          prevRequest.headers["AccessToken"],
+          "2:",
+          prevRequest.headers.AccessToken,
+          "3:",
+          prevRequest.headers["accesstoken"],
+          "4:",
+          prevRequest.headers.accesstoken
+        );
+        //소문자로 바꿔줘야하는지 확인하기
         prevRequest.headers["AccessToken"] = accessToken;
         return axiosPrivate.request(error.config);
       } else return Promise.reject("LOGOUT");

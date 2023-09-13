@@ -3,16 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialSuggestState = {
   cards: [
     {
-      teamId: null, //number
-      memberNum: null, //number
-      region: "", //string
-      profileImageURL: "", //string
-      mainImageURL: "", //string
-      leader: {
-        nickname: "", //string
-        mbti: "", //string
-        college: "", //string
-      },
+      end: true,
+      teamId: -2,
     },
   ],
 };

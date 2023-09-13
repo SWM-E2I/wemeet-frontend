@@ -22,8 +22,8 @@ const WIDTH = Dimensions.get("window").width;
 const CARD_WIDTH = WIDTH * 0.88;
 const cardBorderRadius = 10;
 
-const HomeCard = ({ card, navigation, end, short }) => {
-  console.log(card);
+const HomeCard = ({ card, navigation, end, noData }) => {
+  // console.log("noData?", noData);
   const controller = new AbortController();
   const onPress = async () => {
     //HomeDetail Screen으로 이동하면서 parameter로 teamId를 전달
@@ -107,6 +107,39 @@ const HomeCard = ({ card, navigation, end, short }) => {
         />
       )}
     </TouchableOpacity>
+  ) : noData ? (
+    <View
+      style={[
+        styles.card,
+        {
+          height:
+            Dimensions.get("window").height > 695
+              ? CARD_WIDTH + 86
+              : CARD_WIDTH,
+          backgroundColor: mainColor,
+          overflow: "hidden",
+        },
+      ]}
+    >
+      <Text style={[styles.endText, { left: 30, bottom: 100 }]}>
+        {"지금은 추천 가능한 친구가 없어😭"}
+      </Text>
+      <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
+        {"잠시 후에 다시 시도해줘"}
+      </Text>
+      <Image
+        source={require("../../assets/characters/EndCharacter.png")}
+        style={{
+          // aspectRatio: 1,
+          position: "absolute",
+          bottom: 60,
+          right: -30,
+          height: 185,
+          width: 150,
+        }}
+        resizeMode={"contain"}
+      />
+    </View>
   ) : (
     <View
       style={[

@@ -79,7 +79,7 @@ const MainTabNavigation = () => {
               color={focused ? subColorPink : inactiveColor}
             />
           ),
-          unmountOnBlur: true, //추후 api관련 사용예정
+          // unmountOnBlur: true, //추후 api관련 사용예정
         }}
       />
       <Tab.Screen

@@ -180,14 +180,29 @@ const MatchedDetailScreen = ({ navigation, route }) => {
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-          // onPress={() => {
-          //   //불량 유저 신고 -> 미구현
-          //   Alert.alert("불량 유저 신고", "관리자 검토 후 회신드리겠습니다.");
-          // }}
+            onPress={() => {
+              //불량 유저 신고 -> 미구현
+              Alert.alert("문의하기", "문의사항은 카카오톡 채널에 남겨줘!", [
+                {
+                  text: "취소",
+                },
+                {
+                  text: "문의하기",
+                  onPress: () => {
+                    Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
+                      console.error(
+                        "onMoveToPrivacy : An error occurred while opening browswer",
+                        err
+                      )
+                    );
+                  },
+                },
+              ]);
+            }}
           >
             <MaterialCommunityIcons
-              name="dots-vertical"
-              size={26}
+              name="message-processing-outline"
+              size={24}
               color="white"
             />
           </TouchableOpacity>

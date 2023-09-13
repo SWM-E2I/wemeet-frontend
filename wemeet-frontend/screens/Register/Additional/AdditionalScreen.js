@@ -15,7 +15,7 @@ import { CommonActions } from "@react-navigation/native";
 import NoTeamCharacter from "../../../assets/characters/NoTeamCharacter";
 import RequestDoneCharacter from "../../../assets/characters/RequestDoneCharacter";
 
-const ButtonContainer = ({ text, done, onPress }) => {
+const ButtonContainer = ({ text, done, onPress, text2 }) => {
   return (
     <View
       style={{
@@ -33,7 +33,7 @@ const ButtonContainer = ({ text, done, onPress }) => {
       <Text
         style={{
           fontSize: 20,
-          //   fontWeight: "bold",
+          fontFamily: "pretendard500",
           color: "#FFFFFF",
           marginLeft: 10,
         }}
@@ -57,10 +57,10 @@ const ButtonContainer = ({ text, done, onPress }) => {
           style={{
             fontSize: 18,
             color: "#FFFFFF",
-            // fontWeight: "bold"
+            fontFamily: "pretendard500",
           }}
         >
-          {done ? "완료" : "완료하기"}
+          {done ? "완료" : text2}
         </Text>
       </TouchableOpacity>
     </View>
@@ -112,6 +112,7 @@ const AdditionalScreen = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("PhotoSet");
               }}
+              text2={"등록하기"}
             />
             <ButtonContainer
               text={"대학생 인증"}
@@ -119,6 +120,7 @@ const AdditionalScreen = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("UnivMail");
               }}
+              text2={"인증하기"}
             />
           </>
         ) : (
@@ -129,6 +131,7 @@ const AdditionalScreen = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("UnivMail");
               }}
+              text2={"인증하기"}
             />
             <ButtonContainer
               text={"사진 등록"}
@@ -137,6 +140,7 @@ const AdditionalScreen = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("PhotoSet");
               }}
+              text2={"등록하기"}
             />
           </>
         )}

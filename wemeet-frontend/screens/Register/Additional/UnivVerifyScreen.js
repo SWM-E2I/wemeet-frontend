@@ -97,6 +97,9 @@ const UnivVerifyScreen = ({ navigation, route }) => {
       controller.abort();
     };
   }, []);
+  useEffect(() => {
+    if (code.length == 6) onSubmit();
+  }, [code]);
   return (
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back />
@@ -122,9 +125,9 @@ const UnivVerifyScreen = ({ navigation, route }) => {
             inputMode={"numeric"}
             maxLength={6}
             placeholder={"인증번호를 입력하세요"}
-            onSubmitEditing={() => {
-              Keyboard.dismiss();
-            }}
+            // onSubmitEditing={() => {
+            //   Keyboard.dismiss();
+            // }}
             editable={!loading}
             placeholderTextColor={"#C4C4C4"}
           ></TextInput>

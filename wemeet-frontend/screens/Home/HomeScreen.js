@@ -6,7 +6,6 @@ import commonStyles, {
   subColorPink,
   subColorBlack,
 } from "../../styles/commonStyles";
-import { roughCardData } from "../../assets/mock.js";
 import HomeCard from "../../components/home/HomeCard";
 import AboveContainer from "../../components/home/AboveContainer";
 import Swiper from "react-native-deck-swiper";
@@ -20,18 +19,24 @@ import { setSuggestState } from "../../redux/suggestSlice";
 const swiperHeightPercentage = 0.7;
 
 const timeLeft = () => {
-  const activationTime = 23 * 3600 + 11 * 60 + 59; //11시 11분 59초
+  const activationTime = 23 * 3600 + 11 * 60 + 10; //11시 11분 59초
   // const activationTime = 18 * 3600 + 44 * 60 + 10; //for test only
   let currentTime = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Seoul",
   });
+
   const currentTimeString = currentTime.split(", ")[1].split(" ")[0]; // 문자열에서 각 요소 추출
   let currentHour =
     currentTime.split(", ")[1].split(" ")[1] == "PM"
       ? Number(currentTimeString.split(":")[0]) + 12
+      : Number(currentTimeString.split(":")[0]) == 12
+      ? 0
       : Number(currentTimeString.split(":")[0]); //24시간제로 변환
   const currentMinute = Number(currentTimeString.split(":")[1]);
   const currentSecond = Number(currentTimeString.split(":")[2]);
+
+  // console.log(currentHour, currentMinute, currentSecond);
+
   currentTime = currentHour * 3600 + currentMinute * 60 + currentSecond;
   // currentTime = 83461; //for Test only
   let timeUntilActivation =
@@ -127,7 +132,11 @@ const HomeScreen = ({ navigation }) => {
       <AboveContainer
         navigation={navigation}
         timeUntilActivation={timeUntilActivation}
-        activateButton={!recommended || timeUntilActivation == 0}
+        activateButton={
+          !recommended ||
+          timeUntilActivation == 0 ||
+          (cardData.length == 1 ? true : false)
+        }
         onPress={onRefresh}
       />
       <View style={styles.swiperContainer}>
@@ -135,6 +144,7 @@ const HomeScreen = ({ navigation }) => {
           //cardData.length == 1 (end 밖에 없는경우)=> 분기해서 만들기?!
           <Swiper
             //몇번째 카드인지 보여주기!!
+
             cards={cardData}
             renderCard={(card) => (
               <HomeCard
@@ -142,6 +152,7 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 end={card.end ? true : false}
                 key={card.teamId}
+                noData={cardData.length == 1 ? true : false}
               />
             )}
             cardIndex={0}

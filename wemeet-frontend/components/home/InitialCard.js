@@ -22,6 +22,7 @@ const cardBorderRadius = 10;
 
 const InitialCard = ({
   setRecommended,
+  timeLeft,
   setTimeUntilActivation,
   navigation,
 }) => {

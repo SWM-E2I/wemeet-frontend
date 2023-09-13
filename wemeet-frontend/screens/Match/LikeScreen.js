@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   Alert,
+  RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import {
@@ -30,9 +31,14 @@ const LikeScreen = ({ navigation }) => {
   const [likeSentData, setLikeSentData] = useState([]);
   const [likeReceivedData, setLikeReceivedData] = useState([]);
   const controller = new AbortController();
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefreshing = async () => {
+    setRefreshing(true);
+    await onMount();
+    setRefreshing(false);
+  };
 
   const onMount = async () => {
-    console.log("onMount");
     if (arrived) {
       let result = await receivedLikeApi(navigation, controller);
       // let result = false;
@@ -106,7 +112,29 @@ const LikeScreen = ({ navigation }) => {
   };
 
   return !hasTeam ? (
-    <View style={[styles.container, { justifyContent: "center" }]}>
+    <ScrollView
+      style={{
+        backgroundColor: subColorBlack2,
+        paddingHorizontal: 24,
+      }}
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      refreshControl={
+        // RefreshControl을 ScrollView에 추가
+        <RefreshControl
+          refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+          onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+          progressViewOffset={40} // 로딩 바가 어느 위치에서 시작할지 설정
+          colors={["white"]} // 로딩 바의 색상 설정
+          tintColor={"white"} // 로딩 바의 색상 설정
+          title={"새로 불러오기"}
+          titleColor={"white"}
+        />
+      }
+    >
       {/* <NoTeamCharacter /> */}
       <RequestDoneCharacter />
       <Text style={styles.text1}>아직 소속된 팀이 없네 😲</Text>
@@ -115,7 +143,7 @@ const LikeScreen = ({ navigation }) => {
           '"팀 관리" 탭에서 팀을 만들면 \n다른 팀에게 좋아요, 매칭 신청을 보낼 수 있어!'
         }
       </Text>
-    </View>
+    </ScrollView>
   ) : (
     <View style={styles.container}>
       <View style={styles.toggleContainer}>
@@ -164,9 +192,21 @@ const LikeScreen = ({ navigation }) => {
 
       <ScrollView
         // style={{ marginVertical: 10 }}
-        bounces={false} //FOR IOS
-        overScrollMode={"never"} //FOR ANDROID
+        // bounces={false} //FOR IOS
+        // overScrollMode={"never"} //FOR ANDROID
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          // RefreshControl을 ScrollView에 추가
+          <RefreshControl
+            refreshing={refreshing} // 새로고침 중일 때 true, 아닐 때 false
+            onRefresh={onRefreshing} // 당겨서 새로고침 작업을 수행하는 함수
+            progressViewOffset={40} // 로딩 바가 어느 위치에서 시작할지 설정
+            colors={["white"]} // 로딩 바의 색상 설정
+            tintColor={"white"} // 로딩 바의 색상 설정
+            title={"새로 불러오기"}
+            titleColor={"white"}
+          />
+        }
       >
         {arrived ? (
           likeReceivedData.length >= 1 ? (
@@ -219,7 +259,7 @@ const LikeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: subColorBlack,
+    backgroundColor: subColorBlack2,
     // backgroundColor: mainColor,
     // backgroundColor: "black",
     alignItems: "center",
@@ -230,20 +270,22 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 240,
     height: 50,
-    borderRadius: 20,
+    borderRadius: 12,
     backgroundColor: subColorBlack2,
-    // backgroundColor: "yellow",
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
     overflow: "hidden",
+    borderWidth: 0.5,
+    // borderColor: subColorPink,
+    borderColor: "#9C9C9C",
   },
   toggleButton: {
     height: "100%",
     width: "50%",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 12,
+    borderRadius: 7,
   },
   toggleButtonText: {
     color: "white",

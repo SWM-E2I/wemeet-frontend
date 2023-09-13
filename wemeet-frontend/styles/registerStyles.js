@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { subColorPink } from "./commonStyles";
 
 const width = Dimensions.get("window").width;
 const registerStyles = StyleSheet.create({
@@ -60,6 +61,12 @@ const registerStyles = StyleSheet.create({
     fontFamily: "pretendard500",
     marginBottom: 10,
     marginLeft: "10%",
+  },
+  agreement: {
+    fontSize: 14,
+    // color: subColorPink,
+    color: "#9C9C9C",
+    fontFamily: "pretendard500",
   },
 });
 
