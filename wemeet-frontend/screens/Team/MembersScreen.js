@@ -28,9 +28,12 @@ const MemberCard = ({
     <View style={styles.memberCard}>
       <Ionicons name="person" size={20} color="white" />
       <View style={{ flex: 1, paddingHorizontal: 15 }}>
-        <Text style={styles.infoText1}>{`${mbti == "XXXX" ? "????" : mbti}  ${
-          univDict[univ]
-        }`}</Text>
+        {mbti == "XXXX" ? (
+          <Text style={styles.infoText1}>{univDict[univ]}</Text>
+        ) : (
+          <Text style={styles.infoText1}>{`${mbti}  ${univDict[univ]}`}</Text>
+        )}
+
         <Text
           style={styles.infoText2}
         >{`${collegeObj[college]}  ${admissionYear}학번`}</Text>
