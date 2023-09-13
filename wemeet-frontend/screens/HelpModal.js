@@ -78,12 +78,13 @@ const HelpModal = ({ navigation }) => {
   const getNomore = async () => {
     const result = await SecureStore.getItemAsync("nomore");
     console.log("nomore :", result);
+    if (result == null) setNomore(false);
+    else setNomore(true);
     return result;
   };
 
   useEffect(() => {
-    const result = getNomore();
-    if (result) setNomore(true);
+    getNomore();
   }, []);
 
   return (
@@ -124,6 +125,7 @@ const HelpModal = ({ navigation }) => {
               style={{ paddingVertical: 0, paddingHorizontal: 0 }}
               onPress={() => {
                 if (!nomore) {
+                  setNomore(true);
                   SecureStore.setItemAsync("nomore", "true");
                   setTimeout(() => {
                     navigation.goBack();

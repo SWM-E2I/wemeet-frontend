@@ -107,7 +107,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         />
       )}
     </TouchableOpacity>
-  ) : noData ? (
+  ) : !noData ? (
     <View
       style={[
         styles.card,
@@ -129,8 +129,32 @@ const HomeCard = ({ card, navigation, end, noData }) => {
       >
         {"지금은 추천 해줄 친구가 없어⏰"}
       </Text>
+      <Text
+        style={[
+          styles.endText,
+          {
+            fontFamily: "pretendard600",
+            fontSize: 16,
+            left: 30,
+            top: 90,
+            color: "#9C9C9C",
+          },
+        ]}
+      >
+        {"새로운 친구를 금방 소개해줄게"}
+      </Text>
+      <View style={{ position: "absolute", left: 30, bottom: 20 }}>
+        <Image
+          source={require("../../assets/images/elevenEleven.png")}
+          style={{
+            width: 180,
+            alignSelf: "flex-start",
+          }}
+          resizeMode={"contain"}
+        />
+      </View>
       <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
-        {"잠시 후에 다시 시도해줄래?\n\n언제든지 추천해줄게😉"}
+        {"잠시 후에 다시 시도해줘!"}
       </Text>
       <Image
         source={require("../../assets/characters/EndCharacter.png")}
@@ -165,23 +189,51 @@ const HomeCard = ({ card, navigation, end, noData }) => {
           { fontFamily: "pretendard600", fontSize: 22, left: 30, top: 30 },
         ]}
       >
-        오늘의 친구 추천은 여기까지야!
+        오늘의 친구들은 어땠어?
       </Text>
-      <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
-        {"친구들한테 내 카드를\n보여줄 수 있는 좋아요는 어떄?"}
+      <Text
+        style={[
+          styles.endText,
+          {
+            fontFamily: "pretendard600",
+            fontSize: 16,
+            left: 30,
+            top: 70,
+            color: "#9C9C9C",
+          },
+        ]}
+      >
+        {
+          "오늘의 추천 친구는 여기까지야\n용기를 내서 '좋아요', '신청하기'를 눌러봐!"
+        }
       </Text>
+      <View style={{ position: "absolute", left: 30, bottom: 20 }}>
+        <Image
+          source={require("../../assets/images/elevenEleven.png")}
+          style={{
+            width: 180,
+            alignSelf: "flex-start",
+          }}
+          resizeMode={"contain"}
+        />
+      </View>
       <Image
         source={require("../../assets/characters/EndCharacter.png")}
         style={{
           // aspectRatio: 1,
           position: "absolute",
-          bottom: 60,
+          bottom: Dimensions.get("window").height <= 695 ? 40 : 80,
           right: -30,
           height: 185,
-          width: 150,
+          width: Dimensions.get("window").height <= 695 ? 100 : 150,
         }}
         resizeMode={"contain"}
       ></Image>
+      <Text style={[styles.endText, { left: 30, bottom: 70, fontSize: 12 }]}>
+        {
+          "❤️ '좋아요' 누르면 매칭 확률이 올라가!\n‼️ 하루 한번만 누를 수 있으니 신중하게!"
+        }
+      </Text>
     </View>
   );
 };
