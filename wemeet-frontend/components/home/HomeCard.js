@@ -107,7 +107,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         />
       )}
     </TouchableOpacity>
-  ) : !noData ? (
+  ) : noData ? (
     <View
       style={[
         styles.card,
@@ -121,11 +121,16 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         },
       ]}
     >
-      <Text style={[styles.endText, { left: 30, bottom: 100 }]}>
-        {"지금은 추천 가능한 친구가 없어😭"}
+      <Text
+        style={[
+          styles.endText,
+          { fontFamily: "pretendard600", fontSize: 22, left: 30, top: 50 },
+        ]}
+      >
+        {"지금은 추천 해줄 친구가 없어⏰"}
       </Text>
       <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
-        {"잠시 후에 다시 시도해줘"}
+        {"잠시 후에 다시 시도해줄래?\n\n언제든지 추천해줄게😉"}
       </Text>
       <Image
         source={require("../../assets/characters/EndCharacter.png")}
@@ -154,7 +159,12 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         },
       ]}
     >
-      <Text style={[styles.endText, { fontSize: 22, left: 30, top: 30 }]}>
+      <Text
+        style={[
+          styles.endText,
+          { fontFamily: "pretendard600", fontSize: 22, left: 30, top: 30 },
+        ]}
+      >
         오늘의 친구 추천은 여기까지야!
       </Text>
       <Text style={[styles.endText, { left: 30, bottom: 50 }]}>
