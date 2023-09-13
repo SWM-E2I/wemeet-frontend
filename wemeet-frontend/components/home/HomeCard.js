@@ -107,7 +107,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
         />
       )}
     </TouchableOpacity>
-  ) : !noData ? (
+  ) : noData ? (
     <View
       style={[
         styles.card,

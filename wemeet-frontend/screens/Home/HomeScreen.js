@@ -1,5 +1,5 @@
 import { View, StyleSheet, Dimensions, Alert, Platform } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Progress from "react-native-progress";
 import commonStyles, {
   mainColor,
@@ -15,9 +15,12 @@ import { suggestionCheckApi } from "../../api/home";
 import { useDispatch, useSelector } from "react-redux";
 import { setSuggestState } from "../../redux/suggestSlice";
 import * as SecureStore from "expo-secure-store";
+import LottieView from "lottie-react-native";
+import SwiperContainer from "../../components/home/SwiperContainer";
 // import { refresh } from "../../api/axios";
 
 const swiperHeightPercentage = 0.7;
+const WIDTH = Dimensions.get("window").width;
 
 const timeLeft = () => {
   const activationTime = 23 * 3600 + 11 * 60 + 10; //11시 11분 59초
@@ -47,8 +50,7 @@ const timeLeft = () => {
   return timeUntilActivation;
 };
 const HomeScreen = ({ navigation }) => {
-  //API나오면, 좋아요했는지 여부를 트래킹하는 것이 필요!! (좋아요 누른 경우 하트 채워주기, 안누른 경우 빈 하트)
-  //MBTI를 모르는 경우도 처리해야함!!! "XXXX"
+  // const animation = useRef(null); //for Lottie
   const cardData = useSelector((state) => state.suggest.cards);
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
@@ -145,46 +147,18 @@ const HomeScreen = ({ navigation }) => {
       />
       <View style={styles.swiperContainer}>
         {recommended ? (
-          //cardData.length == 1 (end 밖에 없는경우)=> 분기해서 만들기?!
-          <Swiper
-            //몇번째 카드인지 보여주기!!
-
-            cards={cardData}
-            renderCard={(card) => (
-              <HomeCard
-                card={card}
-                navigation={navigation}
-                end={card.end ? true : false}
-                key={card.teamId}
-                noData={cardData.length == 1 ? true : false}
-              />
-            )}
-            cardIndex={0}
-            stackSize={cardData.length == 1 ? 1 : 2}
-            horizontalSwipe={cardData.length == 1 ? false : true}
-            verticalSwipe={false}
-            swipeAnimationDuration={500}
-            stackSeparation={20} //얼마로 해야할지 다시 무렁보기
-            stackScale={5}
-            containerStyle={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            animateCardOpacity
-            infinite //임시
-            backgroundColor={subColorBlack}
-            showSecondCard
-            cardVerticalMargin={20} //작은 화면일땐 어떨지... SE로 확인 ㅠ
-            stackAnimationFriction={4}
-            stackAnimationTension={10}
-          />
+          <>
+            <SwiperContainer cardData={cardData} navigation={navigation} />
+          </>
         ) : (
-          <InitialCard
-            setRecommended={setRecommended}
-            navigation={navigation}
-            timeLeft={timeLeft}
-            setTimeUntilActivation={setTimeUntilActivation}
-          />
+          <>
+            <InitialCard
+              setRecommended={setRecommended}
+              navigation={navigation}
+              timeLeft={timeLeft}
+              setTimeUntilActivation={setTimeUntilActivation}
+            />
+          </>
         )}
       </View>
     </SafeAreaView>
@@ -193,6 +167,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   swiperContainer: {
     flex: swiperHeightPercentage,
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: subColorBlack,
   },
