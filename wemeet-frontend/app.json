@@ -29,7 +29,8 @@
       "softwareKeyboardLayoutMode": "pan",
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.andrewjsy.wemeet"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
