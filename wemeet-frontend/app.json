@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "wemeet",
-    "slug": "wemeet",
+    "slug": "wemeet-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
