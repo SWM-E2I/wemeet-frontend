@@ -154,10 +154,11 @@ export const acceptedApi = async (navigation, controller) => {
     } else if (response.data.code == 40029)
       //팀이 존재하지 않는 경우
       return 40029;
-    else Alert.alert("요청 실패 :", response.data?.message);
+    // else
+    // Alert.alert("요청 실패 :", response.data?.message);
   } catch (err) {
     axiosCatch(err, "acceptedApi", navigation);
-    Alert.alert("요청 실패", "잠시 후 다시 시도해줘");
+    // Alert.alert("요청 실패", "잠시 후 다시 시도해줘");
     return false;
   }
   return false;
