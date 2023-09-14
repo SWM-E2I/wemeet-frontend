@@ -42,19 +42,16 @@ const InitialTeamScreen = ({ navigation }) => {
   const [myTeam, setMyTeam] = useState(false); //임시, hasTeam
   const [team, setTeam] = useState(defaultTeam);
   const controller = new AbortController();
-  const [loading, setLoading] = useState(false);
   const onRefresh = async () => {
     await onMount();
   };
   const onMount = async () => {
-    setLoading(true);
     let result = await teamInquiryApi(navigation, controller);
     if (result) {
       dispatch(setHasTeam(result.hasTeam));
       setTeam(result.team);
       setMyTeam(true);
     } else setMyTeam(false);
-    setLoading(false);
     console.log("내 팀 조회, hasTeam :", myTeam);
   };
   useEffect(() => {
@@ -71,7 +68,7 @@ const InitialTeamScreen = ({ navigation }) => {
       <View style={styles.logoContainer}>
         <Logo width={90} height={20} />
       </View>
-      {!loading && myTeam ? (
+      {myTeam ? (
         <MyTeamScreen
           navigation={navigation}
           team={team}
