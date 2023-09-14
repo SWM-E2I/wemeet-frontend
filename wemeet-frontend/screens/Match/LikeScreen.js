@@ -79,6 +79,7 @@ const LikeScreen = ({ navigation }) => {
           // 시간 차이 계산
           const timeDifference = now - date; // 밀리초 단위로 시간 차이를 얻습니다.
           const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+          // console.log(now, date, hours);
           cards.push({
             mainImageURL: card.mainImageURL,
             region: card.region,
