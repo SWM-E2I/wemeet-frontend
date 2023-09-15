@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "wemeet",
-    "slug": "wemeet-frontend",
-    "version": "1.0.0",
+    "name": "we:meet",
+    "slug": "wemeet",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.andrewjsy.wemeet"
+      "bundleIdentifier": "net.andrewjsy.wemeet"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +45,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "e16db22e-2643-495b-8839-c95e8b48b274"
+        "projectId": "8997cba6-5489-4809-b8d1-50cd1c462499"
       }
     }
   }

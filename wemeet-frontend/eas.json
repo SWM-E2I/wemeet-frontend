@@ -13,16 +13,22 @@
     "production": {},
     "simulator":{
       "ios" : {
-        "simulator": true
+        "simulator" : true
       }
     },
-    "androidapk" :{
-      "android" : {
+    "androidapk":{
+      "android":{
         "buildType": "apk"
       }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios" : {
+        "appleId" : "kj10522002@gmail.com",
+        "ascAppId" : "6466416689",
+        "appleTeamId" : "63SCY9KWZL"
+      }
+    }
   }
 }
