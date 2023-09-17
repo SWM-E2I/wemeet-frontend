@@ -16,7 +16,6 @@ import {
 // import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import LeaderCard from "./LeaderCard";
-import { detailApi } from "../../api/home";
 
 const WIDTH = Dimensions.get("window").width;
 const CARD_WIDTH = WIDTH * 0.88;

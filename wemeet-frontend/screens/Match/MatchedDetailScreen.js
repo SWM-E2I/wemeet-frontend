@@ -129,13 +129,18 @@ const MatchedDetailScreen = ({ navigation, route }) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
-  const onMoveToChat = () => {
-    Linking.openURL(teamInfo.chatLink).catch((err) =>
-      console.error(
-        "MatchedDetailScreen : An error occurred while opening browswer",
-        err
-      )
+  const onCopy = () => {
+    // Linking.openURL().catch((err) =>
+    //   console.error(
+    //     "MatchedDetailScreen : An error occurred while opening browswer",
+    //     err
+    //   )
+    // );
+    Alert.alert(
+      "복사 성공",
+      "\n이제 카카오톡으로 대화 나눠봐!\n즐거운 미팅 되길 바래☺️"
     );
+    Clipboard.setStringAsync(teamInfo.chatLink);
   };
   return (
     <SafeAreaView
@@ -302,7 +307,7 @@ const MatchedDetailScreen = ({ navigation, route }) => {
               fontFamily: "pretendard600",
             }}
           >
-            오픈 채팅으로 이동
+            카톡 아이디 복사하기
           </Text>
         </TouchableOpacity>
       </View>

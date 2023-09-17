@@ -34,6 +34,7 @@ import {
 } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import NicknameScreen from "../screens/Register/UserInfo/NicknameScreen.js";
+import UnivSearchModal from "../screens/UnivSearchModal.js";
 
 const config = {
   animation: "timing",
@@ -119,6 +120,14 @@ export const RootStackNavigation = ({ persistType, persistData }) => {
           name="MainTab"
           component={MainTabNavigation}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UnivSearch"
+          component={UnivSearchModal}
+          options={{
+            presentation: "transparentModal",
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

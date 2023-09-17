@@ -57,6 +57,7 @@ export default function App() {
   const [persistData, setPersistData] = useState(null);
   const [Loading, setLoading] = useState(true);
   const controller = new AbortController();
+
   useEffect(() => {
     const prepare = async () => {
       await SplashScreen.preventAutoHideAsync();
@@ -68,6 +69,7 @@ export default function App() {
       controller.abort();
     };
   }, []);
+
   if (!fontsLoaded) return null; //각종 이미지, gif도 마찬가지!!
   else {
     SplashScreen.hideAsync();
@@ -80,6 +82,7 @@ export default function App() {
       {!Loading ? (
         <RootStackNavigation
           persistType={persistType}
+          // persistType={"Univ"}
           persistData={persistData}
         />
       ) : (

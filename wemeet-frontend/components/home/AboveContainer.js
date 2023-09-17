@@ -270,15 +270,11 @@ const AboveContainer = ({
     offset: BANNER_WIDTH * index,
     index: index,
   });
-  const onMount = async () => {
-    let res = await creditInquiryApi(navigation, controller);
-    if (res) {
-      dispatch(setSignal(res));
-    }
-  };
+
   useEffect(() => {
-    onMount();
-    return () => controller.abort();
+    return () => {
+      setActiveIndex(null);
+    };
   }, []);
   useEffect(() => {
     if (activeIndex === null) return;
@@ -301,12 +297,6 @@ const AboveContainer = ({
     //activeIndex가 계속 살아있음 -> tab navigator의 문제
     return () => clearInterval(interval);
   }, [activeIndex]);
-
-  useEffect(() => {
-    return () => {
-      setActiveIndex(null);
-    };
-  }, []);
 
   return (
     <View style={styles.container}>

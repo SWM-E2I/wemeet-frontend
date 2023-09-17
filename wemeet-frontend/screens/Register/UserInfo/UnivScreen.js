@@ -114,6 +114,7 @@ const UnivScreen = ({ navigation }) => {
           navigation={navigation}
         />
       </View>
+
       {/* 이부분 다시 생각 */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}

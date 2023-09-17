@@ -63,7 +63,8 @@ const refresh = async () => {
   } catch (error) {
     if (error.response?.status === 401) {
       //로그아웃 시키기 -> 인증 페이지로 돌아가기
-      console.log("token refresh : refresh token 만료");
+      //refresh token이 서버에 없거나 다를때 뜬다.
+      console.log("token refresh : refreshToken만료 (401)");
       await SecureStore.deleteItemAsync("accessToken");
       await SecureStore.deleteItemAsync("refreshToken");
     } else {
@@ -105,20 +106,6 @@ axiosPrivate.interceptors.response.use(
       const prevRequest = error?.config;
       const accessToken = await refresh();
       if (accessToken) {
-        console.log(
-          "accesstoken 재발급 성공, 이전 요청의 headers : ",
-          prevRequest.headers
-        );
-        console.log(
-          "1:",
-          prevRequest.headers["AccessToken"],
-          "2:",
-          prevRequest.headers.AccessToken,
-          "3:",
-          prevRequest.headers["accesstoken"],
-          "4:",
-          prevRequest.headers.accesstoken
-        );
         //소문자로 바꿔줘야하는지 확인하기
         prevRequest.headers["AccessToken"] = accessToken;
         return axiosPrivate.request(error.config);
@@ -130,13 +117,14 @@ axiosPrivate.interceptors.response.use(
 
 export const axiosCatch = (err, funcName, navigation) => {
   if (err == "LOGOUT") {
-    // Alert.alert("로그아웃 되었습니다.", "다시 로그인해주세요.");
+    Alert.alert("로그아웃 되었습니다", "다시 로그인해주세요.");
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [{ name: "PhoneNum" }],
       })
     );
+    return "LOGOUT";
   } else {
     // Alert.alert("오류","팀 정보를 불러오는 중 오류가 발생했습니다."); //오류발생시 분기하는 페이지로 이동하게 수정...
     if (err.response) {
@@ -162,5 +150,6 @@ export const axiosCatch = (err, funcName, navigation) => {
       );
     }
   }
+  return null;
 };
 export { refresh, axiosDefault, axiosPrivate };

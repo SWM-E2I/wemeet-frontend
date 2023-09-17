@@ -23,8 +23,8 @@ export const myProfileInquiryApi = async (navigation, controller) => {
       return null;
     }
   } catch (err) {
-    axiosCatch(err, "myProfileInquiryApi", navigation);
-    return null;
+    let res = axiosCatch(err, "myProfileInquiryApi", navigation);
+    return res;
   }
 };
 

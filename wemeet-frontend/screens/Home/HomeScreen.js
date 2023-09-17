@@ -1,4 +1,11 @@
-import { View, StyleSheet, Dimensions, Alert, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  Platform,
+  Button,
+} from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import * as Progress from "react-native-progress";
 import commonStyles, {
@@ -17,7 +24,10 @@ import { setSuggestState } from "../../redux/suggestSlice";
 import * as SecureStore from "expo-secure-store";
 import LottieView from "lottie-react-native";
 import SwiperContainer from "../../components/home/SwiperContainer";
-// import { refresh } from "../../api/axios";
+import { creditInquiryApi } from "../../api/signal";
+import { setSignal } from "../../redux/signalSlice";
+import { refresh } from "../../api/axios";
+import * as Clipboard from "expo-clipboard";
 
 const swiperHeightPercentage = 0.7;
 const WIDTH = Dimensions.get("window").width;
@@ -38,7 +48,6 @@ const timeLeft = () => {
       : Number(currentTimeString.split(":")[0]); //24시간제로 변환
   const currentMinute = Number(currentTimeString.split(":")[1]);
   const currentSecond = Number(currentTimeString.split(":")[2]);
-
   // console.log(currentHour, currentMinute, currentSecond);
 
   currentTime = currentHour * 3600 + currentMinute * 60 + currentSecond;
@@ -58,9 +67,12 @@ const HomeScreen = ({ navigation }) => {
   const controller = new AbortController();
   const onMount = async () => {
     // return true;
+    let res = await creditInquiryApi(navigation, controller);
+    if (res == "LOGOUT") {
+      return null;
+    } else if (res) dispatch(setSignal(res));
     const nomore = await SecureStore.getItemAsync("nomore");
     if (nomore == null) navigation.navigate("Help");
-
     let result = await suggestionCheckApi(navigation, controller);
     if (result) {
       if (result.isReceivedSuggestion) {
@@ -91,7 +103,8 @@ const HomeScreen = ({ navigation }) => {
         //     ...result.teams,
         //     { end: true, teamId: -2 },
         //   ])
-        // ); //추천받은 카드데이터 들고있기!, for test only -> update되는지 확인
+        // );
+        //추천받은 카드데이터 들고있기!, for test only -> update되는지 확인
         dispatch(setSuggestState(result.teams)); //추천받은 카드데이터 들고있기!
       }
     } else {
@@ -100,11 +113,9 @@ const HomeScreen = ({ navigation }) => {
     }
   };
   useEffect(() => {
-    // refresh();
     onMount();
-
     return () => {
-      controller.abort();
+      // controller.abort();
     };
   }, []);
   useEffect(() => {
@@ -114,14 +125,12 @@ const HomeScreen = ({ navigation }) => {
     // }, 1000);
     if (!recommended) setTimeUntilActivation(0);
     else if (recommended && timeUntilActivation == 0) {
-      // onMount();
       setTimeUntilActivation(0);
     } else {
       timeOutId = setTimeout(() => {
         setTimeUntilActivation(timeLeft());
       }, 1000);
     }
-    // console.log("recommended:", recommended, timeUntilActivation);
     return () => {
       if (timeOutId) clearTimeout(timeOutId);
     };
@@ -134,7 +143,6 @@ const HomeScreen = ({ navigation }) => {
         Platform.OS == "android" ? { paddingTop: 0 } : null,
       ]} //안드로이드 버그 해결 -> why?
     >
-      {/* statusbar까지 영역에 포함하기 위해 safeAreaView 미사용 */}
       <AboveContainer
         navigation={navigation}
         timeUntilActivation={timeUntilActivation}
@@ -164,6 +172,7 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   swiperContainer: {
     flex: swiperHeightPercentage,

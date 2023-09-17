@@ -97,7 +97,7 @@ const InfoSection = ({
       )}
       {myTeam && (
         <>
-          <Text style={styles.labelText}>오픈 채팅 링크</Text>
+          <Text style={styles.labelText}>카카오톡 아이디</Text>
           <Text style={[styles.descriptionText, { marginBottom: 25 }]}>
             {chatLink}
           </Text>

@@ -16,6 +16,7 @@ import { phoneVrfValidateApi } from "../../api/auth.js";
 import { persistLoginApi } from "../../api/persist";
 import { useDispatch } from "react-redux";
 import { setPersistState } from "../../redux/persistSlice";
+import { CommonActions } from "@react-navigation/native";
 
 const instruction = "인증번호를\n입력해줘";
 const VerifyScreen = ({ navigation, route }) => {
@@ -81,7 +82,13 @@ const VerifyScreen = ({ navigation, route }) => {
             console.log("peristLoginApi Error");
             nextPage = "Additional"; //임시!!!!! 수정해야함 - pesistLoginApi나오면
           }
-          navigation.navigate("TermsModal", { next: nextPage });
+          // navigation.navigate("TermsModal", { next: nextPage });
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: nextPage }],
+            })
+          );
         }
       }
     }

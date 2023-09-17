@@ -13,8 +13,8 @@ export const creditInquiryApi = async (navigation, controller) => {
       return response.data.data;
     } else console.log("creditInquiryApi :", response.data?.message);
   } catch (err) {
-    axiosCatch(err, "creditInquiryApi", navigation);
-    return false;
+    let res = axiosCatch(err, "creditInquiryApi", navigation);
+    return res;
   }
   return false;
 };

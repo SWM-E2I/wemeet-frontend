@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 import React, { useEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LikeScreen from "../screens/Match/LikeScreen";
@@ -17,6 +17,7 @@ import {
 } from "@react-navigation/stack";
 import MatchDoneModalScreen from "../screens/Match/MatchDoneModalScreen";
 import LikeMatchRequestModalScreen from "../screens/Match/LikeMatchRequestModalScreen";
+import { subColorBlack2 } from "../styles/commonStyles";
 
 const LikeStackNavigation = () => {
   const Stack = createStackNavigator();
@@ -141,6 +142,10 @@ const MatchTabNavigation = () => {
         tabBarAllowFontScaling: true,
         tabBarIndicatorStyle: { backgroundColor: "white" },
         swipeEnabled: false,
+        lazy: true,
+        lazyPlaceholder: () => {
+          return <View style={{ flex: 1, backgroundColor: subColorBlack2 }} />;
+        },
       }}
       style={{
         backgroundColor: mainColor,

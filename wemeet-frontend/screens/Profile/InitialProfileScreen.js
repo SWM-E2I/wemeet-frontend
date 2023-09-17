@@ -64,9 +64,9 @@ const InitialProfileScreen = ({ navigation }) => {
   };
   const onMount = async () => {
     let result = await myProfileInquiryApi(navigation, controller);
-    if (result) {
-      dispatch(setProfileData(result));
-    }
+    if (result == "LOGOUT") {
+      return false;
+    } else if (result) dispatch(setProfileData(result));
     let res = await creditInquiryApi(navigation, controller);
     if (res) {
       dispatch(setSignal(res));

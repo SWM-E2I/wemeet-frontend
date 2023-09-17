@@ -9,6 +9,7 @@ import HomeDetailScreen from "../screens/Home/HomeDetailScreen";
 import RequestModalScreen from "../screens/Home/RequestModalScreen";
 import RequestDoneModalScreen from "../screens/Home/RequestDoneModalScreen";
 import HelpModal from "../screens/HelpModal";
+import UnivSearchModal from "../screens/UnivSearchModal";
 
 const HomeStackNavigation = () => {
   const Stack = createStackNavigator();
@@ -58,7 +59,14 @@ const HomeStackNavigation = () => {
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
-
+      <Stack.Screen
+        name="UnivSearchModal"
+        component={UnivSearchModal}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
       {/* <Stack.Screen name="MyTeam" component={MyTeamScreen} /> -> 팀관리는 마이페이지에서 빠짐*/}
     </Stack.Navigator>
     // </NavigationContainer>

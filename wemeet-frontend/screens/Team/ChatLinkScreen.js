@@ -44,12 +44,22 @@ const ChatLinkScreen = ({ navigation }) => {
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
       <View style={{ flex: 1, paddingHorizontal: "6%" }}>
-        <Text style={commonStyles.teamGenerateInstruction}>
-          오픈채팅 링크를 입력해줘
-        </Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={[
+              commonStyles.teamGenerateInstruction,
+              { color: subColorPink },
+            ]}
+          >
+            {"카카오톡 아이디"}
+          </Text>
+          <Text style={commonStyles.teamGenerateInstruction}>
+            {"를 입력해줘"}
+          </Text>
+        </View>
         <Text style={commonStyles.teamGenerateInstruction2}>
           {
-            "매칭 수락후 연락할 수 있는\n카카오톡 오픈 채팅방 링크를 알려줄래?\n위밋에서 쓰는 닉네임으로 일대일 채팅을 만들어줘!"
+            "매칭 수락후 연락할 수 있는\n네 카카오톡 아이디를 알려줄래?\n카톡 아이디는 매칭 성사시 상대방에게 전달돼!"
           }
         </Text>
         <View
@@ -70,23 +80,17 @@ const ChatLinkScreen = ({ navigation }) => {
               },
             ]}
           >
-            카카오톡 오픈 채팅방 링크를 복사+붙여넣기 해줘
+            {"팀 삭제 외 수정은 불가능하니 정확하게 입력해줘!"}
           </Text>
         </View>
         <TextInput
           value={link}
           onChangeText={(text) => {
-            // 정규식을 사용하여 http로 시작하는 링크 추출
-            const regex = /https?:\/\/\S+/g;
-            const link = text.match(regex);
-            if (link) {
-              console.log(link[0]);
-              setLink(link[0]);
-            } else setLink("");
+            setLink(text);
           }}
           style={styles.textInput}
           autoFocus
-          placeholder={"여기에 채팅방 링크를 붙여넣기 해줘!"}
+          placeholder={"여기에 카카오톡 아이디를 입력해줘!"}
           // enablesReturnKeyAutomatically
           placeholderTextColor={"#C4C4C4"}
         />
