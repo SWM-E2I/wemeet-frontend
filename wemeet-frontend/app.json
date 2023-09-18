@@ -30,7 +30,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.andrewjsy.wemeet"
+      "package": "net.andrewjsy.wemeet"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
