@@ -137,7 +137,7 @@ const UnivSet = ({
               width: Dimensions.get("window").width * 0.85,
               justifyContent: "space-between",
               backgroundColor: subColorBlack2,
-              borderWidth: 1,
+              borderWidth: admissionYear && admissionYear.length > 0 ? 0 : 1,
               // marginBottom: 0,
             },
           ]}

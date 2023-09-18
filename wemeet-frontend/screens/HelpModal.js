@@ -137,7 +137,7 @@ const HelpModal = ({ navigation }) => {
                   SecureStore.setItemAsync("nomore", "true");
                   setTimeout(() => {
                     navigation.goBack();
-                  }, 500);
+                  }, 200);
                 }
               }}
             />

@@ -22,10 +22,7 @@ const ChatLinkScreen = ({ navigation }) => {
   const [link, setLink] = useState("");
   const onNext = () => {
     if (!link || link.length == 0)
-      Alert.alert(
-        "입력 오류",
-        "오픈 채팅 링크를 올바르게\n복사+붙여넣기 했는지 확인해줘!"
-      );
+      Alert.alert("입력 오류", "올바른 형식의 닉네임을 입력해줘!");
     else {
       dispatch(setChatLink(link));
       navigation.navigate("TeamPhoto");

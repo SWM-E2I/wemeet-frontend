@@ -51,6 +51,7 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
   });
   const stringified = JSON.stringify(data);
   formData.append("data", { string: stringified, type: "application/json" });
+
   // console.log("teamGenerateApi, formData :", formData);
   try {
     const response = await axiosPrivate.post(TEAM_GENERATE_URL, formData, {
@@ -64,7 +65,7 @@ const teamGenerateApi = async (images, data, navigation, controller) => {
       await storeAccessToken(response);
 
       return true;
-    }
+    } else Alert.alert("팀 생성 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "teamGenerateApi", navigation);
     Alert.alert("팀 생성 실패", "잠시 후 다시 시도해줘");

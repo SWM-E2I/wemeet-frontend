@@ -24,7 +24,8 @@ const registerStyles = StyleSheet.create({
     width: width * 0.85,
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: "#434343",
+    borderColor: "#C9C9C9",
+    // borderColor: "white",
     marginBottom: 5,
   },
   inputTextBox: {

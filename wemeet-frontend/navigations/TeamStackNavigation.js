@@ -16,6 +16,8 @@ import IntroScreen from "../screens/Team/IntroScreen";
 import ChatLinkScreen from "../screens/Team/ChatLinkScreen";
 import MemberModalScreen from "../screens/Team/MemberModalScreen";
 import MyTeamDetailScreen from "../screens/Team/MyTeamDetailScreen";
+import UnivSearchModal from "../screens/UnivSearchModal";
+
 const TeamStackNavigation = () => {
   const Stack = createStackNavigator();
   return (
@@ -42,7 +44,16 @@ const TeamStackNavigation = () => {
       <Stack.Screen name="ChatLink" component={ChatLinkScreen} />
       <Stack.Screen name="MyGroup" component={MyTeamScreen} />
       <Stack.Screen name="MyTeamDetail" component={MyTeamDetailScreen} />
+      <Stack.Screen
+        name="UnivSearchModal"
+        component={UnivSearchModal}
+        options={{
+          presentation: "transparentModal",
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
+      />
       {/* navigation쓸때조심!!! */}
+      {/* univSearchmodal -> teastack, rootstadck에 둘 다 존재, 이름 다름*/}
     </Stack.Navigator>
   );
 };

@@ -65,45 +65,64 @@ const MemberModalScreen = ({ navigation }) => {
           contentContainerStyle={{
             paddingHorizontal: "7%",
             paddingVertical: 10,
+            paddingBottom: 20,
           }}
         >
-          <Text style={styles.labelText}>학교/학과</Text>
+          <Text style={styles.labelText}>학교</Text>
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
             }}
           >
-            <SelectList
-              setSelected={setUniv}
-              data={univList2}
-              save="key"
-              boxStyles={styles.selectBox}
-              inputStyles={styles.selectInput}
-              dropdownTextStyles={styles.dropdownText}
-              dropdownStyles={styles.dropdownBox}
-              dropdownItemStyles={styles.dropdownItem}
-              placeholder={"학교명 검색"}
-              searchPlaceholder={""}
-              notFoundText={"결과 없음"}
-              search
-              maxHeight={130}
-              arrowicon={
-                univ ? (
-                  <></>
-                ) : (
-                  <FontAwesome name="search" size={16} color="white" />
-                )
-              }
-              closeicon={<AntDesign name="close" size={18} color={"white"} />}
-              searchicon={<></>}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("UnivSearchModal", { setUniv: setUniv });
+              }}
+              style={[
+                styles.selectBox,
+                {
+                  width: Dimensions.get("window").width * 0.5,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+                univ ? { backgroundColor: "black", borderWidth: 0 } : null,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.selectInput,
+                  univ
+                    ? { marginRight: 0, color: subColorPink }
+                    : { marginRight: 10 },
+                ]}
+              >
+                {univ ? univNameList[univCodeList.indexOf(univ)] : "학교 검색"}
+              </Text>
+              {!univ && <FontAwesome name="search" size={16} color="white" />}
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.labelText}>계열 / 학번</Text>
+          <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
             <SelectList
               setSelected={setCollege}
               data={collegeList}
               save="key"
-              boxStyles={styles.selectBox}
-              inputStyles={styles.selectInput}
+              boxStyles={[
+                styles.selectBox,
+                college
+                  ? {
+                      backgroundColor: "black",
+                      borderColor: "black",
+                      justifyContent: "center",
+                    }
+                  : null,
+              ]}
+              inputStyles={[
+                styles.selectInput,
+                college ? { color: subColorPink } : null,
+              ]}
               dropdownTextStyles={styles.dropdownText}
               dropdownStyles={styles.dropdownBox}
               dropdownItemStyles={styles.dropdownItem}
@@ -120,38 +139,49 @@ const MemberModalScreen = ({ navigation }) => {
               closeicon={<AntDesign name="close" size={18} color={"white"} />}
               searchicon={<></>}
             />
+            <SelectList
+              setSelected={setAdmissionYear}
+              data={yearList}
+              save="value"
+              boxStyles={[
+                styles.selectBox,
+                { width: Dimensions.get("window").width * 0.3, marginLeft: 20 },
+                admissionYear
+                  ? {
+                      backgroundColor: "black",
+                      borderColor: "black",
+                      justifyContent: "center",
+                    }
+                  : null,
+              ]}
+              inputStyles={[
+                styles.selectInput,
+                { marginLeft: 0 },
+                admissionYear ? { color: subColorPink } : null,
+              ]}
+              dropdownTextStyles={styles.dropdownText}
+              dropdownStyles={[
+                styles.dropdownBox,
+                {
+                  width: Dimensions.get("window").width * 0.3,
+                  marginLeft: 20,
+                },
+              ]}
+              dropdownItemStyles={styles.dropdownItem}
+              placeholder={"학번 선택"}
+              search={false}
+              maxHeight={130}
+              arrowicon={
+                admissionYear ? (
+                  <></>
+                ) : (
+                  <FontAwesome name="chevron-down" size={14} color="white" />
+                )
+              }
+              closeicon={<AntDesign name="close" size={18} color={"white"} />}
+              searchicon={<></>}
+            />
           </View>
-          <Text style={styles.labelText}>학번</Text>
-          <SelectList
-            setSelected={setAdmissionYear}
-            data={yearList}
-            save="value"
-            boxStyles={[
-              styles.selectBox,
-              { width: Dimensions.get("window").width * 0.2 },
-            ]}
-            inputStyles={[styles.selectInput, { marginLeft: -0 }]}
-            dropdownTextStyles={styles.dropdownText}
-            dropdownStyles={[
-              styles.dropdownBox,
-              {
-                width: Dimensions.get("window").width * 0.2,
-              },
-            ]}
-            dropdownItemStyles={styles.dropdownItem}
-            placeholder={"선택"}
-            search={false}
-            maxHeight={130}
-            arrowicon={
-              admissionYear ? (
-                <></>
-              ) : (
-                <FontAwesome name="chevron-down" size={14} color="white" />
-              )
-            }
-            closeicon={<AntDesign name="close" size={18} color={"white"} />}
-            searchicon={<></>}
-          />
           <Text style={styles.labelText}>MBTI</Text>
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
             <MbtiComponent
@@ -219,9 +249,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.41,
     paddingVertical: 10,
     borderColor: "white",
-    borderWidth: 0.5,
+    borderWidth: 1,
     alignItems: "center",
     justifyContent: "space-between",
+    borderRadius: 10,
   },
   selectInput: {
     color: "white",

@@ -9,7 +9,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
   subColorBlack,
@@ -26,6 +26,18 @@ const TeamPhotoScreen = ({ navigation }) => {
   const [mainPhoto, setMainPhoto] = useState(null); // uri
   const [addPhoto, setAddPhoto] = useState([]); // true or false
   const [loading, setLoading] = useState(false);
+  const scrollViewRef = useRef(null);
+  const scrollToBottom = () => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  };
+  useEffect(() => {
+    if (mainPhoto)
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+  }, [mainPhoto]);
   const onNext = () => {
     if (!mainPhoto) {
       Alert.alert("대표 사진 1장은 필수로 등록해줘!");
@@ -111,21 +123,33 @@ const TeamPhotoScreen = ({ navigation }) => {
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
-      <ScrollView style={styles.scrollView}>
-        <Text style={[commonStyles.teamGenerateInstruction]}>
-          팀 사진을 등록해줘
-        </Text>
+      <ScrollView style={styles.scrollView} ref={scrollViewRef}>
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={[
+              commonStyles.teamGenerateInstruction,
+              { color: subColorPink, paddingTop: 0 },
+            ]}
+          >
+            {"팀 사진"}
+          </Text>
+          <Text
+            style={[commonStyles.teamGenerateInstruction, { paddingTop: 0 }]}
+          >
+            {"을 등록해줘"}
+          </Text>
+        </View>
         <Text style={commonStyles.teamGenerateInstruction2}>
           {
-            "팀의 분위기를 잘 나타낼 수 있는 사진을 등록해줘\n(최소 1장, 최대 6장)"
+            "팀의 분위기를 잘 나타낼 수 있는 사진을 등록해줘\n아래로 스크롤하면 추가 사진을 등록할 수 있어!\n(최소 1장, 최대 6장)"
           }
         </Text>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            paddingTop: 10,
-            paddingBottom: 30,
+            paddingTop: 5,
+            paddingBottom: 20,
           }}
         >
           <AntDesign name="warning" size={18} color={subColorPink} />

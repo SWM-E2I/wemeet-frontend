@@ -30,13 +30,18 @@ const UnivSearchModal = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Pressable
-        style={{ height: Dimensions.get("window").height * 0.2 }}
+        style={{ height: Dimensions.get("window").height * 0.15 }}
         onPress={() => {
           navigation.goBack();
         }}
       />
       <View style={styles.container}>
-        <View style={[registerStyles.inputTextView, { marginBottom: 20 }]}>
+        <View
+          style={[
+            registerStyles.inputTextView,
+            { marginBottom: 20, borderColor: "white" },
+          ]}
+        >
           <TextInput
             value={text}
             onChangeText={(text) => {
@@ -47,7 +52,7 @@ const UnivSearchModal = ({ navigation, route }) => {
               registerStyles.inputText,
               { fontSize: 18 },
             ]}
-            autoFocus
+            // autoFocus
             enablesReturnKeyAutomatically
             placeholder={"학교명으로 검색"}
             placeholderTextColor={"#C4C4C4"}
@@ -55,28 +60,32 @@ const UnivSearchModal = ({ navigation, route }) => {
         </View>
         <ScrollView
           style={{
-            height: Dimensions.get("window").height * 0.8,
+            height: Dimensions.get("window").height * 0.85,
             width: Dimensions.get("window").width,
           }}
           contentContainerStyle={{
             paddingHorizontal: "7.5%",
           }}
         >
-          {result.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.itemContainer}
-                onPress={() => {
-                  setUniv(item.key);
-                  setStage(2);
-                  navigation.goBack();
-                }}
-              >
-                <Text style={styles.itemText}>{item.value}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          {result.length == 0 ? (
+            <Text style={styles.itemText}>검색 결과가 없습니다</Text>
+          ) : (
+            result.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.itemContainer}
+                  onPress={() => {
+                    setUniv(item.key);
+                    if (setStage) setStage(2);
+                    navigation.goBack();
+                  }}
+                >
+                  <Text style={styles.itemText}>{item.value}</Text>
+                </TouchableOpacity>
+              );
+            })
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 20,
     paddingHorizontal: 10,
-    backgroundColor: subColorBlack,
+    backgroundColor: subColorBlack2,
     alignItems: "center",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

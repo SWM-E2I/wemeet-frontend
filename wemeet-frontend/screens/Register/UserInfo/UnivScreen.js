@@ -21,7 +21,7 @@ import {
 } from "../../../redux/registerSlice";
 import { registerApi } from "../../../api/register";
 
-const instruction = "너의 학교가\n궁금해";
+const instruction = "대학 정보를\n입력해줘";
 
 const UnivScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ const UnivScreen = ({ navigation }) => {
     <SafeAreaView style={commonStyles.safeAreaView}>
       <RegisterHeader navigation={navigation} back onBack={onBack} />
       <View style={registerStyles.instContainer}>
-        <Text style={registerStyles.instText}>{instruction}</Text>
+        <Text style={registerStyles.instText}>{`${instruction}`}</Text>
         <RegisterCreditView
           currentCredit={stage == 1 ? 34 : stage == 2 ? 37 : 40}
         />
