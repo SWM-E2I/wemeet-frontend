@@ -18,7 +18,7 @@ const SwiperContainer = ({ cardData, navigation }) => {
       setShowLottie(true);
       setTimeout(() => {
         setShowLottie(false);
-      }, 5000);
+      }, 3000);
     }
   }, []);
 
@@ -61,6 +61,8 @@ const SwiperContainer = ({ cardData, navigation }) => {
             flexDirection: "row",
             position: "absolute",
             alignSelf: "center",
+            // height: Dimensions.get("window").height,
+            // width: CARD_WIDTH,
           }}
           onPress={() => {
             setTimeout(() => {

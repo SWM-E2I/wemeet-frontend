@@ -144,19 +144,23 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
     let result = await acceptApi(meetingRequestId, navigation, controller);
     if (result) {
       setLoading(false);
-      Alert.alert("매칭 성공", "이제 상대방의 오픈 카톡으로 대화해봐!", [
-        {
-          text: "확인",
-          onPress: () => {
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: "MatchedStack" }],
-              })
-            );
+      Alert.alert(
+        "매칭 성공",
+        "이제 상대방의 카카오톡 아이디를 확인할 수 있어!",
+        [
+          {
+            text: "확인",
+            onPress: () => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "MatchedStack" }],
+                })
+              );
+            },
           },
-        },
-      ]);
+        ]
+      );
     }
     setLoading(false);
   };

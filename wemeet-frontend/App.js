@@ -81,8 +81,8 @@ export default function App() {
       {/* 나중에 status bar도 customize하기 */}
       {!Loading ? (
         <RootStackNavigation
-          persistType={persistType}
-          // persistType={"Univ"}
+          // persistType={persistType}
+          persistType={"Univ"}
           persistData={persistData}
         />
       ) : (
@@ -95,14 +95,7 @@ export default function App() {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          {/* <Image
-            height={Dimensions.get("window").height}
-            width={Dimensions.get("window").width}
-            resizeMode="cover"
-            source={require("./assets/images/splash.png")}
-          /> */}
-        </View>
+        ></View>
       )}
     </Provider>
   );

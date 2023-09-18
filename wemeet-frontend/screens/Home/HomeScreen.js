@@ -27,7 +27,6 @@ import SwiperContainer from "../../components/home/SwiperContainer";
 import { creditInquiryApi } from "../../api/signal";
 import { setSignal } from "../../redux/signalSlice";
 import { refresh } from "../../api/axios";
-import * as Clipboard from "expo-clipboard";
 
 const swiperHeightPercentage = 0.7;
 const WIDTH = Dimensions.get("window").width;

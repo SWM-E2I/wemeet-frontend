@@ -21,7 +21,6 @@ import { univList } from "../assets/datasets";
 
 const UnivSearchModal = ({ navigation, route }) => {
   const setUniv = route.params?.setUniv;
-  const setStage = route.params?.setStage;
   const [text, setText] = useState("");
   const [result, setResult] = useState([]);
   useEffect(() => {
@@ -77,7 +76,6 @@ const UnivSearchModal = ({ navigation, route }) => {
                   style={styles.itemContainer}
                   onPress={() => {
                     setUniv(item.key);
-                    if (setStage) setStage(2);
                     navigation.goBack();
                   }}
                 >

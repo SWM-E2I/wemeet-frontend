@@ -18,6 +18,7 @@ import commonStyles, {
   subColorPink,
   subColorBlack,
 } from "../../styles/commonStyles";
+
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
   MaterialCommunityIcons,
@@ -36,6 +37,7 @@ import {
 } from "../../assets/datasets";
 import { acceptApi, rejectApi } from "../../api/match";
 import { CommonActions } from "@react-navigation/native";
+import * as Clipboard from "expo-clipboard";
 
 const renderItem = ({ item, index }) => {
   return (
@@ -130,15 +132,9 @@ const MatchedDetailScreen = ({ navigation, route }) => {
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
   };
   const onCopy = () => {
-    // Linking.openURL().catch((err) =>
-    //   console.error(
-    //     "MatchedDetailScreen : An error occurred while opening browswer",
-    //     err
-    //   )
-    // );
     Alert.alert(
-      "복사 성공",
-      "\n이제 카카오톡으로 대화 나눠봐!\n즐거운 미팅 되길 바래☺️"
+      "아이디가 클립보드에 복사되었어",
+      "이제 카카오톡으로 대화 나눠봐!\n즐거운 미팅 되길 바래☺️"
     );
     Clipboard.setStringAsync(teamInfo.chatLink);
   };
@@ -298,7 +294,7 @@ const MatchedDetailScreen = ({ navigation, route }) => {
             flexDirection: "row",
             borderRadius: 5,
           }}
-          onPress={onMoveToChat}
+          onPress={onCopy}
         >
           <Text
             style={{
