@@ -151,7 +151,7 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               //불량 유저 신고 -> 미구현
               Alert.alert("문의하기", "문의사항은 카카오톡 채널에 남겨줘!", [
@@ -177,7 +177,7 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
               size={24}
               color="white"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View
           style={{

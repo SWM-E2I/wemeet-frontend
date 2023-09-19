@@ -81,8 +81,8 @@ export default function App() {
       {/* 나중에 status bar도 customize하기 */}
       {!Loading ? (
         <RootStackNavigation
-          // persistType={persistType}
-          persistType={"Univ"}
+          persistType={persistType}
+          // persistType={"Univ"}
           persistData={persistData}
         />
       ) : (

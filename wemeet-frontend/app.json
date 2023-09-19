@@ -2,7 +2,7 @@
   "expo": {
     "name": "we:meet",
     "slug": "wemeet",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,8 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "net.andrewjsy.wemeet"
+      "bundleIdentifier": "net.andrewjsy.wemeet",
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "net.andrewjsy.wemeet"
+      "package": "net.andrewjsy.wemeet",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
