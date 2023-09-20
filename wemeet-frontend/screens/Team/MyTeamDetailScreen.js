@@ -42,6 +42,7 @@ const renderItem = ({ item, index }) => {
           backgroundColor: "transparent",
         }}
         resizeMode={"cover"}
+        // blurRadius={index === 0 ? 0 : 5}
       />
       <LinearGradient
         colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}

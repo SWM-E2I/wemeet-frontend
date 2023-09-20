@@ -68,6 +68,7 @@ const Card = ({
           source={{ uri: card.mainImageURL }}
           style={[styles.cardImage, { width: "100%" }]}
           resizeMode={"cover"} //or, cover?
+          // blurRadius={0}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}
