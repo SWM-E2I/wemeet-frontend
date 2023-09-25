@@ -19,6 +19,13 @@ const suggestSlice = createSlice({
     addCard: (state, action) => {
       state.cards.push(action.payload);
     },
+    // deleteCard: (state, action) => {
+    //   const filteredCards = fruits.filter(
+    //     (card) => card.teamId !== action.payload
+    //   );
+    //   console.log("deleteCard : ", filteredCards);
+    //   state.cards = filteredCards;
+    // },
   },
 });
 

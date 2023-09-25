@@ -15,6 +15,7 @@ const LeaderCard = ({
   college,
   collegeType,
   profile,
+  admissionYear,
 }) => {
   //profile -> require(local path)로 전달해줌
   return (
@@ -84,7 +85,7 @@ const LeaderCard = ({
                 marginBottom: 5,
               }}
             >
-              {collegeType ? `${college}  (${collegeType})` : college}
+              {collegeType ? `${college}  (${collegeType})` : `${college}`}
             </Text>
           </View>
         </LinearGradient>
