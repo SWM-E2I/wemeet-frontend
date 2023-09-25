@@ -80,6 +80,7 @@ const ChatLinkScreen = ({ navigation }) => {
             {"팀 삭제 외 수정은 불가능하니 정확하게 입력해줘!"}
           </Text>
         </View>
+
         <TextInput
           value={link}
           onChangeText={(text) => {
@@ -91,6 +92,14 @@ const ChatLinkScreen = ({ navigation }) => {
           // enablesReturnKeyAutomatically
           placeholderTextColor={"#C4C4C4"}
         />
+        <Text
+          style={[
+            commonStyles.teamGenerateInstruction2,
+            { marginTop: 10, color: subColorPink, fontSize: 12, marginLeft: 4 },
+          ]}
+        >
+          {"📢  [ 카카오톡 실행>설정(톱니바퀴)>프로필 관리>카카오톡 ID ]"}
+        </Text>
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}

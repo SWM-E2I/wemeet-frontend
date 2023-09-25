@@ -68,7 +68,7 @@ const Card = ({
           source={{ uri: card.mainImageURL }}
           style={[styles.cardImage, { width: "100%" }]}
           resizeMode={"cover"} //or, cover?
-          // blurRadius={0}
+          blurRadius={myTeam || isSent || isMatched ? 0 : 13}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}
@@ -85,7 +85,7 @@ const Card = ({
 
         {isLike && (
           //임시!!
-          <View style={styles.likeInfoContainer}>
+          <View style={styles.likeInfoContainer} opacity={0.8}>
             <AntDesign
               name="exclamationcircleo"
               size={20}
@@ -94,7 +94,7 @@ const Card = ({
               color={"white"}
             />
             <Text
-              style={styles.infoText}
+              style={[styles.infoText, { fontFamily: "pretendard500" }]}
             >{`만료까지 ${card.timeLeft}시간`}</Text>
           </View>
         )}
@@ -111,12 +111,13 @@ const Card = ({
                 paddingVertical: 6,
                 borderRadius: 4,
               }}
+              opacity={0.8}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontFamily: "pretendard600",
-                  color: "white",
+                  color: subColorPink,
                 }}
               >
                 수락 대기중
@@ -133,12 +134,13 @@ const Card = ({
                 paddingVertical: 6,
                 borderRadius: 4,
               }}
+              opacity={0.9}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontFamily: "pretendard600",
-                  color: "white",
+                  color: subColorPink,
                 }}
               >
                 {`D-${card.daysLeft}`}
@@ -160,12 +162,13 @@ const Card = ({
                 paddingVertical: 6,
                 borderRadius: 4,
               }}
+              opacity={0.7}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontFamily: "pretendard600",
-                  color: "white",
+                  color: subColorPink,
                 }}
               >
                 응답 대기중
@@ -182,12 +185,13 @@ const Card = ({
                 paddingVertical: 6,
                 borderRadius: 4,
               }}
+              opacity={0.9}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontFamily: "pretendard600",
-                  color: "white",
+                  color: subColorPink,
                 }}
               >
                 {`D-${card.daysLeft}`}

@@ -16,6 +16,7 @@ import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack,
+  subColorBlack2,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
@@ -52,7 +53,7 @@ const renderItem = ({ item, index }) => {
           backgroundColor: "transparent",
         }}
         resizeMode={"cover"}
-        // blurRadius={10}
+        blurRadius={13}
       />
       <LinearGradient
         colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
@@ -65,6 +66,32 @@ const renderItem = ({ item, index }) => {
           top: 0,
         }}
       />
+      <View
+        style={{
+          alignSelf: "center",
+          paddingVertical: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          // marginBottom: 10,
+          paddingHorizontal: 30,
+          backgroundColor: subColorBlack2,
+          borderRadius: 10,
+          flexDirection: "row",
+          position: "absolute",
+          bottom: 15,
+        }}
+        opacity={0.8}
+      >
+        <Text
+          style={{
+            color: subColorPink,
+            fontFamily: "pretendard500",
+            fontSize: 14,
+          }}
+        >
+          {"📢  매칭이 성사되면 원본 사진을 확인할 수 있어‼️"}
+        </Text>
+      </View>
     </View>
   );
 };

@@ -16,6 +16,7 @@ import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
+  subColorBlack2,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
@@ -35,37 +36,6 @@ import {
 } from "../../assets/datasets";
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
-
-const renderItem = ({ item, index }) => {
-  // console.log(index);
-  return (
-    <View>
-      <Image
-        source={{
-          uri: item.uri,
-        }}
-        style={{
-          aspectRatio: 1,
-          width: Dimensions.get("window").width,
-          backgroundColor: "transparent",
-        }}
-        resizeMode={"cover"}
-        // blurRadius={10}
-      />
-      <LinearGradient
-        colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
-        start={[0, 0]}
-        end={[0, 0.5]}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "50%",
-          top: 0,
-        }}
-      />
-    </View>
-  );
-};
 
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
@@ -134,6 +104,66 @@ const LikeDetailScreen = ({ navigation, route }) => {
     return () => controller.abort();
   }, []);
 
+  const renderItem = ({ item, index }) => {
+    // console.log(index);
+    return (
+      <View>
+        <Image
+          source={{
+            uri: item.uri,
+          }}
+          style={{
+            aspectRatio: 1,
+            width: Dimensions.get("window").width,
+            backgroundColor: "transparent",
+          }}
+          resizeMode={"cover"}
+          blurRadius={
+            !meetingRequestStatus || meetingRequestStatus == "EXPIRED" ? 13 : 0
+          }
+        />
+        <LinearGradient
+          colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
+          start={[0, 0]}
+          end={[0, 0.5]}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "50%",
+            top: 0,
+          }}
+        />
+        {(!meetingRequestStatus || meetingRequestStatus == "EXPIRED") && (
+          <View
+            style={{
+              alignSelf: "center",
+              paddingVertical: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              // marginBottom: 10,
+              paddingHorizontal: 30,
+              backgroundColor: subColorBlack2,
+              borderRadius: 10,
+              flexDirection: "row",
+              position: "absolute",
+              bottom: 15,
+            }}
+            opacity={0.8}
+          >
+            <Text
+              style={{
+                color: subColorPink,
+                fontFamily: "pretendard500",
+                fontSize: 14,
+              }}
+            >
+              {"📢  미팅 신청 후 원본 사진을 확인할 수 있어‼️"}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  };
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));

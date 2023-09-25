@@ -36,7 +36,7 @@ import {
 } from "../../assets/datasets";
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
-
+import { CommonActions } from "@react-navigation/native";
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
   offset: Dimensions.get("window").width * index,
@@ -176,6 +176,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
       </View>
     );
   };
+
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
@@ -233,18 +234,31 @@ const HomeDetailScreen = ({ navigation, route }) => {
                 {
                   text: "유저 차단하기",
                   onPress: () => {
-                    Alert.alert("차단하기", "이 팀을 차단하시겠어요?", [
-                      {
-                        text: "취소",
-                      },
-                      {
-                        text: "차단하기",
-                        onPress: () => {
-                          //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
-                          console.log("차단");
+                    Alert.alert(
+                      "차단하기",
+                      "이 팀을 차단할래? \n한번 차단된 팀은 다시 추천되지 않아",
+                      [
+                        {
+                          text: "취소",
                         },
-                      },
-                    ]);
+                        {
+                          text: "차단하기",
+                          onPress: () => {
+                            //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
+                            Alert.alert(
+                              "차단 성공",
+                              "문의사항은 카카오톡으로 남겨줘!"
+                            );
+                            navigation.dispatch(
+                              CommonActions.reset({
+                                index: 0,
+                                routes: [{ name: "Home" }],
+                              })
+                            );
+                          },
+                        },
+                      ]
+                    );
                   },
                 },
                 {
