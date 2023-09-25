@@ -49,6 +49,7 @@ const UnivSet = ({
             backgroundColor: mainColor,
             borderColor: univ.length > 0 ? mainColor : "#C9C9C9",
             flexDirection: "row",
+            borderWidth: 0.5,
           },
         ]}
         onPress={() => {
@@ -105,13 +106,14 @@ const UnivSet = ({
               backgroundColor: subColorBlack2,
               borderColor: college.length > 0 ? mainColor : "#C9C9C9",
               // marginBottom: 0,
+              borderWidth: 0.5,
             },
           ]}
           inputStyles={[
             registerStyles.inputText,
             {
               fontFamily: "pretendard400",
-              fontSize: 18,
+              fontSize: 15,
               textAlign: "left",
               color: college.length > 0 ? subColorPink : "white",
             },
@@ -124,7 +126,7 @@ const UnivSet = ({
           }}
           placeholder={"계열을 선택해줘"}
           search={false}
-          maxHeight={160}
+          maxHeight={200}
           dropdownStyles={{
             // backgroundColor: "#F2F2F2",
             backgroundColor: subColorBlack2,
@@ -157,6 +159,7 @@ const UnivSet = ({
               justifyContent: "space-between",
               backgroundColor: subColorBlack2,
               borderColor: admissionYear.length > 0 ? mainColor : "#C9C9C9",
+              borderWidth: 0.5,
               // marginBottom: 0,
             },
           ]}
@@ -164,7 +167,7 @@ const UnivSet = ({
             registerStyles.inputText,
             {
               fontFamily: "pretendard400",
-              fontSize: 18,
+              fontSize: 15,
               textAlign: "left",
               // color: "white",
               color: admissionYear.length > 0 ? subColorPink : "white",
@@ -178,10 +181,10 @@ const UnivSet = ({
           }}
           placeholder={"학번을 선택해줘"}
           search={false}
-          maxHeight={160}
+          maxHeight={200}
           dropdownStyles={{
             marginTop: 0,
-            borderWidth: 2,
+            borderWidth: 0.5,
             backgroundColor: subColorBlack2,
           }}
           dropdownItemStyles={{

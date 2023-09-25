@@ -145,9 +145,12 @@ const AdditionalScreen = ({ navigation }) => {
           </>
         )}
       </View>
-
       <NextButton
-        text={"위밋 바로 시작하기"}
+        text={
+          emailAuthenticated && hasMainProfileImage
+            ? "위밋 바로 시작하기"
+            : "건너뛰고 시작하기"
+        }
         onPress={() => {
           //*** Alert띄워서 정말 입력안할거양?!? 해주기 */
           navigation.dispatch(
@@ -162,6 +165,7 @@ const AdditionalScreen = ({ navigation }) => {
           marginTop: 10,
           marginBottom: 20,
           backgroundColor: subColorPink,
+          borderRadius: 10,
         }}
       />
     </SafeAreaView>

@@ -1,6 +1,15 @@
-import { SafeAreaView, View, Text, TextInput } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Keyboard,
+} from "react-native";
 import React, { useState, useEffect } from "react";
-import commonStyles from "../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../styles/commonStyles";
 import RegisterHeader from "../../components/register/RegisterHeader";
 import registerStyles from "../../styles/registerStyles";
 import RegisterCreditView from "../../components/register/RegisterCreditView";
@@ -8,8 +17,9 @@ import RegisterCreditView from "../../components/register/RegisterCreditView";
 import { phoneVrfIssueApi } from "../../api/auth.js";
 import { useDispatch } from "react-redux";
 import { setRegisterPhoneNum } from "../../redux/registerSlice";
-
+import NextButton from "../../components/NextButton";
 const instruction = "휴대폰 번호를\n입력해줘";
+
 const PhoneNumScreen = ({ navigation, route }) => {
   const isRegister = route.params?.isRegister;
   const [phone, setPhone] = useState("010");
@@ -53,7 +63,12 @@ const PhoneNumScreen = ({ navigation, route }) => {
         {isRegister && <RegisterCreditView currentCredit={5} />}
       </View>
       <Text style={registerStyles.labelText}>휴대폰 번호</Text>
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <Pressable
+        style={{ flex: 1, alignItems: "center" }}
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
         <View style={registerStyles.inputTextView}>
           <TextInput
             value={phone}
@@ -78,7 +93,21 @@ const PhoneNumScreen = ({ navigation, route }) => {
             {warning}
           </Text>
         </View>
-      </View>
+      </Pressable>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <NextButton
+          text={"다음"}
+          onPress={onSubmit}
+          style={{
+            alignSelf: "center",
+            marginTop: 10,
+            marginBottom: 20,
+            backgroundColor: subColorPink,
+          }}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

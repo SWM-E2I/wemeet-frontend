@@ -19,7 +19,7 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "net.andrewjsy.wemeet",
+      "bundleIdentifier": "net.andrewjsy.wemeet"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +30,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "net.andrewjsy.wemeet",
+      "package": "net.andrewjsy.wemeet"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -39,7 +39,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "내 프로필/팀 사진 업로드를 위해 사진 앨범 접근 권한이 필요합니다."
+          "photosPermission": "사진 업로드를 위해 사진 앨범 접근 권한이 필요합니다."
         }
       ]
     ],

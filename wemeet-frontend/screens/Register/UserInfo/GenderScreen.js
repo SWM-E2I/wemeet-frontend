@@ -102,6 +102,7 @@ const GenderScreen = ({ navigation }) => {
         </View>
       </View>
       {/* 이부분 다시 생각 */}
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >

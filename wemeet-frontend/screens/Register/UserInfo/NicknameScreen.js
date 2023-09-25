@@ -7,6 +7,8 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Pressable,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles, { subColorPink } from "../../../styles/commonStyles";
@@ -44,7 +46,12 @@ const NicknameScreen = ({ navigation }) => {
       <Text style={[registerStyles.labelText, { marginLeft: "10%" }]}>
         닉네임
       </Text>
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <Pressable
+        style={{ flex: 1, alignItems: "center" }}
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
         {/* 여기에 body내용 입력 */}
         <View style={[registerStyles.inputTextView]}>
           <TextInput
@@ -60,7 +67,7 @@ const NicknameScreen = ({ navigation }) => {
             placeholderTextColor={"#C4C4C4"}
           ></TextInput>
         </View>
-      </View>
+      </Pressable>
       {/* 이부분 다시 생각 */}
       {/* <ScrollView> */}
       <KeyboardAvoidingView

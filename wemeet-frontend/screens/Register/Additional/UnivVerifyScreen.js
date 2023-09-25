@@ -20,6 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setEmailAuthenticated } from "../../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
 
+const formatTime = (value) => {
+  return value < 10 ? `0${value}` : value.toString();
+};
 const instruction = "학생인증을\n완료해줘";
 const UnivVerifyScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -28,7 +31,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
   const college = useSelector((state) => {
     return state.register.collegeInfo.college; //학교 코드
   });
-  const [timer, setTimer] = useState(150);
+  const [timer, setTimer] = useState(540);
   const [code, setCode] = useState("");
   const [warning, setWarning] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +39,7 @@ const UnivVerifyScreen = ({ navigation, route }) => {
   const resend = async () => {
     //재전송 버튼 눌렀을 때
     setCode("");
-    setTimer(150);
+    setTimer(540);
     console.log("인증번호 발송, 다음 화면으로 이동");
     setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
     setLoading(true);
@@ -133,7 +136,11 @@ const UnivVerifyScreen = ({ navigation, route }) => {
           ></TextInput>
           <View style={registerStyles.inputTimerView}>
             <Text style={{ fontSize: 20, color: "gray" }}>
-              {timer ? `${Math.floor(timer / 60)} : ${timer % 60}` : null}
+              {timer
+                ? `${formatTime(Math.floor(timer / 60))} : ${formatTime(
+                    timer % 60
+                  )}`
+                : null}
             </Text>
           </View>
         </View>

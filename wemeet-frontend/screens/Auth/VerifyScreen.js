@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import { setPersistState } from "../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
 
+const formatTime = (value) => {
+  return value < 10 ? `0${value}` : value.toString();
+};
 const instruction = "인증번호를\n입력해줘";
 const VerifyScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -151,7 +154,11 @@ const VerifyScreen = ({ navigation, route }) => {
           ></TextInput>
           <View style={registerStyles.inputTimerView}>
             <Text style={{ fontSize: 20, color: "white" }}>
-              {timer ? `${Math.floor(timer / 60)} : ${timer % 60}` : null}
+              {timer
+                ? `${formatTime(Math.floor(timer / 60))} : ${formatTime(
+                    timer % 60
+                  )}`
+                : null}
             </Text>
           </View>
         </View>

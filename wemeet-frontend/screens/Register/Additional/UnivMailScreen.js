@@ -1,11 +1,22 @@
-import { SafeAreaView, View, Text, TextInput } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
-import commonStyles from "../../../styles/commonStyles";
+import commonStyles, { subColorPink } from "../../../styles/commonStyles";
 import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import { useSelector } from "react-redux";
 import { emailVrfIssueApi } from "../../../api/univAuth";
+import NextButton from "../../../components/NextButton";
+
 const instruction = "학생인증을\n완료해줘";
 const UnivMailScreen = ({ navigation, route }) => {
   //college 정보 필요함.
@@ -57,7 +68,12 @@ const UnivMailScreen = ({ navigation, route }) => {
         {/* {!toProfile && <RegisterCreditView currentCredit={5} />} */}
       </View>
       <Text style={registerStyles.labelText}>학교 메일</Text>
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <Pressable
+        style={{ flex: 1, alignItems: "center" }}
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
         <View style={registerStyles.inputTextView}>
           <TextInput
             value={mail}
@@ -83,7 +99,21 @@ const UnivMailScreen = ({ navigation, route }) => {
             {warning}
           </Text>
         </View>
-      </View>
+      </Pressable>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <NextButton
+          text={"다음"}
+          onPress={onSubmit}
+          style={{
+            alignSelf: "center",
+            marginTop: 10,
+            marginBottom: 20,
+            backgroundColor: subColorPink,
+          }}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

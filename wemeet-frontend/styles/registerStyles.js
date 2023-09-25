@@ -22,7 +22,7 @@ const registerStyles = StyleSheet.create({
     alignItems: "center",
     height: 60,
     width: width * 0.85,
-    borderWidth: 2,
+    borderWidth: 0.5,
     borderRadius: 10,
     borderColor: "#C9C9C9",
     // borderColor: "white",
