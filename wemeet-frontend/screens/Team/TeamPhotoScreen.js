@@ -174,8 +174,12 @@ const TeamPhotoScreen = ({ navigation }) => {
         >
           {mainPhoto ? (
             <Image
-              style={styles.mainPhotoContainer}
+              style={[
+                styles.mainPhotoContainer,
+                { width: "100%", backgroundColor: "black" },
+              ]}
               source={{ uri: mainPhoto.uri }}
+              resizeMode={"contain"}
             />
           ) : (
             <Ionicons name="ios-add-sharp" size={50} color="white" />
@@ -241,7 +245,7 @@ const styles = StyleSheet.create({
   scrollView: { flex: 1, paddingHorizontal: "6%" },
 
   mainPhotoContainer: {
-    width: "100%",
+    width: "95%",
     alignSelf: "center",
     aspectRatio: 1,
     backgroundColor: subColorBlack,

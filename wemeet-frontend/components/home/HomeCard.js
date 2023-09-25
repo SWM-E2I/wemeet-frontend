@@ -34,6 +34,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
       //dfs
     };
   }, []);
+
   return !end ? (
     <TouchableOpacity activeOpacity={0.9} onPress={onPress} style={styles.card}>
       <View>
@@ -44,7 +45,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
           }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
-          // blurRadius={10}
+          blurRadius={13}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}

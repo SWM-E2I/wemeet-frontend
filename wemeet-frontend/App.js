@@ -18,6 +18,7 @@ async function checkPersistType(
   controller
 ) {
   //이때 실행되는 splash image 필요!!!
+  // Alert.alert("업데이트 실행", "잠시만 기다려주세요"); //for test only
   setLoading(true);
   let result = await SecureStore.getItemAsync("refreshToken");
   console.log("앱 실행>refreshToken: ", result);

@@ -14,6 +14,7 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
+  subColorBlack2,
   subColorPink,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
@@ -36,37 +37,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
 
-const renderItem = ({ item, index }) => {
-  // console.log(index);
-  return (
-    <View>
-      <Image
-        source={{
-          uri: item.uri,
-        }}
-        style={{
-          aspectRatio: 1,
-          width: Dimensions.get("window").width,
-          backgroundColor: "transparent",
-        }}
-        resizeMode={"cover"}
-        // blurRadius={10}
-      />
-      <LinearGradient
-        colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
-        start={[0, 0]}
-        end={[0, 0.5]}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "50%",
-          top: 0,
-        }}
-      />
-    </View>
-  );
-};
-
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
   offset: Dimensions.get("window").width * index,
@@ -74,34 +44,34 @@ const getItemLayout = (data, index) => ({
 });
 
 const defaultTeamInfo = {
-  teamId: null,
+  teamId: "",
   isDeleted: true,
-  memberNum: null,
-  region: null,
-  drinkRate: null,
-  drinkWithGame: null,
-  additionalActivity: null,
+  memberNum: "",
+  region: "",
+  drinkRate: "",
+  drinkWithGame: "",
+  additionalActivity: "",
   introduction: "-",
   teamImageUrls: ["www.naver.com"],
   teamMembers: [
     {
-      college: null,
-      collegeType: null,
-      admissionYear: null,
-      mbti: null,
+      college: "",
+      collegeType: "",
+      admissionYear: "",
+      mbti: "",
     },
   ],
   leader: {
-    leaderId: null,
-    nickname: null,
-    mbti: null,
-    collegeName: null,
-    collegeType: null,
-    admissionYear: null,
+    leaderId: "",
+    nickname: "",
+    mbti: "",
+    collegeName: "",
+    collegeType: "",
+    admissionYear: "",
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
   },
-  meetingRequestStatus: null,
+  meetingRequestStatus: "",
 };
 
 const HomeDetailScreen = ({ navigation, route }) => {
@@ -145,6 +115,67 @@ const HomeDetailScreen = ({ navigation, route }) => {
     }
     setLoading(false);
   };
+
+  const renderItem = ({ item, index }) => {
+    // console.log(index);
+    return (
+      <View>
+        <Image
+          source={{
+            uri: item.uri,
+          }}
+          style={{
+            aspectRatio: 1,
+            width: Dimensions.get("window").width,
+            backgroundColor: "transparent",
+          }}
+          resizeMode={"cover"}
+          blurRadius={
+            !meetingRequestStatus || meetingRequestStatus == "EXPIRED" ? 13 : 0
+          }
+        />
+        <LinearGradient
+          colors={["rgba(14,15,19,0.6)", "rgba(20, 21, 25, 0.00)"]}
+          start={[0, 0]}
+          end={[0, 0.5]}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "50%",
+            top: 0,
+          }}
+        />
+        {(!meetingRequestStatus || meetingRequestStatus == "EXPIRED") && (
+          <View
+            style={{
+              alignSelf: "center",
+              paddingVertical: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              // marginBottom: 10,
+              paddingHorizontal: 30,
+              backgroundColor: subColorBlack2,
+              borderRadius: 10,
+              flexDirection: "row",
+              position: "absolute",
+              bottom: 15,
+            }}
+            opacity={0.8}
+          >
+            <Text
+              style={{
+                color: subColorPink,
+                fontFamily: "pretendard500",
+                fontSize: 14,
+              }}
+            >
+              {"📢  미팅 신청 후 원본 사진을 확인할 수 있어‼️"}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  };
   const handleScroll = (e) => {
     const scrollPosition = e.nativeEvent.contentOffset.x;
     setActiveIndex(Math.round(scrollPosition / Dimensions.get("window").width));
@@ -153,7 +184,6 @@ const HomeDetailScreen = ({ navigation, route }) => {
   const onRequestPress = () => {
     navigation.navigate("RequestModal", { teamId: teamInfo.teamId });
   };
-
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -201,7 +231,24 @@ const HomeDetailScreen = ({ navigation, route }) => {
                   text: "취소",
                 },
                 {
-                  text: "문의하기",
+                  text: "유저 차단하기",
+                  onPress: () => {
+                    Alert.alert("차단하기", "이 팀을 차단하시겠어요?", [
+                      {
+                        text: "취소",
+                      },
+                      {
+                        text: "차단하기",
+                        onPress: () => {
+                          //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
+                          console.log("차단");
+                        },
+                      },
+                    ]);
+                  },
+                },
+                {
+                  text: "관리자 문의하기",
                   onPress: () => {
                     Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
                       console.error(
@@ -221,6 +268,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
             />
           </TouchableOpacity>
         </View>
+
         <View
           style={{
             justifyContent: "center",
