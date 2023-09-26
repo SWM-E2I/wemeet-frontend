@@ -18,21 +18,39 @@ const InfoSection = ({
   myTeam,
   chatLink,
   message,
+  leader,
 }) => {
   console.log(message);
   return (
     <>
       <Text style={[styles.labelText, { marginBottom: 0 }]}>팀원 정보</Text>
+      <View style={styles.memberInfoContainer}>
+        <MaterialIcons name="person" size={18} color={subColorPink} />
+        {leader.mbti != "XXXX" && (
+          <View style={{ paddingHorizontal: 8 }}>
+            <Text style={styles.descriptionText}>{`${leader.mbti}`}</Text>
+          </View>
+        )}
+        <Text
+          style={[
+            styles.descriptionText,
+            { paddingLeft: leader.mbti == "XXXX" ? 8 : 0 },
+          ]}
+        >
+          {leader.collegeName ? leader.collegeName : leader.college}
+        </Text>
+        {!myTeam && (
+          <Text style={{ color: "#8F8F8F", fontSize: 14 }}>{`  ${
+            collegeObj[leader.collegeType]
+          }  ${leader.admissionYear}학번`}</Text>
+        )}
+      </View>
       {memberInfo.map((member, index) => (
         <View key={index} style={styles.memberInfoContainer}>
-          <MaterialIcons
-            name="person"
-            size={18}
-            color={index == 0 ? subColorPink : "white"}
-          />
+          <MaterialIcons name="person" size={18} color={"white"} />
           {member.mbti != "XXXX" && (
             <View style={{ paddingHorizontal: 8 }}>
-              <Text style={styles.descriptionText}>{member.mbti}</Text>
+              <Text style={styles.descriptionText}>{`${member.mbti}`}</Text>
             </View>
           )}
           <Text

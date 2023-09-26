@@ -7,6 +7,9 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
+  Linking,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import RegisterHeader from "../../../components/register/RegisterHeader";
@@ -35,9 +38,9 @@ const UnivMailScreen = ({ navigation, route }) => {
     };
   }, []);
   const onSubmit = async () => {
-    if (mail.length < 1) setWarning("메일 주소를 입력해주세요");
+    if (mail.length < 1) setWarning("메일 주소를 입력해줘");
     else {
-      setWarning("인증번호 요청중입니다. 잠시만 기다려주세요.");
+      setWarning("인증번호 요청중이야. 잠시만 기다려줘.");
       setLoading(true);
       let result = await emailVrfIssueApi(
         college,
@@ -54,10 +57,32 @@ const UnivMailScreen = ({ navigation, route }) => {
           toProfile: toProfile ? true : false,
         });
       } else {
-        setWarning("오류가 발생했습니다. 다시 시도해주세요.");
+        setWarning("오류 발생. 다시 시도해주세요.");
         setMail("");
       }
     }
+  };
+  const onNoMailPress = () => {
+    Alert.alert(
+      "고객센터 문의",
+      "학교 메일을 이용할 수 없는 경우, 카카오톡 고객센터로 학생임을 증빙할 수 있는 자료(학생증, 에브리타임 회원정보 스크린샷 등)와 본인의 핸드폰 번호를 같이 보내줘!",
+      [
+        {
+          text: "취소",
+        },
+        {
+          text: "문의하기",
+          onPress: () => {
+            Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
+              console.error(
+                "onMoveToChat : An error occurred while opening browswer",
+                err
+              )
+            );
+          },
+        },
+      ]
+    );
   };
   //loading, warning, 글자 수 최소 등, api, ac.kr 피렅링 등 기능 추가하기
   return (
@@ -94,11 +119,42 @@ const UnivMailScreen = ({ navigation, route }) => {
             placeholderTextColor={"#C4C4C4"}
           ></TextInput>
         </View>
-        <View style={{ width: "100%" }}>
-          <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
-            {warning}
+        {warning && (
+          <View style={{ width: "100%" }}>
+            <Text style={[registerStyles.warningText, { marginLeft: "10%" }]}>
+              {warning}
+            </Text>
+          </View>
+        )}
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
+            marginRight: "10%",
+            paddingTop: 5,
+          }}
+          onPress={onNoMailPress}
+        >
+          <Text
+            style={{
+              fontSize: 15,
+              fontFamily: "pretendard500",
+              color: "#9C9C9C",
+            }}
+          >
+            학교 메일 이용에 어려움이 있다면?
           </Text>
-        </View>
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: "pretendard500",
+              color: subColorPink,
+            }}
+          >
+            {" [클릭]"}
+          </Text>
+        </TouchableOpacity>
       </Pressable>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}

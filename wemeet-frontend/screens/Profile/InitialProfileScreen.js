@@ -300,7 +300,7 @@ const InitialProfileScreen = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={{
-            paddingVertical: 20,
+            paddingVertical: 10,
             paddingTop: 20,
             justifyContent: "space-between",
             alignItems: "center",
@@ -322,6 +322,31 @@ const InitialProfileScreen = ({ navigation }) => {
           </Text>
           <Ionicons name="chevron-forward-sharp" size={24} color="white" />
         </TouchableOpacity>
+        {!emailAuthenticated && (
+          <TouchableOpacity
+            style={{
+              paddingVertical: 10,
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              flexDirection: "row",
+            }}
+            onPress={() => {
+              navigation.navigate("UnivMail", { toProfile: true });
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 17,
+                fontFamily: "pretendard600",
+                color: "white",
+              }}
+            >
+              대학 인증하기
+            </Text>
+            <Ionicons name="chevron-forward-sharp" size={24} color="white" />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={{
             paddingVertical: 10,

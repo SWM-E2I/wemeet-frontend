@@ -76,17 +76,43 @@ const LeaderCard = ({
                 </Text>
               </View>
             </View>
-            <Text
-              style={{
-                marginLeft: 5,
-                fontSize: 14,
-                color: "white",
-                fontFamily: "pretendard600",
-                marginBottom: 5,
-              }}
-            >
-              {collegeType ? `${college}  (${collegeType})` : `${college}`}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+              <Text
+                style={{
+                  marginLeft: 5,
+                  fontSize: 14,
+                  color: "white",
+                  fontFamily: "pretendard600",
+                  marginBottom: 5,
+                }}
+              >
+                {/* {collegeType ? `${college}  (${collegeType})` : `${college}`}
+                 */}
+                {college}
+              </Text>
+              {collegeType && (
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    color: "#8F8F8F",
+                    fontSize: 13,
+                    fontFamily: "pretendard500",
+                    marginBottom: 5,
+                  }}
+                >{`${collegeType}`}</Text>
+              )}
+              {admissionYear && (
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    color: "#8F8F8F",
+                    fontSize: 13,
+                    fontFamily: "pretendard500",
+                    marginBottom: 5,
+                  }}
+                >{`${admissionYear}학번`}</Text>
+              )}
+            </View>
           </View>
         </LinearGradient>
       </BlurView>

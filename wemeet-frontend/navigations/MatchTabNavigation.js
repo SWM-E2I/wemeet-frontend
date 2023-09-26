@@ -24,7 +24,7 @@ const LikeStackNavigation = () => {
   return (
     // <NavigationContainer independent={true}>
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Like"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Like" component={LikeScreen} />

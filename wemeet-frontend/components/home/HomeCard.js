@@ -45,7 +45,7 @@ const HomeCard = ({ card, navigation, end, noData }) => {
           }}
           style={styles.cardImage}
           resizeMode={"cover"} //or, cover?
-          blurRadius={13}
+          blurRadius={10}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}

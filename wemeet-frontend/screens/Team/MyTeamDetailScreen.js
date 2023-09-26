@@ -242,6 +242,7 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
             intro={myTeamData.introduction}
             myTeam
             chatLink={myTeamData.chatLink}
+            leader={myTeamData.leader}
           />
         </View>
       </ScrollView>

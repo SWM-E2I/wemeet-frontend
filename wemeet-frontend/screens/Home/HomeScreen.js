@@ -60,6 +60,7 @@ const timeLeft = () => {
 const HomeScreen = ({ navigation }) => {
   // const animation = useRef(null); //for Lottie
   const cardData = useSelector((state) => state.suggest.cards);
+  // console.log(cardData);
   const dispatch = useDispatch();
   const [recommended, setRecommended] = useState(false);
   const [timeUntilActivation, setTimeUntilActivation] = useState(timeLeft());

@@ -36,6 +36,7 @@ import {
 } from "../../assets/datasets";
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
+import { CommonActions } from "@react-navigation/native";
 
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
@@ -172,7 +173,61 @@ const LikeDetailScreen = ({ navigation, route }) => {
   const onRequestPress = () => {
     navigation.navigate("LikeMatchRequestModal", { teamId: teamInfo.teamId });
   };
+  const onReportPress = () => {
+    //불량 유저 신고 -> 미구현
+    Alert.alert(
+      "문의하기",
+      "문의사항은 카카오톡 채널에 남겨줘!\n\n다시 보고 싶지 않은 사용자가 있다면\n하단의 '유저 차단하기'를 눌러줘!",
+      [
+        {
+          text: "관리자 문의하기",
+          onPress: () => {
+            Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
+              console.error(
+                "onMoveToPrivacy : An error occurred while opening browswer",
+                err
+              )
+            );
+          },
+        },
+        {
+          text: "유저 차단하기",
+          onPress: () => {
+            Alert.alert(
+              "차단하기",
+              "이 팀을 차단할래? \n한번 차단된 팀은 다시 추천되지 않아",
+              [
+                {
+                  text: "취소",
+                },
+                {
+                  text: "차단하기",
+                  onPress: () => {
+                    //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
+                    Alert.alert("차단 기능 개발중", "잠시만 기다려줘!");
+                    // Alert.alert(
+                    //   "차단 완료",
+                    //   "문의/불편사항은 카카오톡으로 남겨줘!"
+                    // );
+                    // navigation.dispatch(
+                    //   CommonActions.reset({
+                    //     index: 0,
+                    //     routes: [{ name: "Like" }],
+                    //   })
+                    // );
+                  },
+                },
+              ]
+            );
+          },
+        },
 
+        {
+          text: "취소",
+        },
+      ]
+    );
+  };
   return (
     <SafeAreaView
       style={[
@@ -215,27 +270,7 @@ const LikeDetailScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              //불량 유저 신고 -> 미구현
-              Alert.alert("문의하기", "문의사항은 카카오톡 채널에 남겨줘!", [
-                {
-                  text: "취소",
-                },
-                {
-                  text: "문의하기",
-                  onPress: () => {
-                    Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
-                      console.error(
-                        "onMoveToPrivacy : An error occurred while opening browswer",
-                        err
-                      )
-                    );
-                  },
-                },
-              ]);
-            }}
-          >
+          <TouchableOpacity onPress={onReportPress}>
             <MaterialCommunityIcons
               name="message-processing-outline"
               size={24}
@@ -299,12 +334,14 @@ const LikeDetailScreen = ({ navigation, route }) => {
             college={teamInfo.leader.collegeName}
             collegeType={collegeObj[teamInfo.leader.collegeType]}
             profile={teamInfo.leader.leaderLowProfileImageUrl}
+            admissionYear={teamInfo.leader.admissionYear}
           />
           <InfoSection
             memberInfo={teamInfo.teamMembers}
             drinkingRate={drinkRateDict[teamInfo.drinkRate]}
             drinkWithGame={drinkWithGameDict[teamInfo.drinkWithGame]}
             intro={teamInfo.introduction}
+            leader={teamInfo.leader}
           />
         </View>
       </ScrollView>
