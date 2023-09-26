@@ -95,7 +95,7 @@ const PhoneNumScreen = ({ navigation, route }) => {
         </View>
       </Pressable>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
         <NextButton
           text={"다음"}
