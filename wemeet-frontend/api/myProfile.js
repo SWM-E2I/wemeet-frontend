@@ -6,6 +6,7 @@ import * as SecureStore from "expo-secure-store";
 
 const PROFILE_INQUIRY_URL = "/member";
 const DELETE_ACCOUNT_URL = "/member";
+const MODIFY_ACCOUNT_URL = "/member";
 
 export const myProfileInquiryApi = async (navigation, controller) => {
   try {
@@ -61,4 +62,32 @@ export const logoutApi = async (navigation) => {
       routes: [{ name: "PhoneNum" }],
     })
   );
+};
+export const modifyProfileApi = async (
+  nickname,
+  mbti,
+  navigation,
+  controller
+) => {
+  try {
+    const response = await axiosPrivate.patch(
+      MODIFY_ACCOUNT_URL,
+      {
+        nickname: nickname,
+        mbti: mbti,
+      },
+      { signal: controller.signal }
+    );
+    console.log("modifyProfileApi :", response.data);
+    if (response.data.status == "SUCCESS") {
+      Alert.alert("프로필 수정 완료");
+      return true;
+    } else {
+      Alert.alert("프로필 수정 실패", response.data.message);
+      return false;
+    }
+  } catch (err) {
+    axiosCatch(err, "modifyProfileApi", navigation);
+    return false;
+  }
 };

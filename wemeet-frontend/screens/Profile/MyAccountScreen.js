@@ -8,16 +8,19 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  Modal,
+  Button,
+  TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack2,
   subColorBlack,
 } from "../../styles/commonStyles";
-import RegisterHeader from "../../components/register/RegisterHeader";
-import { S3_PROFILE_BASE_URL } from "../../api/axios";
 import {
   Ionicons,
   FontAwesome,
@@ -28,11 +31,64 @@ import { useSelector, useDispatch } from "react-redux";
 import { accountDeleteApi, logoutApi } from "../../api/myProfile";
 import { CommonActions } from "@react-navigation/native";
 import { resetState } from "../../redux/persistSlice";
+import { modifyProfileApi } from "../../api/myProfile";
+import { setProfileData } from "../../redux/profileSlice";
+import MbtiComponent from "../../components/team/MbtiComponent";
 
 const MyAccountScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const profileData = useSelector((state) => state.profile.profileData);
   const controller = new AbortController();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [editNickname, setEditNickname] = useState(false);
+  const [nickname, setNickname] = useState(profileData.nickname);
+  const [editMbti, setEditMbti] = useState(false);
+  const [mbti, setMbti] = useState(profileData.mbti);
+  const showModal = () => {
+    setModalVisible(true);
+  };
+
+  const hideModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleTextChange = (inputText) => {
+    setNickname(inputText.slice(0, 5));
+  };
+  const handleSubmit = async () => {
+    // 입력된 닉네임을 수정 제출
+    //닉네임 변경의 경우 최소 1글자 이상!
+    if (nickname.length < 1) {
+      Alert.alert("1글자 이상 입력해줘");
+      return;
+    } else {
+      let result = await modifyProfileApi(
+        nickname,
+        profileData.mbti,
+        navigation,
+        controller
+      );
+      if (result) {
+        dispatch(setProfileData({ ...profileData, nickname: nickname }));
+      }
+      hideModal();
+    }
+  };
+  const handleMbtiSubmit = async () => {
+    // 입력된 MBTI를 수정 제출
+    let result = await modifyProfileApi(
+      profileData.nickname,
+      mbti,
+      navigation,
+      controller
+    );
+    console.log(result);
+    if (result) {
+      dispatch(setProfileData({ ...profileData, mbti: mbti }));
+    }
+    hideModal();
+  };
+
   useEffect(() => {
     return () => {
       controller.abort();
@@ -42,6 +98,20 @@ const MyAccountScreen = ({ navigation }) => {
     navigation.navigate("PhotoSet", {
       toProfile: true,
     });
+  };
+  const onNicknamePress = () => {
+    setEditMbti(false);
+    setTimeout(() => {
+      setEditNickname(true);
+      showModal();
+    }, 100);
+  };
+  const onMbtiPress = () => {
+    setEditNickname(false);
+    setTimeout(() => {
+      setEditMbti(true);
+      showModal();
+    }, 100);
   };
   const onDeleteAccount = async () => {
     Alert.alert(
@@ -142,13 +212,13 @@ const MyAccountScreen = ({ navigation }) => {
             <Text style={[styles.infoText2, { marginRight: 5 }]}>
               {profileData.nickname}
             </Text>
-            {/* <TouchableOpacity>
+            <TouchableOpacity onPress={onNicknamePress}>
               <MaterialCommunityIcons
                 name="account-edit"
                 size={24}
                 color={subColorPink}
               />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.infoContainer}>
@@ -157,12 +227,12 @@ const MyAccountScreen = ({ navigation }) => {
             <Text style={[styles.infoText2, { marginRight: 5 }]}>
               {profileData.mbti == "XXXX" ? "아직 잘 몰라" : profileData.mbti}
             </Text>
-            <TouchableOpacity>
-              {/* <MaterialCommunityIcons
+            <TouchableOpacity onPress={onMbtiPress}>
+              <MaterialCommunityIcons
                 name="account-edit"
                 size={24}
                 color={subColorPink}
-              /> */}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -188,6 +258,217 @@ const MyAccountScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={hideModal}
+      >
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          {editNickname ? (
+            <KeyboardAvoidingView
+              style={{
+                paddingVertical: 20,
+                paddingHorizontal: 20,
+                width: "75%",
+                backgroundColor: subColorBlack2,
+                borderRadius: 10,
+                justifyContent: "center",
+                alignItems: "center",
+                borderColor: "#9C9C9C",
+                borderWidth: 0.5,
+              }}
+              behavior={Platform.OS === "ios" ? "padding" : "position"}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                  fontFamily: "pretendard500",
+                  marginBottom: 30,
+                }}
+              >
+                변경할 닉네임을 입력해줘
+              </Text>
+              <TextInput
+                placeholder={profileData.nickname}
+                onChangeText={handleTextChange}
+                value={nickname}
+                style={{
+                  borderRadius: 10,
+                  // backgroundColor: subColorBlack,
+                  borderColor: "white",
+                  borderWidth: 0.5,
+                  width: "100%",
+                  height: 40,
+                  paddingHorizontal: 20,
+                  color: "white",
+                  fontFamily: "pretendard500",
+                  marginBottom: 10,
+                  fontSize: 16,
+                }}
+                placeholderTextColor={"#9C9C9C"}
+                maxLength={6}
+              />
+              <View
+                style={{
+                  width: "100%",
+                  paddingVertical: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    width: "45%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onPress={hideModal}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: subColorPink,
+                      fontFamily: "pretendard500",
+                    }}
+                  >
+                    취소
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: "45%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onPress={handleSubmit}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: subColorPink,
+                      fontFamily: "pretendard500",
+                    }}
+                  >
+                    확인
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAvoidingView>
+          ) : (
+            <View
+              style={{
+                width: "75%",
+                alignItems: "center",
+                backgroundColor: subColorBlack2,
+                paddingTop: 20,
+                borderRadius: 10,
+                borderColor: "white",
+                borderWidth: 0.5,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                  fontFamily: "pretendard500",
+                  marginBottom: 20,
+                }}
+              >
+                변경할 MBTI를 선택해줘
+              </Text>
+              <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                <MbtiComponent
+                  mbti={mbti}
+                  setMbti={setMbti}
+                  letters={["E", "S", "T", "P"]}
+                />
+              </View>
+              <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                <MbtiComponent
+                  mbti={mbti}
+                  setMbti={setMbti}
+                  letters={["I", "N", "F", "J"]}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  height: 45,
+                  paddingHorizontal: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 10,
+                  backgroundColor: mbti == "XXXX" ? "black" : subColorBlack,
+                  borderColor: mbti == "XXXX" ? null : "white",
+                  borderWidth: mbti == "XXXX" ? 0 : 0.5,
+                  // alignSelf: "flex-start",
+                }}
+                onPress={() => {
+                  setMbti("XXXX");
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "pretendard400",
+                    color: mbti == "XXXX" ? subColorPink : "white",
+                  }}
+                >
+                  아직 잘 몰라
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  width: "100%",
+                  paddingVertical: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    width: "45%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onPress={hideModal}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: subColorPink,
+                      fontFamily: "pretendard500",
+                    }}
+                  >
+                    취소
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: "45%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onPress={handleMbtiSubmit}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: subColorPink,
+                      fontFamily: "pretendard500",
+                    }}
+                  >
+                    확인
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

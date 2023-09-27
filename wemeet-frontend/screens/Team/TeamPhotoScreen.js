@@ -150,6 +150,7 @@ const TeamPhotoScreen = ({ navigation }) => {
         onPress={() => {
           navigation.goBack();
         }}
+        disabled={loading}
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
@@ -207,14 +208,16 @@ const TeamPhotoScreen = ({ navigation }) => {
           }}
         >
           {mainPhoto ? (
-            <Image
-              style={[
-                styles.mainPhotoContainer,
-                { width: "100%", backgroundColor: "black" },
-              ]}
-              source={{ uri: mainPhoto.uri }}
-              resizeMode={"contain"}
-            />
+            <>
+              <Image
+                style={[
+                  styles.mainPhotoContainer,
+                  { width: "100%", backgroundColor: "black" },
+                ]}
+                source={{ uri: mainPhoto.uri }}
+                resizeMode={"contain"}
+              />
+            </>
           ) : (
             <Ionicons name="ios-add-sharp" size={50} color="white" />
           )}
