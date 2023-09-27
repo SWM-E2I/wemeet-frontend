@@ -8,6 +8,7 @@ import {
   FlatList,
   Image,
   Alert,
+  Button,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
@@ -15,7 +16,12 @@ import commonStyles, {
   subColorBlack,
   subColorPink,
 } from "../../styles/commonStyles";
-import { Ionicons, AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  FontAwesome5,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import { setImages } from "../../redux/teamGenerateSlice";
@@ -24,12 +30,18 @@ const TeamPhotoScreen = ({ navigation }) => {
   dispatch = useDispatch();
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [mainPhoto, setMainPhoto] = useState(null); // uri
-  const [addPhoto, setAddPhoto] = useState([]); // true or false
+  const [addPhoto, setAddPhoto] = useState([{ end: true }]); // true or false
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
+  const flatListRef = useRef(null);
   const scrollToBottom = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  };
+  const scrollToRight = () => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToEnd({ animated: true });
     }
   };
   useEffect(() => {
@@ -43,9 +55,10 @@ const TeamPhotoScreen = ({ navigation }) => {
       Alert.alert("대표 사진 1장은 필수로 등록해줘!");
       return;
     }
-    dispatch(setImages([mainPhoto, ...addPhoto]));
+    dispatch(setImages([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]));
     navigation.navigate("Region");
   };
+  console.log([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]);
   const onMount = async () => {
     if (!status?.granted) {
       const permission = await requestPermission();
@@ -103,10 +116,27 @@ const TeamPhotoScreen = ({ navigation }) => {
       selectionLimit: 5, //최대 5장까지만 선택가능하다고 알려주기
     });
     if (!result.canceled) {
-      console.log(result.assets);
-      setAddPhoto(result.assets);
+      if (addPhoto.length + result.assets.length - 1 > 5)
+        //다섯장이상일경우
+        Alert.alert("추가 사진은\n최대 5장까지야!");
+      setAddPhoto([
+        ...[...addPhoto.slice(0, addPhoto.length - 1), ...result.assets].slice(
+          0,
+          5
+        ),
+        { end: true },
+      ]);
     } else console.log("사진을 선택하지 않음");
     setLoading(false);
+    setTimeout(() => {
+      scrollToBottom();
+      scrollToRight();
+    }, 100);
+  };
+  const onDelete = (indexToRemove) => {
+    setAddPhoto(
+      addPhoto.slice(0, indexToRemove).concat(addPhoto.slice(indexToRemove + 1))
+    );
   };
   useEffect(() => {
     onMount();
@@ -123,7 +153,11 @@ const TeamPhotoScreen = ({ navigation }) => {
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
-      <ScrollView style={styles.scrollView} ref={scrollViewRef}>
+      <ScrollView
+        style={styles.scrollView}
+        ref={scrollViewRef}
+        contentContainerStyle={{ paddingBottom: 10 }}
+      >
         <View style={{ flexDirection: "row" }}>
           <Text
             style={[
@@ -194,26 +228,45 @@ const TeamPhotoScreen = ({ navigation }) => {
           대표 사진
         </Text>
         <View style={{ width: "100%", flexDirection: "row" }}>
-          <TouchableOpacity
-            style={styles.addPhotoContainer}
-            onPress={() => {
-              pickAddPhotoAsync();
-            }}
-          >
-            <FontAwesome5 name="camera" size={20} color="white" />
-            <Text style={{ color: "white", fontSize: 12, marginTop: 7 }}>
-              사진 추가
-            </Text>
-          </TouchableOpacity>
           <FlatList
+            ref={flatListRef}
+            style={{ paddingTop: 10 }}
             data={addPhoto}
             horizontal
-            renderItem={({ item }) => (
-              <Image
-                style={styles.addPhotoContainer}
-                source={{ uri: item.uri }}
-              />
-            )}
+            renderItem={({ item, index }) =>
+              item.uri ? (
+                <View style={styles.addPhotoContainer}>
+                  <Image
+                    style={{ width: "100%", height: "100%", borderRadius: 10 }}
+                    source={{ uri: item.uri }}
+                  />
+                  <TouchableOpacity
+                    style={{ position: "absolute", top: -8, right: -8 }}
+                    onPress={() => {
+                      onDelete(index);
+                    }}
+                  >
+                    <MaterialIcons name="cancel" size={24} color={"white"} />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.addPhotoContainer}
+                  onPress={() => {
+                    pickAddPhotoAsync();
+                  }}
+                >
+                  {addPhoto.length == 1 ? (
+                    <FontAwesome5 name="camera" size={20} color="white" />
+                  ) : (
+                    <Ionicons name="ios-add-sharp" size={25} color="white" />
+                  )}
+                  <Text style={{ color: "white", fontSize: 12, marginTop: 7 }}>
+                    사진 추가
+                  </Text>
+                </TouchableOpacity>
+              )
+            }
             keyExtractor={(item, index) => index.toString()}
           />
         </View>

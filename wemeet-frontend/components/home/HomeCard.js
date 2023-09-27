@@ -40,11 +40,10 @@ const HomeCard = ({ card, navigation, end, noData }) => {
       <View>
         <Image
           source={{
-            // uri: "www.naver.com", //임시
             uri: card.mainImageURL, //요게 진짜
           }}
           style={styles.cardImage}
-          resizeMode={"cover"} //or, cover?
+          resizeMode={"cover"}
           blurRadius={10}
         />
         <LinearGradient

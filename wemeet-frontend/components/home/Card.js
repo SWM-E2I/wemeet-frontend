@@ -67,8 +67,9 @@ const Card = ({
         <Image
           source={{ uri: card.mainImageURL }}
           style={[styles.cardImage, { width: "100%" }]}
-          resizeMode={"cover"} //or, cover?
+          resizeMode={"contain"} //or, cover?
           blurRadius={myTeam || isSent || isMatched ? 0 : 10}
+          // blurRadius={10}
         />
         <LinearGradient
           colors={["#141519", "rgba(20, 21, 25, 0.00)"]}

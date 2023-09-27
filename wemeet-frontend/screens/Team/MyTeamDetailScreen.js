@@ -39,9 +39,11 @@ const renderItem = ({ item, index }) => {
         style={{
           aspectRatio: 1,
           width: Dimensions.get("window").width,
-          backgroundColor: "transparent",
+          // backgroundColor: "transparent",
+          backgroundColor: "black",
         }}
         resizeMode={"cover"}
+        // resizeMode={"contain"}
         // blurRadius={index === 0 ? 0 : 5}
       />
       <LinearGradient

@@ -1260,15 +1260,6 @@ export const drinkWithGameDict = {
   HATER: "술게임 싫어해",
 };
 
-console.log(
-  univNameList.length,
-  univAliasList.length,
-  univCodeList.length,
-  univList,
-  univList2,
-  univDict
-);
-
 export {
   univList,
   univCodeList,
