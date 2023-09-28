@@ -88,6 +88,8 @@ const LikeScreen = ({ navigation }) => {
               nickName: card.leader.nickname,
               mbti: card.leader.mbti,
               college: card.leader.college,
+              admissionYear: card.leader.admissionYear,
+              emailAuthenticated: card.leader.emailAuthenticated,
             },
             profileImageURL: card.profileImageURL,
             teamId: card.teamId,

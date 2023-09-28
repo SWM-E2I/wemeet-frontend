@@ -103,6 +103,8 @@ const HomeCard = ({ card, navigation, end, noData }) => {
           mbti={card.leader.mbti}
           college={card.leader.college}
           profile={card.profileImageURL}
+          admissionYear={card.leader.admissionYear}
+          emailAuthenticated={card.leader.emailAuthenticated}
         />
       )}
     </TouchableOpacity>

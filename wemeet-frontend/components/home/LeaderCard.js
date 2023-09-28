@@ -16,6 +16,7 @@ const LeaderCard = ({
   collegeType,
   profile,
   admissionYear,
+  emailAuthenticated,
 }) => {
   //profile -> require(local path)로 전달해줌
   return (
@@ -64,7 +65,20 @@ const LeaderCard = ({
                   mbti == "XXXX" ? "" : mbti
                 }`}
               </Text>
-              <View style={styles.verifiedLabel}>
+              <View
+                style={[
+                  styles.verifiedLabel,
+                  {
+                    backgroundColor: emailAuthenticated
+                      ? subColorPink
+                      : "#7A7A7A",
+                  },
+                ]}
+                onPress={() => {
+                  navigation.navigate("UnivMail", { toProfile: true });
+                }}
+                disabled={emailAuthenticated}
+              >
                 <Text
                   style={{
                     fontSize: 12,
@@ -72,7 +86,7 @@ const LeaderCard = ({
                     color: "white",
                   }}
                 >
-                  대학 인증 완료
+                  {emailAuthenticated ? "대학 인증 완료" : "대학 인증 미완료"}
                 </Text>
               </View>
             </View>

@@ -220,7 +220,7 @@ const InitialProfileScreen = ({ navigation }) => {
                   color: "white",
                 }}
               >
-                {emailAuthenticated ? "대학 인증 완료" : "대학 인증 필요"}
+                {emailAuthenticated ? "대학 인증 완료" : "대학 인증 미완료"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -422,8 +422,8 @@ const InitialProfileScreen = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
   verifiedLabel: {
-    width: 85,
-    height: 22,
+    width: 90,
+    height: 24,
     borderRadius: 3,
     backgroundColor: subColorPink,
     justifyContent: "center",

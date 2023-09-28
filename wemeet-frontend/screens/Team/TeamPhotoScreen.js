@@ -14,6 +14,8 @@ import React, { useState, useEffect, useRef } from "react";
 import commonStyles, {
   mainColor,
   subColorBlack,
+  subColorBlack2,
+  subColorBlue,
   subColorPink,
 } from "../../styles/commonStyles";
 import {
@@ -21,6 +23,7 @@ import {
   AntDesign,
   FontAwesome5,
   MaterialIcons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
@@ -113,7 +116,8 @@ const TeamPhotoScreen = ({ navigation }) => {
       aspect: [1, 1],
       allowsMultipleSelection: true,
       orderedSelection: true, //only for iOS
-      selectionLimit: 5, //최대 5장까지만 선택가능하다고 알려주기
+      // selectionLimit: 5, //최대 5장까지만 선택가능하다고 알려주기
+      selectionLimit: 6 - addPhoto.length,
     });
     if (!result.canceled) {
       if (addPhoto.length + result.assets.length - 1 > 5)
@@ -217,15 +221,34 @@ const TeamPhotoScreen = ({ navigation }) => {
                 source={{ uri: mainPhoto.uri }}
                 resizeMode={"contain"}
               />
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                }}
+              >
+                <MaterialIcons name={"looks-one"} size={35} color={"white"} />
+              </View>
             </>
           ) : (
-            <Ionicons name="ios-add-sharp" size={50} color="white" />
+            <>
+              <Ionicons name="ios-add-sharp" size={40} color="white" />
+              <Text style={{ color: "white", fontSize: 14, marginTop: 0 }}>
+                사진을 등록해줘
+              </Text>
+            </>
           )}
         </TouchableOpacity>
         <Text
           style={[
             commonStyles.teamGenerateInstruction2,
-            { textAlign: "center", paddingVertical: 5 },
+            {
+              textAlign: "center",
+              paddingVertical: 5,
+              fontSize: 18,
+              fontFamily: "pretendard500",
+            },
           ]}
         >
           대표 사진
@@ -251,6 +274,19 @@ const TeamPhotoScreen = ({ navigation }) => {
                   >
                     <MaterialIcons name="cancel" size={24} color={"white"} />
                   </TouchableOpacity>
+                  <View
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: -4,
+                    }}
+                  >
+                    <MaterialIcons
+                      name={"looks-" + (index == 0 ? "two" : index + 2)}
+                      size={20}
+                      color={"white"}
+                    />
+                  </View>
                 </View>
               ) : (
                 <TouchableOpacity
@@ -258,13 +294,24 @@ const TeamPhotoScreen = ({ navigation }) => {
                   onPress={() => {
                     pickAddPhotoAsync();
                   }}
+                  disabled={addPhoto.length >= 6}
                 >
                   {addPhoto.length == 1 ? (
                     <FontAwesome5 name="camera" size={20} color="white" />
                   ) : (
-                    <Ionicons name="ios-add-sharp" size={25} color="white" />
+                    <Ionicons
+                      name="ios-add-sharp"
+                      size={25}
+                      color={addPhoto.length < 6 ? "white" : "#9C9C9C"}
+                    />
                   )}
-                  <Text style={{ color: "white", fontSize: 12, marginTop: 7 }}>
+                  <Text
+                    style={{
+                      color: addPhoto.length < 6 ? "white" : "#9C9C9C",
+                      fontSize: 12,
+                      marginTop: 3,
+                    }}
+                  >
                     사진 추가
                   </Text>
                 </TouchableOpacity>

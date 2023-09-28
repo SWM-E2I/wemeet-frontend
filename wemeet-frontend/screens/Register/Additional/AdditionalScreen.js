@@ -104,46 +104,23 @@ const AdditionalScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        {hasMainProfileImage && !emailAuthenticated ? (
-          <>
-            <ButtonContainer
-              text={"사진 등록"}
-              done={hasMainProfileImage}
-              onPress={() => {
-                navigation.navigate("PhotoSet");
-              }}
-              text2={"등록하기"}
-            />
-            <ButtonContainer
-              text={"대학생 인증"}
-              done={emailAuthenticated}
-              onPress={() => {
-                navigation.navigate("UnivMail");
-              }}
-              text2={"인증하기"}
-            />
-          </>
-        ) : (
-          <>
-            <ButtonContainer
-              text={"대학생 인증"}
-              done={emailAuthenticated}
-              onPress={() => {
-                navigation.navigate("UnivMail");
-              }}
-              text2={"인증하기"}
-            />
-            <ButtonContainer
-              text={"사진 등록"}
-              // done={false}
-              done={hasMainProfileImage}
-              onPress={() => {
-                navigation.navigate("PhotoSet");
-              }}
-              text2={"등록하기"}
-            />
-          </>
-        )}
+        <ButtonContainer
+          text={"사진 등록"}
+          // done={false}
+          done={hasMainProfileImage}
+          onPress={() => {
+            navigation.navigate("PhotoSet");
+          }}
+          text2={"등록하기"}
+        />
+        <ButtonContainer
+          text={"대학생 인증 (선택)"}
+          done={emailAuthenticated}
+          onPress={() => {
+            navigation.navigate("UnivMail");
+          }}
+          text2={"인증하기"}
+        />
       </View>
       <NextButton
         text={

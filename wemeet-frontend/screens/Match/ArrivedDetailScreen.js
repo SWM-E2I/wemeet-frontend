@@ -27,7 +27,7 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-import { detailApi } from "../../api/home";
+import { detailApi, blockMemberApi } from "../../api/home";
 import {
   regionDict,
   collegeObj,
@@ -129,6 +129,7 @@ const defaultTeamInfo = {
     admissionYear: null,
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
+    emailAuthenticated: false,
   },
   meetingRequestStatus: null,
 };
@@ -228,6 +229,24 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
       ]
     );
   };
+  const blockApi = async () => {
+    // let result = await blockMemberApi(teamInfo.leader.leaderId);
+    let result = await blockMemberApi(
+      teamInfo.leader.leaderId,
+      navigation,
+      controller
+    ); // for test
+    if (result) {
+      Alert.alert("차단 완료", "문의/불편사항은 카카오톡으로 남겨줘!");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Arrived" }],
+        })
+      );
+    }
+    return result;
+  };
   const onReportPress = () => {
     //불량 유저 신고 -> 미구현
     Alert.alert(
@@ -258,18 +277,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
                 {
                   text: "차단하기",
                   onPress: () => {
-                    //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
-                    Alert.alert("차단 기능 개발중", "잠시만 기다려줘!");
-                    // Alert.alert(
-                    //   "차단 완료",
-                    //   "문의/불편사항은 카카오톡으로 남겨줘!"
-                    // );
-                    // navigation.dispatch(
-                    //   CommonActions.reset({
-                    //     index: 0,
-                    //     routes: [{ name: "Arrived" }],
-                    //   })
-                    // );
+                    blockApi();
                   },
                 },
               ]
@@ -391,6 +399,7 @@ const ArrivedDetailScreen = ({ navigation, route }) => {
             collegeType={collegeObj[teamInfo.leader.collegeType]}
             profile={teamInfo.leader.leaderLowProfileImageUrl}
             admissionYear={teamInfo.leader.admissionYear}
+            emailAuthenticated={teamInfo.leader.emailAuthenticated}
           />
           <InfoSection
             memberInfo={teamInfo.teamMembers}

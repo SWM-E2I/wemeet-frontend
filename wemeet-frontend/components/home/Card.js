@@ -261,6 +261,8 @@ const Card = ({
         mbti={card.leader.mbti}
         college={card.leader.college}
         profile={card.profileImageURL}
+        emailAuthenticated={card.leader.emailAuthenticated}
+        admissionYear={card.leader.admissionYear}
       />
     </TouchableOpacity>
   );

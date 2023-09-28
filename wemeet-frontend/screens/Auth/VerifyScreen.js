@@ -74,8 +74,7 @@ const VerifyScreen = ({ navigation, route }) => {
           const persistRes = await persistLoginApi(controller);
           if (persistRes) {
             dispatch(setPersistState(persistRes)); //state 저장
-            if (persistRes.emailAuthenticated && persistRes.hasMainProfileImage)
-              nextPage = "MainTab";
+            if (persistRes.hasMainProfileImage) nextPage = "MainTab";
             else nextPage = "Additional"; //추가정보 분기 페이지
           } else {
             // Alert.alert(

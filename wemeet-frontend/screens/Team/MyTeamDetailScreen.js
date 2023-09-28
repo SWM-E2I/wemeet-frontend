@@ -236,6 +236,8 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
             college={myTeamData.leader.college}
             collegeType={""}
             profile={myTeamData.profileImageURL}
+            emailAuthenticated={myTeamData.leader.emailAuthenticated}
+            admissionYear={myTeamData.leader.admissionYear}
           />
           <InfoSection
             memberInfo={myTeamData.members}

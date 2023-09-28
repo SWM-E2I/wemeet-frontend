@@ -27,7 +27,7 @@ async function checkPersistType(
     const res = await persistLoginApi(controller);
     if (res) {
       setPersistData(res);
-      if (res.emailAuthenticated && res.hasMainProfileImage) {
+      if (res.hasMainProfileImage) {
         setPersistType("MainTab");
         console.log("앱 실행, 메인 페이지로 이동");
         setLoading(false);

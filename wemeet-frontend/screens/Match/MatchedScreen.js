@@ -46,11 +46,12 @@ const MatchedScreen = ({ navigation }) => {
           mainImageURL: card.teamProfileImageUrl[0],
           region: regionDict[card.region],
           memberNum: card.memberCount,
-
           leader: {
             nickName: card.leader.nickname,
             mbti: card.leader.mbti,
             college: card.leader.collegeName,
+            admissionYear: card.leader.admissionYear,
+            emailAuthenticated: card.leader.emailAuthenticated,
           },
           profileImageURL: card.leader.leaderLowProfileImageUrl,
           teamId: card.teamId,

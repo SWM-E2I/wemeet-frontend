@@ -50,6 +50,7 @@ const SentScreen = ({ navigation }) => {
     if (result == 40029) dispatch(setHasTeam(false));
     else if (result) {
       const cards = [];
+      console.log(result);
       result.forEach((card) => {
         const date = new Date(card.requestTime);
         const timeDifference = now - date;
@@ -62,6 +63,8 @@ const SentScreen = ({ navigation }) => {
             nickName: card.leader.nickname,
             mbti: card.leader.mbti,
             college: card.leader.collegeName,
+            admissionYear: card.leader.admissionYear,
+            emailAuthenticated: card.leader.emailAuthenticated,
           },
           profileImageURL: card.leader.leaderLowProfileImageUrl,
           daysLeft: 2 - days, //0 > D-0, 1 > D-1 ... 최대 D-3

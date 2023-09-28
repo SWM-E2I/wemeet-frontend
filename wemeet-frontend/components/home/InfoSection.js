@@ -39,7 +39,11 @@ const InfoSection = ({
         >
           {leader.collegeName ? leader.collegeName : leader.college}
         </Text>
-        {!myTeam && (
+        {myTeam ? (
+          <Text style={{ color: "#8F8F8F", fontSize: 14 }}>
+            {` ${leader.admissionYear}학번`}
+          </Text>
+        ) : (
           <Text style={{ color: "#8F8F8F", fontSize: 14 }}>{`  ${
             collegeObj[leader.collegeType]
           }  ${leader.admissionYear}학번`}</Text>

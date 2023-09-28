@@ -42,6 +42,7 @@ const MyTeamScreen = ({ navigation, team, onRefresh }) => {
       nickName: team.leader.nickname,
       mbti: team.leader.mbti,
       college: team.leader.college,
+      emailAuthenticated: team.leader.emailAuthenticated,
     },
     profileImageURL: team.profileImageURL,
     chatLink: team.chatLink,

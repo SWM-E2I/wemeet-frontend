@@ -28,14 +28,13 @@ const NoTeamScreen = ({ navigation, onRefresh }) => {
     (state) => state.persist.hasMainProfileImage
   );
   const onNext = () => {
-    if (emailAuthenticated && hasMainProfileImage)
-      navigation.navigate("ChatLink");
+    if (hasMainProfileImage) navigation.navigate("ChatLink");
     else {
       Alert.alert(
         // "프로필 사진, 이메일\n인증을 완료해줘",
         // "마이페이지에서 완료 후에 다시 시도해줘",
         "앗, 잠깐!",
-        "\n안전한 위밋 미팅을 위해\n대학생 인증과 프로필 사진 등록이 필요해\n",
+        "\n팀 생성 전에 프로필 사진 등록이 필요해\n",
         [
           {
             text: "마이페이지로 이동", // 버튼 텍스트

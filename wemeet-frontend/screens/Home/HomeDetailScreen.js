@@ -27,7 +27,7 @@ import {
 import LeaderCard from "../../components/home/LeaderCard";
 import InfoSection from "../../components/home/InfoSection";
 import { LinearGradient } from "expo-linear-gradient";
-import { detailApi, likeApi } from "../../api/home";
+import { detailApi, likeApi, blockMemberApi } from "../../api/home";
 import {
   regionDict,
   collegeObj,
@@ -70,6 +70,7 @@ const defaultTeamInfo = {
     admissionYear: "",
     leaderLowProfileImageUrl: "www.naver.com",
     imageAuth: false,
+    emailAuthenticated: false,
   },
   meetingRequestStatus: "",
 };
@@ -77,7 +78,7 @@ const defaultTeamInfo = {
 const HomeDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const cardData = useSelector((state) => state.suggest.cards);
-  console.log(cardData);
+  // console.log(cardData);
   const [teamInfo, setTeamInfo] = useState(defaultTeamInfo);
   const teamId = route.params.teamId;
   const controller = new AbortController();
@@ -187,7 +188,24 @@ const HomeDetailScreen = ({ navigation, route }) => {
   const onRequestPress = () => {
     navigation.navigate("RequestModal", { teamId: teamInfo.teamId });
   };
-
+  const blockApi = async () => {
+    // let result = await blockMemberApi(teamInfo.leader.leaderId);
+    let result = await blockMemberApi(
+      teamInfo.leader.leaderId,
+      navigation,
+      controller
+    ); // for test
+    if (result) {
+      Alert.alert("차단 완료", "문의/불편사항은 카카오톡으로 남겨줘!");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        })
+      );
+    }
+    return result;
+  };
   const onReportPress = () => {
     //불량 유저 신고 -> 미구현
     Alert.alert(
@@ -210,7 +228,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
           onPress: () => {
             Alert.alert(
               "차단하기",
-              "이 팀을 차단할래? \n한번 차단된 팀은 다시 추천되지 않아",
+              "이 사용자를 차단할래? \n한번 차단된 사용자는 다시 추천되지 않아",
               [
                 {
                   text: "취소",
@@ -219,17 +237,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
                   text: "차단하기",
                   onPress: () => {
                     //차단 api여기서 연결 -> 미구현 , 차단 api전송, 현재 카드에서 삭제하기, 홈화면으로 이동
-                    Alert.alert("차단 기능 개발중", "잠시만 기다려줘!");
-                    // Alert.alert(
-                    //   "차단 완료",
-                    //   "문의/불편사항은 카카오톡으로 남겨줘!"
-                    // );
-                    // navigation.dispatch(
-                    //   CommonActions.reset({
-                    //     index: 0,
-                    //     routes: [{ name: "Home" }],
-                    //   })
-                    // );
+                    blockApi();
                   },
                 },
               ]
@@ -348,6 +356,7 @@ const HomeDetailScreen = ({ navigation, route }) => {
             collegeType={collegeObj[teamInfo.leader.collegeType]}
             profile={teamInfo.leader.leaderLowProfileImageUrl}
             admissionYear={teamInfo.leader.admissionYear}
+            emailAuthenticated={teamInfo.leader.emailAuthenticated}
           />
           <InfoSection
             memberInfo={teamInfo.teamMembers}

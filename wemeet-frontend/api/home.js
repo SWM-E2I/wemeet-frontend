@@ -7,6 +7,7 @@ const DETAIL_URL = "/team"; // + /teamId
 const LIKE_URL = "/heart"; // +/partner_teamId
 const REQUEST_URL = "/meeting"; //post, 매칭 신청
 const REQUEST_MESSAGE_URL = "/meeting/message"; //post, 쪽지와 함께 신청
+const BLOCK_URL = "/member/block";
 
 export const suggestionCheckApi = async (navigation, controller) => {
   try {
@@ -149,6 +150,26 @@ export const requestMessageApi = async (
     else Alert.alert("요청 실패", response.data?.message);
   } catch (err) {
     axiosCatch(err, "requestMessageApi", navigation);
+    return false;
+  }
+  return false;
+};
+
+export const blockMemberApi = async (blockMemberId, navigation, controller) => {
+  try {
+    const response = await axiosPrivate.post(
+      BLOCK_URL + "/" + blockMemberId,
+      {},
+      { signal: controller.signal }
+    );
+    if (response.data.status == "SUCCESS") return true;
+    else Alert.alert("요청 실패", response.data?.message);
+  } catch (err) {
+    axiosCatch(err, "blockMemberApi", navigation);
+    Alert.alert(
+      "에러",
+      "예상치 못한 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요."
+    );
     return false;
   }
   return false;
