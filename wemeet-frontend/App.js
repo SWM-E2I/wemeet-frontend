@@ -9,6 +9,7 @@ import { persistLoginApi } from "./api/persist.js";
 import { mainColor } from "./styles/commonStyles.js";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import * as Updates from "expo-updates";
 
 // const Stack = createNativeStackNavigator();
 async function checkPersistType(
@@ -59,12 +60,23 @@ export default function App() {
   const [Loading, setLoading] = useState(true);
   const controller = new AbortController();
 
+  const reactToUpdates = async () => {
+    // Updates.addListener((event) => {
+    //   if (event.type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
+    //     //expo updates 공부해보고 적용하기!
+    //     Alert.alert("업데이트 가능", "앱을 다시 실행해주세요!");
+    //     Updates.reloadAsync();
+    //   }
+    // });
+    return true;
+  };
   useEffect(() => {
     const prepare = async () => {
       await SplashScreen.preventAutoHideAsync();
     };
     prepare();
     checkPersistType(setLoading, setPersistType, setPersistData, controller);
+    reactToUpdates();
     return () => {
       setLoading(false);
       controller.abort();
