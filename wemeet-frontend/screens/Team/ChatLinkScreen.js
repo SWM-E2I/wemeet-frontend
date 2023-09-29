@@ -7,25 +7,63 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  Pressable,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles, {
   mainColor,
+  subColorBlack,
+  subColorBlack2,
   subColorPink,
 } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatLink } from "../../redux/teamGenerateSlice";
 import { AntDesign } from "@expo/vector-icons";
+import { teamEditApi } from "../../api/team";
+import { CommonActions } from "@react-navigation/native";
+import { setHasTeam } from "../../redux/persistSlice";
+import { resetState } from "../../redux/teamGenerateSlice";
+
 const ChatLinkScreen = ({ navigation, route }) => {
   const edit = route.params?.edit;
-  console.log(edit);
   const dispatch = useDispatch();
   const chatLink = useSelector((state) => state.teamGenerate.data.chatLink);
   const [link, setLink] = useState(chatLink);
+  const images = useSelector((state) => state.teamGenerate.images);
+  const data = useSelector((state) => state.teamGenerate.data);
+  const controller = new AbortController();
+  const onSubmit = async () => {
+    // import { teamEditApi } from "../../api/team";
+    // import { CommonActions } from "@react-navigation/native";
+    // import { setHasTeam } from "../../redux/persistSlice";
+    // import { resetState } from "../../redux/teamGenerateSlice";
+    if (!link || link.length == 0)
+      Alert.alert("입력 오류", "올바른 형식의 아이디를 입력해줘!");
+    else {
+      dispatch(setChatLink(link));
+      let res = await teamEditApi(
+        images,
+        { ...data, chatLink: link },
+        navigation,
+        controller
+      );
+      if (res) {
+        dispatch(setHasTeam(true));
+        dispatch(resetState(true));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "InitialTeam" }],
+          })
+        );
+      }
+    }
+  };
   const onNext = () => {
     if (!link || link.length == 0)
-      Alert.alert("입력 오류", "올바른 형식의 닉네임을 입력해줘!");
+      Alert.alert("입력 오류", "올바른 형식의 아이디를 입력해줘!");
     else {
       dispatch(setChatLink(link));
       navigation.navigate("TeamPhoto", { edit: edit });
@@ -43,7 +81,12 @@ const ChatLinkScreen = ({ navigation, route }) => {
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
-      <View style={{ flex: 1, paddingHorizontal: "6%" }}>
+      <Pressable
+        style={{ flex: 1, paddingHorizontal: "6%" }}
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
         <View style={{ flexDirection: "row" }}>
           <Text
             style={[
@@ -103,11 +146,14 @@ const ChatLinkScreen = ({ navigation, route }) => {
         >
           {"📢  [ 카카오톡 실행>설정(톱니바퀴)>프로필 관리>카카오톡 ID ]"}
         </Text>
-      </View>
+      </Pressable>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "position"}
       >
-        <TouchableOpacity style={commonStyles.buttonContainer} onPress={onNext}>
+        <TouchableOpacity
+          style={[commonStyles.buttonContainer]}
+          onPress={onNext}
+        >
           <Text
             style={{
               color: "white",
@@ -118,6 +164,43 @@ const ChatLinkScreen = ({ navigation, route }) => {
             다음
           </Text>
         </TouchableOpacity>
+        {/* {edit && (
+          <TouchableOpacity
+            style={[commonStyles.buttonContainer, { marginBottom: 0 }]}
+            onPress={onNext}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontFamily: "pretendard600",
+              }}
+            >
+              계속 수정할래 (다음)
+            </Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          style={[
+            commonStyles.buttonContainer,
+            edit && {
+              backgroundColor: "black",
+              borderWidth: 0.5,
+              borderColor: "#9C9C9C",
+            },
+          ]}
+          onPress={edit ? onSubmit : onNext}
+        >
+          <Text
+            style={{
+              color: edit ? subColorPink : "white",
+              fontSize: 18,
+              fontFamily: "pretendard600",
+            }}
+          >
+            {edit ? "저장하고 돌아갈래" : "다음"}
+          </Text>
+        </TouchableOpacity> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

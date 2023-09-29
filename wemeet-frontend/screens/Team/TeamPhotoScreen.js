@@ -28,10 +28,13 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "../../redux/teamGenerateSlice";
+import { teamEditApi } from "../../api/team";
+import { CommonActions } from "@react-navigation/native";
+import { setHasTeam } from "../../redux/persistSlice";
+import { resetState } from "../../redux/teamGenerateSlice";
 
 const TeamPhotoScreen = ({ navigation, route }) => {
   const edit = route.params?.edit;
-  console.log(edit);
   const dispatch = useDispatch();
   const images = useSelector((state) => state.teamGenerate.images);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
@@ -42,6 +45,31 @@ const TeamPhotoScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const flatListRef = useRef(null);
+  const controller = new AbortController();
+  const data = useSelector((state) => state.teamGenerate.data);
+  const onSubmit = async () => {
+    if (!mainPhoto) {
+      Alert.alert("대표 사진 1장은 필수로 등록해줘!");
+      return;
+    }
+    dispatch(setImages([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]));
+    let res = await teamEditApi(
+      [mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)],
+      data,
+      navigation,
+      controller
+    );
+    if (res) {
+      dispatch(setHasTeam(true));
+      dispatch(resetState(true));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "InitialTeam" }],
+        })
+      );
+    }
+  };
   const scrollToBottom = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });

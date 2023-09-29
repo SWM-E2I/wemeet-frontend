@@ -305,7 +305,8 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
             height: 50,
             marginVertical: 10,
             // backgroundColor: subColorPink,
-            backgroundColor: "black",
+            // backgroundColor: "black",
+            backgroundColor: "#9C9C9C",
             justifyContent: "center",
             alignItems: "center",
             alignSelf: "center",
@@ -314,12 +315,18 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
           }}
           onPress={onDeletePress}
         >
-          <Ionicons name="trash-bin" size={22} color={subColorPink} />
+          <Ionicons
+            name="trash-bin"
+            size={22}
+            // color={subColorPink}
+            color={"white"}
+          />
           <Text
             style={{
               // color: "black",
               marginLeft: 5,
-              color: subColorPink,
+              // color: subColorPink,
+              color: "white",
               fontSize: 16,
               fontFamily: "pretendard600",
             }}

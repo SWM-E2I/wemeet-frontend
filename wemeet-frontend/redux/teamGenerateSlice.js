@@ -21,6 +21,7 @@ const initialTeamState = {
   },
   images: [],
 };
+
 const teamGenerateSlice = createSlice({
   name: "teamGenerateSlice",
   initialState: initialTeamState,

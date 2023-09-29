@@ -18,7 +18,6 @@ const codeList = ["HONGDAE", "GUNDAE", "GANGNAM", "SINCHON"];
 const showList = ["홍대 입구", "건대 입구", "강남", "신촌"];
 const RegionScreen = ({ navigation, route }) => {
   const edit = route.params?.edit;
-  console.log(edit);
   const region = useSelector((state) => state.teamGenerate.data.region);
   const dispatch = useDispatch();
   const [regionIdx, setRegionIdx] = useState(codeList.indexOf(region)); // [latitude, longitude

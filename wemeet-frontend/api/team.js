@@ -92,7 +92,6 @@ const teamDeleteApi = async (navigation, controller) => {
   }
   return false;
 };
-
 const teamEditApi = async (images, data, navigation, controller) => {
   const formData = new FormData();
   images.forEach((image) => {

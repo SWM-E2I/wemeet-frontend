@@ -105,7 +105,7 @@ const MembersScreen = ({ navigation, route }) => {
           // key={index}
           onPress={() => {
             //최대 3명까지 추가 가능.
-            navigation.navigate("MemberModal");
+            navigation.navigate("MemberModal", { edit: edit });
           }}
           disabled={members.length >= 3}
         >

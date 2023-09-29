@@ -24,6 +24,7 @@ const showList = [
 ];
 const DrinkGameScreen = ({ navigation, route }) => {
   const edit = route.params?.edit;
+
   const dispatch = useDispatch();
   const drinkWithGame = useSelector(
     (state) => state.teamGenerate.data.drinkWithGame

@@ -26,7 +26,8 @@ import MbtiComponent from "../../components/team/MbtiComponent";
 import { useDispatch } from "react-redux";
 import { addMember } from "../../redux/teamGenerateSlice";
 
-const MemberModalScreen = ({ navigation }) => {
+const MemberModalScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
   const dispatch = useDispatch();
   //univSet과 마찬가지로 추후에 최적화하기.
   const [univ, setUniv] = useState(null);
@@ -45,7 +46,7 @@ const MemberModalScreen = ({ navigation }) => {
           mbti: mbti,
         })
       );
-      navigation.navigate("Members");
+      navigation.navigate("Members", { edit: edit });
     } else Alert.alert("학교/학과, 학번, MBTI를 모두 선택해줘");
   };
   return (
