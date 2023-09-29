@@ -1207,6 +1207,10 @@ const univDict = {};
 univList2.map((univ) => {
   univDict[univ.key] = univ.value;
 });
+const reverseUnivDict = {};
+univList2.map((univ) => {
+  reverseUnivDict[univ.value] = univ.key;
+});
 
 const now = new Date();
 
@@ -1220,6 +1224,7 @@ const collegeList = [
   { key: "EDUCATION", value: "교육" },
   { key: "ETC", value: "그 외" },
 ];
+
 const collegeObj = {
   SOCIAL: "인문사회",
   ENGINEERING: "자연공학",
@@ -1228,6 +1233,15 @@ const collegeObj = {
   EDUCATION: "교육",
   ETC: "그 외",
 };
+const reverseCollegeObj = {
+  인문사회: "SOCIAL",
+  자연공학: "ENGINEERING",
+  예체능: "ARTS",
+  의약: "MEDICINE",
+  교육: "EDUCATION",
+  "그 외": "ETC",
+}; //for team info edit
+
 const yearList = [
   { key: "1", value: currentYear },
   { key: "2", value: currentYear - 1 },
@@ -1247,17 +1261,40 @@ export const regionDict = {
   SINCHON: "신촌",
   GUNDAE: "건대입구",
 };
+
+export const reverseRegionDict = {
+  홍대: "HONGDAE",
+  강남: "GANGNAM",
+  신촌: "SINCHON",
+  건대입구: "GUNDAE",
+};
+
 export const drinkRateDict = {
   ZERO: 0,
   LOW: 1,
   MIDDLE: 2,
   HIGH: 3,
 };
+
+export const reverseDrinkRateDict = {
+  "술 없이도 즐거워": "ZERO",
+  "술은 기분 좋을 정도로만": "LOW",
+  "술 좋아해": "MIDDLE",
+  "술에 진심이야": "HIGH",
+};
+
 export const drinkWithGameDict = {
   ANY: "상관없어",
   MASTER: "나는야 술게임 고수",
   BEGINNER: "술게임 잘 몰라",
   HATER: "술게임 싫어해",
+};
+
+export const reverseDrinkWithGameDict = {
+  "상관 없어": "ANY",
+  "술게임 싫어": "HATER",
+  "술게임 잘몰라": "BEGINNER",
+  "나는야 술게임 고수": "MASTER",
 };
 
 export {
@@ -1270,4 +1307,6 @@ export {
   yearList,
   univList2,
   univDict,
+  reverseUnivDict,
+  reverseCollegeObj,
 };

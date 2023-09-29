@@ -14,18 +14,21 @@ import commonStyles, {
   subColorPink,
 } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setChatLink } from "../../redux/teamGenerateSlice";
 import { AntDesign } from "@expo/vector-icons";
-const ChatLinkScreen = ({ navigation }) => {
+const ChatLinkScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
+  console.log(edit);
   const dispatch = useDispatch();
-  const [link, setLink] = useState("");
+  const chatLink = useSelector((state) => state.teamGenerate.data.chatLink);
+  const [link, setLink] = useState(chatLink);
   const onNext = () => {
     if (!link || link.length == 0)
       Alert.alert("입력 오류", "올바른 형식의 닉네임을 입력해줘!");
     else {
       dispatch(setChatLink(link));
-      navigation.navigate("TeamPhoto");
+      navigation.navigate("TeamPhoto", { edit: edit });
     }
   };
   return (

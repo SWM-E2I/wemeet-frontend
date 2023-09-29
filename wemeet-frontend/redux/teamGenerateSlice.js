@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialTeamState = {
   data: {
-    region: "", // HONGDAE, GANGNAM, SINCHON, GUNDAE 중 하나
-    drinkRate: "", // ZERO, LOW, MIDDLE, HIGH
-    drinkWithGame: "", // ANY, MASTER, BEGINNER, HATER 중 하나
+    region: "HONGDAE", // HONGDAE, GANGNAM, SINCHON, GUNDAE 중 하나
+    drinkRate: "ZERO", // ZERO, LOW, MIDDLE, HIGH
+    drinkWithGame: "ANY", // ANY, MASTER, BEGINNER, HATER 중 하나
     additionalActivity: null, // nullable // SHOW, SPORTS, UNIQUE_EXPERIENCE, OUTDOOR_ACTIVITY, CAFE 중 하나
     introduction: "", // 150 제한
     members: [
@@ -55,8 +55,20 @@ const teamGenerateSlice = createSlice({
     setChatLink: (state, action) => {
       state.data.chatLink = action.payload;
     },
+    setData: (state, action) => {
+      state.data = action.payload;
+    },
     resetState: (state, action) => {
-      state = initialTeamState;
+      state.data = {
+        region: "HONGDAE", // HONGDAE, GANGNAM, SINCHON, GUNDAE 중 하나
+        drinkRate: "", // ZERO, LOW, MIDDLE, HIGH
+        drinkWithGame: "", // ANY, MASTER, BEGINNER, HATER 중 하나
+        additionalActivity: null, // nullable // SHOW, SPORTS, UNIQUE_EXPERIENCE, OUTDOOR_ACTIVITY, CAFE 중 하나
+        introduction: "", // 150 제한
+        members: [],
+        chatLink: "", //임시!!
+      };
+      state.images = [];
     },
   },
 });
@@ -72,5 +84,6 @@ export const {
   setChatLink,
   addMember,
   delMember,
+  setData,
   resetState,
 } = teamGenerateSlice.actions;

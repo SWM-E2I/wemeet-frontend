@@ -26,14 +26,19 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "../../redux/teamGenerateSlice";
 
-const TeamPhotoScreen = ({ navigation }) => {
-  dispatch = useDispatch();
+const TeamPhotoScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
+  console.log(edit);
+  const dispatch = useDispatch();
+  const images = useSelector((state) => state.teamGenerate.images);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [mainPhoto, setMainPhoto] = useState(null); // uri
-  const [addPhoto, setAddPhoto] = useState([{ end: true }]); // true or false
+  const [mainPhoto, setMainPhoto] = useState(edit ? images[0] : null); // uri
+  const [addPhoto, setAddPhoto] = useState(
+    edit ? [...images.slice(1), { end: true }] : [{ end: true }]
+  ); // true or false
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const flatListRef = useRef(null);
@@ -59,7 +64,7 @@ const TeamPhotoScreen = ({ navigation }) => {
       return;
     }
     dispatch(setImages([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]));
-    navigation.navigate("Region");
+    navigation.navigate("Region", { edit: edit });
   };
   console.log([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]);
   const onMount = async () => {
@@ -228,7 +233,12 @@ const TeamPhotoScreen = ({ navigation }) => {
                   right: 0,
                 }}
               >
-                <MaterialIcons name={"looks-one"} size={35} color={"white"} />
+                {/* <MaterialIcons name={"looks-one"} size={35} color={"white"} /> */}
+                <MaterialCommunityIcons
+                  name={"numeric-1"}
+                  size={35}
+                  color={"white"}
+                />
               </View>
             </>
           ) : (

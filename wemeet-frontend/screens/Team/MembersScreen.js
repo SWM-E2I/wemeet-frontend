@@ -48,13 +48,15 @@ const MemberCard = ({
     </View>
   );
 };
-const MembersScreen = ({ navigation }) => {
+const MembersScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
+  console.log(edit);
   const dispatch = useDispatch();
   const members = useSelector((state) => state.teamGenerate.data.members);
   console.log(members);
   const onNext = () => {
     if (members.length > 0) {
-      navigation.navigate("DrinkRate");
+      navigation.navigate("DrinkRate", { edit: edit });
     } else {
       Alert.alert("최소 한명의 팀원을 추가해줘");
     }

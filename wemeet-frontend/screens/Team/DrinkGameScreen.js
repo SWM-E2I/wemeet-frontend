@@ -12,7 +12,7 @@ import commonStyles, {
   subColorPink,
 } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDrinkWithGame } from "../../redux/teamGenerateSlice";
 
 const codeList = ["MASTER", "BEGINNER", "HATER", "ANY"];
@@ -22,12 +22,18 @@ const showList = [
   "술게임 싫어해",
   "상관없어",
 ];
-const DrinkGameScreen = ({ navigation }) => {
+const DrinkGameScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
   const dispatch = useDispatch();
-  const [drinkWithGameIdx, setDrinkWithGameIdx] = useState(3); //
+  const drinkWithGame = useSelector(
+    (state) => state.teamGenerate.data.drinkWithGame
+  );
+  const [drinkWithGameIdx, setDrinkWithGameIdx] = useState(
+    codeList.indexOf(drinkWithGame)
+  ); //
   const onNext = () => {
     dispatch(setDrinkWithGame(codeList[drinkWithGameIdx]));
-    navigation.navigate("Intro");
+    navigation.navigate("Intro", { edit: edit });
   };
   return (
     <SafeAreaView

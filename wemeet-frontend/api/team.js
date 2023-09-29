@@ -93,4 +93,34 @@ const teamDeleteApi = async (navigation, controller) => {
   return false;
 };
 
-export { teamInquiryApi, teamGenerateApi, teamDeleteApi };
+const teamEditApi = async (images, data, navigation, controller) => {
+  const formData = new FormData();
+  images.forEach((image) => {
+    formData.append("images", {
+      uri: image.uri,
+      type: mime.getType(image.uri),
+      name: image.uri.split("/").pop(),
+    });
+    console.log(mime.getType(image.uri), image.uri.split("/").pop());
+  });
+  const stringified = JSON.stringify(data);
+  formData.append("data", { string: stringified, type: "application/json" });
+  try {
+    const response = await axiosPrivate.put(TEAM_GENERATE_URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      signal: controller.signal,
+    });
+    console.log("TeamEditApi response data :", response.data);
+    if (response.data.status == "SUCCESS") {
+      return true;
+    } else Alert.alert("팀 수정 실패", response.data?.message);
+  } catch (err) {
+    axiosCatch(err, "teamEditApi", navigation);
+    Alert.alert("팀 수정 실패", "잠시 후 다시 시도해줘");
+  }
+  return false;
+};
+
+export { teamInquiryApi, teamGenerateApi, teamDeleteApi, teamEditApi };

@@ -15,6 +15,7 @@ import commonStyles, {
   mainColor,
   subColorPink,
   subColorBlack,
+  subColorBlack2,
 } from "../../styles/commonStyles";
 import PaginationDot from "react-native-animated-pagination-dot";
 import {
@@ -29,6 +30,14 @@ import { teamDeleteApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
+import { setData, setImages } from "../../redux/teamGenerateSlice";
+import {
+  reverseRegionDict,
+  reverseDrinkRateDict,
+  reverseDrinkWithGameDict,
+  reverseCollegeObj,
+  reverseUnivDict,
+} from "../../assets/datasets";
 const renderItem = ({ item, index }) => {
   return (
     <View>
@@ -68,7 +77,6 @@ const getItemLayout = (data, index) => ({
 const MyTeamDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const myTeamData = route.params.myTeamData;
-  console.log("myTeamDetailScreen :", myTeamData);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatlistRef = useRef();
   const controller = new AbortController();
@@ -113,6 +121,38 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
       ]
     );
   };
+  const onModifyPress = () => {
+    const data = {
+      region: reverseRegionDict[myTeamData.region],
+      drinkRate: reverseDrinkRateDict[myTeamData.drinkRate],
+      drinkWithGame: reverseDrinkWithGameDict[myTeamData.drinkWithGame],
+      additionalActivity: null,
+      introduction: myTeamData.introduction,
+      chatLink: myTeamData.chatLink,
+      members: [],
+    };
+    const images = [];
+    myTeamData.images.map((image) => {
+      images.push({
+        uri: image.url,
+      });
+    });
+    console.log(images);
+    myTeamData.members.map((member) => {
+      data.members.push({
+        collegeInfo: {
+          admissionYear: member.admissionYear,
+          collegeCode: reverseUnivDict[member.college],
+          collegeType: reverseCollegeObj[member.collegeType],
+        },
+        mbti: member.mbti,
+      });
+    });
+    // console.log(data.members);
+    dispatch(setData(data));
+    dispatch(setImages(images));
+    navigation.navigate("ChatLink", { edit: true });
+  };
   return (
     <SafeAreaView
       style={[commonStyles.safeAreaView, { backgroundColor: mainColor }]}
@@ -154,33 +194,6 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons name="chevron-back" size={26} color="white" />
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            onPress={() => {
-              //불량 유저 신고 -> 미구현
-              Alert.alert("문의하기", "문의사항은 카카오톡 채널에 남겨줘!", [
-                {
-                  text: "취소",
-                },
-                {
-                  text: "문의하기",
-                  onPress: () => {
-                    Linking.openURL("http://pf.kakao.com/_WshlG").catch((err) =>
-                      console.error(
-                        "onMoveToPrivacy : An error occurred while opening browswer",
-                        err
-                      )
-                    );
-                  },
-                },
-              ]);
-            }}
-          >
-            <MaterialCommunityIcons
-              name="message-processing-outline"
-              size={24}
-              color="white"
-            />
-          </TouchableOpacity> */}
         </View>
         <View
           style={{
@@ -250,29 +263,71 @@ const MyTeamDetailScreen = ({ navigation, route }) => {
           />
         </View>
       </ScrollView>
-      <TouchableOpacity
+      <View
         style={{
-          width: "92%",
-          height: 50,
-          marginVertical: 10,
-          backgroundColor: subColorPink,
-          justifyContent: "center",
-          alignItems: "center",
-          alignSelf: "center",
-          borderRadius: 5,
+          flexDirection: "row",
+          justifyContent: "space-around",
+          paddingHorizontal: 16,
         }}
-        onPress={onDeletePress}
       >
-        <Text
+        <TouchableOpacity
           style={{
-            color: "white",
-            fontSize: 18,
-            fontFamily: "pretendard600",
+            width: "66%",
+            height: 50,
+            marginVertical: 10,
+            backgroundColor: subColorPink,
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+            borderRadius: 5,
+            flexDirection: "row",
           }}
+          onPress={onModifyPress}
         >
-          팀 삭제하기
-        </Text>
-      </TouchableOpacity>
+          <MaterialCommunityIcons
+            name="account-edit"
+            size={24}
+            color={"white"}
+          />
+          <Text
+            style={{
+              color: "white",
+              fontSize: 18,
+              fontFamily: "pretendard600",
+            }}
+          >
+            수정하기
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: "26%",
+            height: 50,
+            marginVertical: 10,
+            // backgroundColor: subColorPink,
+            backgroundColor: "black",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+            borderRadius: 5,
+            flexDirection: "row",
+          }}
+          onPress={onDeletePress}
+        >
+          <Ionicons name="trash-bin" size={22} color={subColorPink} />
+          <Text
+            style={{
+              // color: "black",
+              marginLeft: 5,
+              color: subColorPink,
+              fontSize: 16,
+              fontFamily: "pretendard600",
+            }}
+          >
+            팀 삭제
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

@@ -12,16 +12,20 @@ import commonStyles, {
   subColorPink,
 } from "../../styles/commonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRegion } from "../../redux/teamGenerateSlice";
 const codeList = ["HONGDAE", "GUNDAE", "GANGNAM", "SINCHON"];
 const showList = ["홍대 입구", "건대 입구", "강남", "신촌"];
-const RegionScreen = ({ navigation }) => {
+const RegionScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
+  console.log(edit);
+  const region = useSelector((state) => state.teamGenerate.data.region);
   const dispatch = useDispatch();
-  const [regionIdx, setRegionIdx] = useState(0); // [latitude, longitude
+  const [regionIdx, setRegionIdx] = useState(codeList.indexOf(region)); // [latitude, longitude
+  //indexOf 사용!!
   const onNext = () => {
     dispatch(setRegion(codeList[regionIdx]));
-    navigation.navigate("Members");
+    navigation.navigate("Members", { edit: edit });
   };
   return (
     <SafeAreaView

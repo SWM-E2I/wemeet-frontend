@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { subColorPink, mainColor } from "../../styles/commonStyles";
 import { collegeObj, drinkRateDict } from "../../assets/datasets";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const drinkType = [
   "술 없이도 즐거워",
@@ -20,7 +21,6 @@ const InfoSection = ({
   message,
   leader,
 }) => {
-  console.log(message);
   return (
     <>
       <Text style={[styles.labelText, { marginBottom: 0 }]}>팀원 정보</Text>

@@ -18,13 +18,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setIntroduction, resetState } from "../../redux/teamGenerateSlice";
 import { setHasTeam } from "../../redux/persistSlice";
-import { teamGenerateApi } from "../../api/team";
+import { teamGenerateApi, teamEditApi } from "../../api/team";
 import { CommonActions } from "@react-navigation/native";
 
-const IntroScreen = ({ navigation }) => {
+const IntroScreen = ({ navigation, route }) => {
+  const edit = route.params?.edit;
+  console.log(edit);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [intro, setIntro] = useState("");
+  const introduction = useSelector(
+    (state) => state.teamGenerate.data.introduction
+  );
+  const [intro, setIntro] = useState(introduction);
   const images = useSelector((state) => state.teamGenerate.images);
   const data = useSelector((state) => state.teamGenerate.data);
   const controller = new AbortController();
@@ -34,30 +39,56 @@ const IntroScreen = ({ navigation }) => {
     else {
       setLoading(true);
       dispatch(setIntroduction(intro));
-
-      const res = await teamGenerateApi(
-        images,
-        { ...data, introduction: intro },
-        navigation,
-        controller
-      );
-      console.log("IntroScreen, teamGenerateApi result :", res);
+      let res = false;
+      if (edit) {
+        res = await teamEditApi(
+          images,
+          { ...data, introduction: intro },
+          navigation,
+          controller
+        );
+        console.log("IntroScreen, teamEditApi result :", res);
+      } else {
+        res = await teamGenerateApi(
+          images,
+          { ...data, introduction: intro },
+          navigation,
+          controller
+        );
+        console.log("IntroScreen, teamGenerateApi result :", res);
+      }
       if (res) {
         dispatch(setHasTeam(true));
         dispatch(resetState(true));
-        Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어", [
-          {
-            text: "확인",
-            onPress: () => {
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: "InitialTeam" }],
-                })
-              );
+        if (edit) {
+          Alert.alert("수정 완료", "팀 정보를 성공적으로 수정했어", [
+            {
+              text: "확인",
+              onPress: () => {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "InitialTeam" }],
+                  })
+                );
+              },
             },
-          },
-        ]);
+          ]);
+        } else {
+          Alert.alert("팀 생성 성공!", "이제 매칭을 신청하고 수락할 수 있어", [
+            {
+              text: "확인",
+              onPress: () => {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "InitialTeam" }],
+                  })
+                );
+              },
+            },
+          ]);
+        }
       }
       setLoading(false);
     }
@@ -126,7 +157,13 @@ const IntroScreen = ({ navigation }) => {
               fontFamily: "pretendard600",
             }}
           >
-            {loading ? "생성 중.. (최대 1분 소요)" : "팀 만들기"}
+            {edit
+              ? loading
+                ? "수정 중.. (최대 1분 소요)"
+                : "수정 완료"
+              : loading
+              ? "생성 중.. (최대 1분 소요)"
+              : "팀 만들기"}
           </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
