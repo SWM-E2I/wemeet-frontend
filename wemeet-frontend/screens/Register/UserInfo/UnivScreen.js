@@ -64,11 +64,11 @@ const UnivScreen = ({ navigation }) => {
           "위밋 회원이 된 걸 환영해!",
           "추가 정보를 입력하면\n서비스를 정상적으로 이용할 수 있어"
         );
-        console.log("회원가입 성공, 추가정보 분기 페이지로 이동");
+        console.log("회원가입 성공, 추천인 입력 페이지로 이동");
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{ name: "Additional" }],
+            routes: [{ name: "Recommender" }],
           })
         );
       } else Alert.alert("회원가입에 실패했습니다. 다시 시도해주세요.");

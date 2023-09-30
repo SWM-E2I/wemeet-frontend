@@ -24,6 +24,7 @@ import FriendScreen from "../screens/Register/Pref/FriendScreen.js";
 import PrefMbtiScreen from "../screens/Register/Pref/PrefMbtiScreen.js";
 // import PhotoSetScreen from "../screens/Register/Auth/PhotoSetScreen.js";
 import PhotoSetScreen from "../screens/Register/Additional/PhotoSetScreen.js";
+import RecommenderScreen from "../screens/Register/Additional/RecommenderScreen.js";
 import { useDispatch } from "react-redux";
 import { setPersistState } from "../redux/persistSlice.js";
 import { useEffect } from "react";
@@ -115,6 +116,11 @@ export const RootStackNavigation = ({ persistType, persistData }) => {
           options={{}}
         />
         <Stack.Screen name="PhotoSet" component={PhotoSetScreen} options={{}} />
+        <Stack.Screen
+          name="Recommender"
+          component={RecommenderScreen}
+          options={{}}
+        />
         {/* MainTabNavigator */}
         <Stack.Screen
           name="MainTab"

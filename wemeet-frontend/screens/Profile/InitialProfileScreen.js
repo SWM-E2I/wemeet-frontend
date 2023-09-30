@@ -9,6 +9,7 @@ import {
   Alert,
   RefreshControl,
   Linking,
+  Touchable,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -275,7 +276,7 @@ const InitialProfileScreen = ({ navigation }) => {
           >
             {signal}
           </Text>
-          {/* <View
+          {/* <TouchableOpacity
             style={{
               marginLeft: 15,
               borderColor: subColorPink,
@@ -294,9 +295,9 @@ const InitialProfileScreen = ({ navigation }) => {
                 fontFamily: "pretendard600",
               }}
             >
-              충전하기
+              무료로 충전하기
             </Text>
-          </View> */}
+          </TouchableOpacity> */}
         </View>
         <TouchableOpacity
           style={{

@@ -7,7 +7,7 @@ import {
   subColorPink,
 } from "../styles/commonStyles";
 
-const NextButton = ({ onPress, text, style, disabled }) => {
+const NextButton = ({ onPress, text, style, disabled, textStyle }) => {
   return (
     <>
       {disabled ? (
@@ -24,7 +24,7 @@ const NextButton = ({ onPress, text, style, disabled }) => {
           onPress={onPress}
           activeOpacity={0.2}
         >
-          <Text style={styles.textEnabled}>{text}</Text>
+          <Text style={[styles.textEnabled, textStyle]}>{text}</Text>
         </TouchableOpacity>
       )}
     </>

@@ -1,7 +1,10 @@
-import { axiosDefault } from "./axios.js";
+import { axiosDefault, axiosPrivate } from "./axios.js";
 import * as SecureStore from "expo-secure-store";
+import { axiosCatch } from "./axios.js";
+import { Alert } from "react-native";
 
 const REGISTER_URL = "/member";
+const RECOMMENDER_URL = "/recommend";
 
 const storeAccessToken = async (response) => {
   try {
@@ -61,4 +64,23 @@ const registerApi = async (registerInfo, controller) => {
   return false;
 };
 
-export { registerApi };
+const recommenderApi = async (recommenderNum, navigation, controller) => {
+  try {
+    const response = await axiosPrivate.post(
+      RECOMMENDER_URL,
+      {
+        phoneNumber: `+82${recommenderNum.slice(1)}`,
+      },
+      { signal: controller.signal }
+    );
+    if (response.data.status == "SUCCESS") return true;
+    else Alert.alert("요청 실패", response.data?.message);
+    return false;
+  } catch (err) {
+    axiosCatch(err, "recommenderApi", navigation);
+    Alert.alert("알 수 없는 오류", "잠시 후에 다시 시도해줘");
+    return false;
+  }
+};
+
+export { registerApi, recommenderApi };

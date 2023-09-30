@@ -10,6 +10,7 @@ import { mainColor } from "./styles/commonStyles.js";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
+import Constants from "expo-constants";
 
 // const Stack = createNativeStackNavigator();
 async function checkPersistType(
@@ -22,7 +23,6 @@ async function checkPersistType(
   // Alert.alert("업데이트 실행", "잠시만 기다려주세요"); //for test only
   setLoading(true);
   let result = await SecureStore.getItemAsync("refreshToken");
-  console.log("앱 실행>refreshToken: ", result);
   if (result) {
     //persist Api 실행
     const res = await persistLoginApi(controller);
@@ -30,11 +30,9 @@ async function checkPersistType(
       setPersistData(res);
       if (res.hasMainProfileImage) {
         setPersistType("MainTab");
-        console.log("앱 실행, 메인 페이지로 이동");
         setLoading(false);
         return;
       } else {
-        console.log("앱 실행, 추가정보 입력 페이지로 이동");
         setPersistType("Additional");
         setLoading(false);
         return;
@@ -43,7 +41,6 @@ async function checkPersistType(
   }
   //refreshToken이 없는 경우 - 미가입회원이거나 로그아웃한 경우 OR refreshToken이 만료된 경우
   //로그아웃시 Refreshtoken = null로 바꿔주기
-  console.log("앱 실행, Initial 페이지로 이동");
   setLoading(false);
   return;
 }
@@ -60,23 +57,32 @@ export default function App() {
   const [Loading, setLoading] = useState(true);
   const controller = new AbortController();
 
-  const reactToUpdates = async () => {
-    // Updates.addListener((event) => {
-    //   if (event.type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
-    //     //expo updates 공부해보고 적용하기!
-    //     Alert.alert("업데이트 가능", "앱을 다시 실행해주세요!");
-    //     Updates.reloadAsync();
-    //   }
-    // });
-    return true;
+  const onFetchUpdateAsync = async () => {
+    console.log("onFetchUpdateAsync 실행");
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        Alert.alert("업데이트 실행", "잠시만 기다려주세요");
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+      console.log("업데이트 없음");
+    } catch (error) {
+      // You can also add an alert() to see the error message in case of an error when fetching updates.
+      Alert.alert(
+        "최신 업데이트 정보를 가져오는 중 에러가 발생했습니다.",
+        `${error}`
+      );
+    }
   };
   useEffect(() => {
     const prepare = async () => {
+      console.log("Current App Version : ", Constants.expoConfig.version); //version 찾는법!!!
+      await onFetchUpdateAsync();
       await SplashScreen.preventAutoHideAsync();
+      checkPersistType(setLoading, setPersistType, setPersistData, controller);
     };
     prepare();
-    checkPersistType(setLoading, setPersistType, setPersistData, controller);
-    reactToUpdates();
     return () => {
       setLoading(false);
       controller.abort();
@@ -95,7 +101,6 @@ export default function App() {
       {!Loading ? (
         <RootStackNavigation
           persistType={persistType}
-          // persistType={"Univ"}
           persistData={persistData}
         />
       ) : (

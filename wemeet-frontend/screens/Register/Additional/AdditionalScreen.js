@@ -106,13 +106,13 @@ const AdditionalScreen = ({ navigation }) => {
       >
         <ButtonContainer
           text={"사진 등록"}
-          // done={false}
           done={hasMainProfileImage}
           onPress={() => {
             navigation.navigate("PhotoSet");
           }}
           text2={"등록하기"}
         />
+
         <ButtonContainer
           text={"대학생 인증 (선택)"}
           done={emailAuthenticated}

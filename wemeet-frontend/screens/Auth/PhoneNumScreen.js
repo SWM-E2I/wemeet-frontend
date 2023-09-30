@@ -78,7 +78,6 @@ const PhoneNumScreen = ({ navigation, route }) => {
             }}
             autoFocus
             blurOnSubmit={false}
-            enablesReturnKeyAutomatically
             // returnKeyType={phone.length == 11 ? "done" : "none"}
             keyboardType={"number-pad"}
             maxLength={11}

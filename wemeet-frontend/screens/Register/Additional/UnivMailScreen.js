@@ -15,7 +15,6 @@ import React, { useState, useEffect } from "react";
 import RegisterHeader from "../../../components/register/RegisterHeader";
 import registerStyles from "../../../styles/registerStyles";
 import commonStyles, { subColorPink } from "../../../styles/commonStyles";
-import RegisterCreditView from "../../../components/register/RegisterCreditView";
 import { useSelector } from "react-redux";
 import { emailVrfIssueApi } from "../../../api/univAuth";
 import NextButton from "../../../components/NextButton";
