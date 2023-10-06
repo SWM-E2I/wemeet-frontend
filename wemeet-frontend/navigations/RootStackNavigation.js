@@ -51,7 +51,6 @@ export const RootStackNavigation = ({ persistType, persistData }) => {
       dispatch(setPersistState(persistData));
     }
   }, []);
-  console.log("registerStackNavigation>persistType :", persistType);
   return (
     <NavigationContainer>
       <Stack.Navigator

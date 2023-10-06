@@ -37,6 +37,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setHasTeam } from "../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
+
 const getItemLayout = (data, index) => ({
   length: Dimensions.get("window").width,
   offset: Dimensions.get("window").width * index,
