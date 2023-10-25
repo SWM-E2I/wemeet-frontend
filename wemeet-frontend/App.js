@@ -18,6 +18,8 @@ import { mainColor } from "./styles/commonStyles.js";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
 const APPSTORE_LINK =
