@@ -37,7 +37,7 @@
     "expo-updates": "~0.16.4",
     "lottie-react-native": "5.1.4",
     "react": "18.2.0",
-    "react-native": "0.71.13",
+    "react-native": "0.71.14",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-autocomplete-dropdown": "^3.0.2",
     "react-native-deck-swiper": "^2.0.15",
