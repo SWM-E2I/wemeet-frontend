@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   SafeAreaView,
   View,
@@ -26,14 +26,76 @@ const APPSTORE_LINK =
   "https://apps.apple.com/kr/app/%EC%9C%84%EB%B0%8B-%EB%8C%80%ED%95%99%EC%83%9D-%EB%AF%B8%ED%8C%85-%EA%B3%BC%ED%8C%85-%EC%97%AC%EA%B8%B0%EC%84%9C-%EB%A7%8C%EB%82%98/id6466416689?l=en-GB";
 const PLAYSTORE_LINK =
   "https://play.google.com/store/apps/details?id=net.andrewjsy.wemeet&pcampaignid=web_share";
-// const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+}); //foreground에서도 notification을 받을 수 있도록
+// // Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
+// async function sendPushNotification(expoPushToken) {
+//   const message = {
+//     to: expoPushToken,
+//     sound: 'default',
+//     title: 'Original Title',
+//     body: 'And here is the body!',
+//     data: { someData: 'goes here' },
+//   };
+
+//   await fetch('https://exp.host/--/api/v2/push/send', {
+//     method: 'POST',
+//     headers: {
+//       Accept: 'application/json',
+//       'Accept-encoding': 'gzip, deflate',
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(message),
+//   });
+// }
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      console.log("Failed to get push token for push notification!");
+      return;
+    }
+    token = await Notifications.getExpoPushTokenAsync({
+      projectId: Constants.expoConfig.extra.eas.projectId,
+    });
+    console.log(token);
+  } else {
+    alert("Must use physical device for Push Notifications");
+  }
+
+  return token.data;
+}
+
 async function checkPersistType(
   setLoading,
   setPersistType,
   setPersistData,
   controller
 ) {
-  //이때 실행되는 splash image 필요!!!
   setLoading(true);
   let result = await SecureStore.getItemAsync("refreshToken");
   if (result) {
@@ -58,6 +120,10 @@ async function checkPersistType(
   return;
 }
 export default function App() {
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
   const [fontsLoaded] = useFonts({
     pretendard400: require("./assets/fonts/Pretendard400.otf"),
     pretendard500: require("./assets/fonts/Pretendard500.otf"),
@@ -90,7 +156,7 @@ export default function App() {
   };
   useEffect(() => {
     const prepare = async () => {
-      console.log("Current App Version : ", Constants.expoConfig.version); //version 찾는법!!!
+      console.log("Current App Version : ", Constants.expoConfig.version);
       if (Constants.expoConfig.version != "1.0.5")
         Alert.alert("업데이트 필요", "앱을 최신 버전으로 업데이트 해줘!", [
           {
@@ -119,9 +185,26 @@ export default function App() {
         setPersistData,
         controller
       );
+      registerForPushNotificationsAsync().then((token) =>
+        setExpoPushToken(token)
+      );
+
+      notificationListener.current =
+        Notifications.addNotificationReceivedListener((notification) => {
+          setNotification(notification);
+        });
+
+      responseListener.current =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          console.log(response);
+        });
     };
     prepare();
     return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
       setLoading(false);
       controller.abort();
     };
