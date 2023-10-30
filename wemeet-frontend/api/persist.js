@@ -8,12 +8,10 @@ export const persistLoginApi = async (controller) => {
     const response = await axiosPrivate.get(PERSIST_LOGIN_URL, {
       signal: controller.signal,
     });
-    console.log("persistLoginApi response : ", response.data);
     if (response.data.status == "SUCCESS") {
-      console.log("PersistLogin response status : SUCCESS");
       return response.data.data;
     } else {
-      console.log("PersistLogin response status : FAIL or ERROR");
+      console.log("PersistLogin response status : FAIL");
       return null;
     }
   } catch (err) {

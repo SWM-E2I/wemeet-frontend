@@ -94,7 +94,6 @@ const TeamPhotoScreen = ({ navigation, route }) => {
     dispatch(setImages([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]));
     navigation.navigate("Region", { edit: edit });
   };
-  console.log([mainPhoto, ...addPhoto.slice(0, addPhoto.length - 1)]);
   const onMount = async () => {
     if (!status?.granted) {
       const permission = await requestPermission();
@@ -125,10 +124,8 @@ const TeamPhotoScreen = ({ navigation, route }) => {
       quality: 1,
       aspect: [1, 1],
     });
-    if (!result.canceled) {
-      console.log(result.assets[0]);
-      setMainPhoto(result.assets[0]);
-    } else console.log("사진을 선택하지 않음");
+    if (!result.canceled) setMainPhoto(result.assets[0]);
+
     setLoading(false);
   };
   const pickAddPhotoAsync = async () => {
@@ -163,7 +160,7 @@ const TeamPhotoScreen = ({ navigation, route }) => {
         ),
         { end: true },
       ]);
-    } else console.log("사진을 선택하지 않음");
+    }
     setLoading(false);
     setTimeout(() => {
       scrollToBottom();

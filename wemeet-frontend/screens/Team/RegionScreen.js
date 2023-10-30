@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import commonStyles, {
@@ -23,7 +24,8 @@ const RegionScreen = ({ navigation, route }) => {
   const [regionIdx, setRegionIdx] = useState(codeList.indexOf(region)); // [latitude, longitude
   //indexOf 사용!!
   const onNext = () => {
-    dispatch(setRegion(codeList[regionIdx]));
+    if (regionIdx <= 3) dispatch(setRegion(codeList[regionIdx]));
+    else console.log("setRegion필요, 그외");
     navigation.navigate("Members", { edit: edit });
   };
   return (
@@ -38,11 +40,11 @@ const RegionScreen = ({ navigation, route }) => {
       >
         <Ionicons name="chevron-back" size={24} color="white" />
       </TouchableOpacity>
-      <View style={{ flex: 1, paddingHorizontal: "6%" }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: "6%" }}>
         <Text style={commonStyles.teamGenerateInstruction}>
           어디서 만나는게 좋아?
         </Text>
-        {/* <Text style={commonStyles.teamGenerateInstruction2}>
+        {/* <Text style={commonStyles.teamGenerateInstruction2}>  
           {"가장 만나고 싶은 장소 하나를 골라줘"}
         </Text> */}
         <Text
@@ -67,6 +69,7 @@ const RegionScreen = ({ navigation, route }) => {
               key={index}
               onPress={() => {
                 setRegionIdx(index);
+                if (index == 4) console.log("그 외 선택");
               }}
             >
               <Text
@@ -84,7 +87,7 @@ const RegionScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
       <TouchableOpacity style={commonStyles.buttonContainer} onPress={onNext}>
         <Text
           style={{

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-native-pinchable": "^0.2.1"
+  }
+}
