@@ -23,7 +23,6 @@ import { CommonActions } from "@react-navigation/native";
 
 const IntroScreen = ({ navigation, route }) => {
   const edit = route.params?.edit;
-  console.log(edit);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const introduction = useSelector(
