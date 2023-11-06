@@ -157,7 +157,7 @@ export default function App() {
   useEffect(() => {
     const prepare = async () => {
       console.log("Current App Version : ", Constants.expoConfig.version);
-      if (Constants.expoConfig.version != "1.0.5")
+      if (Constants.expoConfig.version != "1.0.6")
         Alert.alert("업데이트 필요", "앱을 최신 버전으로 업데이트 해줘!", [
           {
             text: "나중에 할래",
