@@ -37,7 +37,6 @@ const timeLeft = () => {
   let currentTime = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Seoul",
   });
-
   const currentTimeString = currentTime.split(", ")[1].split(" ")[0]; // 문자열에서 각 요소 추출
   let currentHour =
     currentTime.split(", ")[1].split(" ")[1] == "PM"
@@ -46,7 +45,7 @@ const timeLeft = () => {
       ? 0
       : Number(currentTimeString.split(":")[0]); //24시간제로 변환
   const currentMinute = Number(currentTimeString.split(":")[1]);
-  const currentSecond = Number(currentTimeString.split(":")[2]);
+  const currentSecond = Number(currentTimeString.split(":")[2].substring(0, 2));
   // console.log(currentHour, currentMinute, currentSecond);
 
   currentTime = currentHour * 3600 + currentMinute * 60 + currentSecond;
@@ -71,8 +70,6 @@ const HomeScreen = ({ navigation }) => {
     if (res == "LOGOUT") {
       return null;
     } else if (res) dispatch(setSignal(res));
-    const nomore = await SecureStore.getItemAsync("nomore");
-    if (nomore == null) navigation.navigate("Help");
     let result = await suggestionCheckApi(navigation, controller);
     if (result) {
       if (result.isReceivedSuggestion) {
@@ -87,6 +84,8 @@ const HomeScreen = ({ navigation }) => {
       //조회에 실패한경우!!!
       // Alert.alert("조회에 실패했습니다.", "잠시 후 다시 시도해주세요");
     }
+    const nomore = await SecureStore.getItemAsync("nomore");
+    if (nomore == null) navigation.navigate("Help");
   };
   const onRefresh = async () => {
     let result = await suggestionCheckApi(navigation, controller);

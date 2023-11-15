@@ -20,7 +20,7 @@ import {
   setRegisterPhoneNum,
 } from "../../../redux/registerSlice";
 import { registerApi } from "../../../api/register";
-import { AntDesign } from "@expo/vector-icons";
+import { pushTokenApi } from "../../../api/push";
 
 const instruction = "대학 정보를\n입력해줘";
 
@@ -60,9 +60,10 @@ const UnivScreen = ({ navigation }) => {
       // await 회원가입 api 실행
       let result = await registerApi(registerData, controller);
       if (result) {
+        await pushTokenApi(true, controller);
         Alert.alert(
           "위밋 회원이 된 걸 환영해!",
-          "추가 정보를 입력하면\n서비스를 정상적으로 이용할 수 있어"
+          "추가 정보를 입력하면\n서비스를 바로 이용해 볼 수 있어"
         );
         console.log("회원가입 성공, 추천인 입력 페이지로 이동");
         navigation.dispatch(

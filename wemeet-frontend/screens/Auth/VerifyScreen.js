@@ -17,6 +17,7 @@ import { persistLoginApi } from "../../api/persist";
 import { useDispatch } from "react-redux";
 import { setPersistState } from "../../redux/persistSlice";
 import { CommonActions } from "@react-navigation/native";
+import { pushTokenApi } from "../../api/push";
 
 const formatTime = (value) => {
   return value < 10 ? `0${value}` : value.toString();
@@ -68,9 +69,11 @@ const VerifyScreen = ({ navigation, route }) => {
         //여기서 PersistLogin 요청하기
         let nextPage = "MainTab";
         if (res == "NOT_REGISTERED") {
+          await pushTokenApi(false, controller);
           navigation.navigate("TermsModal", { next: "Gender" });
         } else {
           //회원가입된 회원의 경우
+          await pushTokenApi(true, controller);
           const persistRes = await persistLoginApi(controller);
           if (persistRes) {
             dispatch(setPersistState(persistRes)); //state 저장

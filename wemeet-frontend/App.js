@@ -21,6 +21,7 @@ import * as Updates from "expo-updates";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import { pushTokenApi } from "./api/push.js";
 
 const APPSTORE_LINK =
   "https://apps.apple.com/kr/app/%EC%9C%84%EB%B0%8B-%EB%8C%80%ED%95%99%EC%83%9D-%EB%AF%B8%ED%8C%85-%EA%B3%BC%ED%8C%85-%EC%97%AC%EA%B8%B0%EC%84%9C-%EB%A7%8C%EB%82%98/id6466416689?l=en-GB";
@@ -94,7 +95,8 @@ async function checkPersistType(
   setLoading,
   setPersistType,
   setPersistData,
-  controller
+  controller,
+  expoPushToken
 ) {
   setLoading(true);
   let result = await SecureStore.getItemAsync("refreshToken");
@@ -102,6 +104,11 @@ async function checkPersistType(
     //persist Api 실행
     const res = await persistLoginApi(controller);
     if (res) {
+      console.log("res.pushTokens : ", res.pushTokens);
+      console.log("expoPushToken :", expoPushToken);
+      if (!res.pushTokens.includes(expoPushToken)) {
+        await pushTokenApi(true, controller);
+      }
       setPersistData(res);
       if (res.hasMainProfileImage) {
         setPersistType("MainTab");
@@ -113,6 +120,7 @@ async function checkPersistType(
         return;
       }
     }
+    //가입회원, 로그인 된 경우임 => push TOken 주기 (with accessToken)
   }
   //refreshToken이 없는 경우 - 미가입회원이거나 로그아웃한 경우 OR refreshToken이 만료된 경우
   //로그아웃시 Refreshtoken = null로 바꿔주기
@@ -176,18 +184,11 @@ export default function App() {
             },
           },
         ]);
-
-      await onFetchUpdateAsync();
-      await SplashScreen.preventAutoHideAsync();
-      await checkPersistType(
-        setLoading,
-        setPersistType,
-        setPersistData,
-        controller
-      );
-      registerForPushNotificationsAsync().then((token) =>
-        setExpoPushToken(token)
-      );
+      registerForPushNotificationsAsync().then(async (token) => {
+        console.log("expoPushToken : ", token);
+        await SecureStore.setItemAsync("expoPushToken", token);
+        setExpoPushToken(token);
+      });
 
       notificationListener.current =
         Notifications.addNotificationReceivedListener((notification) => {
@@ -198,6 +199,15 @@ export default function App() {
         Notifications.addNotificationResponseReceivedListener((response) => {
           console.log(response);
         });
+      await onFetchUpdateAsync();
+      await SplashScreen.preventAutoHideAsync();
+      await checkPersistType(
+        setLoading,
+        setPersistType,
+        setPersistData,
+        controller,
+        expoPushToken
+      );
     };
     prepare();
     return () => {
