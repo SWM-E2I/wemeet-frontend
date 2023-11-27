@@ -149,7 +149,7 @@ export default function App() {
     try {
       const update = await Updates.checkForUpdateAsync();
       if (update.isAvailable) {
-        Alert.alert("업데이트 실행", "잠시만 기다려주세요");
+        // Alert.alert("업데이트 실행", "잠시만 기다려주세요");
         await Updates.fetchUpdateAsync();
         await Updates.reloadAsync();
       }
@@ -162,28 +162,31 @@ export default function App() {
       );
     }
   };
+  const onVersionUpdate = async () => {
+    console.log("Current App Version : ", Constants.expoConfig.version);
+    if (Constants.expoConfig.version != "1.0.6")
+      Alert.alert("업데이트 필요", "앱을 최신 버전으로 업데이트 해줘!", [
+        {
+          text: "나중에 할래",
+        },
+        {
+          text: "지금 업데이트",
+          onPress: () => {
+            Linking.openURL(
+              Platform.OS == "ios" ? APPSTORE_LINK : PLAYSTORE_LINK
+            ).catch((err) =>
+              console.error(
+                "AboveContainer : An error occurred while opening browswer",
+                err
+              )
+            );
+          },
+        },
+      ]);
+  };
   useEffect(() => {
     const prepare = async () => {
-      console.log("Current App Version : ", Constants.expoConfig.version);
-      if (Constants.expoConfig.version != "1.0.6")
-        Alert.alert("업데이트 필요", "앱을 최신 버전으로 업데이트 해줘!", [
-          {
-            text: "나중에 할래",
-          },
-          {
-            text: "지금 업데이트",
-            onPress: () => {
-              Linking.openURL(
-                Platform.OS == "ios" ? APPSTORE_LINK : PLAYSTORE_LINK
-              ).catch((err) =>
-                console.error(
-                  "AboveContainer : An error occurred while opening browswer",
-                  err
-                )
-              );
-            },
-          },
-        ]);
+      await onVersionUpdate();
       registerForPushNotificationsAsync().then(async (token) => {
         console.log("expoPushToken : ", token);
         await SecureStore.setItemAsync("expoPushToken", token);
