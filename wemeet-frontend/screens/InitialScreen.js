@@ -9,6 +9,7 @@ import Logo from "../assets/vectors/Logo.js";
 const title = "위치 기반\n대학생 미팅 매칭 서비스,";
 const body = "회원가입하고 시그널받기!";
 // const bottom = "회원가입하고 시그널받기!";
+
 const bottom = "";
 function InitialScreen({ navigation }) {
   const onPress = () => {
